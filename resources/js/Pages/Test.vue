@@ -1,28 +1,13 @@
 <template>
-    <AdminLayout></AdminLayout>
+  <h1>admin layout</h1>
 </template>
 
-<script setup lang="ts">
-import { ref } from "vue";
-import AdminLayout from "../Layouts/AdminLayout.vue";
-
-interface User {
-    name: string;
-    email: string;
-    title: string;
-    title2: string;
-    status: string;
-    role: string;
-}
-
-const testUser: User = {
-    name: "John Doe",
-    email: "john@example.com",
-    title: "Software Engineer",
-    title2: "Web dev",
-    status: "Active",
-    role: "Owner",
+<script>
+import MainLayout from "../Layouts/MainLayout.vue";
+export default {
+  layout: MainLayout,
 };
-
-const users = ref<User[]>([...Array(10).keys()].map(() => testUser));
 </script>
+
+
+
