@@ -122,7 +122,8 @@ const logout = () => {
           <div class="block px-4 py-2 text-xs text-gray-400">
             Manage Account
           </div>
-
+          <DropdownLink :href="route('test2')"> Profile_2 </DropdownLink>
+          <div class="border-t border-gray-200" />
           <DropdownLink :href="route('profile.show')"> Profile </DropdownLink>
           <div class="border-t border-gray-200" />
           <!-- Authentication -->

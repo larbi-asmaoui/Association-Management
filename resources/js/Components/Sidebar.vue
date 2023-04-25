@@ -106,7 +106,7 @@ const inactiveClass = ref(
             />
           </svg>
 
-          <span class="mx-4">UI Elements</span>
+          <span class="mx-4">Membres</span>
         </Link>
 
         <Link
@@ -134,7 +134,7 @@ const inactiveClass = ref(
             />
           </svg>
 
-          <span class="mx-4">Tables</span>
+          <span class="mx-4">E-mails</span>
         </Link>
 
         <Link
@@ -153,7 +153,7 @@ const inactiveClass = ref(
             />
           </svg>
 
-          <span class="mx-4">Forms</span>
+          <span class="mx-4">Activites</span>
         </Link>
 
         <Link
@@ -175,7 +175,7 @@ const inactiveClass = ref(
             />
           </svg>
 
-          <span class="mx-4">Cards</span>
+          <span class="mx-4">Biens</span>
         </Link>
 
         <Link
@@ -200,7 +200,7 @@ const inactiveClass = ref(
             />
           </svg>
 
-          <span class="mx-4">Modal</span>
+          <span class="mx-4">Groupes</span>
         </Link>
 
         <Link
@@ -214,7 +214,7 @@ const inactiveClass = ref(
             />
           </svg>
 
-          <span class="mx-4">Blank</span>
+          <span class="mx-4">About</span>
         </Link>
       </nav>
     </div>

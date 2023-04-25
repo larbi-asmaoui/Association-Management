@@ -9,7 +9,7 @@ import MainLayout from "./Layouts/MainLayout.vue";
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText ||
-    "Massociation";
+    "MaAssociation";
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

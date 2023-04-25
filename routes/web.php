@@ -36,4 +36,7 @@ Route::middleware([
     Route::get('/test', function () {
         return Inertia::render('Test');
     })->name('home');
+    Route::get('/test2', function () {
+        return Inertia::render('Test2');
+    })->name('test2');
 });
