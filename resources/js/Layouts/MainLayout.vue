@@ -1,18 +1,18 @@
 <template>
-  <div class="flex h-screen bg-gray-200 font-roboto">
-    <Sidebar />
+    <div class="flex h-screen bg-gray-200 font-roboto">
+        <Sidebar />
 
-    <div class="flex-1 flex flex-col overflow-hidden">
-      <Header />
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <Header />
 
-      <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
-        <div class="container mx-auto px-6 py-6">
-          <slot />
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
+                <div class="container mx-auto px-6 py-6">
+                    <slot />
+                </div>
+            </main>
+            <!-- <Footer /> -->
         </div>
-      </main>
-      <Footer />
     </div>
-  </div>
 </template>
 
 <script setup>
