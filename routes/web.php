@@ -3,6 +3,9 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\GroupeController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AdherantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,13 +33,20 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
-    Route::get('/test', function () {
-        return Inertia::render('Test');
-    })->name('home');
-    Route::get('/test2', function () {
-        return Inertia::render('Test2');
-    })->name('test2');
+
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    //---------- Adherants ----------//
+    Route::prefix('/adherants')->group(function () {
+        Route::get('/', [AdherantController::class, 'index'])->name('adherants.index');
+    });
+
+    //---------- Groupes ----------//
+    Route::prefix('/groupes')->group(function () {
+        Route::get('/', [GroupeController::class, 'index'])->name('groupes.index');
+        // Route::get('/editMe', function () {
+        //     return Inertia::render('Welcome');
+        // });
+    });
 });

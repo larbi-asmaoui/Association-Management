@@ -4,66 +4,106 @@ import { useSidebar } from "../hooks/useSidebar";
 import { Link, Head, router } from "@inertiajs/vue3";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
-import Modal from "@/Components/Modal.vue";
 const { isOpen } = useSidebar();
-
-let modalOpen = false;
 
 const logout = () => {
     router.post(route("logout"));
 };
 </script>
 <template>
-    <header class="flex items-center justify-between px-6 py-4 bg-white border-b-4 border-indigo-600">
+    <header
+        class="flex items-center justify-between px-6 py-4 bg-white border-b-4 border-indigo-600"
+    >
         <div class="flex items-center">
-            <button @click="isOpen = true" class="text-gray-500 focus:outline-none lg:hidden">
-                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 6H20M4 12H20M4 18H11" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" />
+            <button
+                @click="isOpen = true"
+                class="text-gray-500 focus:outline-none lg:hidden"
+            >
+                <svg
+                    class="w-6 h-6"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        d="M4 6H20M4 12H20M4 18H11"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
                 </svg>
             </button>
         </div>
 
         <div class="flex items-center">
             <button class="flex mx-4 text-gray-600 focus:outline-none">
-                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                    class="w-6 h-6"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
                     <path
                         d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
                 </svg>
             </button>
             <!-- Dropdown -->
             <Dropdown>
                 <template #trigger>
                     <!-- class="relative z-10 block w-8 h-8 overflow-hidden rounded-full shadow focus:outline-none" -->
-                    <button v-if="$page.props.jetstream.managesProfilePhotos"
-                        class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
-                        <img class="h-8 w-8 rounded-full object-cover" :src="$page.props.auth.user.profile_photo_url"
-                            :alt="$page.props.auth.user.name" />
+                    <button
+                        v-if="$page.props.jetstream.managesProfilePhotos"
+                        class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition"
+                    >
+                        <img
+                            class="h-8 w-8 rounded-full object-cover"
+                            :src="$page.props.auth.user.profile_photo_url"
+                            :alt="$page.props.auth.user.name"
+                        />
                     </button>
 
                     <span v-else class="inline-flex rounded-md">
-                        <button type="button"
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                        <button
+                            type="button"
+                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150"
+                        >
                             {{ $page.props.auth.user.name }}
 
-                            <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            <svg
+                                class="ml-2 -mr-0.5 h-4 w-4"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                                />
                             </svg>
                         </button>
                     </span>
                 </template>
                 <template #content>
                     <!-- Account Management -->
-                    <div class="block px-4 py-2 text-xs text-gray-400">
+                    <!-- <div class="block px-4 py-2 text-xs text-gray-400">
                         Manage Account
-                    </div>
-                    <DropdownLink :href="route('profile.show')"> Profile </DropdownLink>
+                    </div> -->
+                    <DropdownLink :href="route('profile.show')">
+                        Profile
+                    </DropdownLink>
                     <div class="border-t border-gray-200" />
                     <!-- Authentication -->
                     <form @submit.prevent="logout">
-                        <DropdownLink as="button"> Log Out </DropdownLink>
+                        <DropdownLink as="button"> Déconnexion </DropdownLink>
                     </form>
                 </template>
             </Dropdown>
