@@ -41,7 +41,20 @@ class AdherantController extends Controller
      */
     public function store(StoreAdherantRequest $request)
     {
-        //
+        $request->validated(
+            [
+                'image' => 'required',
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'cin' => 'required',
+                'tel' => 'required',
+                'sexe' => 'required',
+                'date_of_birth' => 'required',
+                'address' => 'required',
+            ]
+        );
+        Adherant::create($request->all());
+        return redirect()->back()->with('success', 'Adherant created.');
     }
 
     /**
@@ -49,7 +62,7 @@ class AdherantController extends Controller
      */
     public function show(Adherant $adherant)
     {
-        //
+        return Inertia::render('Adherants/Show', ['adherant' => $adherant]);
     }
 
     /**
@@ -57,7 +70,7 @@ class AdherantController extends Controller
      */
     public function edit(Adherant $adherant)
     {
-        //
+        return Inertia::render('Adherants/Edit', ['adherant' => $adherant]);
     }
 
     /**
@@ -65,7 +78,19 @@ class AdherantController extends Controller
      */
     public function update(UpdateAdherantRequest $request, Adherant $adherant)
     {
-        //
+        $request->validated(
+            [
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'cin' => 'required',
+                'tel' => 'required',
+                'sexe' => 'required',
+                'date_of_birth' => 'required',
+                'address' => 'required',
+            ]
+        );
+        $adherant->update($request->all());
+        return redirect()->back()->with('success', 'Adherant updated.');
     }
 
     /**
@@ -73,6 +98,8 @@ class AdherantController extends Controller
      */
     public function destroy(Adherant $adherant)
     {
-        //
+        $adherant->delete();
+
+        return redirect()->route('adherants.index')->with('message', 'adherant est supprimé avec succès');
     }
 }

@@ -163,8 +163,10 @@ const inactiveClass = ref(
 
                 <Link
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
-                    :class="inactiveClass"
-                    :href="cards"
+                    :class="[
+                        $page.url === '/stocks' ? activeClass : inactiveClass,
+                    ]"
+                    :href="route('stocks.index')"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -181,7 +183,7 @@ const inactiveClass = ref(
                         />
                     </svg>
 
-                    <span class="mx-4">Biens</span>
+                    <span class="mx-4">Stock</span>
                 </Link>
 
                 <Link

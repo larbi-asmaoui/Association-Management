@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Groupe;
 use App\Models\Adherant;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,10 +17,12 @@ class DashboardController extends Controller
     {
         $groupes_count = Groupe::count();
         $adherants_count = Adherant::count();
+        $stock_count = Stock::count();
 
         return Inertia::render('Dashboard', [
-            'groupes_count'=>$groupes_count,
-            'adherants_count'=>$adherants_count,
+            'groupes_count' => $groupes_count,
+            'adherants_count' => $adherants_count,
+            'stock_count' => $stock_count,
         ]);
     }
 
@@ -34,24 +37,24 @@ class DashboardController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
-    {
-        //
-    }
+    // public function show(User $user)
+    // {
+    //     //
+    // }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
+    // public function update(Request $request, User $user)
+    // {
+    //     //
+    // }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
-    {
-        //
-    }
+    // /**
+    //  * Remove the specified resource from storage.
+    //  */
+    // public function destroy(User $user)
+    // {
+    //     //
+    // }
 }

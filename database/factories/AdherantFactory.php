@@ -22,10 +22,10 @@ class AdherantFactory extends Factory
             'last_name' => $this->faker->lastName(),
             'cin' => "AB12345",
             'sexe' => Str::random(5),
-            'date_of_birth'=>$this->faker->date(),
-            'address'=>$this->faker->address(),
-            'tel'=>"0666666666",
-            'email'=>$this->faker->email(),
+            'date_of_birth' => $this->faker->date(),
+            'address' => $this->faker->address(),
+            'tel' => $this->faker->regexify('^0\d{9}$'),
+            'email' => $this->faker->email(),
         ];
     }
 }

@@ -17,12 +17,14 @@ const props = defineProps({
     adherants_count: {
         type: Number,
     },
+    stock_count: {
+        type: Number,
+    },
 });
 </script>
 <template>
     <div>
         <h3 class="text-3xl font-medium text-gray-700">Tableau de bord</h3>
-        total : {{ groupes_count }}
         <div class="mt-4">
             <div class="flex lg:flex-nowrap flex-wrap -mx-6">
                 <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
@@ -185,12 +187,16 @@ const props = defineProps({
 
                         <div class="mx-5">
                             <h4 class="text-2xl font-semibold text-gray-700">
-                                10
+                                {{ stock_count }}
                             </h4>
-                            <div class="text-gray-500">Biens</div>
+                            <div class="text-gray-500">Stock</div>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="pt-5 mt-4">
+                <div class="mb-6 grid gap-6 xl:grid-cols-3"></div>
             </div>
         </div>
 

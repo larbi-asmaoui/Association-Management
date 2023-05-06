@@ -15,10 +15,6 @@ class GroupeController extends Controller
      */
     public function index()
     {
-        $groupes = Groupe::all();
-        if (request()->wantsJson()) {
-            return $groupes;
-        }
         return Inertia::render('Groupes/Index', [
             // 'groupes' => $groupes,
             'groupes' => Groupe::query()
@@ -45,9 +41,13 @@ class GroupeController extends Controller
     public function store(StoreGroupeRequest $request)
     {
         $groupe = Groupe::create([
-            'title' => $request->title,
+            'name' => $request->name,
             'description' => $request->description,
         ]);
+
+        $groupe->save();
+
+        return redirect()->route('groupes.index')->with('message', 'groupe est crée avec succès');
     }
 
     /**
@@ -90,6 +90,6 @@ class GroupeController extends Controller
     {
         $groupe->delete();
 
-        return redirect()->route('groupes.index');
+        return redirect()->route('groupes.index')->with('message', 'Groupe est supprimé avec succès');
     }
 }
