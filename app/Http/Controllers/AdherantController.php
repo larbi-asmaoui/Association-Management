@@ -90,7 +90,7 @@ class AdherantController extends Controller
             ]
         );
         $adherant->update($request->all());
-        return redirect()->back()->with('success', 'Adherant updated.');
+        return redirect()->route('adherants.index')->with('success', 'Adherant updated.');
     }
 
     /**

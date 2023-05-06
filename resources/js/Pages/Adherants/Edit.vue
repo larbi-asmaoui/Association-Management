@@ -42,6 +42,7 @@
                                 >Nom
                             </label>
                             <input
+                                v-model="form.last_name"
                                 type="text"
                                 name="last_name"
                                 id="last_name"
@@ -63,6 +64,7 @@
                                 >Prénom
                             </label>
                             <input
+                                v-model="form.first_name"
                                 type="text"
                                 name="first_name"
                                 id="first_name"
@@ -87,6 +89,7 @@
                                 >CIN</label
                             >
                             <input
+                                v-model="form.cin"
                                 pattern="^[A-Za-z\d]+$"
                                 type="text"
                                 name="cin"
@@ -103,13 +106,14 @@
                         </div>
                         <div>
                             <label
-                                for="cin"
+                                for="sexe"
                                 class="block text-sm text-gray-700 font-medium dark:text-white"
                                 >Sexe</label
                             >
                             <div class="flex gap-x-6">
                                 <div class="flex">
                                     <input
+                                        v-model="form.sexe"
                                         type="radio"
                                         name="sexe"
                                         class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
@@ -126,6 +130,7 @@
 
                                 <div class="flex">
                                     <input
+                                        v-model="form.sexe"
                                         type="radio"
                                         name="sexe"
                                         class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
@@ -160,6 +165,7 @@
                             >
                             <!-- pattern="^0\d{9}$" -->
                             <input
+                                v-model="form.tel"
                                 type="text"
                                 name="tel"
                                 id="tel"
@@ -182,6 +188,7 @@
                                 >Email</label
                             >
                             <input
+                                v-model="form.email"
                                 type="email"
                                 name="email"
                                 id="email"
@@ -208,6 +215,7 @@
                             </label>
 
                             <input
+                                v-model="form.date_of_birth"
                                 type="date"
                                 class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
                                 placeholder="Select date"
@@ -231,6 +239,7 @@
                             >Addresse</label
                         >
                         <textarea
+                            v-model="form.address"
                             id="address"
                             name="address"
                             rows="2"
@@ -264,5 +273,30 @@ import MainLayout from "../../Layouts/MainLayout.vue";
 
 export default {
     layout: MainLayout,
+};
+</script>
+
+<script setup>
+import { useForm } from "@inertiajs/vue3";
+
+const props = defineProps({
+    adherant: {
+        type: Object,
+        default: () => ({}),
+    },
+});
+
+const form = useForm({
+    first_name: props.adherant.first_name,
+    last_name: props.adherant.last_name,
+    date_of_birth: props.adherant.date_of_birth,
+    sexe: props.adherant.sexe,
+    cin: props.adherant.cin,
+    address: props.adherant.address,
+    tel: props.adherant.tel,
+});
+
+const submit = () => {
+    form.put(route("adherants.update", props.adherant.id));
 };
 </script>
