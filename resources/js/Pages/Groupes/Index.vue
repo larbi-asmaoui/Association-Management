@@ -1,5 +1,5 @@
 <template>
-    <h3 class="text-gray-700 text-3xl font-medium">Liste Groupes</h3>
+    <h3 class="text-gray-700 text-3xl font-medium">Gestion Groupes</h3>
     <!------------------  -->
     <!-- <CustomModal title="Ajouter Groupe" /> -->
     <!-- ------------------------- -->

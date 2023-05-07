@@ -1,5 +1,5 @@
 <template>
-    <h3 class="text-gray-700 text-3xl font-medium">Liste Adhérants</h3>
+    <h3 class="text-gray-700 text-3xl font-medium">Gestion Adhérants</h3>
 
     <div class="mt-4">
         <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
