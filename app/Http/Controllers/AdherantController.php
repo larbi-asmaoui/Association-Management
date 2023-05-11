@@ -51,7 +51,6 @@ class AdherantController extends Controller
                 'last_name' => 'required',
                 'cin' => 'required',
                 'tel' => 'required',
-                'sexe' => 'required',
                 'date_of_birth' => 'required',
                 'address' => 'required',
             ]

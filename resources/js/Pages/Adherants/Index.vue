@@ -11,204 +11,246 @@
                         placeholder="Search..."
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5"
                     />
-                    <CustomModal
-                        :open="isOpen"
-                        title="Ajouter adhérant"
-                        actionText="Ajouter"
+                    <button
+                        @click="isModalOpen = true"
+                        class="px-6 py-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
                     >
-                        <form @submit.prevent="submit">
-                            <div class="mt-4 grid gap-4 lg:gap-6">
-                                <!-- Grid -->
-                                <div
-                                    class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
-                                >
-                                    <div>
-                                        <label
-                                            for="last_name"
-                                            class="block text-sm text-gray-700 font-medium dark:text-white"
-                                            >Nom
-                                        </label>
-                                        <input
-                                            v-model="form.last_name"
-                                            type="text"
-                                            name="last_name"
-                                            id="last_name"
-                                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                        />
-                                        <span
-                                            v-if="form.errors.last_name"
-                                            class="text-xs text-red-600 mt-1"
-                                            id="hs-validation-name-error-helper"
-                                        >
-                                            {{ form.errors.last_name }}
-                                        </span>
-                                    </div>
+                        Ajouter Adhérant
+                    </button>
 
-                                    <div>
-                                        <label
-                                            for="first_name"
-                                            class="block text-sm text-gray-700 font-medium dark:text-white"
-                                            >Prénom
-                                        </label>
-                                        <input
-                                            v-model="form.first_name"
-                                            type="text"
-                                            name="first_name"
-                                            id="first_name"
-                                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                        />
-                                        <span
-                                            v-if="form.errors.first_name"
-                                            class="text-xs text-red-600 mt-1"
-                                            id="hs-validation-name-error-helper"
+                    <!-- Main -->
+                    <div
+                        v-if="isModalOpen"
+                        id="authentication-modal"
+                        class="overflow-x-hidden overflow-y-auto fixed h-modal md:h-full top-4 mt-4 left-0 right-0 md:inset-0 z-50 flex justify-center items-start"
+                    >
+                        <!-- Backdrop -->
+                        <div
+                            @click="isModalOpen = false"
+                            class="fixed inset-0 bg-black opacity-50"
+                        ></div>
+                        <div
+                            class="relative w-full max-w-md px-4 h-full md:h-auto"
+                        >
+                            <!-- Modal content -->
+                            <div
+                                class="bg-white rounded-lg shadow relative dark:bg-gray-700"
+                            >
+                                <div class="flex justify-end p-2">
+                                    <button
+                                        @click="isModalOpen = false"
+                                        type="button"
+                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                                        data-modal-toggle="authentication-modal"
+                                    >
+                                        <svg
+                                            class="w-5 h-5"
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg"
                                         >
-                                            {{ form.errors.first_name }}
-                                        </span>
-                                    </div>
+                                            <path
+                                                fill-rule="evenodd"
+                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                clip-rule="evenodd"
+                                            ></path>
+                                        </svg>
+                                    </button>
                                 </div>
-                                <!-- Grid -->
-
-                                <div
-                                    class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
+                                <form
+                                    class="space-y-6 px-6 lg:px-6 pb-4 sm:pb-6 xl:pb-8"
+                                    @submit.prevent="submit"
                                 >
-                                    <div>
-                                        <label
-                                            for="cin"
-                                            class="block text-sm text-gray-700 font-medium dark:text-white"
-                                            >CIN</label
-                                        >
-                                        <input
-                                            pattern="^[A-Za-z\d]+$"
-                                            v-model="form.cin"
-                                            type="text"
-                                            name="cin"
-                                            id="cin"
-                                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                        />
-                                        <span
-                                            v-if="form.errors.cin"
-                                            class="text-xs text-red-600 mt-1"
-                                            id="hs-validation-name-error-helper"
-                                        >
-                                            {{ form.errors.cin }}
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <label
-                                            for="cin"
-                                            class="block text-sm text-gray-700 font-medium dark:text-white"
-                                            >Sexe</label
-                                        >
-                                        <div class="flex gap-x-6">
-                                            <div class="flex">
-                                                <input
-                                                    type="radio"
-                                                    name="sexe"
-                                                    class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                                    id="homme"
-                                                    checked
-                                                    value="homme"
-                                                    v-model="form.sexe"
-                                                />
-                                                <label
-                                                    for="homme"
-                                                    class="text-sm text-gray-500 ml-2 dark:text-gray-400"
-                                                    >Homme</label
-                                                >
-                                            </div>
-
-                                            <div class="flex">
-                                                <input
-                                                    type="radio"
-                                                    name="sexe"
-                                                    class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                                    id="femme"
-                                                    value="femme"
-                                                    v-model="form.sexe"
-                                                />
-                                                <label
-                                                    for="femme"
-                                                    class="text-sm text-gray-500 ml-2 dark:text-gray-400"
-                                                    >Femme</label
-                                                >
-                                            </div>
+                                    <h3
+                                        class="text-xl font-medium text-gray-900 dark:text-white"
+                                    >
+                                        Ajouter Un Adhérant
+                                    </h3>
+                                    <div
+                                        class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
+                                    >
+                                        <div>
+                                            <label
+                                                for="last_name"
+                                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                                >Nom
+                                            </label>
+                                            <input
+                                                v-model="form.last_name"
+                                                type="text"
+                                                name="last_name"
+                                                id="last_name"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                            />
+                                            <span
+                                                v-if="form.errors.last_name"
+                                                class="text-xs text-red-600 mt-1"
+                                                id="hs-validation-name-error-helper"
+                                            >
+                                                {{ form.errors.last_name }}
+                                            </span>
                                         </div>
-                                        <span
-                                            v-if="form.errors.sexe"
-                                            class="text-xs text-red-600 mt-1"
-                                            id="hs-validation-name-error-helper"
-                                        >
-                                            {{ form.errors.sexe }}
-                                        </span>
-                                    </div>
-                                </div>
 
-                                <!-- Grid -->
-
-                                <div
-                                    class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
-                                >
-                                    <div>
-                                        <label
-                                            for="tel"
-                                            class="block text-sm text-gray-700 font-medium dark:text-white"
-                                            >Tel</label
-                                        >
-                                        <!-- pattern="^0\d{9}$" -->
-                                        <input
-                                            v-model="form.tel"
-                                            type="text"
-                                            name="tel"
-                                            id="tel"
-                                            autocomplete="text"
-                                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                        />
-                                        <span
-                                            v-if="form.errors.tel"
-                                            class="text-xs text-red-600 mt-1"
-                                            id="hs-validation-name-error-helper"
-                                        >
-                                            {{ form.errors.tel }}
-                                        </span>
+                                        <div>
+                                            <label
+                                                for="first_name"
+                                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                                >Prénom
+                                            </label>
+                                            <input
+                                                v-model="form.first_name"
+                                                type="text"
+                                                name="first_name"
+                                                id="first_name"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                            />
+                                            <span
+                                                v-if="form.errors.first_name"
+                                                class="text-xs text-red-600 mt-1"
+                                                id="hs-validation-name-error-helper"
+                                            >
+                                                {{ form.errors.first_name }}
+                                            </span>
+                                        </div>
                                     </div>
 
-                                    <div>
-                                        <label
-                                            for="email"
-                                            class="block text-sm text-gray-700 font-medium dark:text-white"
-                                            >Email</label
-                                        >
-                                        <input
-                                            v-model="form.email"
-                                            type="email"
-                                            name="email"
-                                            id="email"
-                                            autocomplete="text"
-                                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                        />
-                                        <span
-                                            v-if="form.errors.email"
-                                            class="text-xs text-red-600 mt-1"
-                                            id="hs-validation-name-error-helper"
-                                        >
-                                            {{ form.errors.email }}
-                                        </span>
-                                    </div>
-                                </div>
+                                    <div
+                                        class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
+                                    >
+                                        <div>
+                                            <label
+                                                for="cin"
+                                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                                >CIN</label
+                                            >
+                                            <input
+                                                pattern="^[A-Za-z\d]+$"
+                                                v-model="form.cin"
+                                                type="text"
+                                                name="cin"
+                                                id="cin"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                            />
+                                            <span
+                                                v-if="form.errors.cin"
+                                                class="text-xs text-red-600 mt-1"
+                                                id="hs-validation-name-error-helper"
+                                            >
+                                                {{ form.errors.cin }}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <label
+                                                for="cin"
+                                                class="block text-sm text-gray-700 font-medium dark:text-white"
+                                                >Sexe</label
+                                            >
+                                            <div class="flex gap-x-6">
+                                                <div class="flex">
+                                                    <input
+                                                        type="radio"
+                                                        name="sexe"
+                                                        class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                                        id="homme"
+                                                        checked
+                                                        value="homme"
+                                                        v-model="form.sexe"
+                                                    />
+                                                    <label
+                                                        for="homme"
+                                                        class="text-sm text-gray-500 ml-2 dark:text-gray-400"
+                                                        >Homme</label
+                                                    >
+                                                </div>
 
-                                <!-- //////////////////////// -->
-                                <div>
+                                                <div class="flex">
+                                                    <input
+                                                        type="radio"
+                                                        name="sexe"
+                                                        class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                                        id="femme"
+                                                        value="femme"
+                                                        v-model="form.sexe"
+                                                    />
+                                                    <label
+                                                        for="femme"
+                                                        class="text-sm text-gray-500 ml-2 dark:text-gray-400"
+                                                        >Femme</label
+                                                    >
+                                                </div>
+                                            </div>
+                                            <span
+                                                v-if="form.errors.sexe"
+                                                class="text-xs text-red-600 mt-1"
+                                                id="hs-validation-name-error-helper"
+                                            >
+                                                {{ form.errors.sexe }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
+                                    >
+                                        <div>
+                                            <label
+                                                for="tel"
+                                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                                >Tel</label
+                                            >
+                                            <!-- pattern="^0\d{9}$" -->
+                                            <input
+                                                v-model="form.tel"
+                                                type="text"
+                                                name="tel"
+                                                id="tel"
+                                                autocomplete="text"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                            />
+                                            <span
+                                                v-if="form.errors.tel"
+                                                class="text-xs text-red-600 mt-1"
+                                                id="hs-validation-name-error-helper"
+                                            >
+                                                {{ form.errors.tel }}
+                                            </span>
+                                        </div>
+
+                                        <div>
+                                            <label
+                                                for="email"
+                                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                                >Email</label
+                                            >
+                                            <input
+                                                v-model="form.email"
+                                                type="email"
+                                                name="email"
+                                                id="email"
+                                                autocomplete="text"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                            />
+                                            <span
+                                                v-if="form.errors.email"
+                                                class="text-xs text-red-600 mt-1"
+                                                id="hs-validation-name-error-helper"
+                                            >
+                                                {{ form.errors.email }}
+                                            </span>
+                                        </div>
+                                    </div>
+
                                     <div>
                                         <label
                                             for="date_of_birth"
-                                            class="block text-sm text-gray-700 font-medium dark:text-white"
+                                            class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
                                             >Date de naissance
                                         </label>
 
                                         <input
                                             v-model="form.date_of_birth"
                                             type="date"
-                                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                             placeholder="Select date"
                                             name="date_of_birth"
                                         />
@@ -220,42 +262,48 @@
                                             {{ form.errors.date_of_birth }}
                                         </span>
                                     </div>
-                                </div>
+                                    <div>
+                                        <label
+                                            for="hs-about-hire-us-1"
+                                            class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                            >Addresse</label
+                                        >
+                                        <textarea
+                                            v-model="form.address"
+                                            id="address"
+                                            name="address"
+                                            rows="2"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                        ></textarea>
+                                        <span
+                                            v-if="form.errors.address"
+                                            class="text-xs text-red-600 mt-1"
+                                            id="hs-validation-name-error-helper"
+                                        >
+                                            {{ form.errors.address }}
+                                        </span>
+                                    </div>
 
-                                <!-- TEXTAREA -->
-                                <div>
-                                    <label
-                                        for="hs-about-hire-us-1"
-                                        class="block text-sm text-gray-700 font-medium dark:text-white"
-                                        >Addresse</label
-                                    >
-                                    <textarea
-                                        v-model="form.address"
-                                        id="address"
-                                        name="address"
-                                        rows="2"
-                                        class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                    ></textarea>
-                                    <span
-                                        v-if="form.errors.address"
-                                        class="text-xs text-red-600 mt-1"
-                                        id="hs-validation-name-error-helper"
-                                    >
-                                        {{ form.errors.address }}
-                                    </span>
-                                </div>
+                                    <div class="mt-5 flex justify-end gap-x-2">
+                                        <button
+                                            @click="isModalOpen = false"
+                                            type="button"
+                                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                                        >
+                                            Annuler
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                        >
+                                            Enregistrer
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
-
-                            <div class="mt-6 grid">
-                                <button
-                                    type="submit"
-                                    class="inline-flex justify-center items-center gap-x-3 text-center text-white bg-indigo-600 hover:bg-indigo-700 border border-transparent text-sm lg:text-base text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:focus:ring-offset-gray-800"
-                                >
-                                    Ajouter
-                                </button>
-                            </div>
-                        </form>
-                    </CustomModal>
+                        </div>
+                    </div>
+                    <!-- End -->
                 </div>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table
@@ -305,10 +353,8 @@
                                 >
                                     {{ adherant.tel }}
                                 </th>
-                                <td class="px-6 py-4">
-                                    <div
-                                        class="flex item-center justify-center"
-                                    >
+                                <td>
+                                    <div class="flex justify-center">
                                         <!-- Eye -->
                                         <div
                                             @click="show(adherant.id)"
@@ -448,7 +494,6 @@ import { ref } from "vue";
 import { watch } from "vue";
 import { router } from "@inertiajs/vue3";
 import Pagination from "../../Components/Pagination.vue";
-import CustomModal from "../../Components/CustomModal.vue";
 
 import { useForm } from "@inertiajs/vue3";
 
@@ -479,11 +524,14 @@ const submit = () => {
     });
 };
 
+let isModalOpen = ref(false);
+
 const closeModal = () => {
-    isOpen = false;
+    isModalOpen.value = false;
 
     form.reset();
 };
+
 const props = defineProps({
     adherants: {
         type: Object,

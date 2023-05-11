@@ -34,8 +34,8 @@ const props = defineProps({
 const pageProps = usePage().props;
 const groupesData = props.groupesData;
 // Your chart data
-const pieSeries = ref([44, 55, 13, 33]); // this represents the data you want to show on the chart
-const labels = ref(["Team A", "Team B", "Team C", "Team D"]); // these are the labels for the data
+const pieSeries = ref([35, 65]); // this represents the data you want to show on the chart
+const labels = ref(["Depenses", "Revenue"]); // these are the labels for the data
 
 var pieOptions = ref({
     chart: {
@@ -43,7 +43,7 @@ var pieOptions = ref({
         type: "pie",
     },
     labels: labels.value,
-    colors: ["#FF1654", "#247BA0", "#70C1B3", "#B2DBBF"], // these are the colors for each segment
+    colors: ["#247BA0", "#70C1B3"], // these are the colors for each segment
     responsive: [
         {
             breakpoint: 480,
@@ -206,7 +206,7 @@ const series = ref([
                     <div
                         class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm"
                     >
-                        <div class="p-3 bg-blue-600 bg-opacity-75 rounded-full">
+                        <div class="p-3 bg-pink-600 bg-opacity-75 rounded-full">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 class="w-8 h-8 text-white icon icon-tabler icon-tabler-calendar-event"
@@ -249,7 +249,9 @@ const series = ref([
                     <div
                         class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm"
                     >
-                        <div class="p-3 bg-blue-600 bg-opacity-75 rounded-full">
+                        <div
+                            class="p-3 bg-violet-600 bg-opacity-75 rounded-full"
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 class="w-8 h-8 text-white icon icon-tabler icon-tabler-components"
@@ -284,14 +286,14 @@ const series = ref([
 
             <div class="mt-4">
                 <div class="grid gap-6 xl:grid-cols-2">
-                    <div class="bg-slate-50 p-4 rounded-md">
+                    <div class="bg-white p-4 rounded-md">
                         <apexchart
                             type="bar"
                             :options="chartOptions"
                             :series="series"
                         ></apexchart>
                     </div>
-                    <div class="bg-slate-50 p-4 rounded-md">
+                    <div class="bg-white p-4 rounded-md">
                         <div>
                             <apexchart
                                 type="pie"

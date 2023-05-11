@@ -13,77 +13,125 @@
                         placeholder="Search..."
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5"
                     />
-                    <CustomModal
-                        :open="isOpen"
-                        title="Ajouter Groupe"
-                        actionText="Ajouter"
+
+                    <button
+                        @click="isModalOpen = true"
+                        class="px-6 py-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
                     >
-                        <form @submit.prevent="submit">
-                            <!-- Grid -->
-                            <div class="grid grid-cols-12 gap-4 sm:gap-6">
-                                <div class="col-span-3">
-                                    <label
-                                        id="groupe-name"
-                                        class="inline-block text-sm text-gray-800 mt-2.5 dark:text-gray-200"
+                        Ajouter groupe
+                    </button>
+
+                    <!-- Main -->
+                    <div
+                        v-if="isModalOpen"
+                        id="authentication-modal"
+                        class="overflow-x-hidden overflow-y-auto fixed h-modal md:h-full top-4 mt-4 left-0 right-0 md:inset-0 z-50 flex justify-center items-start"
+                    >
+                        <!-- Backdrop -->
+                        <div
+                            @click="isModalOpen = false"
+                            class="fixed inset-0 bg-black opacity-50"
+                        ></div>
+                        <div
+                            class="relative w-full max-w-md px-4 h-full md:h-auto"
+                        >
+                            <!-- Modal content -->
+                            <div
+                                class="bg-white rounded-lg shadow relative dark:bg-gray-700"
+                            >
+                                <div class="flex justify-end p-2">
+                                    <button
+                                        @click="isModalOpen = false"
+                                        type="button"
+                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                                        data-modal-toggle="authentication-modal"
                                     >
-                                        Nom de groupe
-                                    </label>
+                                        <svg
+                                            class="w-5 h-5"
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                clip-rule="evenodd"
+                                            ></path>
+                                        </svg>
+                                    </button>
                                 </div>
-                                <!-- End Col -->
-
-                                <div class="col-span-9">
-                                    <input
-                                        id="groupe-name"
-                                        v-model="form.name"
-                                        type="text"
-                                        class="py-2 px-3 pr-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                        placeholder="titre de groupe"
-                                    />
-                                </div>
-                                <!-- End Col -->
-
-                                <div class="col-span-3">
-                                    <label
-                                        for="description"
-                                        class="inline-block text-sm text-gray-800 mt-2.5 dark:text-gray-200"
+                                <form
+                                    class="space-y-6 px-6 lg:px-6 pb-4 sm:pb-6 xl:pb-8"
+                                    @submit.prevent="submit"
+                                >
+                                    <h3
+                                        class="text-xl font-medium text-gray-900 dark:text-white"
                                     >
-                                        Description
-                                    </label>
-                                </div>
-                                <!-- End Col -->
+                                        Ajouter un groupe
+                                    </h3>
+                                    <div>
+                                        <label
+                                            for="title"
+                                            class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                            >Titre du groupe</label
+                                        >
+                                        <input
+                                            v-model="form.name"
+                                            type="text"
+                                            name="title"
+                                            id="title"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                        />
+                                        <span
+                                            v-if="form.errors.name"
+                                            class="text-xs text-red-600 mt-1"
+                                            id="hs-validation-name-error-helper"
+                                        >
+                                            {{ form.errors.name }}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <label
+                                            for="description"
+                                            class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                            >Description</label
+                                        >
+                                        <textarea
+                                            v-model="form.description"
+                                            rows="5"
+                                            name="description"
+                                            id="description"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                        ></textarea>
+                                        <span
+                                            v-if="form.errors.description"
+                                            class="text-xs text-red-600 mt-1"
+                                            id="hs-validation-name-error-helper"
+                                        >
+                                            {{ form.errors.description }}
+                                        </span>
+                                    </div>
 
-                                <div class="col-span-9">
-                                    <textarea
-                                        id="description"
-                                        v-model="form.description"
-                                        class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                        rows="6"
-                                        placeholder="Description de groupe..."
-                                    ></textarea>
-                                </div>
-
-                                <!-- End Col -->
+                                    <div class="mt-5 flex justify-end gap-x-2">
+                                        <button
+                                            @click="isModalOpen = false"
+                                            type="button"
+                                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                                        >
+                                            Annuler
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                        >
+                                            Enregistrer
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
-                            <!-- End Grid -->
-
-                            <div class="mt-5 flex justify-end gap-x-2">
-                                <button
-                                    @click="closeModal"
-                                    type="button"
-                                    class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-                                >
-                                    Annuler
-                                </button>
-                                <button
-                                    :disabled="form.processing"
-                                    type="submit"
-                                    class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                                >
-                                    Enregistrer
-                                </button>
-                            </div>
-                        </form>
-                    </CustomModal>
+                        </div>
+                    </div>
+                    <!-- End -->
                 </div>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table
@@ -118,9 +166,9 @@
                                 <td class="px-6 py-4">
                                     {{ groupe.description }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td>
                                     <div
-                                        class="flex item-center justify-center"
+                                        class="flex items-center justify-center"
                                     >
                                         <!-- Eye -->
                                         <div
@@ -211,10 +259,9 @@ import { ref } from "vue";
 import { watch } from "vue";
 import { router } from "@inertiajs/vue3";
 import Pagination from "../../Components/Pagination.vue";
-import CustomModal from "../../Components/CustomModal.vue";
 
 import { useForm } from "@inertiajs/vue3";
-let isOpen = ref(false);
+
 const form = useForm({
     name: null,
     description: null,
@@ -227,8 +274,10 @@ const submit = () => {
     });
 };
 
+let isModalOpen = ref(false);
+
 const closeModal = () => {
-    isOpen.value = false;
+    isModalOpen.value = false;
 
     form.reset();
 };

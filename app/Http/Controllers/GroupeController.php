@@ -42,15 +42,20 @@ class GroupeController extends Controller
      */
     public function store(StoreGroupeRequest $request)
     {
-        $groupe = Groupe::create([
-            'user_id' => auth()->id(),
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
 
-        $groupe->save();
+        $groupe = $request->validate(
+            [
+                'name' => 'required',
+                'description' => 'required',
+            ]
+        );
 
-        return redirect()->route('groupes.index')->with('message', 'groupe est crée avec succès');
+        $groupe['user_id'] = auth()->id();
+
+
+        Groupe::create($groupe);
+
+        return redirect()->back()->with('success', 'Groupe created.');
     }
 
     /**

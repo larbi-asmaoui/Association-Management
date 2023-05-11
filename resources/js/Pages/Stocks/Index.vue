@@ -10,157 +10,204 @@
                         placeholder="Search..."
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5"
                     />
-                    <CustomModal
-                        :open="isOpen"
-                        title="Ajouter stock"
-                        actionText="Ajouter"
+
+                    <button
+                        @click="isModalOpen = true"
+                        class="px-6 py-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
                     >
-                        <form @submit.prevent="submit">
-                            <div class="mt-4 grid gap-4 lg:gap-6">
-                                <!-- Grid -->
-                                <div
-                                    class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
-                                >
-                                    <div>
-                                        <label
-                                            for="stock_name"
-                                            class="block text-sm text-gray-700 font-medium dark:text-white"
-                                            >Nom de stock
-                                        </label>
-                                        <input
-                                            v-model="form.name"
-                                            type="text"
-                                            name="stock_name"
-                                            id="stock_name"
-                                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                        />
-                                        <span
-                                            v-if="form.errors.name"
-                                            class="text-xs text-red-600 mt-1"
-                                            id="hs-validation-name-error-helper"
-                                        >
-                                            {{ form.errors.name }}
-                                        </span>
-                                    </div>
+                        Ajouter Stock
+                    </button>
 
-                                    <div>
-                                        <label
-                                            for="type"
-                                            class="block text-sm text-gray-700 font-medium dark:text-white"
-                                            >Type
-                                        </label>
-                                        <input
-                                            v-model="form.type"
-                                            type="text"
-                                            name="type"
-                                            id="type"
-                                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                        />
-                                        <span
-                                            v-if="form.errors.type"
-                                            class="text-xs text-red-600 mt-1"
-                                            id="hs-validation-name-error-helper"
+                    <!-- Main -->
+                    <div
+                        v-if="isModalOpen"
+                        id="authentication-modal"
+                        class="overflow-x-hidden overflow-y-auto fixed h-modal md:h-full top-4 mt-4 left-0 right-0 md:inset-0 z-50 flex justify-center items-start"
+                    >
+                        <!-- Backdrop -->
+                        <div
+                            @click="isModalOpen = false"
+                            class="fixed inset-0 bg-black opacity-50"
+                        ></div>
+                        <div
+                            class="relative w-full max-w-md px-4 h-full md:h-auto"
+                        >
+                            <!-- Modal content -->
+                            <div
+                                class="bg-white rounded-lg shadow relative dark:bg-gray-700"
+                            >
+                                <div class="flex justify-end p-2">
+                                    <button
+                                        @click="isModalOpen = false"
+                                        type="button"
+                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                                        data-modal-toggle="authentication-modal"
+                                    >
+                                        <svg
+                                            class="w-5 h-5"
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg"
                                         >
-                                            {{ form.errors.type }}
-                                        </span>
-                                    </div>
+                                            <path
+                                                fill-rule="evenodd"
+                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                clip-rule="evenodd"
+                                            ></path>
+                                        </svg>
+                                    </button>
                                 </div>
-                                <div>
-                                    <div>
-                                        <label
-                                            for="dpurchase_date"
-                                            class="block text-sm text-gray-700 font-medium dark:text-white"
-                                            >Date d'achat
-                                        </label>
-
-                                        <input
-                                            v-model="form.purchaseDate"
-                                            type="date"
-                                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                            placeholder="Select date"
-                                            name="purchase_date"
-                                        />
-                                        <span
-                                            v-if="form.errors.purchaseDate"
-                                            class="text-xs text-red-600 mt-1"
-                                            id="hs-validation-name-error-helper"
-                                        >
-                                            {{ form.errors.purchaseDate }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mt-4 grid gap-4 lg:gap-6">
-                                <!-- Grid -->
-                                <div
-                                    class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
+                                <form
+                                    class="space-y-6 px-6 lg:px-6 pb-4 sm:pb-6 xl:pb-8"
+                                    @submit.prevent="submit"
                                 >
-                                    <div>
-                                        <label
-                                            for="quantity"
-                                            class="block text-sm text-gray-700 font-medium dark:text-white"
-                                            >Quantité
-                                        </label>
-                                        <input
-                                            v-model="form.quantity"
-                                            min="1"
-                                            type="number"
-                                            name="quantity"
-                                            id="quantity"
-                                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                        />
-                                        <span
-                                            v-if="form.errors.quantity"
-                                            class="text-xs text-red-600 mt-1"
-                                            id="hs-validation-name-error-helper"
-                                        >
-                                            {{ form.errors.quantity }}
-                                        </span>
+                                    <h3
+                                        class="text-xl font-medium text-gray-900 dark:text-white"
+                                    >
+                                        Ajouter un stock
+                                    </h3>
+                                    <div
+                                        class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
+                                    >
+                                        <div>
+                                            <label
+                                                for="stock_name"
+                                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                                >Nom de stock
+                                            </label>
+                                            <input
+                                                v-model="form.name"
+                                                type="text"
+                                                name="stock_name"
+                                                id="stock_name"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                            />
+                                            <span
+                                                v-if="form.errors.name"
+                                                class="text-xs text-red-600 mt-1"
+                                                id="hs-validation-name-error-helper"
+                                            >
+                                                {{ form.errors.name }}
+                                            </span>
+                                        </div>
+
+                                        <div>
+                                            <label
+                                                for="type"
+                                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                                >Type
+                                            </label>
+                                            <input
+                                                v-model="form.type"
+                                                type="text"
+                                                name="type"
+                                                id="type"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                            />
+                                            <span
+                                                v-if="form.errors.type"
+                                                class="text-xs text-red-600 mt-1"
+                                                id="hs-validation-name-error-helper"
+                                            >
+                                                {{ form.errors.type }}
+                                            </span>
+                                        </div>
                                     </div>
 
                                     <div>
-                                        <label
-                                            for="pricePerUnit"
-                                            class="block text-sm text-gray-700 font-medium dark:text-white"
-                                            >Prix unitaire d'achat
-                                        </label>
-                                        <input
-                                            v-model="form.pricePerUnit"
-                                            type="text"
-                                            name="pricePerUnit"
-                                            id="pricePerUnit"
-                                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                        />
-                                        <span
-                                            v-if="form.errors.pricePerUnit"
-                                            class="text-xs text-red-600 mt-1"
-                                            id="hs-validation-name-error-helper"
-                                        >
-                                            {{ form.errors.pricePerUnit }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Grid -->
+                                        <div>
+                                            <label
+                                                for="dpurchase_date"
+                                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                                >Date d'achat
+                                            </label>
 
-                            <div class="mt-5 flex justify-end gap-x-2">
-                                <button
-                                    @click="closeModal"
-                                    type="button"
-                                    class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-                                >
-                                    Annuler
-                                </button>
-                                <button
-                                    type="submit"
-                                    class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                                >
-                                    Enregistrer
-                                </button>
+                                            <input
+                                                v-model="form.purchaseDate"
+                                                type="date"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                placeholder="Select date"
+                                                name="purchase_date"
+                                            />
+                                            <span
+                                                v-if="form.errors.purchaseDate"
+                                                class="text-xs text-red-600 mt-1"
+                                                id="hs-validation-name-error-helper"
+                                            >
+                                                {{ form.errors.purchaseDate }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
+                                    >
+                                        <div>
+                                            <label
+                                                for="quantity"
+                                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                                >Quantité
+                                            </label>
+                                            <input
+                                                v-model="form.quantity"
+                                                min="1"
+                                                type="number"
+                                                name="quantity"
+                                                id="quantity"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                            />
+                                            <span
+                                                v-if="form.errors.quantity"
+                                                class="text-xs text-red-600 mt-1"
+                                                id="hs-validation-name-error-helper"
+                                            >
+                                                {{ form.errors.quantity }}
+                                            </span>
+                                        </div>
+
+                                        <div>
+                                            <label
+                                                for="pricePerUnit"
+                                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                                >Prix unitaire d'achat
+                                            </label>
+                                            <input
+                                                v-model="form.pricePerUnit"
+                                                type="text"
+                                                name="pricePerUnit"
+                                                id="pricePerUnit"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                            />
+                                            <span
+                                                v-if="form.errors.pricePerUnit"
+                                                class="text-xs text-red-600 mt-1"
+                                                id="hs-validation-name-error-helper"
+                                            >
+                                                {{ form.errors.pricePerUnit }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-5 flex justify-end gap-x-2">
+                                        <button
+                                            @click="isModalOpen = false"
+                                            type="button"
+                                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                                        >
+                                            Annuler
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                        >
+                                            Enregistrer
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
-                    </CustomModal>
+                        </div>
+                    </div>
+                    <!-- End -->
                 </div>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table
@@ -310,7 +357,6 @@ export default {
 
 <script setup>
 import { ref, watch } from "vue";
-import CustomModal from "../../Components/CustomModal.vue";
 import { useForm } from "@inertiajs/vue3";
 import Pagination from "../../Components/Pagination.vue";
 
@@ -322,10 +368,10 @@ const form = useForm({
     purchaseDate: null,
 });
 
-let isOpen = ref(false);
+let isModalOpen = ref(false);
 
 const closeModal = () => {
-    isOpen.value = false;
+    isModalOpen.value = false;
 
     form.reset();
 };
