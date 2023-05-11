@@ -289,6 +289,7 @@ const props = defineProps({
 const form = useForm({
     first_name: props.adherant.first_name,
     last_name: props.adherant.last_name,
+    email: props.adherant.email,
     date_of_birth: props.adherant.date_of_birth,
     sexe: props.adherant.sexe,
     cin: props.adherant.cin,

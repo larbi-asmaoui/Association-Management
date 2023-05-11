@@ -20,75 +20,66 @@
                         ></path>
                     </svg>
                 </span>
-                <span class="tracking-wide">About</span>
+                <span class="tracking-wide">Informations d'adherant</span>
             </div>
             <div class="text-gray-700">
                 <div class="grid md:grid-cols-2 text-sm">
                     <div class="grid grid-cols-2">
-                        <div class="px-4 py-2 font-semibold">First Name</div>
-                        <div class="px-4 py-2">Jane</div>
+                        <div class="px-4 py-2 font-semibold">Prenom</div>
+                        <div class="px-4 py-2">{{ adherant.first_name }}</div>
                     </div>
                     <div class="grid grid-cols-2">
-                        <div class="px-4 py-2 font-semibold">Last Name</div>
-                        <div class="px-4 py-2">Doe</div>
+                        <div class="px-4 py-2 font-semibold">Nom</div>
+                        <div class="px-4 py-2">{{ adherant.last_name }}</div>
                     </div>
                     <div class="grid grid-cols-2">
-                        <div class="px-4 py-2 font-semibold">Gender</div>
-                        <div class="px-4 py-2">Female</div>
+                        <div class="px-4 py-2 font-semibold">Sexe</div>
+                        <div class="px-4 py-2">{{ adherant.sexe }}</div>
                     </div>
                     <div class="grid grid-cols-2">
-                        <div class="px-4 py-2 font-semibold">Contact No.</div>
-                        <div class="px-4 py-2">+11 998001001</div>
+                        <div class="px-4 py-2 font-semibold">Telephone</div>
+                        <div class="px-4 py-2">{{ adherant.tel }}</div>
                     </div>
                     <div class="grid grid-cols-2">
                         <div class="px-4 py-2 font-semibold">
                             Current Address
                         </div>
                         <div class="px-4 py-2">
-                            Beech Creek, PA, Pennsylvania
+                            {{ adherant.address }}
                         </div>
                     </div>
-                    <div class="grid grid-cols-2">
+                    <!-- <div class="grid grid-cols-2">
                         <div class="px-4 py-2 font-semibold">
                             Permanant Address
                         </div>
                         <div class="px-4 py-2">
                             Arlington Heights, IL, Illinois
                         </div>
-                    </div>
+                    </div> -->
                     <div class="grid grid-cols-2">
                         <div class="px-4 py-2 font-semibold">Email.</div>
                         <div class="px-4 py-2">
                             <a
                                 class="text-blue-800"
                                 href="mailto:jane@example.com"
-                                >jane@example.com</a
+                                >{{ adherant.email }}</a
                             >
                         </div>
                     </div>
                     <div class="grid grid-cols-2">
-                        <div class="px-4 py-2 font-semibold">Birthday</div>
-                        <div class="px-4 py-2">Feb 06, 1998</div>
+                        <div class="px-4 py-2 font-semibold">
+                            Date de naissance
+                        </div>
+                        <div class="px-4 py-2">
+                            {{ adherant.date_of_birth }}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="p-6">
-            <h3 class="text-gray-700 text-3xl font-medium">
-                Adherant #{{ adherant.id }}
-            </h3>
+        <!-- ___________________________________________________ -->
 
-            <p>Nom : {{ adherant.last_name }}</p>
-            <p>Prenom : {{ adherant.first_name }}</p>
-            <p>CIN : {{ adherant.cin }}</p>
-            <p>Adresse : {{ adherant.address }}</p>
-            <p>Telephone : {{ adherant.tel }}</p>
-            <p>Email : {{ adherant.email }}</p>
-            <p>Sexe : {{ adherant.sexe }}</p>
-            <p>Date de naissance : {{ adherant.date_of_birth }}</p>
-        </div>
-        <!-- <div class="flex"></div> -->
         <div
             class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6 shadow sm:rounded-bl-md sm:rounded-br-md"
         >

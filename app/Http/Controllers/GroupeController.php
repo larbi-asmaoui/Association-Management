@@ -41,6 +41,7 @@ class GroupeController extends Controller
     public function store(StoreGroupeRequest $request)
     {
         $groupe = Groupe::create([
+            'user_id' => auth()->id(),
             'name' => $request->name,
             'description' => $request->description,
         ]);
@@ -76,7 +77,7 @@ class GroupeController extends Controller
     public function update(UpdateGroupeRequest $request, Groupe $groupe)
     {
         $groupe->update([
-            'title' => $request->title,
+            'name' => $request->name,
             'description' => $request->description,
         ]);
 

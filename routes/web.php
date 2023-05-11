@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\AdherantController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\EvenementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +37,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
 
-
+    //---------- Dashboard ----------//
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     //---------- Adherants ----------//
@@ -45,6 +46,7 @@ Route::middleware([
         Route::delete('/{adherant}', [AdherantController::class, 'destroy'])->name('adherants.destroy');
         Route::get('/create', [AdherantController::class, 'create'])->name('adherants.create');
         Route::post('/', [AdherantController::class, 'store'])->name('adherants.store');
+        Route::get('adherants/{adherant}/print', [AdherantController::class, 'printAdherentCard'])->name('adherants.print');
         Route::get('/{adherant}', [AdherantController::class, 'show'])->name('adherants.show');
         Route::get('/{adherant}/edit', [AdherantController::class, 'edit'])->name('adherants.edit');
         Route::put('/{adherant}', [AdherantController::class, 'update'])->name('adherants.update');
@@ -54,10 +56,10 @@ Route::middleware([
     Route::prefix('/groupes')->group(function () {
         Route::get('/', [GroupeController::class, 'index'])->name('groupes.index');
         Route::delete('/{groupe}', [GroupeController::class, 'destroy'])->name('groupes.destroy');
-        // Route::get('/create', [GroupeController::class, 'create'])->name('groupes.create');
+        Route::get('/create', [GroupeController::class, 'create'])->name('groupes.create');
         Route::post('/', [GroupeController::class, 'store'])->name('groupes.store');
         Route::get('/{groupe}', [GroupeController::class, 'show'])->name('groupes.show');
-        // Route::get('/{groupe}/edit', [GroupeController::class, 'edit'])->name('groupes.edit');
+        Route::get('/{groupe}/edit', [GroupeController::class, 'edit'])->name('groupes.edit');
         Route::put('/{groupe}', [GroupeController::class, 'update'])->name('groupes.update');
     });
 
@@ -70,5 +72,16 @@ Route::middleware([
         Route::get('/{stock}', [StockController::class, 'show'])->name('stocks.show');
         Route::put('/{stock}', [StockController::class, 'update'])->name('stocks.update');
     });
+
+    //---------- Evenements ----------//
+    Route::prefix('/evenements')->group(function () {
+        Route::get('/', [EvenementController::class, 'index'])->name('evenements.index');
+        Route::delete('/{evenement}', [EvenementController::class, 'destroy'])->name('evenements.destroy');
+        Route::get('/create', [EvenementController::class, 'create'])->name('evenements.create');
+        Route::post('/', [EvenementController::class, 'store'])->name('evenements.store');
+        Route::get('/{evenement}', [EvenementController::class, 'show'])->name('evenements.show');
+        Route::get('/{evenement}/edit', [EvenementController::class, 'edit'])->name('evenements.edit');
+        Route::put('/{evenement}', [EvenementController::class, 'update'])->name('evenements.update');
+    });
 });
-Route::get('/chart', [ChartController::class, 'index'])->name('chart');
+// Route::get('/chart', [ChartController::class, 'index'])->name('chart');

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('adherants', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('cin');

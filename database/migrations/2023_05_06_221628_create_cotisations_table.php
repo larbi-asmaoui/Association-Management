@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('cotisations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('adherant_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->float('montant');
             $table->timestamps();
         });
     }

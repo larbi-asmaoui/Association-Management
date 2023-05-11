@@ -384,6 +384,14 @@
 
                                         <!-- Print -->
                                         <div
+                                            @click="
+                                                $inertia.visit(
+                                                    route(
+                                                        'adherants.print',
+                                                        adherant.id
+                                                    )
+                                                )
+                                            "
                                             class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                                         >
                                             <svg

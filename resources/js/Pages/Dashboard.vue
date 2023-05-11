@@ -200,6 +200,11 @@ const props = defineProps({
             </div>
         </div>
 
-        <div class="mt-8"></div>
+        <div class="mt-8 bg-white shadow-lg p-4">
+            <div class="flex">
+                <div class="flex-1">02</div>
+                <div class="flex-1">03</div>
+            </div>
+        </div>
     </div>
 </template>

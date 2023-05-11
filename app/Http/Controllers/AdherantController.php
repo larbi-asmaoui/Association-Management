@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateAdherantRequest;
 use App\Models\Adherant;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Dompdf\Dompdf;
 
 class AdherantController extends Controller
 {
@@ -23,7 +25,7 @@ class AdherantController extends Controller
                         ->OrWhere('cin', 'like', '%' . $search . '%')
                         ->OrWhere('tel', 'like', '%' . $search . '%')
                         ->OrWhere('email', 'like', '%' . $search . '%');
-                })->paginate(10)
+                })->paginate(5)
                 ->appends(Request::all()),
         ]);
     }
@@ -41,9 +43,8 @@ class AdherantController extends Controller
      */
     public function store(StoreAdherantRequest $request)
     {
-        $request->validated(
+        $formFields = $request->validate(
             [
-                'image' => 'required',
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'cin' => 'required',
@@ -53,7 +54,9 @@ class AdherantController extends Controller
                 'address' => 'required',
             ]
         );
-        Adherant::create($request->all());
+        $formFields['user_id'] = auth()->id();
+
+        Adherant::create($formFields);
         return redirect()->back()->with('success', 'Adherant created.');
     }
 
@@ -101,5 +104,18 @@ class AdherantController extends Controller
         $adherant->delete();
 
         return redirect()->route('adherants.index')->with('message', 'adherant est supprimé avec succès');
+    }
+
+    public function printAdherentCard(Adherant $adherant)
+    {
+
+        $dompdf = new Dompdf();
+        $dompdf->setPaper('A4', 'landscape');
+
+        $data = [
+            'adherant' => $adherant,
+        ];
+        $pdf = Pdf::loadView('adherants.card', $data);
+        return $pdf->download('adherent_card_' . $adherant->id . '.pdf');
     }
 }

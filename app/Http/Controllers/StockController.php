@@ -49,6 +49,8 @@ class StockController extends Controller
 
         // $stock = $request->all()
 
+        $stock['user_id'] = auth()->id();
+
         Stock::create($stock);
 
         return redirect()->route('stocks.index')->with('message', 'stock est crée avec succès');
