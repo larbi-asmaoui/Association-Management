@@ -8,9 +8,15 @@ export default {
 
 <script setup>
 import { ref } from "vue";
+import VueApexCharts from "vue3-apexcharts";
+import { usePage } from "@inertiajs/vue3";
 // import { Inertia } from "@inertiajs/vue3";
 
 const props = defineProps({
+    groupesData: {
+        type: Object,
+        default: () => ({}),
+    },
     groupes_count: {
         type: Number,
     },
@@ -20,7 +26,88 @@ const props = defineProps({
     stock_count: {
         type: Number,
     },
+    events_count: {
+        type: Number,
+    },
 });
+
+const pageProps = usePage().props;
+const groupesData = props.groupesData;
+// Your chart data
+const pieSeries = ref([44, 55, 13, 33]); // this represents the data you want to show on the chart
+const labels = ref(["Team A", "Team B", "Team C", "Team D"]); // these are the labels for the data
+
+var pieOptions = ref({
+    chart: {
+        width: "100%",
+        type: "pie",
+    },
+    labels: labels.value,
+    colors: ["#FF1654", "#247BA0", "#70C1B3", "#B2DBBF"], // these are the colors for each segment
+    responsive: [
+        {
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200,
+                },
+                legend: {
+                    position: "bottom",
+                },
+            },
+        },
+    ],
+});
+
+const chartOptions = ref({
+    stroke: {
+        show: true,
+        width: 2,
+        colors: ["transparent"],
+    },
+    colors: ["#5A67D8"],
+    title: {
+        text: "Nombre de groupes créés par date",
+        align: "center",
+        style: {
+            fontSize: "14px",
+            color: "#263238",
+        },
+    },
+    chart: {
+        id: "basic-bar",
+        type: "bar",
+    },
+    plotOptions: {
+        bar: {
+            horizontal: false,
+            endingShape: "rounded",
+            columnWidth: "5%",
+        },
+    },
+    xaxis: {
+        categories: Object.keys(groupesData),
+    },
+    yaxis: {
+        title: {
+            text: "Nombre de groupes",
+        },
+        labels: {
+            formatter: (value) => {
+                return Math.round(value); // round to the nearest integer
+            },
+        }, // adjust the number of ticks as you need
+        min: 0,
+        // forceNiceScale: true,
+    },
+});
+
+const series = ref([
+    {
+        name: "Groupes",
+        data: Object.values(groupesData),
+    },
+]);
 </script>
 <template>
     <div>
@@ -151,7 +238,7 @@ const props = defineProps({
 
                         <div class="mx-5">
                             <h4 class="text-2xl font-semibold text-gray-700">
-                                10
+                                {{ events_count }}
                             </h4>
                             <div class="text-gray-500">Evenements</div>
                         </div>
@@ -195,15 +282,25 @@ const props = defineProps({
                 </div>
             </div>
 
-            <div class="pt-5 mt-4">
-                <div class="mb-6 grid gap-6 xl:grid-cols-3"></div>
-            </div>
-        </div>
-
-        <div class="mt-8 bg-white shadow-lg p-4">
-            <div class="flex">
-                <div class="flex-1">02</div>
-                <div class="flex-1">03</div>
+            <div class="mt-4">
+                <div class="grid gap-6 xl:grid-cols-2">
+                    <div class="bg-slate-50 p-4 rounded-md">
+                        <apexchart
+                            type="bar"
+                            :options="chartOptions"
+                            :series="series"
+                        ></apexchart>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-md">
+                        <div>
+                            <apexchart
+                                type="pie"
+                                :options="pieOptions"
+                                :series="pieSeries"
+                            ></apexchart>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCotisationRequest;
 use App\Http\Requests\UpdateCotisationRequest;
 use App\Models\Cotisation;
+use Inertia\Inertia;
 
 class CotisationController extends Controller
 {
@@ -13,7 +14,13 @@ class CotisationController extends Controller
      */
     public function index()
     {
-        //
+        $userId = auth()->id();
+        $cotisations = Cotisation::all();
+
+        return Inertia::render('Cotisations/Index', [
+            'cotisations' => $cotisations,
+            // 'filters' => Request::only(['search'])
+        ]);
     }
 
     /**
@@ -21,7 +28,7 @@ class CotisationController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Cotisations/Create');
     }
 
     /**
@@ -29,7 +36,13 @@ class CotisationController extends Controller
      */
     public function store(StoreCotisationRequest $request)
     {
-        //
+        $formFields = $request->validate(
+            [
+                'montant' => 'required',
+            ]
+        );
+        Cotisation::create($formFields);
+        return redirect()->back()->with('success', 'Cotisation created.');
     }
 
     /**
@@ -37,7 +50,9 @@ class CotisationController extends Controller
      */
     public function show(Cotisation $cotisation)
     {
-        //
+        return Inertia::render('Cotisations/Show', [
+            'cotisation' => $cotisation,
+        ]);
     }
 
     /**
@@ -45,7 +60,9 @@ class CotisationController extends Controller
      */
     public function edit(Cotisation $cotisation)
     {
-        //
+        return Inertia::render('Cotisations/Edit', [
+            'cotisation' => $cotisation,
+        ]);
     }
 
     /**
@@ -53,7 +70,9 @@ class CotisationController extends Controller
      */
     public function update(UpdateCotisationRequest $request, Cotisation $cotisation)
     {
-        //
+        $formFields = $request->validated();
+        $cotisation->update($formFields);
+        return redirect()->back()->with('success', 'Cotisation updated.');
     }
 
     /**
@@ -61,6 +80,7 @@ class CotisationController extends Controller
      */
     public function destroy(Cotisation $cotisation)
     {
-        //
+        $cotisation->delete();
+        return redirect()->back()->with('success', 'Cotisation deleted.');
     }
 }

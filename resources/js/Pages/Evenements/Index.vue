@@ -7,8 +7,9 @@ export default {
 </script>
 
 <script setup>
-import { reactive, ref, toRaw } from "vue";
+import { reactive, ref, toRaw, onMounted, watchEffect } from "vue";
 import { useForm } from "@inertiajs/vue3";
+import { usePage } from "@inertiajs/vue3";
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -26,6 +27,8 @@ const props = defineProps({
         default: () => ({}),
     },
 });
+
+const page = usePage();
 
 const calendarOptions = reactive({
     plugins: [dayGridPlugin, interactionPlugin, listPlugin, timeGridPlugin],
@@ -71,9 +74,80 @@ const calendarOptions = reactive({
     // dateSelect(info) {
     //     openAddEventModal(info);
     // },
+    eventDrop: function (info) {
+        // The 'info' object contains various properties related to the drop event.
+        // 'info.event' is the Event object that was dropped.
+
+        // Update the dates in your data
+        const eventId = info.event.id;
+        const newStart = info.event.start;
+        const newEnd = info.event.end;
+
+        // Assuming 'evenements' is a reactive Vue 3 object
+        const eventToUpdate = props.evenements.find(
+            (event) => event.id === eventId
+        );
+        if (eventToUpdate) {
+            eventToUpdate.start = newStart;
+            eventToUpdate.end = newEnd;
+        }
+
+        // Now you can also send the updated data to your server using Inertia
+        form.id = eventId;
+        form.start = newStart.toISOString().slice(0, 10);
+        form.end = newEnd.toISOString().slice(0, 10);
+
+        form.put(route(`evenements.update`, eventId), {
+            preserveState: true,
+            onSuccess: () => {
+                console.log("Event updated");
+            },
+        });
+    },
+    eventResize: function (info) {
+        // The 'info' object contains various properties related to the resizing event.
+        // 'info.event' is the Event object that was resized.
+
+        // Update the dates in your data
+        const eventId = info.event.id;
+        const newStart = info.event.start;
+        const newEnd = info.event.end;
+
+        // Assuming 'evenements' is a reactive Vue 3 object
+        const eventToUpdate = props.evenements.find(
+            (event) => event.id === eventId
+        );
+        if (eventToUpdate) {
+            eventToUpdate.start = newStart;
+            eventToUpdate.end = newEnd;
+        }
+
+        // Now you can also send the updated data to your server using Inertia
+        form.id = eventId;
+        form.start = newStart.toISOString().slice(0, 10);
+        form.end = newEnd ? newEnd.toISOString().slice(0, 10) : null;
+
+        form.put(route(`evenements.update`, eventId), {
+            preserveState: true,
+            onSuccess: () => {
+                console.log("Event updated");
+            },
+        });
+    },
 });
 
+onMounted(() => {
+    calendarOptions.events = toRaw(props.evenements);
+});
+
+const eventRefreshKey = ref(0);
+
+watchEffect(() => {
+    eventRefreshKey.value++; // This will force the FullCalendar component to refresh
+}, props.evenements);
+
 const form = useForm({
+    id: "",
     title: "",
     description: "",
     start: "",
@@ -86,6 +160,7 @@ const submit = () => {
         onSuccess: () => {
             closeModal();
             form.reset("title", "description", "start", "end", "location");
+            page.value.$inertia.$refresh(); // This will refresh the page
         },
     });
 };
@@ -393,6 +468,6 @@ const closeModal = () => {
     <!-- End -->
 
     <div class="bg-white p-6 shadow-sm rounded-lg">
-        <FullCalendar v-bind:options="calendarOptions" />
+        <FullCalendar v-bind:options="calendarOptions" :key="eventRefreshKey" />
     </div>
 </template>

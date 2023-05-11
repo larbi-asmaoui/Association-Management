@@ -7,6 +7,7 @@ use App\Http\Controllers\GroupeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\AdherantController;
+use App\Http\Controllers\CotisationController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\EvenementController;
 
@@ -52,6 +53,17 @@ Route::middleware([
         Route::put('/{adherant}', [AdherantController::class, 'update'])->name('adherants.update');
     });
 
+    // ------------Cotisations------------//
+    Route::prefix('/cotisations')->group(function () {
+        Route::get('/', [CotisationController::class, 'index'])->name('cotisations.index');
+        Route::delete('/{cotisation}', [CotisationController::class, 'destroy'])->name('cotisations.destroy');
+        Route::get('/create', [CotisationController::class, 'create'])->name('cotisations.create');
+        Route::post('/', [CotisationController::class, 'store'])->name('cotisations.store');
+        Route::get('/{cotisation}', [CotisationController::class, 'show'])->name('cotisations.show');
+        Route::get('/{cotisation}/edit', [CotisationController::class, 'edit'])->name('cotisations.edit');
+        Route::put('/{cotisation}', [CotisationController::class, 'update'])->name('cotisations.update');
+    });
+
     //---------- Groupes ----------//
     Route::prefix('/groupes')->group(function () {
         Route::get('/', [GroupeController::class, 'index'])->name('groupes.index');
@@ -77,11 +89,11 @@ Route::middleware([
     Route::prefix('/evenements')->group(function () {
         Route::get('/', [EvenementController::class, 'index'])->name('evenements.index');
         Route::delete('/{evenement}', [EvenementController::class, 'destroy'])->name('evenements.destroy');
+        Route::put('/{evenement}', [EvenementController::class, 'update'])->name('evenements.update');
         Route::get('/create', [EvenementController::class, 'create'])->name('evenements.create');
         Route::post('/', [EvenementController::class, 'store'])->name('evenements.store');
         Route::get('/{evenement}', [EvenementController::class, 'show'])->name('evenements.show');
         Route::get('/{evenement}/edit', [EvenementController::class, 'edit'])->name('evenements.edit');
-        Route::put('/{evenement}', [EvenementController::class, 'update'])->name('evenements.update');
     });
 });
 // Route::get('/chart', [ChartController::class, 'index'])->name('chart');

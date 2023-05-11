@@ -17,7 +17,7 @@ class EvenementController extends Controller
     {
         $userId = auth()->id();
         $evenements = Evenement::all();
-        $groupes = Groupe::where('user_id', $userId)::all();
+        $groupes = Groupe::all();
 
         return Inertia::render('Evenements/Index', [
             'evenements' => $evenements,
@@ -75,18 +75,30 @@ class EvenementController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    // public function update(UpdateEvenementRequest $request, Evenement $evenement)
+    // {
+    //     $request->validated(
+    //         [
+    //             'title' => 'required',
+    //             'description' => 'required',
+    //             'start' => 'required',
+    //             'end' => 'required',
+    //             'location' => 'required',
+    //         ]
+    //     );
+    //     $evenement->update($request->all());
+    //     return redirect()->back()->with('success', 'Evenement updated.');
+    // }
+
     public function update(UpdateEvenementRequest $request, Evenement $evenement)
     {
-        $request->validated(
-            [
-                'title' => 'required',
-                'description' => 'required',
-                'start' => 'required',
-                'end' => 'required',
-                'location' => 'required',
-            ]
-        );
-        $evenement->update($request->all());
+        $request->validate([
+            'start' => 'required',
+            'end' => 'required',
+        ]);
+
+        $evenement->update($request->only('start', 'end'));
+
         return redirect()->back()->with('success', 'Evenement updated.');
     }
 
