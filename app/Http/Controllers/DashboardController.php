@@ -15,9 +15,11 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $groupes_count = Groupe::count();
-        $adherants_count = Adherant::count();
-        $stock_count = Stock::count();
+        $userId = auth()->id();
+        $groupes_count = Groupe::where('user_id', $userId)->count();
+        $adherants_count = Adherant::where('user_id', $userId)->count();
+        $stock_count = Stock::where('user_id', $userId)->count();
+
 
         return Inertia::render('Dashboard', [
             'groupes_count' => $groupes_count,

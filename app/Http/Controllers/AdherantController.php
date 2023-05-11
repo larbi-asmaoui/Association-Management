@@ -17,8 +17,10 @@ class AdherantController extends Controller
      */
     public function index()
     {
+        $userId = auth()->id();
         return Inertia::render('Adherants/Index', [
             'adherants' => Adherant::query()
+                ->where('user_id', $userId)
                 ->when(Request::input('search'), function ($query, $search) {
                     $query->where('first_name', 'like', '%' . $search . '%')
                         ->OrWhere('last_name', 'like', '%' . $search . '%')

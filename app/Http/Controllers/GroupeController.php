@@ -15,9 +15,11 @@ class GroupeController extends Controller
      */
     public function index()
     {
+        $userId = auth()->id();
         return Inertia::render('Groupes/Index', [
             // 'groupes' => $groupes,
             'groupes' => Groupe::query()
+                ->where('user_id', $userId)
                 ->when(Request::input('search'), function ($query, $search) {
                     $query->where('name', 'like', '%' . $search . '%')
                         ->OrWhere('description', 'like', '%' . $search . '%');

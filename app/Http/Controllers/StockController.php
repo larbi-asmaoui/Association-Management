@@ -14,8 +14,10 @@ class StockController extends Controller
      */
     public function index()
     {
+        $userId = auth()->id();
         return Inertia::render('Stocks/Index', [
             'stocks' => Stock::query()
+                ->where('user_id', $userId)
                 ->when(\Illuminate\Support\Facades\Request::input('search'), function ($query, $search) {
                     $query->where('name', 'like', '%' . $search . '%')
                         ->OrWhere('type', 'like', '%' . $search . '%');
