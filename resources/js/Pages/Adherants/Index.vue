@@ -13,7 +13,7 @@
                     />
                     <button
                         @click="isModalOpen = true"
-                        class="px-6 py-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+                        class="px-6 py-3 font-medium tracking-wide text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none"
                     >
                         Ajouter Adhérant
                     </button>
@@ -314,10 +314,13 @@
                         >
                             <tr>
                                 <th scope="col" class="px-6 py-3">#</th>
-                                <th scope="col" class="px-6 py-3">Prenom</th>
+                                <th scope="col" class="px-6 py-3">Prénom</th>
                                 <th scope="col" class="px-6 py-3">Nom</th>
                                 <th scope="col" class="px-6 py-3">CIN</th>
                                 <th scope="col" class="px-6 py-3">Tel</th>
+                                <th scope="col" class="px-6 py-3">
+                                    Date d'adhésion
+                                </th>
                                 <th scope="col" class="px-6 py-3">Actions</th>
                             </tr>
                         </thead>
@@ -352,6 +355,12 @@
                                     class="px-6 py-4 font-medium whitespace-nowrap"
                                 >
                                     {{ adherant.tel }}
+                                </th>
+                                <th
+                                    scope="row"
+                                    class="px-6 py-4 font-medium whitespace-nowrap"
+                                >
+                                    {{ adherant.created_at }}
                                 </th>
                                 <td>
                                     <div class="flex justify-center">

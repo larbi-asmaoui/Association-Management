@@ -13,7 +13,7 @@
 
                     <button
                         @click="isModalOpen = true"
-                        class="px-6 py-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+                        class="px-6 py-3 font-medium tracking-wide text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none"
                     >
                         Ajouter Stock
                     </button>
@@ -222,7 +222,7 @@
                                 <th scope="col" class="px-6 py-3">Type</th>
                                 <th scope="col" class="px-6 py-3">Quantité</th>
                                 <th scope="col" class="px-6 py-3">
-                                    Prix unitaire
+                                    Prix unitaire (DH)
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Date d'achat
