@@ -15,7 +15,7 @@
                         @click="isModalOpen = true"
                         class="px-6 py-3 font-medium tracking-wide text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none"
                     >
-                        Ajouter Adhérant
+                        Ajouter adhérant
                     </button>
 
                     <!-- Main -->
@@ -64,8 +64,30 @@
                                     <h3
                                         class="text-xl font-medium text-gray-900 dark:text-white"
                                     >
-                                        Ajouter Un Adhérant
+                                        Ajouter un adhérant
                                     </h3>
+
+                                    <!-- Avatar -->
+                                    <div>
+                                        <label
+                                            for="avatar"
+                                            class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                            >Profile
+                                        </label>
+                                        <Avatar
+                                            v-model="form.image"
+                                            :default-src="defaultImg"
+                                        />
+                                        <span
+                                            v-if="form.errors.image"
+                                            class="text-xs text-red-600 mt-1"
+                                            id="hs-validation-name-error-helper"
+                                        >
+                                            {{ form.errors.image }}
+                                        </span>
+                                    </div>
+
+                                    <!--  -->
                                     <div
                                         class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
                                     >
@@ -142,7 +164,7 @@
                                         <div>
                                             <label
                                                 for="cin"
-                                                class="block text-sm text-gray-700 font-medium dark:text-white"
+                                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
                                                 >Sexe</label
                                             >
                                             <div class="flex gap-x-6">
@@ -264,6 +286,30 @@
                                     </div>
                                     <div>
                                         <label
+                                            for="date_of_membership"
+                                            class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                            >Date d'adhésion
+                                        </label>
+
+                                        <input
+                                            v-model="form.date_of_membership"
+                                            type="date"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                            placeholder="Select date"
+                                            name="date_of_membership"
+                                        />
+                                        <span
+                                            v-if="
+                                                form.errors.date_of_membership
+                                            "
+                                            class="text-xs text-red-600 mt-1"
+                                            id="hs-validation-name-error-helper"
+                                        >
+                                            {{ form.errors.date_of_membership }}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <label
                                             for="hs-about-hire-us-1"
                                             class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
                                             >Addresse</label
@@ -272,7 +318,7 @@
                                             v-model="form.address"
                                             id="address"
                                             name="address"
-                                            rows="2"
+                                            rows="3"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                         ></textarea>
                                         <span
@@ -499,17 +545,21 @@ export default {
 </script>
 
 <script setup>
+import defaultImg from "../../../assets/image.jpeg";
 import { ref } from "vue";
 import { watch } from "vue";
 import { router } from "@inertiajs/vue3";
 import Pagination from "../../Components/Pagination.vue";
+import Avatar from "../../Components/Avatar.vue";
 
 import { useForm } from "@inertiajs/vue3";
 
 const form = useForm({
+    image: "",
     first_name: "",
     last_name: "",
     date_of_birth: null,
+    date_of_membership: null,
     sexe: null,
     cin: null,
     address: null,
@@ -528,6 +578,7 @@ const destroy = (id) => {
 
 const submit = () => {
     form.post(route("adherants.store"), {
+        forceFormData: true,
         preserveScroll: true,
         onSuccess: () => closeModal(),
     });

@@ -41,14 +41,33 @@ class DashboardController extends Controller
         $adherants_count = Adherant::where('user_id', $userId)->count();
         $stock_count = Stock::where('user_id', $userId)->count();
         $events_count = Evenement::all()->count();
+        // $events_count = Evenement::where('user_id', $userId)->count();
         $groupesData = $this->getGroupesData();
+        $calculateStockTotal = $this->calculateStockTotal();
 
         return Inertia::render('Dashboard', [
             'groupes_count' => $groupes_count,
             'adherants_count' => $adherants_count,
             'stock_count' => $stock_count,
             'events_count' => $events_count,
-            'groupesData' => $groupesData, // Pass groupesData to Inertia
+            'groupesData' => $groupesData,
+            'calculateStockTotal' => $calculateStockTotal
         ]);
+    }
+
+    public function calculateStockTotal()
+    {
+        $userId = auth()->id();
+
+        // Get all stocks for the current user
+        $stocks = Stock::where('user_id', $userId)->get();
+
+        // Calculate the total
+        $total = 0;
+        foreach ($stocks as $stock) {
+            $total += $stock->quantity * $stock->pricePerUnit;
+        }
+
+        return $total;
     }
 }

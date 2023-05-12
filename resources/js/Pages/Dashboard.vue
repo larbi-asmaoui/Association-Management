@@ -29,6 +29,9 @@ const props = defineProps({
     events_count: {
         type: Number,
     },
+    calculateStockTotal: {
+        type: Number,
+    },
 });
 
 const pageProps = usePage().props;

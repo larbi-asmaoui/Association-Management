@@ -47,15 +47,22 @@ class AdherantController extends Controller
     {
         $formFields = $request->validate(
             [
+                'image' => 'required|image',
                 'first_name' => 'required',
                 'last_name' => 'required',
+                'sexe' => 'required',
                 'cin' => 'required',
                 'tel' => 'required',
                 'date_of_birth' => 'required',
+                'date_of_membership' => 'required',
                 'address' => 'required',
             ]
         );
         $formFields['user_id'] = auth()->id();
+
+        if ($request->hasFile('image')) {
+            $formFields['image'] = $request->file('image')->store('images');
+        }
 
         Adherant::create($formFields);
         return redirect()->back()->with('success', 'Adherant created.');
@@ -82,18 +89,25 @@ class AdherantController extends Controller
      */
     public function update(UpdateAdherantRequest $request, Adherant $adherant)
     {
-        $request->validated(
+        $formFields = $request->validate(
             [
+                'image' => 'required|image',
                 'first_name' => 'required',
                 'last_name' => 'required',
+                'sexe' => 'required',
                 'cin' => 'required',
                 'tel' => 'required',
-                'sexe' => 'required',
                 'date_of_birth' => 'required',
+                'date_of_membership' => 'required',
                 'address' => 'required',
             ]
         );
-        $adherant->update($request->all());
+
+        if ($request->hasFile('image')) {
+            $formFields['image'] = $request->file('image')->store('images');
+        }
+
+        $adherant->update($formFields);
         return redirect()->route('adherants.index')->with('success', 'Adherant updated.');
     }
 

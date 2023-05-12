@@ -16,9 +16,10 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('cin');
+            $table->string('cin')->unique();
             $table->string('sexe');
-            $table->dateTime('date_of_birth');
+            $table->date('date_of_birth');
+            $table->date('date_of_membership');
             $table->string('address');
             $table->string('tel');
             $table->string('email')->nullable();
