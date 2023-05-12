@@ -47,7 +47,7 @@ class AdherantController extends Controller
     {
         $formFields = $request->validate(
             [
-                'image' => 'required|image',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'sexe' => 'required',
@@ -61,7 +61,7 @@ class AdherantController extends Controller
         $formFields['user_id'] = auth()->id();
 
         if ($request->hasFile('image')) {
-            $formFields['image'] = $request->file('image')->store('images');
+            $formFields['image']  = $request->file('image')->store('image', 'public');
         }
 
         Adherant::create($formFields);
@@ -91,7 +91,7 @@ class AdherantController extends Controller
     {
         $formFields = $request->validate(
             [
-                'image' => 'required|image',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'sexe' => 'required',
@@ -104,7 +104,7 @@ class AdherantController extends Controller
         );
 
         if ($request->hasFile('image')) {
-            $formFields['image'] = $request->file('image')->store('images');
+            $formFields['image']  = $request->file('image')->store('image', 'public');
         }
 
         $adherant->update($formFields);

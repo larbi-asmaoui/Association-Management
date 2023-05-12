@@ -1,5 +1,9 @@
 <template>
     <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+        <img
+            :src="showImage() + adherant.image"
+            class="object-cover h-40 w-80"
+        />
         <div class="p-6">
             <div
                 class="flex items-center space-x-2 font-semibold text-gray-900 leading-8"
@@ -172,5 +176,9 @@ const destroy = (id) => {
     if (confirm("Are you sure?")) {
         form.delete(route("adherants.destroy", id));
     }
+};
+
+const showImage = () => {
+    return "/storage/";
 };
 </script>
