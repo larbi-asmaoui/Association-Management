@@ -222,6 +222,7 @@
                                             >
                                             <!-- pattern="^0\d{9}$" -->
                                             <input
+                                                pattern="^0\d{9}$"
                                                 v-model="form.tel"
                                                 type="text"
                                                 name="tel"
@@ -377,9 +378,16 @@
                             >
                                 <th
                                     scope="row"
-                                    class="px-6 py-4 font-medium whitespace-nowrap"
+                                    class="px-3 py-3 font-medium whitespace-nowrap"
                                 >
-                                    {{ adherant.id }}
+                                    <!-- {{ adherant.id }} -->
+                                    <div class="flex-shrink-0 w-10 h-10">
+                                        <img
+                                            class="w-10 h-10 rounded-full"
+                                            :src="showImage() + adherant.image"
+                                            alt="profile pic"
+                                        />
+                                    </div>
                                 </th>
                                 <th
                                     scope="row"
@@ -565,6 +573,10 @@ const form = useForm({
     address: null,
     tel: null,
 });
+
+const showImage = () => {
+    return "/storage/";
+};
 
 const show = (id) => {
     form.get(route("adherants.show", id));

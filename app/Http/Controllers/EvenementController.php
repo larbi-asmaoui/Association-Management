@@ -25,6 +25,18 @@ class EvenementController extends Controller
             // 'filters' => Request::only(['search'])
         ]);
     }
+    public function calender()
+    {
+        $userId = auth()->id();
+        $evenements = Evenement::all();
+        $groupes = Groupe::all();
+
+        return Inertia::render('Evenements/Calender', [
+            'evenements' => $evenements,
+            'groupes' => $groupes
+            // 'filters' => Request::only(['search'])
+        ]);
+    }
 
     /**
      * Show the form for creating a new resource.

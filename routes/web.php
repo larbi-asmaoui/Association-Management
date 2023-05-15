@@ -88,6 +88,7 @@ Route::middleware([
     //---------- Evenements ----------//
     Route::prefix('/evenements')->group(function () {
         Route::get('/', [EvenementController::class, 'index'])->name('evenements.index');
+        Route::get('/calendrier', [EvenementController::class, 'calender'])->name('evenements.calender');
         Route::delete('/{evenement}', [EvenementController::class, 'destroy'])->name('evenements.destroy');
         Route::put('/{evenement}', [EvenementController::class, 'update'])->name('evenements.update');
         Route::get('/create', [EvenementController::class, 'create'])->name('evenements.create');

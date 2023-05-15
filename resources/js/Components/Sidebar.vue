@@ -197,6 +197,41 @@ const inactiveClass = ref(
                 <Link
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
+                        $page.url === '/evenements/calendrier'
+                            ? activeClass
+                            : inactiveClass,
+                    ]"
+                    :href="route('evenements.calender')"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-6 h-6"
+                    >
+                        <path
+                            stroke="none"
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                        ></path>
+                        <path
+                            d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"
+                        ></path>
+                        <path d="M16 3v4"></path>
+                        <path d="M8 3v4"></path>
+                        <path d="M4 11h16"></path>
+                        <path d="M11 15h1"></path>
+                        <path d="M12 15v3"></path>
+                    </svg>
+
+                    <span class="mx-4">Calendrier</span>
+                </Link>
+
+                <Link
+                    class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
+                    :class="[
                         $page.url === '/stocks' ? activeClass : inactiveClass,
                     ]"
                     :href="route('stocks.index')"
