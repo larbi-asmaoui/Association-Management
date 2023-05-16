@@ -41,8 +41,8 @@ const calendarOptions = reactive({
     eventColor: "#4e73df",
     themeSystem: "bootstrap",
     navLinks: true,
-    editable: true,
-    selectable: true,
+    editable: false,
+    selectable: false,
     locale: "fr",
 
     events: toRaw(props.evenements),
@@ -239,7 +239,6 @@ const closeModal = () => {
     <!-- Main -->
     <div
         v-if="isModalOpen"
-        id="authentication-modal"
         class="overflow-x-hidden overflow-y-auto fixed h-modal md:h-full top-4 mt-4 left-0 right-0 md:inset-0 z-50 flex justify-center items-start"
     >
         <!-- Backdrop -->
