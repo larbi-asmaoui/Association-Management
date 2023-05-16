@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Groupe;
 use App\Models\Adherant;
+use App\Models\Cotisation;
 use App\Models\Evenement;
 use App\Models\Stock;
 use Illuminate\Http\Request;
@@ -44,6 +45,9 @@ class DashboardController extends Controller
         // $events_count = Evenement::where('user_id', $userId)->count();
         $groupesData = $this->getGroupesData();
         $calculateStockTotal = $this->calculateStockTotal();
+        // Calculate total montant
+        $totalMontant = Cotisation::sum('montant');
+        $cotisation_count = Cotisation::all()->count();
 
         return Inertia::render('Dashboard', [
             'groupes_count' => $groupes_count,
@@ -51,7 +55,9 @@ class DashboardController extends Controller
             'stock_count' => $stock_count,
             'events_count' => $events_count,
             'groupesData' => $groupesData,
-            'calculateStockTotal' => $calculateStockTotal
+            'calculateStockTotal' => $calculateStockTotal,
+            'totalMontant' => $totalMontant,
+            'cotisation_count' => $cotisation_count,
         ]);
     }
 

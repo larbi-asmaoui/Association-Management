@@ -32,6 +32,12 @@ const props = defineProps({
     calculateStockTotal: {
         type: Number,
     },
+    totalMontant: {
+        type: Number,
+    },
+    cotisation_count: {
+        type: Number,
+    },
 });
 
 const pageProps = usePage().props;
@@ -116,13 +122,17 @@ const series = ref([
     <div>
         <h3 class="text-3xl font-medium text-gray-700">Tableau de bord</h3>
         <div class="mt-4">
-            <div class="flex lg:flex-nowrap flex-wrap -mx-6">
-                <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
+            <div
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
+            >
+                <div
+                    class="card transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                >
                     <div
-                        class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm"
+                        class="flex items-center p-5 bg-white rounded shadow-sm"
                     >
                         <div
-                            class="p-3 bg-indigo-600 bg-opacity-75 rounded-full"
+                            class="p-3 rounded-full bg-indigo-600 bg-opacity-75"
                         >
                             <svg
                                 class="w-8 h-8 text-white"
@@ -157,11 +167,13 @@ const series = ref([
                     </div>
                 </div>
 
-                <div class="w-full px-6 mt-6 sm:w-1/2 xl:w-1/3 sm:mt-0">
+                <div
+                    class="card transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                >
                     <div
-                        class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm"
+                        class="flex items-center p-5 bg-white rounded shadow-sm"
                     >
-                        <div class="p-3 bg-blue-600 bg-opacity-75 rounded-full">
+                        <div class="p-3 rounded-full bg-blue-600 bg-opacity-75">
                             <svg
                                 class="w-8 h-8 text-white"
                                 viewBox="0 0 28 30"
@@ -205,11 +217,13 @@ const series = ref([
                 </div>
 
                 <!-- ------------------- -->
-                <div class="w-full px-6 mt-6 sm:w-1/2 xl:w-1/3 sm:mt-0">
+                <div
+                    class="card transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                >
                     <div
-                        class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm"
+                        class="flex items-center p-5 bg-white rounded shadow-sm"
                     >
-                        <div class="p-3 bg-pink-600 bg-opacity-75 rounded-full">
+                        <div class="p-3 rounded-full bg-teal-600 bg-opacity-75">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 class="w-8 h-8 text-white icon icon-tabler icon-tabler-calendar-event"
@@ -248,12 +262,14 @@ const series = ref([
                     </div>
                 </div>
                 <!-- ----------------------- -->
-                <div class="w-full px-6 mt-6 sm:w-1/2 xl:w-1/3 sm:mt-0">
+                <div
+                    class="card transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                >
                     <div
-                        class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm"
+                        class="flex items-center p-5 bg-white rounded shadow-sm"
                     >
                         <div
-                            class="p-3 bg-violet-600 bg-opacity-75 rounded-full"
+                            class="p-3 rounded-full bg-green-600 bg-opacity-75"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -281,10 +297,49 @@ const series = ref([
                             <h4 class="text-2xl font-semibold text-gray-700">
                                 {{ stock_count }}
                             </h4>
-                            <div class="text-gray-500">Stock</div>
+                            <div class="text-gray-500">Stocks</div>
                         </div>
                     </div>
                 </div>
+                <!-- --------------------- -->
+                <div
+                    class="card transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                >
+                    <div
+                        class="flex items-center p-5 bg-white rounded shadow-sm"
+                    >
+                        <div class="p-3 rounded-full bg-rose-600 bg-opacity-75">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="w-8 h-8 text-white icon icon-tabler icon-tabler-components"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="#ffffff"
+                                fill="none"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path
+                                    stroke="none"
+                                    d="M0 0h24v24H0z"
+                                    fill="none"
+                                />
+                                <path d="M3 12l3 3l3 -3l-3 -3z" />
+                                <path d="M15 12l3 3l3 -3l-3 -3z" />
+                                <path d="M9 6l3 3l3 -3l-3 -3z" />
+                                <path d="M9 18l3 3l3 -3l-3 -3z" />
+                            </svg>
+                        </div>
+
+                        <div class="mx-5">
+                            <h4 class="text-2xl font-semibold text-gray-700">
+                                {{ cotisation_count }}
+                            </h4>
+                            <div class="text-gray-500">Cotisations</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- --------------------- -->
             </div>
 
             <div class="mt-4">

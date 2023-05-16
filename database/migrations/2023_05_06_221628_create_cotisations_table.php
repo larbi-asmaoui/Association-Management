@@ -18,6 +18,8 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->float('montant');
+            $table->string('type');
+            $table->date('cotisation_date')->nullable();
             $table->timestamps();
         });
     }

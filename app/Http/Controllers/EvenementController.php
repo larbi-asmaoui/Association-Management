@@ -16,7 +16,7 @@ class EvenementController extends Controller
     public function index()
     {
         $userId = auth()->id();
-        $evenements = Evenement::all();
+        $evenements = Evenement::paginate(10);
         $groupes = Groupe::all();
 
         return Inertia::render('Evenements/Index', [
