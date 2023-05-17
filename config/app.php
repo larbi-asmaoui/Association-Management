@@ -172,7 +172,7 @@ return [
         App\Providers\JetstreamServiceProvider::class,
 
         // Service Provider DomPDF
-        Barryvdh\DomPDF\ServiceProvider::class
+        Barryvdh\DomPDF\ServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -190,7 +190,7 @@ return [
         // 'Example' => App\Facades\Example::class,
 
         // Facade DomPDF
-        "PDF" => Barryvdh\DomPDF\Facade::class
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ])->toArray(),
 
 ];

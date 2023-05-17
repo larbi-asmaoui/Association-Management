@@ -8,8 +8,10 @@ export default {
 
 <script setup>
 import { ref } from "vue";
-import VueApexCharts from "vue3-apexcharts";
+
 import { usePage } from "@inertiajs/vue3";
+import ChartBar from "../Components/ChartBar.vue";
+import ChartPie from "../Components/ChartPie.vue";
 // import { Inertia } from "@inertiajs/vue3";
 
 const props = defineProps({
@@ -46,88 +48,42 @@ const groupesData = props.groupesData;
 const pieSeries = ref([35, 65]); // this represents the data you want to show on the chart
 const labels = ref(["Depenses", "Revenue"]); // these are the labels for the data
 
-var pieOptions = ref({
-    chart: {
-        width: "100%",
-        type: "pie",
-    },
-    labels: labels.value,
-    colors: ["#247BA0", "#70C1B3"], // these are the colors for each segment
-    responsive: [
+const options = ref({
+    responsive: true,
+    maintainAspectRatio: false,
+});
+
+const data = ref({
+    labels: ["Depenses", "Revenue"],
+    datasets: [
         {
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 200,
-                },
-                legend: {
-                    position: "bottom",
-                },
-            },
+            backgroundColor: ["#247BA0", "#70C1B3"],
+            data: [35, 65],
         },
     ],
 });
 
-const chartOptions = ref({
-    stroke: {
-        show: true,
-        width: 2,
-        colors: ["transparent"],
-    },
-    colors: ["#5A67D8"],
-    title: {
-        text: "Nombre de groupes créés par date",
-        align: "center",
-        style: {
-            fontSize: "14px",
-            color: "#263238",
+const dataBar = ref({
+    labels: Object.keys(groupesData),
+    datasets: [
+        {
+            label: "Nombre de groupes",
+            data: Object.values(groupesData),
+            backgroundColor: "#5A67D8",
+            borderColor: "transparent",
+            borderWidth: 2,
         },
-    },
-    chart: {
-        id: "basic-bar",
-        type: "bar",
-    },
-    plotOptions: {
-        bar: {
-            horizontal: false,
-            endingShape: "rounded",
-            columnWidth: "5%",
-        },
-    },
-    xaxis: {
-        categories: Object.keys(groupesData),
-    },
-    yaxis: {
-        title: {
-            text: "Nombre de groupes",
-        },
-        labels: {
-            formatter: (value) => {
-                return Math.round(value); // round to the nearest integer
-            },
-        }, // adjust the number of ticks as you need
-        min: 0,
-        // forceNiceScale: true,
-    },
+    ],
 });
-
-const series = ref([
-    {
-        name: "Groupes",
-        data: Object.values(groupesData),
-    },
-]);
 </script>
 <template>
     <div>
         <h3 class="text-3xl font-medium text-gray-700">Tableau de bord</h3>
         <div class="mt-4">
             <div
-                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6"
             >
-                <div
-                    class="card transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-                >
+                <div class="card transition duration-500 ease-in-out transform">
                     <div
                         class="flex items-center p-5 bg-white rounded shadow-sm"
                     >
@@ -167,9 +123,7 @@ const series = ref([
                     </div>
                 </div>
 
-                <div
-                    class="card transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-                >
+                <div class="card transition duration-500 ease-in-out transform">
                     <div
                         class="flex items-center p-5 bg-white rounded shadow-sm"
                     >
@@ -217,9 +171,7 @@ const series = ref([
                 </div>
 
                 <!-- ------------------- -->
-                <div
-                    class="card transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-                >
+                <div class="card transition duration-500 ease-in-out transform">
                     <div
                         class="flex items-center p-5 bg-white rounded shadow-sm"
                     >
@@ -262,9 +214,7 @@ const series = ref([
                     </div>
                 </div>
                 <!-- ----------------------- -->
-                <div
-                    class="card transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-                >
+                <div class="card transition duration-500 ease-in-out transform">
                     <div
                         class="flex items-center p-5 bg-white rounded shadow-sm"
                     >
@@ -302,9 +252,7 @@ const series = ref([
                     </div>
                 </div>
                 <!-- --------------------- -->
-                <div
-                    class="card transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-                >
+                <div class="card transition duration-500 ease-in-out transform">
                     <div
                         class="flex items-center p-5 bg-white rounded shadow-sm"
                     >
@@ -323,11 +271,14 @@ const series = ref([
                                     stroke="none"
                                     d="M0 0h24v24H0z"
                                     fill="none"
-                                />
-                                <path d="M3 12l3 3l3 -3l-3 -3z" />
-                                <path d="M15 12l3 3l3 -3l-3 -3z" />
-                                <path d="M9 6l3 3l3 -3l-3 -3z" />
-                                <path d="M9 18l3 3l3 -3l-3 -3z" />
+                                ></path>
+                                <path
+                                    d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"
+                                ></path>
+                                <path
+                                    d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 1 0 0 4h2a2 2 0 1 1 0 4h-2a2 2 0 0 1 -1.8 -1"
+                                ></path>
+                                <path d="M12 7v10"></path>
                             </svg>
                         </div>
 
@@ -343,22 +294,15 @@ const series = ref([
             </div>
 
             <div class="mt-4">
-                <div class="grid gap-6 xl:grid-cols-2">
-                    <div class="bg-white p-4 rounded-md">
-                        <apexchart
-                            type="bar"
-                            :options="chartOptions"
-                            :series="series"
-                        ></apexchart>
+                <div class="grid gap-6 xl:grid-cols-4">
+                    <div class="bg-white p-4 rounded-md xl:col-span-2">
+                        <ChartBar :data="dataBar" :options="options" />
                     </div>
-                    <div class="bg-white p-4 rounded-md">
-                        <div>
-                            <apexchart
-                                type="pie"
-                                :options="pieOptions"
-                                :series="pieSeries"
-                            ></apexchart>
-                        </div>
+                    <div class="bg-white p-4 rounded-md xl:col-span-1">
+                        <ChartPie :data="data" :options="options" />
+                    </div>
+                    <div class="bg-white p-4 rounded-md xl:col-span-1">
+                        <ChartPie :data="data" :options="options" />
                     </div>
                 </div>
             </div>

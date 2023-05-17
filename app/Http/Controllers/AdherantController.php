@@ -8,7 +8,8 @@ use App\Models\Adherant;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Dompdf\Dompdf;
+// use Dompdf\Dompdf;
+use Illuminate\Support\Facades\Response;
 
 class AdherantController extends Controller
 {
@@ -123,14 +124,13 @@ class AdherantController extends Controller
 
     public function printAdherentCard(Adherant $adherant)
     {
-
-        $dompdf = new Dompdf();
-        $dompdf->setPaper('A4', 'landscape');
-
         $data = [
             'adherant' => $adherant,
         ];
-        $pdf = Pdf::loadView('adherants.card', $data);
-        return $pdf->download('adherent_card_' . $adherant->id . '.pdf');
+
+        $pdf = PDF::loadView('adherants.card', $data);
+        return response()->streamDownload(function () use ($pdf, $adherant) {
+            echo $pdf->output();
+        }, 'adherent_card_' . $adherant->id . '.pdf', ['Content-Type' => 'application/pdf']);
     }
 }

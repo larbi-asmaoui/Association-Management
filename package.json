@@ -25,10 +25,12 @@
         "@fullcalendar/timegrid": "^6.1.6",
         "@fullcalendar/vue3": "^6.1.6",
         "apexcharts": "^3.39.0",
+        "chart.js": "^4.3.0",
         "filepond": "^4.30.4",
         "install": "^0.13.0",
         "moment": "^2.29.4",
         "npm": "^9.6.6",
+        "vue-chartjs": "^5.2.0",
         "vue-filepond": "^7.0.3",
         "vue-multiselect": "^2.1.7",
         "vue3-apexcharts": "^1.4.1"

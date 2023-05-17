@@ -34,7 +34,7 @@ const inactiveClass = ref(
                 </div>
             </div>
 
-            <nav class="mt-20">
+            <nav class="mt-10">
                 <Link
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
@@ -117,6 +117,74 @@ const inactiveClass = ref(
                     </svg>
 
                     <span class="mx-4">Cotisations</span>
+                </Link>
+
+                <Link
+                    class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
+                    :class="[
+                        $page.url === '/cotisations'
+                            ? activeClass
+                            : inactiveClass,
+                    ]"
+                    :href="route('cotisations.index')"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="icon icon-tabler icon-tabler-upload w-6 h-6"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke="currentColor"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path
+                            stroke="none"
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                        ></path>
+                        <path
+                            d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"
+                        ></path>
+                        <path d="M7 11l5 5l5 -5"></path>
+                        <path d="M12 4l0 12"></path>
+                    </svg>
+
+                    <span class="mx-4">Revenues</span>
+                </Link>
+
+                <Link
+                    class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
+                    :class="[
+                        $page.url === '/cotisations'
+                            ? activeClass
+                            : inactiveClass,
+                    ]"
+                    :href="route('cotisations.index')"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="icon icon-tabler icon-tabler-upload mr-1 w-6 h-6"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke="currentColor"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path
+                            stroke="none"
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                        ></path>
+                        <path
+                            d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"
+                        ></path>
+                        <path d="M7 9l5 -5l5 5"></path>
+                        <path d="M12 4l0 12"></path>
+                    </svg>
+
+                    <span class="mx-4">Dépenses </span>
                 </Link>
 
                 <Link
