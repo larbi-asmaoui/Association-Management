@@ -7,9 +7,7 @@ use App\Http\Requests\UpdateAdherantRequest;
 use App\Models\Adherant;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
-// use Dompdf\Dompdf;
-use Illuminate\Support\Facades\Response;
+
 
 class AdherantController extends Controller
 {
@@ -92,11 +90,10 @@ class AdherantController extends Controller
     {
         $formFields = $request->validate(
             [
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'sexe' => 'required',
-                'cin' => 'required',
                 'tel' => 'required',
                 'date_of_birth' => 'required',
                 'date_of_membership' => 'required',
@@ -120,17 +117,5 @@ class AdherantController extends Controller
         $adherant->delete();
 
         return redirect()->route('adherants.index')->with('message', 'adherant est supprimé avec succès');
-    }
-
-    public function printAdherentCard(Adherant $adherant)
-    {
-        $data = [
-            'adherant' => $adherant,
-        ];
-
-        $pdf = PDF::loadView('adherants.card', $data);
-        return response()->streamDownload(function () use ($pdf, $adherant) {
-            echo $pdf->output();
-        }, 'adherent_card_' . $adherant->id . '.pdf', ['Content-Type' => 'application/pdf']);
     }
 }

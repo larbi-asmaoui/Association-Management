@@ -10,6 +10,7 @@ use App\Http\Controllers\AdherantController;
 use App\Http\Controllers\CotisationController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\EvenementController;
+use App\Http\Controllers\PrintController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +48,7 @@ Route::middleware([
         Route::delete('/{adherant}', [AdherantController::class, 'destroy'])->name('adherants.destroy');
         Route::get('/create', [AdherantController::class, 'create'])->name('adherants.create');
         Route::post('/', [AdherantController::class, 'store'])->name('adherants.store');
-        Route::get('adherants/{adherant}/print', [AdherantController::class, 'printAdherentCard'])->name('adherants.print');
+        Route::get('/{adherant}/print', [PrintController::class, 'printAdherentCard'])->name('adherants.print');
         Route::get('/{adherant}', [AdherantController::class, 'show'])->name('adherants.show');
         Route::get('/{adherant}/edit', [AdherantController::class, 'edit'])->name('adherants.edit');
         Route::put('/{adherant}', [AdherantController::class, 'update'])->name('adherants.update');

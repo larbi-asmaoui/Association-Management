@@ -30,8 +30,8 @@
 
 <body>
     <div class="card">
-        <!-- you need to replace 'path_to_image' with your actual image path or url -->
-        <img class="card-img-top" src="{{ asset('storage/' . $adherant->image) }}" alt="Card image cap">
+        <!-- <h1>{{ public_path('storage/' . $adherant->image) }}</h1> -->
+        <img src="{{ asset('storage/' . $adherant->image) }}" alt="">
         <div class="card-body text-center">
             <h5 class="card-title">{{ $adherant->first_name }} {{ $adherant->last_name }}</h5>
             <p class="card-text">CIN: {{ $adherant->cin }}</p>
