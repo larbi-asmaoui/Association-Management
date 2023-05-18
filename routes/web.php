@@ -5,12 +5,16 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\GroupeController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ChartController;
 use App\Http\Controllers\AdherantController;
 use App\Http\Controllers\CotisationController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\PrintController;
+use App\Http\Controllers\DepenseTypeController;
+use App\Http\Controllers\RevenueTypeController;
+use App\Http\Controllers\CotisationTypeController;
+use App\Http\Controllers\StockTypeController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -97,5 +101,48 @@ Route::middleware([
         Route::get('/{evenement}', [EvenementController::class, 'show'])->name('evenements.show');
         Route::get('/{evenement}/edit', [EvenementController::class, 'edit'])->name('evenements.edit');
     });
+
+    // ----------DepenseTypes----------//
+    Route::prefix('/depense-types')->group(function () {
+        Route::get('/', [DepenseTypeController::class, 'index'])->name('depense-types.index');
+        Route::delete('/{depenseType}', [DepenseTypeController::class, 'destroy'])->name('depense-types.destroy');
+        Route::get('/create', [DepenseTypeController::class, 'create'])->name('depense-types.create');
+        Route::post('/', [DepenseTypeController::class, 'store'])->name('depense-types.store');
+        Route::get('/{depenseType}', [DepenseTypeController::class, 'show'])->name('depense-types.show');
+        Route::get('/{depenseType}/edit', [DepenseTypeController::class, 'edit'])->name('depense-types.edit');
+        Route::put('/{depenseType}', [DepenseTypeController::class, 'update'])->name('depense-types.update');
+    });
+
+    // ----------RevenueTypes----------//
+    Route::prefix('/revenue-types')->group(function () {
+        Route::get('/', [RevenueTypeController::class, 'index'])->name('revenue-types.index');
+        Route::delete('/{revenueType}', [RevenueTypeController::class, 'destroy'])->name('revenue-types.destroy');
+        Route::get('/create', [RevenueTypeController::class, 'create'])->name('revenue-types.create');
+        Route::post('/', [RevenueTypeController::class, 'store'])->name('revenue-types.store');
+        Route::get('/{revenueType}', [RevenueTypeController::class, 'show'])->name('revenue-types.show');
+        Route::get('/{revenueType}/edit', [RevenueTypeController::class, 'edit'])->name('revenue-types.edit');
+        Route::put('/{revenueType}', [RevenueTypeController::class, 'update'])->name('revenue-types.update');
+    });
+
+    // ----------CotisationTypes----------//
+    Route::prefix('/cotisation-types')->group(function () {
+        Route::get('/', [CotisationTypeController::class, 'index'])->name('cotisation-types.index');
+        Route::delete('/{cotisationType}', [CotisationTypeController::class, 'destroy'])->name('cotisation-types.destroy');
+        Route::get('/create', [CotisationTypeController::class, 'create'])->name('cotisation-types.create');
+        Route::post('/', [CotisationTypeController::class, 'store'])->name('cotisation-types.store');
+        Route::get('/{cotisationType}', [CotisationTypeController::class, 'show'])->name('cotisation-types.show');
+        Route::get('/{cotisationType}/edit', [CotisationTypeController::class, 'edit'])->name('cotisation-types.edit');
+        Route::put('/{cotisationType}', [CotisationTypeController::class, 'update'])->name('cotisation-types.update');
+    });
+
+    // ----------StockTypes----------//
+    Route::prefix('/stock-types')->group(function () {
+        Route::get('/', [StockTypeController::class, 'index'])->name('stock-types.index');
+        Route::delete('/{stockType}', [StockTypeController::class, 'destroy'])->name('stock-types.destroy');
+        Route::get('/create', [StockTypeController::class, 'create'])->name('stock-types.create');
+        Route::post('/', [StockTypeController::class, 'store'])->name('stock-types.store');
+        Route::get('/{stockType}', [StockTypeController::class, 'show'])->name('stock-types.show');
+        Route::get('/{stockType}/edit', [StockTypeController::class, 'edit'])->name('stock-types.edit');
+        Route::put('/{stockType}', [StockTypeController::class, 'update'])->name('stock-types.update');
+    });
 });
-// Route::get('/chart', [ChartController::class, 'index'])->name('chart');

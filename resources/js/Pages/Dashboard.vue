@@ -44,9 +44,6 @@ const props = defineProps({
 
 const pageProps = usePage().props;
 const groupesData = props.groupesData;
-// Your chart data
-const pieSeries = ref([35, 65]); // this represents the data you want to show on the chart
-const labels = ref(["Depenses", "Revenue"]); // these are the labels for the data
 
 const options = ref({
     responsive: true,

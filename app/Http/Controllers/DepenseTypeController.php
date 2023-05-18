@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DepenseType;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DepenseTypeController extends Controller
 {
@@ -12,7 +13,18 @@ class DepenseTypeController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('DepenseTypes/Index', [
+            'filters' => \Illuminate\Support\Facades\Request::all('search', 'trashed'),
+            'depenseTypes' => DepenseType::orderBy('name')
+                ->filter(\Illuminate\Support\Facades\Request::only('search', 'trashed'))
+                ->paginate()
+                ->withQueryString()
+                ->through(fn ($depenseType) => [
+                    'id' => $depenseType->id,
+                    'name' => $depenseType->name,
+                    'deleted_at' => $depenseType->deleted_at,
+                ]),
+        ]);
     }
 
     /**
@@ -29,6 +41,12 @@ class DepenseTypeController extends Controller
     public function store(Request $request)
     {
         //
+        $depenseType = $request->validate([
+            'name' => 'required',
+        ]);
+        $depenseType['user_id'] = auth()->id();
+        DepenseType::create($depenseType);
+        return redirect()->back()->with('success', 'DepenseType created.');
     }
 
     /**
@@ -52,7 +70,13 @@ class DepenseTypeController extends Controller
      */
     public function update(Request $request, DepenseType $depenseType)
     {
-        //
+        $depenseType->update(
+            $request->validate([
+                'name' => 'required',
+            ])
+        );
+
+        return redirect()->back()->with('success', 'DepenseType updated.');
     }
 
     /**
@@ -60,6 +84,7 @@ class DepenseTypeController extends Controller
      */
     public function destroy(DepenseType $depenseType)
     {
-        //
+        $depenseType->delete();
+        return redirect()->back()->with('success', 'DepenseType deleted.');
     }
 }

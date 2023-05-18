@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RevenueType;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class RevenueTypeController extends Controller
 {
@@ -12,7 +13,18 @@ class RevenueTypeController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('RevenueTypes/Index', [
+            'filters' => \Illuminate\Support\Facades\Request::all('search', 'trashed'),
+            'revenueTypes' => RevenueType::orderBy('name')
+                ->filter(\Illuminate\Support\Facades\Request::only('search', 'trashed'))
+                ->paginate()
+                ->withQueryString()
+                ->through(fn ($revenueType) => [
+                    'id' => $revenueType->id,
+                    'name' => $revenueType->name,
+                    'deleted_at' => $revenueType->deleted_at,
+                ]),
+        ]);
     }
 
     /**
@@ -28,7 +40,13 @@ class RevenueTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $revenueType = $request->validate([
+            'name' => 'required',
+        ]);
+        $revenueType['user_id'] = auth()->id();
+        RevenueType::create($revenueType);
+        return redirect()->back()->with('success', 'RevenueType created.');
     }
 
     /**
@@ -52,7 +70,12 @@ class RevenueTypeController extends Controller
      */
     public function update(Request $request, RevenueType $revenueType)
     {
-        //
+        $revenueType->update(
+            $request->validate([
+                'name' => 'required',
+            ])
+        );
+        return redirect()->back()->with('success', 'RevenueType updated.');
     }
 
     /**
@@ -60,6 +83,7 @@ class RevenueTypeController extends Controller
      */
     public function destroy(RevenueType $revenueType)
     {
-        //
+        $revenueType->delete();
+        return redirect()->back()->with('success', 'RevenueType deleted.');
     }
 }

@@ -30,7 +30,7 @@
 
 <body>
     <div class="card">
-        <!-- <h1>{{ public_path('storage/' . $adherant->image) }}</h1> -->
+        <h1>{{ asset('storage/' . $adherant->image) }}</h1>
         <img src="{{ asset('storage/' . $adherant->image) }}" alt="">
         <div class="card-body text-center">
             <h5 class="card-title">{{ $adherant->first_name }} {{ $adherant->last_name }}</h5>

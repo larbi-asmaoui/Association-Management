@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\StockType;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class StockTypeController extends Controller
 {
@@ -12,7 +13,18 @@ class StockTypeController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('StockTypes/Index', [
+            'filters' => \Illuminate\Support\Facades\Request::all('search', 'trashed'),
+            'stockTypes' => StockType::orderBy('name')
+                ->filter(\Illuminate\Support\Facades\Request::only('search', 'trashed'))
+                ->paginate()
+                ->withQueryString()
+                ->through(fn ($stockType) => [
+                    'id' => $stockType->id,
+                    'name' => $stockType->name,
+                    'deleted_at' => $stockType->deleted_at,
+                ]),
+        ]);
     }
 
     /**
@@ -28,7 +40,13 @@ class StockTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $stockType = $request->validate([
+            'name' => 'required',
+        ]);
+        $stockType['user_id'] = auth()->id();
+        StockType::create($stockType);
+        return redirect()->back()->with('success', 'StockType created.');
     }
 
     /**
@@ -52,7 +70,13 @@ class StockTypeController extends Controller
      */
     public function update(Request $request, StockType $stockType)
     {
-        //
+        $stockType->update(
+            $request->validate([
+                'name' => 'required',
+            ])
+        );
+
+        return redirect()->back()->with('success', 'StockType updated.');
     }
 
     /**
@@ -60,6 +84,8 @@ class StockTypeController extends Controller
      */
     public function destroy(StockType $stockType)
     {
-        //
+        $stockType->delete();
+
+        return redirect()->back()->with('success', 'StockType deleted.');
     }
 }
