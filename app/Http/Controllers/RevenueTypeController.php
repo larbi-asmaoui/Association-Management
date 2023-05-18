@@ -13,18 +13,7 @@ class RevenueTypeController extends Controller
      */
     public function index()
     {
-        return Inertia::render('RevenueTypes/Index', [
-            'filters' => \Illuminate\Support\Facades\Request::all('search', 'trashed'),
-            'revenueTypes' => RevenueType::orderBy('name')
-                ->filter(\Illuminate\Support\Facades\Request::only('search', 'trashed'))
-                ->paginate()
-                ->withQueryString()
-                ->through(fn ($revenueType) => [
-                    'id' => $revenueType->id,
-                    'name' => $revenueType->name,
-                    'deleted_at' => $revenueType->deleted_at,
-                ]),
-        ]);
+        return Inertia::render('RevenueTypes/Index');
     }
 
     /**

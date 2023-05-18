@@ -1,9 +1,5 @@
 <template>
-    <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-        <img
-            :src="showImage() + adherant.image"
-            class="object-cover h-40 w-80"
-        />
+    <div class="overflow-hidden bg-white shadow-sm rounded-lg">
         <div class="p-6">
             <div
                 class="flex items-center space-x-2 font-semibold text-gray-900 leading-8"
@@ -28,6 +24,12 @@
             </div>
             <div class="text-gray-700">
                 <div class="grid md:grid-cols-2 text-sm">
+                    <div class="col-span-full mb-5">
+                        <img
+                            :src="showImage() + adherant.image"
+                            class="object-cover h-40 w-40 rounded-full mx-auto"
+                        />
+                    </div>
                     <div class="grid grid-cols-2">
                         <div class="px-4 py-2 font-semibold">Prenom</div>
                         <div class="px-4 py-2">{{ adherant.first_name }}</div>
@@ -45,31 +47,17 @@
                         <div class="px-4 py-2">{{ adherant.tel }}</div>
                     </div>
                     <div class="grid grid-cols-2">
-                        <div class="px-4 py-2 font-semibold">
-                            Current Address
-                        </div>
+                        <div class="px-4 py-2 font-semibold">Addresse</div>
                         <div class="px-4 py-2">
                             {{ adherant.address }}
                         </div>
                     </div>
                     <!-- <div class="grid grid-cols-2">
-                        <div class="px-4 py-2 font-semibold">
-                            Permanant Address
-                        </div>
+                        <div class="px-4 py-2 font-semibold">Email</div>
                         <div class="px-4 py-2">
-                            Arlington Heights, IL, Illinois
+                            {{ adherant.email }}
                         </div>
                     </div> -->
-                    <div class="grid grid-cols-2">
-                        <div class="px-4 py-2 font-semibold">Email.</div>
-                        <div class="px-4 py-2">
-                            <a
-                                class="text-blue-800"
-                                href="mailto:jane@example.com"
-                                >{{ adherant.email }}</a
-                            >
-                        </div>
-                    </div>
                     <div class="grid grid-cols-2">
                         <div class="px-4 py-2 font-semibold">
                             Date de naissance

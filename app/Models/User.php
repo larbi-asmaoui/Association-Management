@@ -74,4 +74,24 @@ class User extends Authenticatable
     {
         return $this->hasMany(Stock::class);
     }
+
+    public function stockTypes(): HasMany
+    {
+        return $this->hasMany(StockType::class);
+    }
+
+    public function revenueTypes(): HasMany
+    {
+        return $this->hasMany(RevenueType::class);
+    }
+
+    public function depenseTypes(): HasMany
+    {
+        return $this->hasMany(DepenseType::class);
+    }
+
+    public function cotisationTypes(): HasMany
+    {
+        return $this->hasMany(CotisationType::class);
+    }
 }

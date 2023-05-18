@@ -10,6 +10,11 @@ import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+
+const $toast = useToast();
+
 const props = defineProps({
     adherants: {
         type: Object,
@@ -34,7 +39,24 @@ const show = (id) => {
 
 const destroy = (id) => {
     if (confirm("Are you sure to delete?")) {
-        form.delete(route("cotisations.destroy", id));
+        form.delete(route("cotisations.destroy", id), {
+            onSuccess: () => {
+                $toast.open({
+                    message: "Cotisation supprimée avec succès",
+                    type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+            onError: () => {
+                $toast.open({
+                    message: "Erreur lors de la suppression de la cotisation",
+                    type: "error",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+        });
     }
 };
 
@@ -42,7 +64,23 @@ const submit = () => {
     form.post(route("cotisations.store"), {
         forceFormData: true,
         preserveScroll: true,
-        onSuccess: () => closeModal(),
+        onSuccess: () => {
+            closeModal();
+            $toast.open({
+                message: "Cotisation ajoutée avec succès",
+                type: "success",
+                duration: 3000,
+                dismissible: true,
+            });
+        },
+        onError: () => {
+            $toast.open({
+                message: "Erreur lors de l'ajout de la cotisation",
+                type: "error",
+                duration: 3000,
+                dismissible: true,
+            });
+        },
     });
 };
 
@@ -283,7 +321,7 @@ const closeModal = () => {
                                     scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
-                                    Montant
+                                    Montant (DH)
                                 </th>
                                 <th
                                     scope="col"

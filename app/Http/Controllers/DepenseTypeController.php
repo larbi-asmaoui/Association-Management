@@ -13,18 +13,7 @@ class DepenseTypeController extends Controller
      */
     public function index()
     {
-        return Inertia::render('DepenseTypes/Index', [
-            'filters' => \Illuminate\Support\Facades\Request::all('search', 'trashed'),
-            'depenseTypes' => DepenseType::orderBy('name')
-                ->filter(\Illuminate\Support\Facades\Request::only('search', 'trashed'))
-                ->paginate()
-                ->withQueryString()
-                ->through(fn ($depenseType) => [
-                    'id' => $depenseType->id,
-                    'name' => $depenseType->name,
-                    'deleted_at' => $depenseType->deleted_at,
-                ]),
-        ]);
+        return Inertia::render('DepenseTypes/Index');
     }
 
     /**

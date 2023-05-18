@@ -564,6 +564,10 @@ import Pagination from "../../Components/Pagination.vue";
 import Avatar from "../../Components/Avatar.vue";
 
 import { useForm } from "@inertiajs/vue3";
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+
+const $toast = useToast();
 
 const form = useForm({
     image: "",
@@ -587,7 +591,24 @@ const show = (id) => {
 
 const destroy = (id) => {
     if (confirm("Are you sure to delete?")) {
-        form.delete(route("adherants.destroy", id));
+        form.delete(route("adherants.destroy", id), {
+            onError: () => {
+                $toast.open({
+                    message: "Erreur lors de la suppression d'adhérant",
+                    type: "error",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+            onSuccess: () => {
+                $toast.open({
+                    message: "Adhérant est supprimé avec succès",
+                    type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+        });
     }
 };
 
@@ -595,7 +616,23 @@ const submit = () => {
     form.post(route("adherants.store"), {
         forceFormData: true,
         preserveScroll: true,
-        onSuccess: () => closeModal(),
+        onSuccess: () => {
+            closeModal();
+            $toast.open({
+                message: "Adhérant est ajouté avec succès",
+                type: "success",
+                duration: 3000,
+                dismissible: true,
+            });
+        },
+        onError: () => {
+            $toast.open({
+                message: "Erreur lors de l'ajout d'adhérant",
+                type: "error",
+                duration: 3000,
+                dismissible: true,
+            });
+        },
     });
 };
 

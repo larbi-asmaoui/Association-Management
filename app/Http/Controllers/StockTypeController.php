@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\StockType;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 class StockTypeController extends Controller
 {
@@ -13,17 +13,14 @@ class StockTypeController extends Controller
      */
     public function index()
     {
+        $userId = auth()->id();
         return Inertia::render('StockTypes/Index', [
-            'filters' => \Illuminate\Support\Facades\Request::all('search', 'trashed'),
-            'stockTypes' => StockType::orderBy('name')
-                ->filter(\Illuminate\Support\Facades\Request::only('search', 'trashed'))
-                ->paginate()
-                ->withQueryString()
-                ->through(fn ($stockType) => [
-                    'id' => $stockType->id,
-                    'name' => $stockType->name,
-                    'deleted_at' => $stockType->deleted_at,
-                ]),
+            'stockTypes' => StockType::query()
+                ->where('user_id', $userId)
+                ->when(\Illuminate\Support\Facades\Request::input('search'), function ($query, $search) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                })->paginate(5)
+                ->appends(\Illuminate\Support\Facades\Request::all()),
         ]);
     }
 

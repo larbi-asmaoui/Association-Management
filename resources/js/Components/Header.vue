@@ -116,7 +116,7 @@ const logout = () => {
                         </div>
                     </DropdownLink>
                     <div class="border-t border-gray-200" />
-                    <DropdownLink :href="route('profile.show')">
+                    <DropdownLink :href="route('stock-types.index')">
                         <div class="flex justify-start items-end">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -145,7 +145,7 @@ const logout = () => {
                         </div>
                     </DropdownLink>
                     <div class="border-t border-gray-200" />
-                    <DropdownLink :href="route('profile.show')">
+                    <DropdownLink :href="route('revenue-types.index')">
                         <div class="flex justify-start items-end">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -172,7 +172,7 @@ const logout = () => {
                         </div>
                     </DropdownLink>
                     <div class="border-t border-gray-200" />
-                    <DropdownLink :href="route('profile.show')">
+                    <DropdownLink :href="route('depense-types.index')">
                         <div class="flex justify-start items-end">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

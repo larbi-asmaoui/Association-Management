@@ -105,6 +105,11 @@
                                             </label>
 
                                             <input
+                                                :min="
+                                                    new Date()
+                                                        .toISOString()
+                                                        .split('T')[0]
+                                                "
                                                 v-model="form.start"
                                                 lang="fr-FR"
                                                 type="date"
@@ -123,6 +128,11 @@
 
                                             <input
                                                 lang="fr-CA"
+                                                :min="
+                                                    new Date()
+                                                        .toISOString()
+                                                        .split('T')[0]
+                                                "
                                                 v-model="form.end"
                                                 type="date"
                                                 class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
@@ -451,6 +461,11 @@ export default {
 import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+
+const $toast = useToast();
+
 const props = defineProps({
     evenements: {
         type: Object,
@@ -473,10 +488,24 @@ const form = useForm({
 
 const submit = () => {
     form.post(route("evenements.store"), {
+        onError: () => {
+            $toast.open({
+                message: "Une erreur s'est produite",
+                type: "error",
+                dismissible: true,
+                duration: 3000,
+            });
+        },
         onSuccess: () => {
             closeModal();
-            form.reset("title", "description", "start", "end", "location");
-            page.value.$inertia.$refresh(); // This will refresh the page
+            $toast.open({
+                message: "Évènement ajouté avec succès",
+                type: "success",
+                dismissible: true,
+                duration: 3000,
+            });
+            // form.reset("title", "description", "start", "end", "location");
+            // page.value.$inertia.$refresh(); // This will refresh the page
         },
     });
 };
@@ -486,10 +515,6 @@ const isDropdownOpen = ref(false);
 
 const toggleDropdown = () => {
     isDropdownOpen.value = !isDropdownOpen.value;
-};
-
-const toggleModal = () => {
-    isModalOpen.value = !isModalOpen.value;
 };
 
 const closeModal = () => {
