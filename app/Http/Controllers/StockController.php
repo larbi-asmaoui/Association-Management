@@ -7,6 +7,7 @@ use App\Models\StockType;
 // use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Barryvdh\Debugbar\Facades\Debugbar;
 
 class StockController extends Controller
 {
@@ -52,7 +53,6 @@ class StockController extends Controller
 
         $stock = $request->validate([
             'name' => 'required',
-            'type' => 'required',
             'purchase_date' => 'required',
             'quantity' => 'required',
             'price_per_unit' => 'required',
@@ -60,13 +60,13 @@ class StockController extends Controller
         ]);
 
         // $stock = $request->all()
-        dd($stock);
 
         $stock['user_id'] = auth()->id();
 
         Stock::create($stock);
 
-        return redirect()->route('stocks.index')->with('message', 'stock est crée avec succès');
+
+        return redirect()->back()->with('message', 'stock est crée avec succès');
     }
 
     /**
@@ -96,7 +96,6 @@ class StockController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'type' => 'required',
             'purchase_date' => 'required',
             'quantity' => 'required',
             'price_per_unit' => 'required',
@@ -104,7 +103,7 @@ class StockController extends Controller
         ]);
         $stock->update($request->all());
 
-        return redirect()->route('stocks.index')->with('message', 'stock est modifié avec succès');
+        return redirect()->back()->with('message', 'stock est modifié avec succès');
     }
 
     /**

@@ -16,7 +16,7 @@ class Stock extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function stockType(): BelongsTo
+    public function stock_type(): BelongsTo
     {
         return $this->belongsTo(StockType::class, 'stock_type_id');
     }

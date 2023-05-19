@@ -255,7 +255,7 @@
                                     {{ stock.name }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ stock.stockType.name }}
+                                    {{ stock.stock_type.name }}
                                 </td>
 
                                 <td class="px-6 py-4">
@@ -376,8 +376,8 @@ const $toast = useToast();
 
 const form = useForm({
     name: "",
-    quantity: "",
-    price_per_unit: "",
+    quantity: null,
+    price_per_unit: null,
     purchase_date: null,
     stock_type_id: null,
 });
@@ -429,6 +429,8 @@ const props = defineProps({
 
 const submit = () => {
     form.post(route("stocks.store"), {
+        forceFormData: true,
+        preserveScroll: true,
         onSuccess: () => {
             closeModal();
             $toast.open({
@@ -439,12 +441,13 @@ const submit = () => {
             });
         },
         onError: () => {
-            $toast.open({
-                message: "Erreur lors de l'ajout",
-                type: "error",
-                duration: 3000,
-                dismissible: true,
-            });
+            console.log(form);
+            // $toast.open({
+            //     message: "Erreur lors de l'ajout",
+            //     type: "error",
+            //     duration: 3000,
+            //     dismissible: true,
+            // });
         },
     });
 };
