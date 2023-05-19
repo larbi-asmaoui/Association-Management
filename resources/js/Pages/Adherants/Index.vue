@@ -360,7 +360,7 @@
                             class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
                         >
                             <tr>
-                                <th scope="col" class="px-6 py-3">#</th>
+                                <th scope="col" class="px-6 py-3"></th>
                                 <th scope="col" class="px-6 py-3">Prénom</th>
                                 <th scope="col" class="px-6 py-3">Nom</th>
                                 <th scope="col" class="px-6 py-3">CIN</th>
@@ -414,7 +414,7 @@
                                     scope="row"
                                     class="px-6 py-4 font-medium whitespace-nowrap"
                                 >
-                                    {{ adherant.created_at }}
+                                    {{ adherant.date_of_membership }}
                                 </th>
                                 <td>
                                     <div class="flex justify-center">

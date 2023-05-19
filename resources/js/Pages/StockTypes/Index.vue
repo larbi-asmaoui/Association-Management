@@ -134,6 +134,9 @@ export default {
                                 <th scope="col" class="px-6 py-3">
                                     Type de stock
                                 </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Date d'ajout
+                                </th>
                                 <th scope="col" class="px-6 py-3 text-right">
                                     Actions
                                 </th>
@@ -156,6 +159,12 @@ export default {
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                 >
                                     {{ stockType.name }}
+                                </th>
+                                <th
+                                    scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                >
+                                    {{ stockType.created_at }}
                                 </th>
                                 <th
                                     scope="row"

@@ -333,12 +333,12 @@ const closeModal = () => {
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             <tr
-                                v-for="cotisation in cotisations"
+                                v-for="(cotisation, index) in cotisations"
                                 :key="cotisation.id"
                                 class="hover:bg-gray-100 transition-colors duration-200"
                             >
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    {{ cotisation.id }}
+                                    {{ index + 1 }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{
