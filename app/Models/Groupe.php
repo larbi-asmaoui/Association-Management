@@ -16,8 +16,8 @@ class Groupe extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function getCreatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->format('d/m/Y');
-    }
+    // public function getCreatedAtAttribute($value)
+    // {
+    //     return Carbon::parse($value)->format('d/m/Y');
+    // }
 }

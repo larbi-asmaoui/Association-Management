@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Depense;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DepenseController extends Controller
 {
@@ -12,7 +13,7 @@ class DepenseController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Depenses/Index');
     }
 
     /**
@@ -28,7 +29,12 @@ class DepenseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $depense = $request->validate([
+            'name' => 'required',
+        ]);
+        $depense['user_id'] = auth()->id();
+        Depense::create($depense);
+        return redirect()->back()->with('success', 'Depense created.');
     }
 
     /**
@@ -52,7 +58,11 @@ class DepenseController extends Controller
      */
     public function update(Request $request, Depense $depense)
     {
-        //
+        $depense->update(
+            $request->validate([
+                'name' => 'required',
+            ])
+        );
     }
 
     /**
@@ -60,6 +70,7 @@ class DepenseController extends Controller
      */
     public function destroy(Depense $depense)
     {
-        //
+        $depense->delete();
+        return redirect()->back()->with('success', 'Depense deleted.');
     }
 }

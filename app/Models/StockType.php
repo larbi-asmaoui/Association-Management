@@ -14,7 +14,7 @@ class StockType extends Model
 
     public function stocks(): HasMany
     {
-        return $this->hasMany(Stock::class);
+        return $this->hasMany(Stock::class, 'stock_type_id');
     }
 
     public function user(): BelongsTo

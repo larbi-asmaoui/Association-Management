@@ -137,14 +137,15 @@ export default {
                                 <th scope="col" class="px-6 py-3">
                                     Date d'ajout
                                 </th>
-                                <th scope="col" class="px-6 py-3 text-right">
-                                    Actions
-                                </th>
+                                <th
+                                    scope="col"
+                                    class="px-6 py-3 text-right"
+                                ></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr
-                                v-for="stockType in stockTypes.data"
+                                v-for="(stockType, index) in stockTypes.data"
                                 :key="stockType.id"
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                             >
@@ -152,7 +153,7 @@ export default {
                                     scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                 >
-                                    {{ stockType.id }}
+                                    {{ index + 1 }}
                                 </th>
                                 <th
                                     scope="row"

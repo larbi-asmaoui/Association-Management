@@ -21,7 +21,7 @@ class DashboardController extends Controller
             ->where('user_id', $userId)
             ->get()
             ->groupBy(function ($date) {
-                return Carbon::parse($date->created_at)->format('Y-m-d');
+                return Carbon::parse($date->created_at)->format('d-m-y');
             });
 
         $groupesCount = [];

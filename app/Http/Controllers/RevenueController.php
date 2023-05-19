@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Revenue;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class RevenueController extends Controller
 {
@@ -12,7 +13,7 @@ class RevenueController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Revenues/Index');
     }
 
     /**
@@ -28,7 +29,13 @@ class RevenueController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $revenue = $request->validate([
+            'name' => 'required',
+        ]);
+        $revenue['user_id'] = auth()->id();
+        Revenue::create($revenue);
+        return redirect()->back()->with('success', 'Revenue created.');
     }
 
     /**
@@ -52,7 +59,13 @@ class RevenueController extends Controller
      */
     public function update(Request $request, Revenue $revenue)
     {
-        //
+        $revenue->update(
+            $request->validate([
+                'name' => 'required',
+            ])
+        );
+
+        return redirect()->back()->with('success', 'Revenue updated.');
     }
 
     /**
@@ -60,6 +73,8 @@ class RevenueController extends Controller
      */
     public function destroy(Revenue $revenue)
     {
-        //
+        $revenue->delete();
+
+        return redirect()->back()->with('success', 'Revenue deleted.');
     }
 }

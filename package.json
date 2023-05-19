@@ -27,6 +27,8 @@
         "apexcharts": "^3.39.0",
         "chart.js": "^4.3.0",
         "filepond": "^4.30.4",
+        "flowbite": "^1.6.5",
+        "flowbite-vue": "^0.0.10",
         "install": "^0.13.0",
         "moment": "^2.29.4",
         "npm": "^9.6.6",

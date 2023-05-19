@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stock;
+use App\Models\StockType;
 // use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,17 +16,25 @@ class StockController extends Controller
     public function index()
     {
         $userId = auth()->id();
+        $stockTypes = StockType::where('user_id', $userId)->get();
+
+        $stocksQuery = Stock::with('stockType')
+            ->where('user_id', $userId)
+            ->when(\Illuminate\Support\Facades\Request::input('search'), function ($query, $search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('type', 'like', '%' . $search . '%');
+            });
+
+        $stocks = $stocksQuery->paginate(5)
+            ->appends(\Illuminate\Support\Facades\Request::all());
+
         return Inertia::render('Stocks/Index', [
-            'stocks' => Stock::query()
-                ->where('user_id', $userId)
-                ->when(\Illuminate\Support\Facades\Request::input('search'), function ($query, $search) {
-                    $query->where('name', 'like', '%' . $search . '%')
-                        ->OrWhere('type', 'like', '%' . $search . '%');
-                })->paginate(5)
-                ->appends(\Illuminate\Support\Facades\Request::all()),
+            'stockTypes' => $stockTypes,
+            'stocks' => $stocks,
             // 'filters' => Request::only(['search'])
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -44,12 +53,14 @@ class StockController extends Controller
         $stock = $request->validate([
             'name' => 'required',
             'type' => 'required',
-            'purchaseDate' => 'required',
+            'purchase_date' => 'required',
             'quantity' => 'required',
-            'pricePerUnit' => 'required',
+            'price_per_unit' => 'required',
+            'stock_type_id' => 'required|exists:stock_types,id'
         ]);
 
         // $stock = $request->all()
+        dd($stock);
 
         $stock['user_id'] = auth()->id();
 
@@ -83,6 +94,14 @@ class StockController extends Controller
      */
     public function update(Request $request, Stock $stock)
     {
+        $request->validate([
+            'name' => 'required',
+            'type' => 'required',
+            'purchase_date' => 'required',
+            'quantity' => 'required',
+            'price_per_unit' => 'required',
+            'stock_type_id' => 'required|exists:stock_types,id'
+        ]);
         $stock->update($request->all());
 
         return redirect()->route('stocks.index')->with('message', 'stock est modifié avec succès');

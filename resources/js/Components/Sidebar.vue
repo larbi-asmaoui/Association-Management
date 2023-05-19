@@ -122,11 +122,9 @@ const inactiveClass = ref(
                 <Link
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
-                        $page.url === '/cotisations'
-                            ? activeClass
-                            : inactiveClass,
+                        $page.url === '/revenues' ? activeClass : inactiveClass,
                     ]"
-                    :href="route('cotisations.index')"
+                    :href="route('revenues.index')"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

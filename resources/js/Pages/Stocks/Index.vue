@@ -97,19 +97,26 @@
                                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
                                                 >Type
                                             </label>
-                                            <input
-                                                v-model="form.type"
-                                                type="text"
-                                                name="type"
-                                                id="type"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                            />
+                                            <select
+                                                v-model="form.stock_type_id"
+                                                id="stockTypes"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 appearance-none select-none relative z-10"
+                                            >
+                                                <option
+                                                    v-for="stockType in stockTypes"
+                                                    :key="stockType.id"
+                                                    :value="stockType.id"
+                                                    class="bg-white dark:bg-gray-800 py-2.5 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
+                                                >
+                                                    {{ stockType.name }}
+                                                </option>
+                                            </select>
                                             <span
-                                                v-if="form.errors.type"
+                                                v-if="form.errors.stock_type_id"
                                                 class="text-xs text-red-600 mt-1"
                                                 id="hs-validation-name-error-helper"
                                             >
-                                                {{ form.errors.type }}
+                                                {{ form.errors.stock_type_id }}
                                             </span>
                                         </div>
                                     </div>
@@ -123,18 +130,18 @@
                                             </label>
 
                                             <input
-                                                v-model="form.purchaseDate"
+                                                v-model="form.purchase_date"
                                                 type="date"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                                 placeholder="Select date"
                                                 name="purchase_date"
                                             />
                                             <span
-                                                v-if="form.errors.purchaseDate"
+                                                v-if="form.errors.purchase_date"
                                                 class="text-xs text-red-600 mt-1"
                                                 id="hs-validation-name-error-helper"
                                             >
-                                                {{ form.errors.purchaseDate }}
+                                                {{ form.errors.purchase_date }}
                                             </span>
                                         </div>
                                     </div>
@@ -167,23 +174,26 @@
 
                                         <div>
                                             <label
-                                                for="pricePerUnit"
+                                                for=" price_per_unit"
                                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
                                                 >Prix unitaire d'achat
                                             </label>
                                             <input
-                                                v-model="form.pricePerUnit"
-                                                type="text"
-                                                name="pricePerUnit"
-                                                id="pricePerUnit"
+                                                v-model="form.price_per_unit"
+                                                min="1"
+                                                type="number"
+                                                name=" price_per_unit"
+                                                id=" price_per_unit"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                             />
                                             <span
-                                                v-if="form.errors.pricePerUnit"
+                                                v-if="
+                                                    form.errors.price_per_unit
+                                                "
                                                 class="text-xs text-red-600 mt-1"
                                                 id="hs-validation-name-error-helper"
                                             >
-                                                {{ form.errors.pricePerUnit }}
+                                                {{ form.errors.price_per_unit }}
                                             </span>
                                         </div>
                                     </div>
@@ -245,7 +255,7 @@
                                     {{ stock.name }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ stock.type }}
+                                    {{ stock.stockType.name }}
                                 </td>
 
                                 <td class="px-6 py-4">
@@ -256,13 +266,13 @@
                                     scope="row"
                                     class="px-6 py-4 font-medium whitespace-nowrap"
                                 >
-                                    {{ stock.pricePerUnit }}
+                                    {{ stock.price_per_unit }}
                                 </th>
                                 <th
                                     scope="row"
                                     class="px-6 py-4 font-medium whitespace-nowrap"
                                 >
-                                    {{ stock.purchaseDate }}
+                                    {{ stock.purchase_date }}
                                 </th>
                                 <th
                                     scope="row"
@@ -359,13 +369,17 @@ export default {
 import { ref, watch } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import Pagination from "../../Components/Pagination.vue";
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+
+const $toast = useToast();
 
 const form = useForm({
     name: "",
-    type: "",
     quantity: "",
-    pricePerUnit: "",
-    purchaseDate: null,
+    price_per_unit: "",
+    purchase_date: null,
+    stock_type_id: null,
 });
 
 let isModalOpen = ref(false);
@@ -378,7 +392,24 @@ const closeModal = () => {
 
 const destroy = (id) => {
     if (confirm("Are you sure?")) {
-        form.delete(route("stocks.destroy", id));
+        form.delete(route("stocks.destroy", id), {
+            onSuccess: () => {
+                $toast.open({
+                    message: "Stock supprimé avec succès",
+                    type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+            onError: () => {
+                $toast.open({
+                    message: "Erreur lors de la suppression",
+                    type: "error",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+        });
     }
 };
 
@@ -390,15 +421,31 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
-    // filters: {
-    //     type: Object,
-    //     default: () => ({}),
-    // },
+    stockTypes: {
+        type: Object,
+        default: () => ({}),
+    },
 });
 
 const submit = () => {
     form.post(route("stocks.store"), {
-        onSuccess: () => closeModal(),
+        onSuccess: () => {
+            closeModal();
+            $toast.open({
+                message: "Stock ajouté avec succès",
+                type: "success",
+                duration: 3000,
+                dismissible: true,
+            });
+        },
+        onError: () => {
+            $toast.open({
+                message: "Erreur lors de l'ajout",
+                type: "error",
+                duration: 3000,
+                dismissible: true,
+            });
+        },
     });
 };
 
