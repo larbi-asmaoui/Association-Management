@@ -52,7 +52,6 @@ class StockController extends Controller
 
         $stock = $request->validate([
             'name' => 'required',
-            'type' => 'required',
             'purchase_date' => 'required',
             'quantity' => 'required',
             'price_per_unit' => 'required',
@@ -60,7 +59,6 @@ class StockController extends Controller
         ]);
 
         // $stock = $request->all()
-        dd($stock);
 
         $stock['user_id'] = auth()->id();
 
@@ -96,7 +94,6 @@ class StockController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'type' => 'required',
             'purchase_date' => 'required',
             'quantity' => 'required',
             'price_per_unit' => 'required',

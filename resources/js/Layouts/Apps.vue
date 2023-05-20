@@ -1,3 +1,7 @@
+<script setup>
+import { Link, Head, router } from "@inertiajs/vue3";
+</script>
+
 <template>
     <div
         class="z-50 max-w-sm my-4 overflow-hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow-lg dark:bg-gray-700 dark:divide-gray-600"
@@ -25,27 +29,33 @@
                     ></path>
                 </svg>
                 <div class="text-sm font-medium text-gray-900 dark:text-white">
-                    Sales
+                    Types de revenues
                 </div>
             </a>
-            <a
-                href="#"
+            <Link
+                :href="route('stock-types.index')"
                 class="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600"
             >
                 <svg
                     class="mx-auto mb-1 text-gray-500 w-7 h-7 dark:text-gray-400"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
+                    stroke-width="3"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                 >
-                    <path
-                        d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"
-                    ></path>
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5"></path>
+                    <path d="M12 12l8 -4.5"></path>
+                    <path d="M12 12l0 9"></path>
+                    <path d="M12 12l-8 -4.5"></path>
+                    <path d="M16 5.25l-8 4.5"></path>
                 </svg>
                 <div class="text-sm font-medium text-gray-900 dark:text-white">
-                    Users
+                    Type de stock
                 </div>
-            </a>
+            </Link>
             <a
                 href="#"
                 class="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600"
