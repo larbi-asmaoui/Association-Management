@@ -75,14 +75,20 @@ const dataBar = ref({
 </script>
 <template>
     <div>
-        <h3 class="text-3xl font-medium text-gray-700">Tableau de bord</h3>
+        <div class="mb-4">
+            <h1
+                class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
+            >
+                Tableau de board
+            </h1>
+        </div>
         <div class="mt-4">
             <div
                 class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6"
             >
                 <div class="card transition duration-500 ease-in-out transform">
                     <div
-                        class="flex items-center p-5 bg-white rounded shadow-sm"
+                        class="flex items-center p-5 bg-white rounded shadow-lg"
                     >
                         <div
                             class="p-3 rounded-full bg-indigo-600 bg-opacity-75"
@@ -122,7 +128,7 @@ const dataBar = ref({
 
                 <div class="card transition duration-500 ease-in-out transform">
                     <div
-                        class="flex items-center p-5 bg-white rounded shadow-sm"
+                        class="flex items-center p-5 bg-white rounded shadow-lg"
                     >
                         <div class="p-3 rounded-full bg-blue-600 bg-opacity-75">
                             <svg
@@ -170,7 +176,7 @@ const dataBar = ref({
                 <!-- ------------------- -->
                 <div class="card transition duration-500 ease-in-out transform">
                     <div
-                        class="flex items-center p-5 bg-white rounded shadow-sm"
+                        class="flex items-center p-5 bg-white rounded shadow-lg"
                     >
                         <div class="p-3 rounded-full bg-teal-600 bg-opacity-75">
                             <svg
@@ -213,7 +219,7 @@ const dataBar = ref({
                 <!-- ----------------------- -->
                 <div class="card transition duration-500 ease-in-out transform">
                     <div
-                        class="flex items-center p-5 bg-white rounded shadow-sm"
+                        class="flex items-center p-5 bg-white rounded shadow-lg"
                     >
                         <div
                             class="p-3 rounded-full bg-green-600 bg-opacity-75"
@@ -251,7 +257,7 @@ const dataBar = ref({
                 <!-- --------------------- -->
                 <div class="card transition duration-500 ease-in-out transform">
                     <div
-                        class="flex items-center p-5 bg-white rounded shadow-sm"
+                        class="flex items-center p-5 bg-white rounded shadow-lg"
                     >
                         <div class="p-3 rounded-full bg-rose-600 bg-opacity-75">
                             <svg
@@ -292,13 +298,19 @@ const dataBar = ref({
 
             <div class="mt-4">
                 <div class="grid gap-6 xl:grid-cols-4">
-                    <div class="bg-white p-4 rounded-md xl:col-span-2">
+                    <div
+                        class="bg-white p-4 shadow-2xl rounded-md xl:col-span-2"
+                    >
                         <ChartBar :data="dataBar" :options="options" />
                     </div>
-                    <div class="bg-white p-4 rounded-md xl:col-span-1">
+                    <div
+                        class="bg-white p-4 shadow-2xl rounded-md xl:col-span-1"
+                    >
                         <ChartPie :data="data" :options="options" />
                     </div>
-                    <div class="bg-white p-4 rounded-md xl:col-span-1">
+                    <div
+                        class="bg-white p-4 shadow-2xl rounded-md xl:col-span-1"
+                    >
                         <ChartPie :data="data" :options="options" />
                     </div>
                 </div>
