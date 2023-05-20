@@ -19,7 +19,7 @@ class StockController extends Controller
         $userId = auth()->id();
         $stockTypes = StockType::where('user_id', $userId)->get();
 
-        $stocksQuery = Stock::with('stockType')
+        $stocksQuery = Stock::with('stock_type')
             ->where('user_id', $userId)
             ->when(\Illuminate\Support\Facades\Request::input('search'), function ($query, $search) {
                 $query->where('name', 'like', '%' . $search . '%')
