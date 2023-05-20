@@ -94,4 +94,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(CotisationType::class);
     }
+
+    public function evenementTypes(): HasMany
+    {
+        return $this->hasMany(EvenementType::class);
+    }
 }

@@ -15,6 +15,7 @@ use App\Http\Controllers\RevenueTypeController;
 use App\Http\Controllers\CotisationTypeController;
 use App\Http\Controllers\StockTypeController;
 use App\Http\Controllers\RevenueController;
+use App\Http\Controllers\EvenementTypeController;
 
 
 /*
@@ -156,5 +157,18 @@ Route::middleware([
         Route::get('/{stockType}', [StockTypeController::class, 'show'])->name('stock-types.show');
         Route::get('/{stockType}/edit', [StockTypeController::class, 'edit'])->name('stock-types.edit');
         Route::put('/{stockType}', [StockTypeController::class, 'update'])->name('stock-types.update');
+    });
+
+    // ---------Evenement Types ------------ //
+    Route::prefix('/evenement-types')->group(function () {
+
+        Route::get('/', [EvenementTypeController::class, 'index'])->name('evenement-types.index');
+        Route::put('/{evenementType}', [EvenementTypeController::class, 'update'])->name('evenement-types.update');
+        Route::delete('/{evenementType}', [EvenementTypeController::class, 'destroy'])->name('evenement-types.destroy');
+        Route::get('/create', [EvenementTypeController::class, 'create'])->name('evenement-types.create');
+        Route::post('/', [EvenementTypeController::class, 'store'])->name('evenement-types.store');
+
+        Route::get('/{evenementType}', [EvenementTypeController::class, 'show'])->name('evenement-types.show');
+        Route::get('/{evenementType}/edit', [EvenementTypeController::class, 'edit'])->name('evenement-types.edit');
     });
 });

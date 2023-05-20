@@ -112,7 +112,7 @@ const logout = () => {
                                     fill="currentColor"
                                 ></circle>
                             </svg>
-                            Missions
+                            Type d'evenements
                         </div>
                     </DropdownLink>
                     <div class="border-t border-gray-200" />
