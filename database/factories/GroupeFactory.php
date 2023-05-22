@@ -17,8 +17,9 @@ class GroupeFactory extends Factory
     public function definition(): array
     {
         return [
-           "name"=>$this->faker->name(),
-           "description"=>$this->faker->paragraph(5)
+            'user_id' => 1,
+            "name" => $this->faker->name(),
+            "description" => $this->faker->paragraph(5)
         ];
     }
 }

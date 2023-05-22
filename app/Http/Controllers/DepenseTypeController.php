@@ -13,7 +13,12 @@ class DepenseTypeController extends Controller
      */
     public function index()
     {
-        return Inertia::render('DepenseTypes/Index');
+
+        $userId = auth()->id();
+        $depenseTypes = DepenseType::where('user_id', $userId)->get();
+        return Inertia::render('DepenseTypes/Index', [
+            'depenseTypes' => $depenseTypes
+        ]);
     }
 
     /**

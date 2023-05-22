@@ -28,8 +28,8 @@
                 Ajouter adhérant
             </button>
         </div>
-        <div class="max-h-[32rem]">
-            <Modal size="xl" v-if="isModalOpen" @close="closeModal">
+        <div class="">
+            <Modal size="3xl" v-if="isModalOpen" @close="closeModal">
                 <template #header>
                     <div class="flex items-center text-lg">
                         Ajouter un adhérant
@@ -37,7 +37,7 @@
                 </template>
                 <template #body>
                     <form
-                        class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2"
+                        class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
                         @submit.prevent="submit"
                     >
                         <div>
@@ -233,49 +233,53 @@
                             </div>
                         </div>
 
-                        <div>
-                            <label
-                                for="date_of_birth"
-                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Date de naissance
-                            </label>
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
+                        >
+                            <div>
+                                <label
+                                    for="date_of_birth"
+                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                    >Date de naissance
+                                </label>
 
-                            <input
-                                v-model="form.date_of_birth"
-                                type="date"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                placeholder="Select date"
-                                name="date_of_birth"
-                            />
-                            <span
-                                v-if="form.errors.date_of_birth"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.date_of_birth }}
-                            </span>
-                        </div>
-                        <div>
-                            <label
-                                for="date_of_membership"
-                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Date d'adhésion
-                            </label>
+                                <input
+                                    v-model="form.date_of_birth"
+                                    type="date"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    placeholder="Select date"
+                                    name="date_of_birth"
+                                />
+                                <span
+                                    v-if="form.errors.date_of_birth"
+                                    class="text-xs text-red-600 mt-1"
+                                    id="hs-validation-name-error-helper"
+                                >
+                                    {{ form.errors.date_of_birth }}
+                                </span>
+                            </div>
+                            <div>
+                                <label
+                                    for="date_of_membership"
+                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                    >Date d'adhésion
+                                </label>
 
-                            <input
-                                v-model="form.date_of_membership"
-                                type="date"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                placeholder="Select date"
-                                name="date_of_membership"
-                            />
-                            <span
-                                v-if="form.errors.date_of_membership"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.date_of_membership }}
-                            </span>
+                                <input
+                                    v-model="form.date_of_membership"
+                                    type="date"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    placeholder="Select date"
+                                    name="date_of_membership"
+                                />
+                                <span
+                                    v-if="form.errors.date_of_membership"
+                                    class="text-xs text-red-600 mt-1"
+                                    id="hs-validation-name-error-helper"
+                                >
+                                    {{ form.errors.date_of_membership }}
+                                </span>
+                            </div>
                         </div>
                         <div>
                             <label

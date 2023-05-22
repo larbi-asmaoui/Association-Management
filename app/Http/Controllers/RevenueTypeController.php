@@ -13,7 +13,12 @@ class RevenueTypeController extends Controller
      */
     public function index()
     {
-        return Inertia::render('RevenueTypes/Index');
+
+        $userId = auth()->id();
+        $revenueTypes = RevenueType::where('user_id', $userId)->get();
+        return Inertia::render('RevenueTypes/Index', [
+            'revenueTypes' => $revenueTypes
+        ]);
     }
 
     /**

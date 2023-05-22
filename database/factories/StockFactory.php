@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\StockType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,10 +18,12 @@ class StockFactory extends Factory
     public function definition(): array
     {
         return [
+            "user_id" => 1,
             "name" => $this->faker->name(),
-            "type" => $this->faker->word(),
+            "stock_type_id" => StockType::all()->random()->id,
+            "purchase_date" => $this->faker->date(),
             "quantity" => $this->faker->randomDigit(),
-            "pricePerUnit" => $this->faker->randomDigit(),
+            "price_per_unit" => $this->faker->randomFloat(2, 0, 1000),
 
         ];
     }
