@@ -35,7 +35,7 @@
                         <label
                             for="name"
                             class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                            >Nom du type d'évènement
+                            >Libellé
                         </label>
                         <input
                             v-model="form.name"

@@ -16,8 +16,8 @@ class CotisationController extends Controller
     public function index()
     {
         $userId = auth()->id();
-        $cotisations = Cotisation::with('adherant')->get();
-        $adherants = Adherant::all();
+        $cotisations = Cotisation::with('adherant')->paginate(5);
+        $adherants = Adherant::paginate(10);
 
         return Inertia::render('Cotisations/Index', [
             'cotisations' => $cotisations,

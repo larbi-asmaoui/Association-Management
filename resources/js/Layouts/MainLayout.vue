@@ -46,6 +46,35 @@
                     </a>
                 </div>
                 <div class="flex items-center">
+                    <Link
+                        :href="route('evenements.calender')"
+                        class="flex items-center p-2 text-base rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
+                    >
+                        <svg
+                            fill="none"
+                            stroke-width="2.5"
+                            stroke="currentColor"
+                            class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                stroke="none"
+                                d="M0 0h24v24H0z"
+                                fill="none"
+                            ></path>
+                            <path
+                                d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"
+                            ></path>
+                            <path d="M16 3v4"></path>
+                            <path d="M8 3v4"></path>
+                            <path d="M4 11h16"></path>
+                            <path d="M11 15h1"></path>
+                            <path d="M12 15v3"></path>
+                        </svg>
+                        <!-- <span class="flex-1 ml-3 whitespace-nowrap"
+                                    >Calendrier</span
+                                > -->
+                    </Link>
                     <!-- other -->
                     <Dropdown>
                         <template #trigger>
@@ -461,11 +490,11 @@
                         <li>
                             <Link
                                 :class="[
-                                    $page.url === '/revenues'
+                                    $page.url === '/depenses'
                                         ? activeClass
                                         : inactiveClass,
                                 ]"
-                                :href="route('revenues.index')"
+                                :href="route('depenses.index')"
                                 class="flex items-center p-2 text-base rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
                             >
                                 <svg
@@ -555,42 +584,9 @@
                             </Link>
                         </li>
 
-                        <li>
-                            <Link
-                                :class="[
-                                    $page.url === '/evenements/calender'
-                                        ? activeClass
-                                        : inactiveClass,
-                                ]"
-                                :href="route('evenements.calender')"
-                                class="flex items-center p-2 text-base rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
-                            >
-                                <svg
-                                    fill="none"
-                                    stroke-width="2.5"
-                                    stroke="currentColor"
-                                    class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        stroke="none"
-                                        d="M0 0h24v24H0z"
-                                        fill="none"
-                                    ></path>
-                                    <path
-                                        d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"
-                                    ></path>
-                                    <path d="M16 3v4"></path>
-                                    <path d="M8 3v4"></path>
-                                    <path d="M4 11h16"></path>
-                                    <path d="M11 15h1"></path>
-                                    <path d="M12 15v3"></path>
-                                </svg>
-                                <span class="flex-1 ml-3 whitespace-nowrap"
-                                    >Calendrier</span
-                                >
-                            </Link>
-                        </li>
+                        <!-- <li>
+
+                        </li> -->
 
                         <li>
                             <Link

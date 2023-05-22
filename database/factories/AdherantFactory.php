@@ -19,7 +19,7 @@ class AdherantFactory extends Factory
     {
         return [
             'user_id' => 1,
-            'image' => $this->faker->image(storage_path('images'), 300, 300),
+            // 'image' => $this->faker->image(storage_path('app/public/image'), 300, 300),
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'cin' => "AB12345",

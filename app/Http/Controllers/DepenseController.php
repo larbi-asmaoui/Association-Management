@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Depense;
+use App\Models\DepenseType;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,6 +15,26 @@ class DepenseController extends Controller
     public function index()
     {
         return Inertia::render('Depenses/Index');
+
+        $userId = auth()->id();
+        $depenseTypes = DepenseType::where('user_id', $userId)->get();
+
+
+        $depensesQuery = Depense::with('depense_type')
+            ->where('user_id', $userId);
+        // ->when(\Illuminate\Support\Facades\Request::input('search'), function ($query, $search) {
+        //     $query->where('type', 'like', '%' . $search . '%');
+        // });
+
+        $depenses = $depensesQuery->paginate(5)
+            ->appends(\Illuminate\Support\Facades\Request::all());
+        dd($depenses);
+
+        return Inertia::render('Depenses/Index', [
+            'depenseTypes' => $depenseTypes,
+            'depenses' => $depenses,
+            // 'filters' => Request::only(['search'])
+        ]);
     }
 
     /**
@@ -30,7 +51,9 @@ class DepenseController extends Controller
     public function store(Request $request)
     {
         $depense = $request->validate([
-            'name' => 'required',
+            'montant' => 'required',
+            'depense_date' => 'required',
+            'depense_type_id' => 'required|exists:depense_types,id',
         ]);
         $depense['user_id'] = auth()->id();
         Depense::create($depense);
@@ -60,9 +83,13 @@ class DepenseController extends Controller
     {
         $depense->update(
             $request->validate([
-                'name' => 'required',
+                'montant' => 'required',
+                'depense_date' => 'required',
+                'depense_type_id' => 'required|exists:depense_types,id',
             ])
         );
+
+        return redirect()->back()->with('success', 'Depense updated.');
     }
 
     /**

@@ -16,6 +16,7 @@ use App\Http\Controllers\CotisationTypeController;
 use App\Http\Controllers\StockTypeController;
 use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\EvenementTypeController;
+use App\Http\Controllers\DepenseController;
 
 
 /*
@@ -113,6 +114,17 @@ Route::middleware([
         Route::get('/{revenue}', [RevenueController::class, 'show'])->name('revenues.show');
         Route::get('/{revenue}/edit', [RevenueController::class, 'edit'])->name('revenues.edit');
         Route::put('/{revenue}', [RevenueController::class, 'update'])->name('revenues.update');
+    });
+
+    //-----------Depenses------------//
+    Route::prefix('/depenses')->group(function () {
+        Route::get('/', [DepenseController::class, 'index'])->name('depenses.index');
+        Route::delete('/{depense}', [DepenseController::class, 'destroy'])->name('depenses.destroy');
+        Route::get('/create', [DepenseController::class, 'create'])->name('depenses.create');
+        Route::post('/', [DepenseController::class, 'store'])->name('depenses.store');
+        Route::get('/{depense}', [DepenseController::class, 'show'])->name('depenses.show');
+        Route::get('/{depense}/edit', [DepenseController::class, 'edit'])->name('depenses.edit');
+        Route::put('/{depense}', [DepenseController::class, 'update'])->name('depenses.update');
     });
 
     // ----------DepenseTypes----------//

@@ -44,8 +44,29 @@ class DatabaseSeeder extends Seeder
             'name' => 'sécurité',
         ]);
 
+        \App\Models\EvenementType::create([
+            'user_id' => 1,
+            'name' => 'séminaire',
+        ]);
+
+        \App\Models\EvenementType::create([
+            'user_id' => 1,
+            'name' => 'conférence',
+        ]);
+
+        \App\Models\EvenementType::create([
+            'user_id' => 1,
+            'name' => 'formation',
+        ]);
+
+        \App\Models\EvenementType::create([
+            'user_id' => 1,
+            'name' => 'autres',
+        ]);
+
         \App\Models\Groupe::factory(5)->create();
         \App\Models\Adherant::factory(10)->create();
+        \App\Models\Cotisation::factory(10)->create();
 
 
 

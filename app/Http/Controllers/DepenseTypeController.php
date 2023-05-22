@@ -16,6 +16,7 @@ class DepenseTypeController extends Controller
 
         $userId = auth()->id();
         $depenseTypes = DepenseType::where('user_id', $userId)->get();
+
         return Inertia::render('DepenseTypes/Index', [
             'depenseTypes' => $depenseTypes
         ]);
