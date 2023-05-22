@@ -39,14 +39,9 @@
                         </svg>
                     </button>
                     <a href="#" class="flex ml-2 md:mr-24">
-                        <!-- <img
-                            src="/images/logo.svg"
-                            class="h-8 mr-3"
-                            alt="FlowBite Logo"
-                        /> -->
                         <span
                             class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white"
-                            >Logo</span
+                            >Association</span
                         >
                     </a>
                 </div>
@@ -589,7 +584,7 @@
     </aside>
 
     <div
-        class="relative h-screen overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900"
+        class="relative h-screen overflow-y-auto bg-slate-200 lg:ml-64 dark:bg-gray-900"
     >
         <main>
             <div class="px-4 py-6">
@@ -606,7 +601,6 @@ import { useSidebar } from "../hooks/useSidebar";
 import { Link, Head, router } from "@inertiajs/vue3";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
-import Apps from "./Apps.vue";
 const { isOpen } = useSidebar();
 
 const logout = () => {

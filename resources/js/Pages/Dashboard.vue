@@ -40,35 +40,66 @@ const props = defineProps({
     cotisation_count: {
         type: Number,
     },
+    stocksGroupedByType: {
+        type: Object,
+        default: () => ({}),
+    },
+    totalStockValue: {
+        type: Number,
+    },
+    totalCotisationValue: {
+        type: Number,
+    },
 });
 
 const pageProps = usePage().props;
-const groupesData = props.groupesData;
+const stocksGroupedByType = props.stocksGroupedByType;
 
 const options = ref({
     responsive: true,
     maintainAspectRatio: false,
+    plugins: {
+        title: {
+            display: true,
+            text: "Test Pie Chart",
+        },
+    },
+});
+
+const barOptions = ref({
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+        y: {
+            ticks: {
+                stepSize: 1,
+                beginAtZero: true,
+            },
+        },
+    },
 });
 
 const data = ref({
-    labels: ["Depenses", "Revenue"],
+    labels: ["Stocks (DH)", "Cotisations (DH)"],
     datasets: [
         {
             backgroundColor: ["#247BA0", "#70C1B3"],
-            data: [35, 65],
+            data: [props.totalStockValue, props.totalCotisationValue],
         },
     ],
 });
 
 const dataBar = ref({
-    labels: Object.keys(groupesData),
+    labels: Object.keys(stocksGroupedByType),
     datasets: [
         {
-            label: "Nombre de groupes",
-            data: Object.values(groupesData),
+            label: "Stocks groupés par type",
+            data: Object.values(stocksGroupedByType).map(
+                (stocks) => stocks.length
+            ),
             backgroundColor: "#5A67D8",
             borderColor: "transparent",
-            borderWidth: 2,
+            borderWidth: 1,
         },
     ],
 });
@@ -301,7 +332,7 @@ const dataBar = ref({
                     <div
                         class="bg-white p-4 shadow-2xl rounded-md xl:col-span-2"
                     >
-                        <ChartBar :data="dataBar" :options="options" />
+                        <ChartBar :data="dataBar" :options="barOptions" />
                     </div>
                     <div
                         class="bg-white p-4 shadow-2xl rounded-md xl:col-span-1"

@@ -7,9 +7,11 @@ use App\Models\Adherant;
 use App\Models\Cotisation;
 use App\Models\Evenement;
 use App\Models\Stock;
+use App\Models\StockType;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -48,6 +50,10 @@ class DashboardController extends Controller
         // Calculate total montant
         $totalMontant = Cotisation::sum('montant');
         $cotisation_count = Cotisation::all()->count();
+        $stocksGroupedByType = $this->getStocksGroupedByType();
+        // ------------------------------------------------ //
+        $totalStockValue = Stock::where('user_id', $userId)->sum(DB::raw('price_per_unit * quantity'));
+        $totalCotisationValue = Cotisation::sum('montant');
 
         return Inertia::render('Dashboard', [
             'groupes_count' => $groupes_count,
@@ -58,6 +64,9 @@ class DashboardController extends Controller
             'calculateStockTotal' => $calculateStockTotal,
             'totalMontant' => $totalMontant,
             'cotisation_count' => $cotisation_count,
+            'stocksGroupedByType' => $stocksGroupedByType,
+            'totalStockValue' => $totalStockValue,
+            'totalCotisationValue' => $totalCotisationValue,
         ]);
     }
 
@@ -75,5 +84,20 @@ class DashboardController extends Controller
         }
 
         return $total;
+    }
+
+    public function getStocksGroupedByType()
+    {
+        $userId = auth()->id();
+
+        $stockTypes = StockType::with('stocks')
+            ->where('user_id', $userId)
+            ->get();
+
+        $stocksGroupedByType = $stockTypes->mapWithKeys(function ($stockType) {
+            return [$stockType->name => $stockType->stocks];
+        });
+
+        return $stocksGroupedByType;
     }
 }

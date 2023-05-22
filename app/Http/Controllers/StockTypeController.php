@@ -14,13 +14,9 @@ class StockTypeController extends Controller
     public function index()
     {
         $userId = auth()->id();
+        $stockTypes = StockType::where('user_id', $userId)->get();
         return Inertia::render('StockTypes/Index', [
-            'stockTypes' => StockType::query()
-                ->where('user_id', $userId)
-                ->when(\Illuminate\Support\Facades\Request::input('search'), function ($query, $search) {
-                    $query->where('name', 'like', '%' . $search . '%');
-                })->paginate(5)
-                ->appends(\Illuminate\Support\Facades\Request::all()),
+            'stockTypes' => $stockTypes
         ]);
     }
 

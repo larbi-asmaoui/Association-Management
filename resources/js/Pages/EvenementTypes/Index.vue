@@ -1,6 +1,6 @@
 <template>
     <div
-        class="mb-4 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
+        class="mb-4 bg-white px-4 py-4 rounded-md shadow-md justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
     >
         <h1
             class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
