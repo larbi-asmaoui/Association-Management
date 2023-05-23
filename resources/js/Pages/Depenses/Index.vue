@@ -1,111 +1,4 @@
-<script>
-import MainLayout from "../../Layouts/MainLayout.vue";
-
-export default {
-    layout: MainLayout,
-};
-</script>
-
-<script setup>
-import { ref, watch } from "vue";
-import { useForm } from "@inertiajs/vue3";
-import { Modal } from "flowbite-vue";
-import Pagination from "../../Components/Pagination.vue";
-import { useToast } from "vue-toast-notification";
-import "vue-toast-notification/dist/theme-sugar.css";
-
-const $toast = useToast();
-
-const form = useForm({
-    montant: null,
-    depense_date: null,
-    depense_type_id: null,
-});
-
-let isModalOpen = ref(false);
-
-const closeModal = () => {
-    isModalOpen.value = false;
-
-    form.reset();
-};
-
-const destroy = (id) => {
-    if (confirm("Are you sure?")) {
-        form.delete(route("depenses.destroy", id), {
-            onSuccess: () => {
-                $toast.open({
-                    message: "depense supprimé avec succès",
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-            onError: () => {
-                $toast.open({
-                    message: "Erreur lors de la suppression",
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-        });
-    }
-};
-
-const show = (id) => {
-    form.get(route("depenses.show", id));
-};
-const props = defineProps({
-    depenses: {
-        type: Object,
-        default: () => ({}),
-    },
-    depenseTypes: {
-        type: Object,
-        default: () => ({}),
-    },
-});
-
-const submit = () => {
-    form.post(route("depenses.store"), {
-        forceFormData: true,
-        preserveScroll: true,
-        onSuccess: () => {
-            closeModal();
-            $toast.open({
-                message: "depense ajouté avec succès",
-                type: "success",
-                duration: 3000,
-                dismissible: true,
-            });
-        },
-        onError: () => {
-            console.log(form);
-            // $toast.open({
-            //     message: "Erreur lors de l'ajout",
-            //     type: "error",
-            //     duration: 3000,
-            //     dismissible: true,
-            // });
-        },
-    });
-};
-
-let search = ref("");
-watch(search, (value) => {
-    router.get(
-        "/depenses",
-        { search: value },
-        {
-            preserveState: true,
-            replace: true,
-        }
-    );
-});
-</script>
 <template>
-    {{ depenseTypes }}
     <div class="bg-white px-4 py-6 shadow-md rounded-lg">
         <div class="mb-4">
             <h1
@@ -139,7 +32,13 @@ watch(search, (value) => {
         <teleport to="body">
             <Modal size="md" v-if="isModalOpen" @close="closeModal">
                 <template #header>
-                    <div class="flex items-center text-lg">Ajouter Depense</div>
+                    <div class="flex items-center text-lg">
+                        {{
+                            form.id
+                                ? "Mettre à jour un dépense"
+                                : "Ajouter un dépense"
+                        }}
+                    </div>
                 </template>
                 <template #body>
                     <form
@@ -155,6 +54,7 @@ watch(search, (value) => {
                             <input
                                 v-model="form.montant"
                                 min="1"
+                                step="0.01"
                                 type="number"
                                 name="montant"
                                 id="montant"
@@ -166,6 +66,35 @@ watch(search, (value) => {
                                 id="hs-validation-name-error-helper"
                             >
                                 {{ form.errors.montant }}
+                            </span>
+                        </div>
+
+                        <div>
+                            <label
+                                for="type"
+                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                >Type
+                            </label>
+                            <select
+                                v-model="form.depense_type_id"
+                                id="depenseTypes"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 appearance-none select-none relative z-10"
+                            >
+                                <option
+                                    v-for="depenseType in depenseTypes"
+                                    :key="depenseType.id"
+                                    :value="depenseType.id"
+                                    class="bg-white dark:bg-gray-800 py-2.5 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
+                                >
+                                    {{ depenseType.name }}
+                                </option>
+                            </select>
+                            <span
+                                v-if="form.errors.depense_type_id"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.depense_type_id }}
                             </span>
                         </div>
 
@@ -215,7 +144,296 @@ watch(search, (value) => {
         </teleport>
 
         <div class="mt-4">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg"></div>
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                <div class="bg-white border-b border-gray-200">
+                    <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                    >
+                        <table
+                            class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+                        >
+                            <thead class="bg-gray-100 dark:bg-gray-700">
+                                <tr>
+                                    <th
+                                        scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        #
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        Montant (DH)
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        Type
+                                    </th>
+
+                                    <th
+                                        scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        Date d'achat
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr
+                                    v-for="depense in depenses.data"
+                                    :key="depense.id"
+                                >
+                                    <td
+                                        scope="row"
+                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                        {{ depense.id }}
+                                    </td>
+                                    <td
+                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                        {{ depense.montant }}
+                                    </td>
+                                    <td
+                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                        {{ depense.depense_type.name }}
+                                    </td>
+
+                                    <td
+                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                        {{ depense.depense_date }}
+                                    </td>
+                                    <td
+                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                        <div
+                                            class="flex item-center justify-center"
+                                        >
+                                            <!-- Eye -->
+                                            <div
+                                                @click="show(depense.id)"
+                                                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                                    ></path>
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                                    ></path>
+                                                </svg>
+                                            </div>
+
+                                            <!-- Edit -->
+                                            <div
+                                                @click="openEditModal(depense)"
+                                                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                                                    ></path>
+                                                </svg>
+                                            </div>
+
+                                            <!-- Delete -->
+                                            <div
+                                                @click="destroy(depense.id)"
+                                                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                                    ></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <Pagination :data="depenses" />
+                </div>
+            </div>
         </div>
     </div>
 </template>
+<script>
+import MainLayout from "../../Layouts/MainLayout.vue";
+
+export default {
+    layout: MainLayout,
+};
+</script>
+
+<script setup>
+import { ref, watch } from "vue";
+import { useForm } from "@inertiajs/vue3";
+import { Modal } from "flowbite-vue";
+import Pagination from "../../Components/Pagination.vue";
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+
+const $toast = useToast();
+
+const form = useForm({
+    id: null,
+    montant: null,
+    depense_date: null,
+    depense_type_id: null,
+});
+
+let isModalOpen = ref(false);
+
+const closeModal = () => {
+    isModalOpen.value = false;
+
+    form.reset();
+};
+
+const openEditModal = (depense) => {
+    form.id = depense.id;
+    form.montant = depense.montant;
+    form.depense_date = depense.depense_date;
+    form.depense_type_id = depense.depense_type_id;
+    isModalOpen.value = true;
+};
+
+const destroy = (id) => {
+    if (confirm("Are you sure?")) {
+        form.delete(route("depenses.destroy", id), {
+            onSuccess: () => {
+                $toast.open({
+                    message: "depense supprimé avec succès",
+                    type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+            onError: () => {
+                $toast.open({
+                    message: "Erreur lors de la suppression",
+                    type: "error",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+        });
+    }
+};
+
+const show = (id) => {
+    form.get(route("depenses.show", id));
+};
+const props = defineProps({
+    depenses: {
+        type: Object,
+        default: () => ({}),
+    },
+    depenseTypes: {
+        type: Object,
+        default: () => ({}),
+    },
+});
+
+const submit = () => {
+    if (form.id) {
+        form.put(route("depenses.update", form.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                closeModal();
+                $toast.open({
+                    message: "depense modifié avec succès",
+                    type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+            onError: () => {
+                $toast.open({
+                    message: "Erreur lors de la modification",
+                    type: "error",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+        });
+    } else {
+        form.post(route("depenses.store"), {
+            forceFormData: true,
+            preserveScroll: true,
+            onSuccess: () => {
+                closeModal();
+                $toast.open({
+                    message: "depense ajouté avec succès",
+                    type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+            onError: () => {
+                console.log(form.errors.depense_date);
+                console.log(form.errors.montant);
+                console.log(form.errors.depense_type_id);
+                $toast.open({
+                    message: "Erreur lors de l'ajout",
+                    type: "error",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+        });
+    }
+};
+
+let search = ref("");
+watch(search, (value) => {
+    router.get(
+        "/depenses",
+        { search: value },
+        {
+            preserveState: true,
+            replace: true,
+        }
+    );
+});
+</script>

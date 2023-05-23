@@ -13,7 +13,7 @@ export default {
         <h1
             class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
         >
-            Type de revenues
+            Type de revenue
         </h1>
         <button
             @click="isModalOpen = true"
@@ -23,11 +23,16 @@ export default {
             Ajouter un Type
         </button>
     </div>
+
     <teleport to="body">
-        <Modal size="xl" v-if="isModalOpen" @close="closeModal">
+        <Modal size="md" v-if="isModalOpen" @close="closeModal">
             <template #header>
                 <div class="flex items-center text-lg">
-                    Ajouter un type de revenue
+                    {{
+                        form.id
+                            ? "Mettre à jour un type de revenue"
+                            : "Ajouter un type de revenue"
+                    }}
                 </div>
             </template>
             <template #body>
@@ -71,13 +76,14 @@ export default {
                             type="submit"
                             class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                         >
-                            Enregistrer
+                            {{ form.id ? "Mettre à jour" : "Enregistrer" }}
                         </button>
                     </div>
                 </form></template
             ></Modal
         >
     </teleport>
+
     <div class="mt-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             <the-card v-for="revenueType in revenueTypes">
@@ -137,6 +143,7 @@ export default {
         </div>
     </div>
 </template>
+
 <script setup>
 import { Modal } from "flowbite-vue";
 import { ref } from "vue";

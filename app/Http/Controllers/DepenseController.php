@@ -14,11 +14,10 @@ class DepenseController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Depenses/Index');
+
 
         $userId = auth()->id();
         $depenseTypes = DepenseType::where('user_id', $userId)->get();
-
 
         $depensesQuery = Depense::with('depense_type')
             ->where('user_id', $userId);
@@ -28,7 +27,7 @@ class DepenseController extends Controller
 
         $depenses = $depensesQuery->paginate(5)
             ->appends(\Illuminate\Support\Facades\Request::all());
-        dd($depenses);
+
 
         return Inertia::render('Depenses/Index', [
             'depenseTypes' => $depenseTypes,
