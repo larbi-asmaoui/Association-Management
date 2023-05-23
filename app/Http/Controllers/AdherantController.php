@@ -46,7 +46,7 @@ class AdherantController extends Controller
     {
         $formFields = $request->validate(
             [
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'sexe' => 'required',

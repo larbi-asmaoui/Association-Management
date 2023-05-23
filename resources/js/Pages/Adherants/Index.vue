@@ -32,10 +32,15 @@
             <Modal size="3xl" v-if="isModalOpen" @close="closeModal">
                 <template #header>
                     <div class="flex items-center text-lg">
-                        Ajouter un adhérant
+                        {{
+                            form.id
+                                ? "Mettre à jour un adhérant"
+                                : "Ajouter un adhérant"
+                        }}
                     </div>
                 </template>
                 <template #body>
+                    image {{ form.image }}
                     <form
                         class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
                         @submit.prevent="submit"
@@ -326,10 +331,10 @@
         </div>
 
         <div class="mt-4">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                <div class="bg-white border-b border-gray-200">
+            <div class="overflow-hidden bg-white">
+                <div class="bg-white">
                     <div
-                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                        class="relative overflow-x-auto shadow-lg mb-5 sm:rounded-lg"
                     >
                         <table
                             class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
@@ -383,6 +388,7 @@
                                             :src="showImage() + adherant.image"
                                             alt=" avatar"
                                         />
+
                                         <div
                                             class="text-sm font-normal text-gray-500 dark:text-gray-400"
                                         >
@@ -444,14 +450,7 @@
 
                                             <!-- Edit -->
                                             <div
-                                                @click="
-                                                    $inertia.get(
-                                                        route(
-                                                            'adherants.edit',
-                                                            adherant.id
-                                                        )
-                                                    )
-                                                "
+                                                @click="openEditModal(adherant)"
                                                 class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                                             >
                                                 <svg
@@ -569,9 +568,10 @@ import "vue-toast-notification/dist/theme-sugar.css";
 const $toast = useToast();
 
 const form = useForm({
-    image: "",
-    first_name: "",
-    last_name: "",
+    id: null,
+    image: null,
+    first_name: null,
+    last_name: null,
     date_of_birth: null,
     date_of_membership: null,
     sexe: null,
@@ -612,27 +612,51 @@ const destroy = (id) => {
 };
 
 const submit = () => {
-    form.post(route("adherants.store"), {
-        forceFormData: true,
-        preserveScroll: true,
-        onSuccess: () => {
-            closeModal();
-            $toast.open({
-                message: "Adhérant est ajouté avec succès",
-                type: "success",
-                duration: 3000,
-                dismissible: true,
-            });
-        },
-        onError: () => {
-            $toast.open({
-                message: "Erreur lors de l'ajout d'adhérant",
-                type: "error",
-                duration: 3000,
-                dismissible: true,
-            });
-        },
-    });
+    if (form.id) {
+        console.log(form.id);
+        form.put(route("adherants.update", form.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                closeModal();
+                $toast.open({
+                    message: "Adhérant est modifié avec succès",
+                    type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+            onError: () => {
+                $toast.open({
+                    message: "Erreur lors de la modification d'adhérant",
+                    type: "error",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+        });
+    } else {
+        form.post(route("adherants.store"), {
+            // forceFormData: true,
+            preserveScroll: true,
+            onSuccess: () => {
+                closeModal();
+                $toast.open({
+                    message: "Adhérant est ajouté avec succès",
+                    type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+            onError: () => {
+                $toast.open({
+                    message: "Erreur lors de l'ajout d'adhérant",
+                    type: "error",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+        });
+    }
 };
 
 let isModalOpen = ref(false);
@@ -641,6 +665,20 @@ const closeModal = () => {
     isModalOpen.value = false;
 
     form.reset();
+};
+
+const openEditModal = (adherant) => {
+    form.id = adherant.id;
+    form.image = adherant.image;
+    form.first_name = adherant.first_name;
+    form.last_name = adherant.last_name;
+    form.date_of_birth = adherant.date_of_birth;
+    form.date_of_membership = adherant.date_of_membership;
+    form.sexe = adherant.sexe;
+    form.cin = adherant.cin;
+    form.address = adherant.address;
+    form.tel = adherant.tel;
+    isModalOpen.value = true;
 };
 
 const props = defineProps({

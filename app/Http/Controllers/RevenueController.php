@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Revenue;
+use App\Models\RevenueType;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,7 +14,26 @@ class RevenueController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Revenues/Index');
+
+
+        $userId = auth()->id();
+        $revenueTypes = RevenueType::where('user_id', $userId)->get();
+
+        $revenuesQuery = Revenue::with('revenue_type')
+            ->where('user_id', $userId);
+        // ->when(\Illuminate\Support\Facades\Request::input('search'), function ($query, $search) {
+        //     $query->where('type', 'like', '%' . $search . '%');
+        // });
+
+        $revenues = $revenuesQuery->paginate(5)
+            ->appends(\Illuminate\Support\Facades\Request::all());
+
+
+        return Inertia::render('Revenues/Index', [
+            'revenueTypes' => $revenueTypes,
+            'revenues' => $revenues,
+            // 'filters' => Request::only(['search'])
+        ]);
     }
 
     /**
@@ -29,12 +49,13 @@ class RevenueController extends Controller
      */
     public function store(Request $request)
     {
-
         $revenue = $request->validate([
-            'name' => 'required',
+            'montant' => 'required',
+            'revenue_date' => 'required',
+            'revenue_type_id' => 'required|exists:revenue_types,id',
         ]);
         $revenue['user_id'] = auth()->id();
-        Revenue::create($revenue);
+        revenue::create($revenue);
         return redirect()->back()->with('success', 'Revenue created.');
     }
 
@@ -61,7 +82,9 @@ class RevenueController extends Controller
     {
         $revenue->update(
             $request->validate([
-                'name' => 'required',
+                'montant' => 'required',
+                'Revenue_date' => 'required',
+                'Revenue_type_id' => 'required|exists:Revenue_types,id',
             ])
         );
 
@@ -74,7 +97,6 @@ class RevenueController extends Controller
     public function destroy(Revenue $revenue)
     {
         $revenue->delete();
-
         return redirect()->back()->with('success', 'Revenue deleted.');
     }
 }

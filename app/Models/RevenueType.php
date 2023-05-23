@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class RevenueType extends Model
 {
@@ -19,5 +20,9 @@ class RevenueType extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+    public function revenues(): HasMany
+    {
+        return $this->hasMany(Revenue::class, 'revenue_type_id');
     }
 }

@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('revenues', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('revenue_type_id')->constrained()->onDelete('cascade');
+            $table->double('montant');
+            $table->date('revenue_date')->nullable()->default(now());
             $table->timestamps();
         });
     }
