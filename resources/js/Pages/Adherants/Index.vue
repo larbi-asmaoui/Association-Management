@@ -329,7 +329,6 @@
             </template> -->
             </Modal>
         </div>
-
         <div class="mt-4">
             <div class="overflow-hidden bg-white">
                 <div class="bg-white">
@@ -366,10 +365,80 @@
                                         Date d'adhésion
                                     </th>
                                     <th
+                                        @click="
+                                            printJS({
+                                                printable: adherants.data,
+                                                properties: [
+                                                    {
+                                                        field: 'first_name',
+                                                        displayName: 'Prenom',
+                                                    },
+                                                    {
+                                                        field: 'last_name',
+                                                        displayName: 'Nom',
+                                                    },
+                                                    {
+                                                        field: 'sexe',
+                                                        displayName: 'Sexe',
+                                                    },
+                                                    {
+                                                        field: 'date_of_birth',
+                                                        displayName:
+                                                            'Date de naissance',
+                                                    },
+                                                    {
+                                                        field: 'date_of_membership',
+                                                        displayName:
+                                                            'Date d\'adhésion',
+                                                    },
+                                                    {
+                                                        field: 'cin',
+                                                        displayName: 'CIN',
+                                                    },
+                                                    {
+                                                        field: 'tel',
+                                                        displayName:
+                                                            'Telephone',
+                                                    },
+                                                    {
+                                                        field: 'address',
+                                                        displayName: 'Addresse',
+                                                    },
+                                                ],
+
+                                                type: 'json',
+                                            })
+                                        "
                                         scope="col"
                                         class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400"
                                     >
-                                        Actions
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-printer"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="1.5"
+                                            stroke="#2c3e50"
+                                            fill="none"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        >
+                                            <path
+                                                stroke="none"
+                                                d="M0 0h24v24H0z"
+                                                fill="none"
+                                            />
+                                            <path
+                                                d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2"
+                                            />
+                                            <path
+                                                d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4"
+                                            />
+                                            <path
+                                                d="M7 13m0 2a2 2 0 0 1 2 -2h6a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2z"
+                                            />
+                                        </svg>
                                     </th>
                                 </tr>
                             </thead>
@@ -421,6 +490,27 @@
                                     <td
                                         class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
+                                        <teleport to="#print-section">
+                                            <div v-show="false">
+                                                <h2>
+                                                    {{ adherant.first_name }}
+                                                    {{ adherant.last_name }}
+                                                </h2>
+                                                <p>CIN: {{ adherant.cin }}</p>
+                                                <p>Tel: {{ adherant.tel }}</p>
+                                                <p>
+                                                    Date of Membership:
+                                                    {{
+                                                        adherant.date_of_membership
+                                                    }}
+                                                </p>
+                                            </div>
+                                        </teleport>
+
+                                        <div
+                                            id="print-section"
+                                            style="display: none"
+                                        ></div>
                                         <div class="flex justify-center">
                                             <!-- Eye -->
                                             <div
@@ -490,48 +580,38 @@
 
                                             <!-- Print -->
                                             <div
+                                                @click="show(adherant)"
                                                 class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                                             >
-                                                <a
-                                                    :href="
-                                                        route(
-                                                            'adherants.print',
-                                                            adherant.id
-                                                        )
-                                                    "
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    class="icon icon-tabler icon-tabler-printer"
+                                                    viewBox="0 0 24 24"
+                                                    stroke-width="1.5"
+                                                    stroke="currentColor"
+                                                    fill="none"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
                                                 >
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        class="icon icon-tabler icon-tabler-printer"
-                                                        viewBox="0 0 24 24"
-                                                        stroke-width="1.5"
-                                                        stroke="currentColor"
+                                                    <path
+                                                        stroke="none"
+                                                        d="M0 0h24v24H0z"
                                                         fill="none"
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                    >
-                                                        <path
-                                                            stroke="none"
-                                                            d="M0 0h24v24H0z"
-                                                            fill="none"
-                                                        />
-                                                        <path
-                                                            d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2"
-                                                        />
-                                                        <path
-                                                            d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4"
-                                                        />
-                                                        <rect
-                                                            x="7"
-                                                            y="13"
-                                                            width="10"
-                                                            height="8"
-                                                            rx="2"
-                                                        />
-                                                    </svg>
-                                                </a>
+                                                    />
+                                                    <path
+                                                        d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2"
+                                                    />
+                                                    <path
+                                                        d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4"
+                                                    />
+                                                    <rect
+                                                        x="7"
+                                                        y="13"
+                                                        width="10"
+                                                        height="8"
+                                                        rx="2"
+                                                    />
+                                                </svg>
                                             </div>
                                         </div>
                                     </td>
@@ -555,7 +635,7 @@ export default {
 
 <script setup>
 import defaultImg from "../../../assets/image.jpeg";
-import { ref } from "vue";
+import { ref, nextTick } from "vue";
 import { watch } from "vue";
 import { router } from "@inertiajs/vue3";
 import Pagination from "../../Components/Pagination.vue";
@@ -564,6 +644,24 @@ import { Modal } from "flowbite-vue";
 import { useForm } from "@inertiajs/vue3";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
+import printJS from "print-js";
+import AdherentInfo from "./AdherantInfo.vue";
+
+let printableAdherent = ref(null);
+let selectedAdherant = ref(null);
+const show = (adherant) => {
+    selectedAdherant.value = adherant;
+    printContent();
+};
+
+const printContent = async () => {
+    await nextTick();
+    printJS({
+        printable: document.querySelector("#print-section").innerHTML,
+        type: "html",
+        header: "Adherant Information",
+    });
+};
 
 const $toast = useToast();
 
@@ -582,10 +680,6 @@ const form = useForm({
 
 const showImage = () => {
     return "/storage/";
-};
-
-const show = (id) => {
-    form.get(route("adherants.show", id));
 };
 
 const destroy = (id) => {

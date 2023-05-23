@@ -4,7 +4,7 @@
             <h1
                 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
             >
-                Depenses
+                Dépenses
             </h1>
         </div>
         <div
@@ -103,7 +103,7 @@
                                 <label
                                     for="depense_date"
                                     class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                    >Date d'ajout
+                                    >Date d'opération
                                 </label>
 
                                 <input
@@ -177,7 +177,7 @@
                                         scope="col"
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
-                                        Date d'achat
+                                        Date d'opération
                                     </th>
                                     <th
                                         scope="col"

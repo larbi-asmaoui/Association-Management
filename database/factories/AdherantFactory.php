@@ -23,7 +23,7 @@ class AdherantFactory extends Factory
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'cin' => "AB12345",
-            'sexe' => Str::random(5),
+            'sexe' => $this->faker->randomElement(['homme', 'femme']),
             'date_of_birth' => $this->faker->date(),
             'date_of_membership' => $this->faker->date(),
             'address' => $this->faker->address(),

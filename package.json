@@ -32,6 +32,7 @@
         "install": "^0.13.0",
         "moment": "^2.29.4",
         "npm": "^9.6.6",
+        "print-js": "^1.6.0",
         "vue-chartjs": "^5.2.0",
         "vue-filepond": "^7.0.3",
         "vue-multiselect": "^2.1.7",

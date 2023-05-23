@@ -33,7 +33,11 @@
             <Modal size="4xl" v-if="isModalOpen" @close="closeModal">
                 <template #header>
                     <div class="flex items-center text-lg">
-                        Ajouter Un Stock
+                        {{
+                            form.id
+                                ? "Mettre à jour un stock"
+                                : "Ajouter un stock"
+                        }}
                     </div>
                 </template>
                 <template #body>
@@ -156,6 +160,7 @@
                                 <input
                                     v-model="form.price_per_unit"
                                     min="1"
+                                    step="0.01"
                                     type="number"
                                     name=" price_per_unit"
                                     id=" price_per_unit"
@@ -192,8 +197,8 @@
         </teleport>
 
         <div class="mt-4">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                <div class="bg-white border-b border-gray-200">
+            <div class="overflow-hidden bg-white">
+                <div class="bg-white">
                     <div
                         class="relative overflow-x-auto shadow-md sm:rounded-lg"
                     >
@@ -291,7 +296,7 @@
                                             class="flex item-center justify-center"
                                         >
                                             <!-- Eye -->
-                                            <div
+                                            <!-- <div
                                                 @click="show(stock.id)"
                                                 class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                                             >
@@ -314,10 +319,11 @@
                                                         d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                                                     ></path>
                                                 </svg>
-                                            </div>
+                                            </div> -->
 
                                             <!-- Edit -->
                                             <div
+                                                @click="openEditModal(stock)"
                                                 class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                                             >
                                                 <svg
@@ -386,6 +392,7 @@ import "vue-toast-notification/dist/theme-sugar.css";
 const $toast = useToast();
 
 const form = useForm({
+    id: null,
     name: "",
     quantity: null,
     price_per_unit: null,
@@ -399,6 +406,16 @@ const closeModal = () => {
     isModalOpen.value = false;
 
     form.reset();
+};
+
+const openEditModal = (stock) => {
+    form.id = stock.id;
+    form.name = stock.name;
+    form.quantity = stock.quantity;
+    form.price_per_unit = stock.price_per_unit;
+    form.purchase_date = stock.purchase_date;
+    form.stock_type_id = stock.stock_type_id;
+    isModalOpen.value = true;
 };
 
 const destroy = (id) => {
@@ -439,28 +456,51 @@ const props = defineProps({
 });
 
 const submit = () => {
-    form.post(route("stocks.store"), {
-        forceFormData: true,
-        preserveScroll: true,
-        onSuccess: () => {
-            closeModal();
-            $toast.open({
-                message: "Stock ajouté avec succès",
-                type: "success",
-                duration: 3000,
-                dismissible: true,
-            });
-        },
-        onError: () => {
-            console.log(form);
-            // $toast.open({
-            //     message: "Erreur lors de l'ajout",
-            //     type: "error",
-            //     duration: 3000,
-            //     dismissible: true,
-            // });
-        },
-    });
+    if (form.id) {
+        form.put(route("stocks.update", form.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                closeModal();
+                $toast.open({
+                    message: "Stock modifié avec succès",
+                    type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+            onError: () => {
+                $toast.open({
+                    message: "Erreur lors de la modification",
+                    type: "error",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+        });
+    } else {
+        form.post(route("stocks.store"), {
+            forceFormData: true,
+            preserveScroll: true,
+            onSuccess: () => {
+                closeModal();
+                $toast.open({
+                    message: "Stock ajouté avec succès",
+                    type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+            onError: () => {
+                console.log(form);
+                // $toast.open({
+                //     message: "Erreur lors de l'ajout",
+                //     type: "error",
+                //     duration: 3000,
+                //     dismissible: true,
+                // });
+            },
+        });
+    }
 };
 
 let search = ref("");

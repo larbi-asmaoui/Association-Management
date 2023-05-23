@@ -4,7 +4,7 @@
             <h1
                 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
             >
-                revenues
+                Revenues
             </h1>
         </div>
         <div
@@ -103,7 +103,7 @@
                                 <label
                                     for="revenue_date"
                                     class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                    >Date d'ajout
+                                    >Date d'opération
                                 </label>
 
                                 <input
@@ -152,7 +152,7 @@
                         <table
                             class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
                         >
-                            <thead class="bg-gray-100 dark:bg-gray-700">
+                            <thead class="bg-gray-300 dark:bg-gray-700">
                                 <tr>
                                     <th
                                         scope="col"

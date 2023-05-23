@@ -55,13 +55,24 @@ const props = defineProps({
 const pageProps = usePage().props;
 const stocksGroupedByType = props.stocksGroupedByType;
 
+const revenueOptions = ref({
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+        title: {
+            display: true,
+            text: "Revenues de l'association",
+        },
+    },
+});
+
 const options = ref({
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
         title: {
             display: true,
-            text: "Test Pie Chart",
+            text: "Dépenses de l'association",
         },
     },
 });
@@ -337,7 +348,7 @@ const dataBar = ref({
                     <div
                         class="bg-white p-4 shadow-2xl rounded-md xl:col-span-1"
                     >
-                        <ChartPie :data="data" :options="options" />
+                        <ChartPie :data="data" :options="revenueOptions" />
                     </div>
                     <div
                         class="bg-white p-4 shadow-2xl rounded-md xl:col-span-1"
