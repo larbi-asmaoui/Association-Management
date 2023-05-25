@@ -199,11 +199,9 @@
         <div class="mt-4">
             <div class="overflow-hidden bg-white">
                 <div class="bg-white">
-                    <div
-                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
-                    >
+                    <div class="relative overflow-x-auto shadow-lg mb-5">
                         <table
-                            class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+                            class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse border border-slate-400 dark:text-gray-400"
                         >
                             <thead class="bg-gray-100 dark:bg-gray-700">
                                 <tr>

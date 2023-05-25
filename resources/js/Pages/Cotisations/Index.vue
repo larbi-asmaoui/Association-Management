@@ -222,7 +222,7 @@ const closeModal = () => {
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 appearance-none select-none relative z-10"
                             >
                                 <option
-                                    v-for="adherant in adherants"
+                                    v-for="adherant in adherants.data"
                                     :key="adherant.id"
                                     :value="adherant.id"
                                     class="bg-white dark:bg-gray-800 py-2.5 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
@@ -266,13 +266,11 @@ const closeModal = () => {
         </teleport>
 
         <div class="mt-4">
-            <div class="overflow-hidden bg-white sm:rounded-lg">
+            <div class="overflow-hidden bg-white">
                 <div class="bg-white" v-show="cotisations.length !== 0">
-                    <div
-                        class="relative overflow-x-auto shadow-lg mb-5 sm:rounded-lg"
-                    >
+                    <div class="relative overflow-x-auto shadow-lg mb-5">
                         <table
-                            class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+                            class="w-full text-sm text-left text-gray-500 border-collapse border border-slate-400 dark:text-gray-400"
                         >
                             <thead class="bg-gray-100 dark:bg-gray-700">
                                 <tr>

@@ -1,22 +1,20 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use App\Http\Controllers\GroupeController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdherantController;
 use App\Http\Controllers\CotisationController;
-use App\Http\Controllers\StockController;
-use App\Http\Controllers\EvenementController;
-use App\Http\Controllers\PrintController;
-use App\Http\Controllers\DepenseTypeController;
-use App\Http\Controllers\RevenueTypeController;
 use App\Http\Controllers\CotisationTypeController;
-use App\Http\Controllers\StockTypeController;
-use App\Http\Controllers\RevenueController;
-use App\Http\Controllers\EvenementTypeController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepenseController;
+use App\Http\Controllers\DepenseTypeController;
+use App\Http\Controllers\EvenementController;
+use App\Http\Controllers\EvenementTypeController;
+use App\Http\Controllers\GroupeController;
+use App\Http\Controllers\PrintController;
+use App\Http\Controllers\RevenueController;
+use App\Http\Controllers\RevenueTypeController;
+use App\Http\Controllers\StockController;
+use App\Http\Controllers\StockTypeController;
+use Illuminate\Support\Facades\Route;
 
 
 /*
@@ -30,14 +28,14 @@ use App\Http\Controllers\DepenseController;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+//Route::get('/', function () {
+//    return Inertia::render('Welcome', [
+//        'canLogin' => Route::has('login'),
+//        'canRegister' => Route::has('register'),
+//        'laravelVersion' => Application::VERSION,
+//        'phpVersion' => PHP_VERSION,
+//    ]);
+//});
 
 
 Route::middleware([
@@ -48,6 +46,7 @@ Route::middleware([
 
     //---------- Dashboard ----------//
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     //---------- Adherants ----------//
     Route::prefix('/adherants')->group(function () {

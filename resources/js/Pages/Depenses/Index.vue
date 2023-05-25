@@ -35,14 +35,14 @@
                     <div class="flex items-center text-lg">
                         {{
                             form.id
-                                ? "Mettre à jour un dépense"
-                                : "Ajouter un dépense"
+                                ? "Mettre à jour une dépense"
+                                : "Ajouter une dépense"
                         }}
                     </div>
                 </template>
                 <template #body>
                     <form
-                        class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2"
+                        class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
                         @submit.prevent="submit"
                     >
                         <div>
@@ -122,7 +122,42 @@
                                 </span>
                             </div>
                         </div>
-
+                        <div>
+                            <label
+                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                for="file_input"
+                                >Reference
+                            </label>
+                            <progress
+                                v-if="form.progress"
+                                :value="form.progress.percentage"
+                                max="100"
+                            >
+                                {{ form.progress.percentage }}%
+                            </progress>
+                            <input
+                                @change="onFileChange"
+                                @input="
+                                    form.reference_file = $event.target.files[0]
+                                "
+                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                id="file_input"
+                                type="file"
+                                required
+                            />
+                            <p
+                                class="mt-1 text-sm text-gray-500 dark:text-gray-300"
+                                id="file_input_help"
+                            >
+                                SVG, PNG, JPG, PDF.
+                            </p>
+                        </div>
+                        <img v-if="previewUrl" :src="previewUrl" />
+                        <img
+                            v-else-if="form.reference_file"
+                            :src="showImage() + form.reference_file"
+                        />
+                        {{ showImage() + form.reference_file }}
                         <div class="mt-8 flex justify-end gap-x-2">
                             <button
                                 @click="isModalOpen = false"
@@ -144,13 +179,11 @@
         </teleport>
 
         <div class="mt-4">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                <div class="bg-white border-b border-gray-200">
-                    <div
-                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
-                    >
+            <div class="overflow-hidden bg-white">
+                <div class="bg-white">
+                    <div class="relative overflow-x-auto shadow-lg mb-5">
                         <table
-                            class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+                            class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse border border-slate-400 dark:text-gray-400"
                         >
                             <thead class="bg-gray-100 dark:bg-gray-700">
                                 <tr>
@@ -222,29 +255,29 @@
                                         >
                                             <!-- Eye -->
                                             <!-- <div
-                                                @click="show(depense.id)"
-                                                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                                            @click="show(depense.id)"
+                                            class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                                        >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
                                             >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                                    ></path>
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                                    ></path>
-                                                </svg>
-                                            </div> -->
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                                ></path>
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                                ></path>
+                                            </svg>
+                                        </div> -->
 
                                             <!-- Edit -->
                                             <div
@@ -319,6 +352,7 @@ const form = useForm({
     id: null,
     montant: null,
     depense_date: null,
+    reference_file: null,
     depense_type_id: null,
 });
 
@@ -330,11 +364,25 @@ const closeModal = () => {
     form.reset();
 };
 
+const showImage = () => {
+    return "/storage/";
+};
+
+const selectedFile = ref(null);
+const previewUrl = ref(null);
+
+const onFileChange = (e) => {
+    selectedFile.value = e.target.files[0];
+    previewUrl.value = URL.createObjectURL(selectedFile.value);
+};
+
 const openEditModal = (depense) => {
     form.id = depense.id;
     form.montant = depense.montant;
     form.depense_date = depense.depense_date;
     form.depense_type_id = depense.depense_type_id;
+    form.reference_file = depense.reference_file;
+    previewUrl.value = depense.reference_file;
     isModalOpen.value = true;
 };
 

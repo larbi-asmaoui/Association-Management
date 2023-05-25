@@ -46,15 +46,12 @@
                     </a>
                 </div>
                 <div class="flex items-center">
-                    <Link
-                        :href="route('evenements.calender')"
-                        class="flex items-center p-2 text-base rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
-                    >
+                    <Link :href="route('evenements.calender')">
                         <svg
                             fill="none"
                             stroke-width="2.5"
                             stroke="currentColor"
-                            class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75"
                             xmlns="http://www.w3.org/2000/svg"
                         >
                             <path
@@ -365,11 +362,10 @@
                                         : inactiveClass,
                                 ]"
                                 :href="route('dashboard')"
-                                class="flex items-center p-2 text-base rounded-lg group dark:text-gray-200 dark:hover:bg-gray-700"
                             >
                                 <svg
                                     aria-hidden="true"
-                                    class="w-6 h-6 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                    class="w-6 h-6 transition duration-75"
                                     fill="currentColor"
                                     viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -393,11 +389,10 @@
                                         : inactiveClass,
                                 ]"
                                 :href="route('adherants.index')"
-                                class="flex items-center p-2 text-base rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
                             >
                                 <svg
                                     aria-hidden="true"
-                                    class="flex-shrink-0 w-6 h-6 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                    class="flex-shrink-0 w-6 h-6 transition duration-75"
                                     fill="currentColor"
                                     viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -422,10 +417,9 @@
                                         : inactiveClass,
                                 ]"
                                 :href="route('cotisations.index')"
-                                class="flex items-center p-2 text-base rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
                             >
                                 <svg
-                                    class="flex-shrink-0 w-6 h-6 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                    class="flex-shrink-0 w-6 h-6 transition duration-75"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
@@ -457,11 +451,10 @@
                                         : inactiveClass,
                                 ]"
                                 :href="route('revenues.index')"
-                                class="flex items-center p-2 text-base rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
                             >
                                 <svg
                                     aria-hidden="true"
-                                    class="flex-shrink-0 w-6 h-6 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                    class="flex-shrink-0 w-6 h-6 transition duration-75"
                                     fill="currentColor"
                                     viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -495,11 +488,10 @@
                                         : inactiveClass,
                                 ]"
                                 :href="route('depenses.index')"
-                                class="flex items-center p-2 text-base rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
                             >
                                 <svg
                                     aria-hidden="true"
-                                    class="flex-shrink-0 w-6 h-6 ttransition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                    class="flex-shrink-0 w-6 h-6 ttransition duration-75"
                                     fill="currentColor"
                                     viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -533,11 +525,10 @@
                                         : inactiveClass,
                                 ]"
                                 :href="route('groupes.index')"
-                                class="flex items-center p-2 text-base rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
                             >
                                 <svg
                                     aria-hidden="true"
-                                    class="flex-shrink-0 w-6 h-6 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                    class="flex-shrink-0 w-6 h-6 transition duration-75"
                                     fill="currentColor"
                                     xmlns="http://www.w3.org/2000/svg"
                                     stroke-width="1.5"
@@ -563,10 +554,9 @@
                                         : inactiveClass,
                                 ]"
                                 :href="route('evenements.index')"
-                                class="flex items-center p-2 text-base rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
                             >
                                 <svg
-                                    class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                    class="w-6 h-6 transition duration-75"
                                     fill="currentColor"
                                     xmlns="http://www.w3.org/2000/svg"
                                     stroke-width="1.5"
@@ -596,11 +586,10 @@
                                         : inactiveClass,
                                 ]"
                                 :href="route('stocks.index')"
-                                class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
                             >
                                 <svg
                                     aria-hidden="true"
-                                    class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                    class="w-6 h-6 transition duration-75"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
@@ -644,8 +633,12 @@ import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 const { isOpen } = useSidebar();
 
-const activeClass = ref("bg-blue-700 text-white");
-const inactiveClass = ref(" text-gray-500 hover:bg-blue-100");
+const activeClass = ref(
+    "bg-blue-700 text-white flex items-center p-2  rounded-lg group dark:text-gray-200 dark:hover:bg-gray-700"
+);
+const inactiveClass = ref(
+    " text-gray-500 hover:bg-blue-100 flex items-center p-2 text-base rounded-lg group"
+);
 
 const logout = () => {
     router.post(route("logout"));
