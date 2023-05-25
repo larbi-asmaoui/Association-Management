@@ -183,38 +183,38 @@
                 <div class="bg-white">
                     <div class="relative overflow-x-auto shadow-lg mb-5">
                         <table
-                            class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse border border-slate-400 dark:text-gray-400"
+                            class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse dark:text-gray-400"
                         >
                             <thead class="bg-gray-100 dark:bg-gray-700">
                                 <tr>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         #
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Montant (DH)
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Type
                                     </th>
 
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Date d'opération
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Actions
                                     </th>
@@ -227,32 +227,30 @@
                                 >
                                     <td
                                         scope="row"
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ depense.id }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ depense.montant }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ depense.depense_type.name }}
                                     </td>
 
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ depense.depense_date }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
-                                        <div
-                                            class="flex item-center justify-center"
-                                        >
+                                        <div class="flex">
                                             <!-- Eye -->
                                             <!-- <div
                                             @click="show(depense.id)"

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Groupe;
 use App\Models\Adherant;
 use App\Models\Cotisation;
+use App\Models\Depense;
 use App\Models\Evenement;
 use App\Models\Stock;
 use App\Models\StockType;
@@ -54,6 +55,7 @@ class DashboardController extends Controller
         // ------------------------------------------------ //
         $totalStockValue = Stock::where('user_id', $userId)->sum(DB::raw('price_per_unit * quantity'));
         $totalCotisationValue = Cotisation::sum('montant');
+        $autreDepense = Depense::where('user_id', $userId)->sum('montant');
 
         return Inertia::render('Dashboard', [
             'groupes_count' => $groupes_count,
@@ -67,6 +69,7 @@ class DashboardController extends Controller
             'stocksGroupedByType' => $stocksGroupedByType,
             'totalStockValue' => $totalStockValue,
             'totalCotisationValue' => $totalCotisationValue,
+            'autreDepense' => $autreDepense,
         ]);
     }
 

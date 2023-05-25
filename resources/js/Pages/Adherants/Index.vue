@@ -49,7 +49,7 @@
                             <label
                                 for="avatar"
                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                            >Profile
+                                >Profile
                             </label>
                             <ImageUpload
                                 v-model="form.image"
@@ -71,7 +71,7 @@
                                 <label
                                     for="last_name"
                                     class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Nom
+                                    >Nom
                                 </label>
                                 <input
                                     v-model="form.last_name"
@@ -93,7 +93,7 @@
                                 <label
                                     for="first_name"
                                     class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Prénom
+                                    >Prénom
                                 </label>
                                 <input
                                     v-model="form.first_name"
@@ -119,7 +119,7 @@
                                 <label
                                     for="cin"
                                     class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >CIN</label
+                                    >CIN</label
                                 >
                                 <input
                                     pattern="^[A-Za-z\d]+$"
@@ -141,7 +141,7 @@
                                 <label
                                     for="cin"
                                     class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Sexe</label
+                                    >Sexe</label
                                 >
                                 <div class="flex gap-x-6">
                                     <div class="flex">
@@ -157,7 +157,7 @@
                                         <label
                                             for="homme"
                                             class="text-sm text-gray-500 ml-2 dark:text-gray-400"
-                                        >Homme</label
+                                            >Homme</label
                                         >
                                     </div>
 
@@ -173,7 +173,7 @@
                                         <label
                                             for="femme"
                                             class="text-sm text-gray-500 ml-2 dark:text-gray-400"
-                                        >Femme</label
+                                            >Femme</label
                                         >
                                     </div>
                                 </div>
@@ -194,7 +194,7 @@
                                 <label
                                     for="tel"
                                     class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Tel</label
+                                    >Tel</label
                                 >
                                 <input
                                     pattern="^0\d{9}$"
@@ -218,7 +218,7 @@
                                 <label
                                     for="email"
                                     class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Email</label
+                                    >Email</label
                                 >
                                 <input
                                     v-model="form.email"
@@ -245,7 +245,7 @@
                                 <label
                                     for="date_of_birth"
                                     class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Date de naissance
+                                    >Date de naissance
                                 </label>
 
                                 <input
@@ -267,7 +267,7 @@
                                 <label
                                     for="date_of_membership"
                                     class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Date d'adhésion
+                                    >Date d'adhésion
                                 </label>
 
                                 <input
@@ -290,7 +290,7 @@
                             <label
                                 for="hs-about-hire-us-1"
                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                            >Addresse</label
+                                >Addresse</label
                             >
                             <textarea
                                 v-model="form.address"
@@ -332,52 +332,50 @@
         <div class="mt-4">
             <div class="overflow-hidden bg-white">
                 <div class="bg-white">
-                    <div
-                        class="relative overflow-x-auto shadow-lg mb-5 "
-                    >
+                    <div class="relative overflow-x-auto shadow-lg mb-5">
                         <table
-                            class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse border border-slate-400  dark:text-gray-400"
+                            class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse border border-slate-400 dark:text-gray-400"
                         >
                             <thead class="bg-gray-100 dark:bg-gray-700">
-                            <tr>
-                                <th
-                                    scope="col"
-                                    class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                                >
-                                    #
-                                </th>
-                                <th
-                                    scope="col"
-                                    class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                                >
-                                    Nom
-                                </th>
-                                <th
-                                    scope="col"
-                                    class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                                >
-                                    Prénom
-                                </th>
-                                <th
-                                    scope="col"
-                                    class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                                >
-                                    CIN
-                                </th>
-                                <th
-                                    scope="col"
-                                    class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                                >
-                                    Telephone
-                                </th>
-                                <th
-                                    scope="col"
-                                    class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                                >
-                                    Date d'adhésion
-                                </th>
-                                <th
-                                    @click="
+                                <tr>
+                                    <th
+                                        scope="col"
+                                        class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                    >
+                                        #
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                    >
+                                        Nom
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                    >
+                                        Prénom
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                    >
+                                        CIN
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                    >
+                                        Telephone
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                    >
+                                        Date d'adhésion
+                                    </th>
+                                    <th
+                                        @click="
                                             printJS({
                                                 printable: adherants.data,
                                                 properties: [
@@ -421,200 +419,207 @@
                                                 type: 'json',
                                             })
                                         "
-                                    scope="col"
-                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="icon icon-tabler icon-tabler-printer"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.5"
-                                        stroke="#2c3e50"
-                                        fill="none"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
+                                        scope="col"
+                                        class="flex justify-center items-center p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400"
                                     >
-                                        <path
-                                            stroke="none"
-                                            d="M0 0h24v24H0z"
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-printer"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="1.5"
+                                            stroke="#2c3e50"
                                             fill="none"
-                                        />
-                                        <path
-                                            d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2"
-                                        />
-                                        <path
-                                            d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4"
-                                        />
-                                        <path
-                                            d="M7 13m0 2a2 2 0 0 1 2 -2h6a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2z"
-                                        />
-                                    </svg>
-                                </th>
-                            </tr>
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        >
+                                            <path
+                                                stroke="none"
+                                                d="M0 0h24v24H0z"
+                                                fill="none"
+                                            />
+                                            <path
+                                                d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2"
+                                            />
+                                            <path
+                                                d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4"
+                                            />
+                                            <path
+                                                d="M7 13m0 2a2 2 0 0 1 2 -2h6a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2z"
+                                            />
+                                        </svg>
+                                    </th>
+                                </tr>
                             </thead>
                             <tbody
                                 class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"
                             >
-                            <tr
-                                v-for="adherant in adherants.data"
-                                :key="adherant.id"
-                            >
-                                <td
-                                    class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                <tr
+                                    v-for="adherant in adherants.data"
+                                    :key="adherant.id"
                                 >
-                                    <Avatar
-                                        :src="showImage() + adherant.image"
-                                        rounded
-                                    />
-                                </td>
-                                <td
-                                    class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                >
-                                    {{ adherant.last_name }}
-                                </td>
-                                <td
-                                    class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                >
-                                    {{ adherant.first_name }}
-                                </td>
-                                <td
-                                    class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                >
-                                    {{ adherant.cin }}
-                                </td>
-                                <td
-                                    class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                >
-                                    {{ adherant.tel }}
-                                </td>
-                                <td
-                                    class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                >
-                                    {{ adherant.date_of_membership }}
-                                </td>
-                                <td
-                                    class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                >
-                                    <div v-show="false" id="#print-section">
-                                        <div>
-                                            <h2>{{ adherant.first_name }} {{ adherant.last_name }}</h2>
-                                            <p>CIN: {{ adherant.cin }}</p>
-                                            <p>Tel: {{ adherant.tel }}</p>
-                                            <p>Date of Membership: {{ adherant.date_of_membership }}</p>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="flex justify-center">
-                                        <!-- Eye -->
-                                        <div
-                                            class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                            >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                                ></path>
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                                ></path>
-                                            </svg>
+                                    <td
+                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                        <img
+                                            class="w-10 h-10 rounded-full"
+                                            :src="showImage() + adherant.image"
+                                        />
+                                    </td>
+                                    <td
+                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                        {{ adherant.last_name }}
+                                    </td>
+                                    <td
+                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                        {{ adherant.first_name }}
+                                    </td>
+                                    <td
+                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                        {{ adherant.cin }}
+                                    </td>
+                                    <td
+                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                        {{ adherant.tel }}
+                                    </td>
+                                    <td
+                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                        {{ adherant.date_of_membership }}
+                                    </td>
+                                    <td
+                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                        <div v-show="false" id="#print-section">
+                                            <div>
+                                                <h2>
+                                                    {{ adherant.first_name }}
+                                                    {{ adherant.last_name }}
+                                                </h2>
+                                                <p>CIN: {{ adherant.cin }}</p>
+                                                <p>Tel: {{ adherant.tel }}</p>
+                                                <p>
+                                                    Date of Membership:
+                                                    {{
+                                                        adherant.date_of_membership
+                                                    }}
+                                                </p>
+                                            </div>
                                         </div>
 
-                                        <!-- Edit -->
-                                        <div
-                                            @click="openEditModal(adherant)"
-                                            class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
+                                        <div class="flex justify-center">
+                                            <!-- Eye -->
+                                            <div
+                                                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                                             >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                                ></path>
-                                            </svg>
-                                        </div>
-
-                                        <!-- Delete -->
-                                        <div
-                                            @click="destroy(adherant.id)"
-                                            class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                            >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                                ></path>
-                                            </svg>
-                                        </div>
-
-                                        <!-- Print -->
-                                        <div
-                                            @click="printContent"
-                                            class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                class="icon icon-tabler icon-tabler-printer"
-                                                viewBox="0 0 24 24"
-                                                stroke-width="1.5"
-                                                stroke="currentColor"
-                                                fill="none"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                            >
-                                                <path
-                                                    stroke="none"
-                                                    d="M0 0h24v24H0z"
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
                                                     fill="none"
-                                                />
-                                                <path
-                                                    d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2"
-                                                />
-                                                <path
-                                                    d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4"
-                                                />
-                                                <rect
-                                                    x="7"
-                                                    y="13"
-                                                    width="10"
-                                                    height="8"
-                                                    rx="2"
-                                                />
-                                            </svg>
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                                    ></path>
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                                    ></path>
+                                                </svg>
+                                            </div>
+
+                                            <!-- Edit -->
+                                            <div
+                                                @click="openEditModal(adherant)"
+                                                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                                                    ></path>
+                                                </svg>
+                                            </div>
+
+                                            <!-- Delete -->
+                                            <div
+                                                @click="destroy(adherant.id)"
+                                                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                                    ></path>
+                                                </svg>
+                                            </div>
+
+                                            <!-- Print -->
+                                            <div
+                                                @click="printContent"
+                                                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    class="icon icon-tabler icon-tabler-printer"
+                                                    viewBox="0 0 24 24"
+                                                    stroke-width="1.5"
+                                                    stroke="currentColor"
+                                                    fill="none"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                >
+                                                    <path
+                                                        stroke="none"
+                                                        d="M0 0h24v24H0z"
+                                                        fill="none"
+                                                    />
+                                                    <path
+                                                        d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2"
+                                                    />
+                                                    <path
+                                                        d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4"
+                                                    />
+                                                    <rect
+                                                        x="7"
+                                                        y="13"
+                                                        width="10"
+                                                        height="8"
+                                                        rx="2"
+                                                    />
+                                                </svg>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
-                    <Pagination :data="adherants"/>
+                    <Pagination :data="adherants" />
                 </div>
             </div>
         </div>
@@ -631,33 +636,30 @@ export default {
 
 <script setup>
 import defaultImg from "../../../assets/image.jpeg";
-import {ref, nextTick, onMounted} from "vue";
-import {watch} from "vue";
-import {router} from "@inertiajs/vue3";
-import {Avatar} from "flowbite-vue";
+import { ref, nextTick, onMounted } from "vue";
+import { watch } from "vue";
+import { router } from "@inertiajs/vue3";
+import { Avatar } from "flowbite-vue";
 import Pagination from "../../Components/Pagination.vue";
 import ImageUpload from "../../Components/ImageUpload.vue";
-import {Modal} from "flowbite-vue";
-import {useForm} from "@inertiajs/vue3";
-import {useToast} from "vue-toast-notification";
+import { Modal } from "flowbite-vue";
+import { useForm } from "@inertiajs/vue3";
+import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import printJS from "print-js";
 import AdherentInfo from "./AdherantInfo.vue";
 
-
 // const printSection = ref(null);
 
-
 const printContent = async () => {
-    await nextTick();
-    let printSection = document.getElementById('printSection');
-    printJS({
-        printable: printSection.innerHTML,
-        type: 'html',
-        header: 'Adherant Information',
-        targetStyles: ['*'],
-    });
-
+    // await nextTick();
+    // let printSection = document.getElementById("printSection");
+    // printJS({
+    //     printable: printSection.innerHTML,
+    //     type: "html",
+    //     header: "Adherant Information",
+    //     targetStyles: ["*"],
+    // });
 };
 
 onMounted(printContent);
@@ -790,7 +792,7 @@ let search = ref("");
 watch(search, (value) => {
     router.get(
         "/adherants",
-        {search: value},
+        { search: value },
         {
             preserveState: true,
             replace: true,

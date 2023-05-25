@@ -52,8 +52,13 @@ class RevenueController extends Controller
         $revenue = $request->validate([
             'montant' => 'required',
             'revenue_date' => 'required',
+            'reference_file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png',
             'revenue_type_id' => 'required|exists:revenue_types,id',
         ]);
+        if ($request->hasFile('reference_file')) {
+            $revenue['reference_file']  = $request->file('reference_file')->store('uploads/images/revenues', 'public');
+        }
+
         $revenue['user_id'] = auth()->id();
         revenue::create($revenue);
         return redirect()->back()->with('success', 'Revenue created.');
@@ -84,6 +89,7 @@ class RevenueController extends Controller
             $request->validate([
                 'montant' => 'required',
                 'Revenue_date' => 'required',
+                'reference_file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png',
                 'Revenue_type_id' => 'required|exists:Revenue_types,id',
             ])
         );

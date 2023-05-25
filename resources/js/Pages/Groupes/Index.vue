@@ -107,33 +107,33 @@
         <div class="mt-4">
             <div class="overflow-hidden bg-white">
                 <div class="bg-white">
-                    <div class="relative overflow-x-auto shadow-lg mb-5">
+                    <div class="relative shadow-lg mb-5">
                         <table
-                            class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse border border-slate-400 dark:text-gray-400"
+                            class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse dark:text-gray-400"
                         >
                             <thead class="bg-gray-100 dark:bg-gray-700">
                                 <tr>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         #
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Groupe
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Description
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Actions
                                     </th>
@@ -147,22 +147,22 @@
                                     :key="groupe.id"
                                 >
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-normal dark:text-white"
                                     >
                                         {{ groupe.id }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-normal dark:text-white"
                                     >
                                         {{ groupe.name }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-normal dark:text-white"
                                     >
                                         {{ groupe.description }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-normal dark:text-white"
                                     >
                                         <div
                                             class="flex items-center justify-center"

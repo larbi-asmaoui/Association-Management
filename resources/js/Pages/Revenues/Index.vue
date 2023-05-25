@@ -30,7 +30,7 @@
         </div>
 
         <teleport to="body">
-            <Modal size="md" v-if="isModalOpen" @close="closeModal">
+            <Modal size="xl" v-if="isModalOpen" @close="closeModal">
                 <template #header>
                     <div class="flex items-center text-lg">
                         {{
@@ -42,7 +42,7 @@
                 </template>
                 <template #body>
                     <form
-                        class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2"
+                        class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 h-[32rem] overflow-y-auto"
                         @submit.prevent="submit"
                     >
                         <div>
@@ -122,7 +122,35 @@
                                 </span>
                             </div>
                         </div>
+                        <div>
+                            <label
+                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                for="file_input"
+                                >Reference
+                            </label>
 
+                            <input
+                                @change="onFileChange"
+                                @input="
+                                    form.reference_file = $event.target.files[0]
+                                "
+                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                id="file_input"
+                                type="file"
+                                required
+                            />
+                            <p
+                                class="mt-1 text-sm text-gray-500 dark:text-gray-300"
+                                id="file_input_help"
+                            >
+                                SVG, PNG, JPG, GIF
+                            </p>
+                        </div>
+                        <img v-if="previewUrl" :src="previewUrl" />
+                        <img
+                            v-else-if="form.reference_file"
+                            :src="showImage() + form.reference_file"
+                        />
                         <div class="mt-8 flex justify-end gap-x-2">
                             <button
                                 @click="isModalOpen = false"
@@ -146,40 +174,40 @@
         <div class="mt-4">
             <div class="overflow-hidden bg-white">
                 <div class="bg-white">
-                    <div class="relative overflow-x-auto shadow-lg mb-5">
+                    <div class="relative shadow-lg mb-5">
                         <table
-                            class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse border border-slate-400 dark:text-gray-400"
+                            class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse dark:text-gray-400"
                         >
                             <thead class="bg-gray-100 dark:bg-gray-700">
                                 <tr>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         #
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Montant (DH)
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Type
                                     </th>
 
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Date d'operation
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Actions
                                     </th>
@@ -192,35 +220,75 @@
                                 >
                                     <td
                                         scope="row"
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-normal dark:text-white"
                                     >
                                         {{ revenue.id }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-normal dark:text-white"
                                     >
                                         {{ revenue.montant }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-normal dark:text-white"
                                     >
                                         {{ revenue.revenue_type.name }}
                                     </td>
 
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-normal dark:text-white"
                                     >
                                         {{ revenue.revenue_date }}
                                     </td>
-                                    <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                    >
-                                        <div
-                                            class="flex item-center justify-center"
+                                    <teleport to="body">
+                                        <Modal
+                                            size="md"
+                                            v-if="isModalOpenApercu"
+                                            @close="closeModal"
                                         >
+                                            <template #header>
+                                                <div
+                                                    class="flex items-center text-lg"
+                                                >
+                                                    Aperçu
+                                                </div>
+                                            </template>
+                                            <template #body>
+                                                <div
+                                                    class="flex justify-center"
+                                                >
+                                                    <img
+                                                        :src="
+                                                            showImage() +
+                                                            revenue.reference_file
+                                                        "
+                                                        alt=""
+                                                        class="w-1/2"
+                                                    />
+                                                </div>
+                                            </template>
+                                            <template #footer>
+                                                <button
+                                                    @click="
+                                                        isModalOpenApercu = false
+                                                    "
+                                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                                                    type="button"
+                                                >
+                                                    Fermer
+                                                </button>
+                                            </template>
+                                        </Modal>
+                                    </teleport>
+                                    <td
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-normal dark:text-white"
+                                    >
+                                        <div class="flex">
                                             <!-- Eye -->
-                                            <!-- <div
-                                                @click="show(revenue.id)"
+                                            <div
+                                                @click="
+                                                    isModalOpenApercu = true
+                                                "
                                                 class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                                             >
                                                 <svg
@@ -242,7 +310,7 @@
                                                         d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                                                     ></path>
                                                 </svg>
-                                            </div> -->
+                                            </div>
 
                                             <!-- Edit -->
                                             <div
@@ -317,21 +385,36 @@ const form = useForm({
     id: null,
     montant: null,
     revenue_date: null,
+    reference_file: null,
     revenue_type_id: null,
 });
 
 let isModalOpen = ref(false);
+let isModalOpenApercu = ref(false);
 
 const closeModal = () => {
+    isModalOpenApercu.value = false;
     isModalOpen.value = false;
 
     form.reset();
+};
+const showImage = () => {
+    return "/storage/";
+};
+
+const selectedFile = ref(null);
+const previewUrl = ref(null);
+
+const onFileChange = (e) => {
+    selectedFile.value = e.target.files[0];
+    previewUrl.value = URL.createObjectURL(selectedFile.value);
 };
 
 const openEditModal = (revenue) => {
     form.id = revenue.id;
     form.montant = revenue.montant;
     form.revenue_date = revenue.revenue_date;
+    form.reference_file = revenue.reference_file;
     form.revenue_type_id = revenue.revenue_type_id;
     isModalOpen.value = true;
 };

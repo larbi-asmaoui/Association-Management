@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('revenue_type_id')->constrained()->onDelete('cascade');
             $table->double('montant');
+            $table->string('reference_file');
             $table->date('revenue_date')->nullable()->default(now());
             $table->timestamps();
         });

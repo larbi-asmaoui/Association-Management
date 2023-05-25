@@ -49,23 +49,20 @@ class DepenseController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $depense = $request->validate([
             'montant' => 'required',
             'depense_date' => 'required',
             'reference_file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png',
             'depense_type_id' => 'required|exists:depense_types,id',
         ]);
 
-        $fileToUpload = $request->file('reference_file');
-
-        if ($fileToUpload) {
-            $filename = $fileToUpload->store('image', 'public');
-            $validatedData['reference_file'] = $filename;
+        if ($request->hasFile('reference_file')) {
+            $depense['reference_file']  = $request->file('reference_file')->store('uploads/images/depenses', 'public');
         }
 
-        $validatedData['user_id'] = auth()->id();
+        $depense['user_id'] = auth()->id();
 
-        Depense::create($validatedData);
+        Depense::create($depense);
 
         return redirect()->back()->with('success', 'Depense created.');
     }
@@ -100,10 +97,6 @@ class DepenseController extends Controller
                 'depense_type_id' => 'required|exists:depense_types,id',
             ])
         );
-
-        if ($request->hasFile('reference_file')) {
-            $formFields['reference_file']  = $request->file('reference_file')->store('image', 'public');
-        }
 
         return redirect()->back()->with('success', 'Depense updated.');
     }

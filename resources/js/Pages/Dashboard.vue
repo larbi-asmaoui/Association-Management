@@ -50,6 +50,9 @@ const props = defineProps({
     totalCotisationValue: {
         type: Number,
     },
+    autreDepense: {
+        type: Number,
+    },
 });
 
 const pageProps = usePage().props;
@@ -66,7 +69,7 @@ const revenueOptions = ref({
     },
 });
 
-const options = ref({
+const depenseOptions = ref({
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -100,6 +103,16 @@ const data = ref({
     ],
 });
 
+const dataDepense = ref({
+    labels: ["Stocks (DH)", "Autres dépenses (DH)"],
+    datasets: [
+        {
+            backgroundColor: ["#247BA0", "#70C1B3"],
+            data: [props.totalStockValue, props.autreDepense],
+        },
+    ],
+});
+
 const dataBar = ref({
     labels: Object.keys(stocksGroupedByType),
     datasets: [
@@ -117,6 +130,7 @@ const dataBar = ref({
 </script>
 <template>
     <div>
+        {{ autreDepense }}
         <div class="mb-4">
             <h1
                 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
@@ -353,7 +367,10 @@ const dataBar = ref({
                     <div
                         class="bg-white p-4 shadow-2xl rounded-md xl:col-span-1"
                     >
-                        <ChartPie :data="data" :options="options" />
+                        <ChartPie
+                            :data="dataDepense"
+                            :options="depenseOptions"
+                        />
                     </div>
                 </div>
             </div>
