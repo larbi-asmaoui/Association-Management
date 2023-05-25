@@ -270,44 +270,44 @@ const closeModal = () => {
                 <div class="bg-white" v-show="cotisations.length !== 0">
                     <div class="relative overflow-x-auto shadow-lg mb-5">
                         <table
-                            class="w-full text-sm text-left text-gray-500 border-collapse border border-slate-400 dark:text-gray-400"
+                            class="w-full text-sm text-left text-gray-500 border-collapse dark:text-gray-400"
                         >
                             <thead class="bg-gray-100 dark:bg-gray-700">
                                 <tr>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         #
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="px-6 py-3 border border-slate-400 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Adherant
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="px-6 py-3 border border-slate-400 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Type
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="px-6 py-3 border border-slate-400 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Date
                                     </th>
 
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="px-6 py-3 border border-slate-400 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Montant (DH)
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="px-6 py-3 border border-slate-400 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Actions
                                     </th>
@@ -324,13 +324,13 @@ const closeModal = () => {
                                     class="hover:bg-gray-100 transition-colors duration-200"
                                 >
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ index + 1 }}
                                     </td>
 
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{
                                             cotisation.adherant.first_name +
@@ -340,29 +340,27 @@ const closeModal = () => {
                                     </td>
 
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ cotisation.type }}
                                     </td>
 
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ cotisation.created_at }}
                                     </td>
 
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ cotisation.montant }}
                                     </td>
 
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                                        class="px-6 py-3 border border-slate-400 whitespace-nowrap text-right text-sm font-medium"
                                     >
-                                        <div
-                                            class="flex items-center justify-end space-x-2"
-                                        >
+                                        <div class="flex gap-3">
                                             <!-- Eye -->
                                             <button
                                                 class="text-gray-400 hover:text-purple-500 transition-colors duration-200"

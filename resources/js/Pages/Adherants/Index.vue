@@ -334,43 +334,43 @@
                 <div class="bg-white">
                     <div class="relative overflow-x-auto shadow-lg mb-5">
                         <table
-                            class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse border border-slate-400 dark:text-gray-400"
+                            class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse dark:text-gray-400"
                         >
                             <thead class="bg-gray-100 dark:bg-gray-700">
                                 <tr>
                                     <th
                                         scope="col"
-                                        class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                                     >
                                         #
                                     </th>
                                     <th
                                         scope="col"
-                                        class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                                     >
                                         Nom
                                     </th>
                                     <th
                                         scope="col"
-                                        class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                                     >
                                         Prénom
                                     </th>
                                     <th
                                         scope="col"
-                                        class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                                     >
                                         CIN
                                     </th>
                                     <th
                                         scope="col"
-                                        class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                                     >
                                         Telephone
                                     </th>
                                     <th
                                         scope="col"
-                                        class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                                     >
                                         Date d'adhésion
                                     </th>
@@ -420,7 +420,7 @@
                                             })
                                         "
                                         scope="col"
-                                        class="flex justify-center items-center p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400"
+                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                                     >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -460,7 +460,7 @@
                                     :key="adherant.id"
                                 >
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         <img
                                             class="w-10 h-10 rounded-full"
@@ -468,32 +468,32 @@
                                         />
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ adherant.last_name }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ adherant.first_name }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ adherant.cin }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ adherant.tel }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ adherant.date_of_membership }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         <div v-show="false" id="#print-section">
                                             <div>
@@ -512,7 +512,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="flex justify-center">
+                                        <div class="flex">
                                             <!-- Eye -->
                                             <div
                                                 class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"

@@ -240,46 +240,42 @@
                                     >
                                         {{ revenue.revenue_date }}
                                     </td>
-                                    <teleport to="body">
-                                        <Modal
-                                            size="md"
-                                            v-if="isModalOpenApercu"
-                                            @close="closeModal"
-                                        >
-                                            <template #header>
-                                                <div
-                                                    class="flex items-center text-lg"
-                                                >
-                                                    Aperçu
-                                                </div>
-                                            </template>
-                                            <template #body>
-                                                <div
-                                                    class="flex justify-center"
-                                                >
-                                                    <img
-                                                        :src="
-                                                            showImage() +
-                                                            revenue.reference_file
-                                                        "
-                                                        alt=""
-                                                        class="w-1/2"
-                                                    />
-                                                </div>
-                                            </template>
-                                            <template #footer>
-                                                <button
-                                                    @click="
-                                                        isModalOpenApercu = false
+
+                                    <Modal
+                                        size="md"
+                                        v-if="isModalOpenApercu"
+                                        @close="closeModal"
+                                    >
+                                        <template #header>
+                                            <div
+                                                class="flex items-center text-lg"
+                                            >
+                                                Aperçu
+                                            </div>
+                                        </template>
+                                        <template #body>
+                                            <div class="flex justify-center">
+                                                <img
+                                                    :src="
+                                                        showImage() +
+                                                        revenue.reference_file
                                                     "
-                                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                                                    type="button"
-                                                >
-                                                    Fermer
-                                                </button>
-                                            </template>
-                                        </Modal>
-                                    </teleport>
+                                                />
+                                            </div>
+                                        </template>
+                                        <template #footer>
+                                            <button
+                                                @click="
+                                                    isModalOpenApercu = false
+                                                "
+                                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                                                type="button"
+                                            >
+                                                Fermer
+                                            </button>
+                                        </template>
+                                    </Modal>
+
                                     <td
                                         class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-normal dark:text-white"
                                     >
@@ -372,11 +368,12 @@ export default {
 </script>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted, onBeforeUnmount } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
 import Pagination from "../../Components/Pagination.vue";
 import { useToast } from "vue-toast-notification";
+import "viewerjs/dist/viewer.css";
 import "vue-toast-notification/dist/theme-sugar.css";
 
 const $toast = useToast();
@@ -468,6 +465,8 @@ const submit = () => {
                     duration: 3000,
                     dismissible: true,
                 });
+                selectedFile.value = null;
+                previewUrl.value = null;
             },
             onError: () => {
                 $toast.open({
@@ -490,6 +489,8 @@ const submit = () => {
                     duration: 3000,
                     dismissible: true,
                 });
+                selectedFile.value = null;
+                previewUrl.value = null;
             },
             onError: () => {
                 console.log(form.errors.revenue_date);

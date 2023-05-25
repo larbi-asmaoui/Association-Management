@@ -256,39 +256,39 @@
                                 >
                                     <td
                                         scope="row"
-                                        class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ stock.id }}
                                     </td>
                                     <td
-                                        class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ stock.name }}
                                     </td>
                                     <td
-                                        class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ stock.stock_type.name }}
                                     </td>
 
                                     <td
-                                        class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ stock.quantity }}
                                     </td>
 
                                     <td
-                                        class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ stock.price_per_unit }}
                                     </td>
                                     <td
-                                        class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ stock.purchase_date }}
                                     </td>
                                     <td
-                                        class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         <div
                                             class="flex item-center justify-center"
