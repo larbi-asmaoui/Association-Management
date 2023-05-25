@@ -1,12 +1,10 @@
 <template>
-    <div class="bg-white px-4 py-6 shadow-md rounded-lg">
-        <div class="mb-4">
-            <h1
-                class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
-            >
-                Gestion Évènements
-            </h1>
-        </div>
+    <div class="mb-4 bg-blue-600 px-4 py-4 shadow-md">
+        <h1 class="text-xl font-semibold text-white sm:text-2xl">
+            Gestion Évènements
+        </h1>
+    </div>
+    <div class="bg-white px-4 py-6 shadow-md">
         <div
             class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
         >
@@ -15,16 +13,28 @@
                     <input
                         type="text"
                         v-model="search"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-slate-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="rechercher évènements..."
                     />
                 </div>
             </div>
             <button
                 @click="isModalOpen = true"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                class="inline-flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                 type="button"
             >
+                <svg
+                    class="w-5 h-5 mr-2 -ml-1"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                        clip-rule="evenodd"
+                    ></path>
+                </svg>
                 Ajouter un évènement
             </button>
         </div>
@@ -145,11 +155,9 @@
         </teleport>
 
         <div class="mt-4">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+            <div class="overflow-hidden bg-white shadow-sm">
                 <div class="bg-white border-b border-gray-200">
-                    <div
-                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
-                    >
+                    <div class="relative overflow-x-auto shadow-md">
                         <table
                             class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
                         >
@@ -157,43 +165,43 @@
                                 <tr>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         #
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Évènement
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Date début
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Date fin
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Location
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Budget
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Actions
                                     </th>
@@ -207,37 +215,37 @@
                                     :key="evenement.id"
                                 >
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ evenement.id }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ evenement.title }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ evenement.start }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ evenement.end }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         {{ evenement.location }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
                                         100DH
                                     </td>
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                                        class="border border-slate-400 px-6 py-3 whitespace-nowrap text-right text-sm font-medium"
                                     >
                                         <div
                                             class="flex items-center justify-end space-x-2"

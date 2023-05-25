@@ -1,31 +1,41 @@
 <template>
-    <div class="bg-white px-4 py-6 shadow-md rounded-lg">
-        <div class="mb-4">
-            <h1
-                class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
-            >
-                Dépenses
-            </h1>
-        </div>
+    <div class="mb-4 bg-blue-600 px-4 py-4 shadow-md">
+        <h1 class="text-xl font-semibold text-white sm:text-2xl">
+            Dépenses de l'association
+        </h1>
+    </div>
+    <div class="bg-white px-4 py-6 shadow-md">
         <div
-            class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
+            class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 :divide-gray-700"
         >
             <div class="flex items-center mb-4 sm:mb-0">
                 <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
                     <input
                         type="text"
                         v-model="search"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-slate-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-700 :border-gray-600 :placeholder-gray-400 :text-white :focus:ring-blue-500 :focus:border-blue-500"
                         placeholder="rechercher..."
                     />
                 </div>
             </div>
             <button
                 @click="isModalOpen = true"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                class="inline-flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 :bg-blue-600 :hover:bg-blue-700 focus:outline-none :focus:ring-blue-800"
                 type="button"
             >
-                Ajouter Depense
+                <svg
+                    class="w-5 h-5 mr-2 -ml-1"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                        clip-rule="evenodd"
+                    ></path>
+                </svg>
+                Ajouter Dépense
             </button>
         </div>
 
@@ -48,7 +58,7 @@
                         <div>
                             <label
                                 for="montant"
-                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                 >Montant
                             </label>
                             <input
@@ -58,7 +68,7 @@
                                 type="number"
                                 name="montant"
                                 id="montant"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
                             />
                             <span
                                 v-if="form.errors.montant"
@@ -72,19 +82,19 @@
                         <div>
                             <label
                                 for="type"
-                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                 >Type
                             </label>
                             <select
                                 v-model="form.depense_type_id"
                                 id="depenseTypes"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 appearance-none select-none relative z-10"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-700 :border-gray-600 :placeholder-gray-400 :text-white :focus:ring-blue-500 :focus:border-blue-500 appearance-none select-none relative z-10"
                             >
                                 <option
                                     v-for="depenseType in depenseTypes"
                                     :key="depenseType.id"
                                     :value="depenseType.id"
-                                    class="bg-white dark:bg-gray-800 py-2.5 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
+                                    class="bg-white :bg-gray-800 py-2.5 px-4 cursor-pointer hover:bg-gray-200 :hover:bg-gray-700"
                                 >
                                     {{ depenseType.name }}
                                 </option>
@@ -102,14 +112,14 @@
                             <div>
                                 <label
                                     for="depense_date"
-                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                     >Date d'opération
                                 </label>
 
                                 <input
                                     v-model="form.depense_date"
                                     type="date"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
                                     placeholder="Select date"
                                     name="depense_date"
                                 />
@@ -124,7 +134,7 @@
                         </div>
                         <div>
                             <label
-                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                 for="file_input"
                                 >Reference
                             </label>
@@ -140,13 +150,13 @@
                                 @input="
                                     form.reference_file = $event.target.files[0]
                                 "
-                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 :text-gray-400 focus:outline-none :bg-gray-700 :border-gray-600 :placeholder-gray-400"
                                 id="file_input"
                                 type="file"
                                 required
                             />
                             <p
-                                class="mt-1 text-sm text-gray-500 dark:text-gray-300"
+                                class="mt-1 text-sm text-gray-500 :text-gray-300"
                                 id="file_input_help"
                             >
                                 SVG, PNG, JPG, PDF.
@@ -162,13 +172,13 @@
                             <button
                                 @click="isModalOpen = false"
                                 type="button"
-                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
                             >
                                 Annuler
                             </button>
                             <button
                                 type="submit"
-                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
                             >
                                 Enregistrer
                             </button>
@@ -183,9 +193,9 @@
                 <div class="bg-white">
                     <div class="relative overflow-x-auto shadow-lg mb-5">
                         <table
-                            class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse dark:text-gray-400"
+                            class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse :text-gray-400"
                         >
-                            <thead class="bg-gray-100 dark:bg-gray-700">
+                            <thead class="bg-gray-100 :bg-gray-700">
                                 <tr>
                                     <th
                                         scope="col"
@@ -227,28 +237,28 @@
                                 >
                                     <td
                                         scope="row"
-                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                                     >
                                         {{ depense.id }}
                                     </td>
                                     <td
-                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                                     >
                                         {{ depense.montant }}
                                     </td>
                                     <td
-                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                                     >
                                         {{ depense.depense_type.name }}
                                     </td>
 
                                     <td
-                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                                     >
                                         {{ depense.depense_date }}
                                     </td>
                                     <td
-                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                                     >
                                         <div class="flex">
                                             <!-- Eye -->

@@ -1,30 +1,40 @@
 <template>
-    <div class="bg-white px-4 py-6 shadow-md rounded-lg">
-        <div class="mb-4">
-            <h1
-                class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
-            >
-                Gestion Stock
-            </h1>
-        </div>
+    <div class="mb-4 bg-blue-600 px-4 py-4 shadow-md">
+        <h1 class="text-xl font-semibold text-white sm:text-2xl">
+            Liste de Stocks
+        </h1>
+    </div>
+    <div class="bg-white px-4 py-6 shadow-md">
         <div
-            class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
+            class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
         >
             <div class="flex items-center mb-4 sm:mb-0">
                 <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
                     <input
                         type="text"
                         v-model="search"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-slate-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :focus:border-blue-500"
                         placeholder="rechercher cotisations..."
                     />
                 </div>
             </div>
             <button
                 @click="isModalOpen = true"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                class="inline-flex items-center justify-center text-white bg-blue-700 hover focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 :hover focus:outline-none :focus:ring-blue-800"
                 type="button"
             >
+                <svg
+                    class="w-5 h-5 mr-2 -ml-1"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                        clip-rule="evenodd"
+                    ></path>
+                </svg>
                 Ajouter Stock
             </button>
         </div>
@@ -51,7 +61,7 @@
                             <div>
                                 <label
                                     for="stock_name"
-                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                     >Nom de stock
                                 </label>
                                 <input
@@ -59,7 +69,7 @@
                                     type="text"
                                     name="stock_name"
                                     id="stock_name"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400"
                                 />
                                 <span
                                     v-if="form.errors.name"
@@ -73,19 +83,19 @@
                             <div>
                                 <label
                                     for="type"
-                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                     >Type
                                 </label>
                                 <select
                                     v-model="form.stock_type_id"
                                     id="stockTypes"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 appearance-none select-none relative z-10"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-700 :border-gray-600 :placeholder-gray-400 :focus:ring-blue-500 :focus:border-blue-500 appearance-none select-none relative z-10"
                                 >
                                     <option
                                         v-for="stockType in stockTypes"
                                         :key="stockType.id"
                                         :value="stockType.id"
-                                        class="bg-white dark:bg-gray-800 py-2.5 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
+                                        class="bg-white :bg-gray-800 py-2.5 px-4 cursor-pointer hover:bg-gray-200 :hover:bg-gray-700"
                                     >
                                         {{ stockType.name }}
                                     </option>
@@ -104,14 +114,14 @@
                             <div>
                                 <label
                                     for="dpurchase_date"
-                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                     >Date d'achat
                                 </label>
 
                                 <input
                                     v-model="form.purchase_date"
                                     type="date"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400"
                                     placeholder="Select date"
                                     name="purchase_date"
                                 />
@@ -131,7 +141,7 @@
                             <div>
                                 <label
                                     for="quantity"
-                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                     >Quantité
                                 </label>
                                 <input
@@ -140,7 +150,7 @@
                                     type="number"
                                     name="quantity"
                                     id="quantity"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400"
                                 />
                                 <span
                                     v-if="form.errors.quantity"
@@ -154,7 +164,7 @@
                             <div>
                                 <label
                                     for=" price_per_unit"
-                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                     >Prix unitaire d'achat
                                 </label>
                                 <input
@@ -164,7 +174,7 @@
                                     type="number"
                                     name=" price_per_unit"
                                     id=" price_per_unit"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400"
                                 />
                                 <span
                                     v-if="form.errors.price_per_unit"
@@ -180,13 +190,13 @@
                             <button
                                 @click="isModalOpen = false"
                                 type="button"
-                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
                             >
                                 Annuler
                             </button>
                             <button
                                 type="submit"
-                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
                             >
                                 Enregistrer
                             </button>
@@ -201,16 +211,10 @@
                 <div class="bg-white">
                     <div class="relative overflow-x-auto shadow-lg mb-5">
                         <table
-                            class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse dark:text-gray-400"
+                            class="w-full text-sm text-left text-gray-500 border-collapse :text-gray-400"
                         >
-                            <thead class="bg-gray-100 dark:bg-gray-700">
+                            <thead class="bg-gray-100">
                                 <tr>
-                                    <th
-                                        scope="col"
-                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
-                                        #
-                                    </th>
                                     <th
                                         scope="col"
                                         class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -239,6 +243,12 @@
                                         scope="col"
                                         class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
+                                        Prix Total (DH)
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
                                         Date d'achat
                                     </th>
                                     <th
@@ -255,40 +265,42 @@
                                     :key="stock.id"
                                 >
                                     <td
-                                        scope="row"
-                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                    >
-                                        {{ stock.id }}
-                                    </td>
-                                    <td
-                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
                                     >
                                         {{ stock.name }}
                                     </td>
                                     <td
-                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
                                     >
                                         {{ stock.stock_type.name }}
                                     </td>
 
                                     <td
-                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
                                     >
                                         {{ stock.quantity }}
                                     </td>
 
                                     <td
-                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
                                     >
                                         {{ stock.price_per_unit }}
                                     </td>
                                     <td
-                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
+                                    >
+                                        {{
+                                            stock.price_per_unit *
+                                            stock.quantity
+                                        }}
+                                    </td>
+                                    <td
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
                                     >
                                         {{ stock.purchase_date }}
                                     </td>
                                     <td
-                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
                                     >
                                         <div
                                             class="flex item-center justify-center"

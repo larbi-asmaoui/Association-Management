@@ -1,7 +1,5 @@
 <template>
-    <nav
-        class="fixed z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"
-    >
+    <nav class="fixed z-30 w-full bg-white border-b border-gray-200">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
             <div class="flex items-center justify-between">
                 <div class="flex items-center justify-start">
@@ -39,9 +37,10 @@
                         </svg>
                     </button>
                     <a href="#" class="flex ml-2 md:mr-24">
+                        <img src="../../assets/logo.svg" alt="" class="mr-2" />
                         <span
                             class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white"
-                            >Association</span
+                            >MaAssociation</span
                         >
                     </a>
                 </div>
@@ -337,7 +336,7 @@
         </div>
     </nav>
 
-    <div class="flex pt-16 overflow-hidden bg-gray-50 dark:bg-gray-900"></div>
+    <div class="flex pt-16 overflow-hidden bg-gray-50"></div>
 
     <!-- Sidebar -->
 

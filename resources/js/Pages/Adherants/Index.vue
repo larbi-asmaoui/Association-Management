@@ -1,32 +1,41 @@
 <template>
-    <div class="bg-white px-4 py-6 shadow-md rounded-lg">
-        <div class="mb-4">
-            <h1
-                class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
-            >
-                Gestion Adhérants
-            </h1>
-        </div>
+    <button
+        @click="isModalOpen = true"
+        class="rounded-full fixed bottom-8 right-5 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
+        type="button"
+    >
+        <svg
+            class="w-5 h-5 mr-2 -ml-1"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                fill-rule="evenodd"
+                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                clip-rule="evenodd"
+            ></path>
+        </svg>
+    </button>
+    <div class="mb-4 bg-blue-600 px-4 py-4 shadow-md">
+        <h1 class="text-xl font-semibold text-white sm:text-2xl">
+            Gestion Adhérants
+        </h1>
+    </div>
+    <div class="bg-white px-4 py-6 shadow-md">
         <div
-            class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
+            class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
         >
             <div class="flex items-center mb-4 sm:mb-0">
                 <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
                     <input
                         type="text"
                         v-model="search"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-slate-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :text-white :focus:ring-blue-500 :focus:border-blue-500"
                         placeholder="rechercher adhérants..."
                     />
                 </div>
             </div>
-            <button
-                @click="isModalOpen = true"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                type="button"
-            >
-                Ajouter adhérant
-            </button>
         </div>
         <div class="">
             <Modal size="3xl" v-if="isModalOpen" @close="closeModal">
@@ -48,7 +57,7 @@
                         <div>
                             <label
                                 for="avatar"
-                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                 >Profile
                             </label>
                             <ImageUpload
@@ -70,7 +79,7 @@
                             <div>
                                 <label
                                     for="last_name"
-                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                     >Nom
                                 </label>
                                 <input
@@ -78,7 +87,7 @@
                                     type="text"
                                     name="last_name"
                                     id="last_name"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                                 />
                                 <span
                                     v-if="form.errors.last_name"
@@ -92,7 +101,7 @@
                             <div>
                                 <label
                                     for="first_name"
-                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                     >Prénom
                                 </label>
                                 <input
@@ -100,7 +109,7 @@
                                     type="text"
                                     name="first_name"
                                     id="first_name"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                                 />
                                 <span
                                     v-if="form.errors.first_name"
@@ -118,7 +127,7 @@
                             <div>
                                 <label
                                     for="cin"
-                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                     >CIN</label
                                 >
                                 <input
@@ -127,7 +136,7 @@
                                     type="text"
                                     name="cin"
                                     id="cin"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                                 />
                                 <span
                                     v-if="form.errors.cin"
@@ -140,7 +149,7 @@
                             <div>
                                 <label
                                     for="cin"
-                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                     >Sexe</label
                                 >
                                 <div class="flex gap-x-6">
@@ -148,7 +157,7 @@
                                         <input
                                             type="radio"
                                             name="sexe"
-                                            class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                            class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 :bg-gray-800 :border-gray-700 :checked:bg-blue-500 :checked:border-blue-500 :focus:ring-offset-gray-800"
                                             id="homme"
                                             checked
                                             value="homme"
@@ -156,7 +165,7 @@
                                         />
                                         <label
                                             for="homme"
-                                            class="text-sm text-gray-500 ml-2 dark:text-gray-400"
+                                            class="text-sm text-gray-500 ml-2 :text-gray-400"
                                             >Homme</label
                                         >
                                     </div>
@@ -165,14 +174,14 @@
                                         <input
                                             type="radio"
                                             name="sexe"
-                                            class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                            class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 :bg-gray-800 :border-gray-700 :checked:bg-blue-500 :checked:border-blue-500 :focus:ring-offset-gray-800"
                                             id="femme"
                                             value="femme"
                                             v-model="form.sexe"
                                         />
                                         <label
                                             for="femme"
-                                            class="text-sm text-gray-500 ml-2 dark:text-gray-400"
+                                            class="text-sm text-gray-500 ml-2 :text-gray-400"
                                             >Femme</label
                                         >
                                     </div>
@@ -193,17 +202,17 @@
                             <div>
                                 <label
                                     for="tel"
-                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                     >Tel</label
                                 >
                                 <input
-                                    pattern="^0\d{9}$"
+                                    pattern="^06|07\d{9}$"
                                     v-model="form.tel"
                                     type="text"
                                     name="tel"
                                     id="tel"
                                     autocomplete="text"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                                 />
                                 <span
                                     v-if="form.errors.tel"
@@ -217,7 +226,7 @@
                             <div>
                                 <label
                                     for="email"
-                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                     >Email</label
                                 >
                                 <input
@@ -226,7 +235,7 @@
                                     name="email"
                                     id="email"
                                     autocomplete="text"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                                 />
                                 <span
                                     v-if="form.errors.email"
@@ -244,14 +253,14 @@
                             <div>
                                 <label
                                     for="date_of_birth"
-                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                     >Date de naissance
                                 </label>
 
                                 <input
                                     v-model="form.date_of_birth"
                                     type="date"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                                     placeholder="Select date"
                                     name="date_of_birth"
                                 />
@@ -266,14 +275,14 @@
                             <div>
                                 <label
                                     for="date_of_membership"
-                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                     >Date d'adhésion
                                 </label>
 
                                 <input
                                     v-model="form.date_of_membership"
                                     type="date"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                                     placeholder="Select date"
                                     name="date_of_membership"
                                 />
@@ -289,7 +298,7 @@
                         <div>
                             <label
                                 for="hs-about-hire-us-1"
-                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                 >Addresse</label
                             >
                             <textarea
@@ -297,7 +306,7 @@
                                 id="address"
                                 name="address"
                                 rows="3"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                             ></textarea>
                             <span
                                 v-if="form.errors.address"
@@ -311,13 +320,13 @@
                             <button
                                 @click="closeModal"
                                 type="button"
-                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
                             >
                                 Annuler
                             </button>
                             <button
                                 type="submit"
-                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
                             >
                                 Enregistrer
                             </button>
@@ -334,43 +343,43 @@
                 <div class="bg-white">
                     <div class="relative overflow-x-auto shadow-lg mb-5">
                         <table
-                            class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse dark:text-gray-400"
+                            class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse :text-gray-400"
                         >
-                            <thead class="bg-gray-100 dark:bg-gray-700">
+                            <thead class="bg-gray-100">
                                 <tr>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                                     >
                                         #
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                                     >
                                         Nom
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                                     >
                                         Prénom
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                                     >
                                         CIN
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                                     >
                                         Telephone
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                                     >
                                         Date d'adhésion
                                     </th>
@@ -420,7 +429,7 @@
                                             })
                                         "
                                         scope="col"
-                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                                     >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -453,14 +462,14 @@
                                 </tr>
                             </thead>
                             <tbody
-                                class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"
+                                class="bg-white divide-y divide-gray-200 :bg-gray-800"
                             >
                                 <tr
                                     v-for="adherant in adherants.data"
                                     :key="adherant.id"
                                 >
                                     <td
-                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                                     >
                                         <img
                                             class="w-10 h-10 rounded-full"
@@ -468,32 +477,32 @@
                                         />
                                     </td>
                                     <td
-                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                                     >
                                         {{ adherant.last_name }}
                                     </td>
                                     <td
-                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                                     >
                                         {{ adherant.first_name }}
                                     </td>
                                     <td
-                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                                     >
                                         {{ adherant.cin }}
                                     </td>
                                     <td
-                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                                     >
                                         {{ adherant.tel }}
                                     </td>
                                     <td
-                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                                     >
                                         {{ adherant.date_of_membership }}
                                     </td>
                                     <td
-                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                                     >
                                         <div v-show="false" id="#print-section">
                                             <div>
