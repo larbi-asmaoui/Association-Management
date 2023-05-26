@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEvenementRequest;
 use App\Http\Requests\UpdateEvenementRequest;
 use App\Models\Evenement;
+use App\Models\EvenementType;
 use App\Models\Groupe;
 use Inertia\Inertia;
 
@@ -18,10 +19,14 @@ class EvenementController extends Controller
         $userId = auth()->id();
         $evenements = Evenement::paginate(10);
         $groupes = Groupe::all();
+        $lastEvenement = Evenement::latest()->first();
+        $evenementTypes = EvenementType::where('user_id', $userId)->get();
 
         return Inertia::render('Evenements/Index', [
             'evenements' => $evenements,
-            'groupes' => $groupes
+            'groupes' => $groupes,
+            'lastEvenement' => $lastEvenement,
+            'evenementTypes' => $evenementTypes
             // 'filters' => Request::only(['search'])
         ]);
     }
@@ -51,17 +56,38 @@ class EvenementController extends Controller
      */
     public function store(StoreEvenementRequest $request)
     {
-        $request->validated(
-            [
-                'title' => 'required',
-                'description' => 'required',
-                'start' => 'required',
-                'end' => 'required',
-                'location' => 'required',
-            ]
-        );
-        Evenement::create($request->all());
-        return redirect()->back()->with('success', 'Evenement created.');
+        $validatedData = $request->validate([
+            // 'title' => 'required',
+            'description' => 'required',
+            'start' => 'required',
+            'end' => 'required',
+            'location' => 'required',
+            'evenement_type_id' => 'required|exists:evenement_types,id',
+        ]);
+
+        // Fetch the last created event's reference number
+        $lastEvenement = Evenement::latest()->first();
+
+        if ($lastEvenement) {
+            // Extract the increment part and increment it
+            // $lastIncrementPart = intval(explode('-', $lastEvenement->reference)[1]);
+            $lastIncrementPart = $lastEvenement ? substr($lastEvenement->reference, -3) : 0;
+            $newIncrementPart = str_pad((int)$lastIncrementPart + 1, 3, '0', STR_PAD_LEFT);
+        } else {
+            // If there is no event yet, start the increment part from 1
+            $newIncrementPart = 1;
+        }
+
+        // Generate the new reference
+        $currentYear = date('Y');
+        $nextYear = intval($currentYear) + 1;
+        $newReference = "$currentYear/$nextYear-$newIncrementPart";
+
+        // Add the reference to the data
+        $validatedData['reference'] = $newReference;
+        $validatedData['user_id'] = auth()->id();
+        // Create the event
+        Evenement::create($validatedData);
     }
 
     /**

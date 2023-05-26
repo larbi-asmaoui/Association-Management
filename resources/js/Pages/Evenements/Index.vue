@@ -42,7 +42,7 @@
             <Modal size="xl" v-if="isModalOpen" @close="closeModal">
                 <template #header>
                     <div class="flex items-center text-lg">
-                        Ajouter un évènement
+                        Ajouter un évènement {{ reference.value }}
                     </div>
                 </template>
                 <template #body>
@@ -50,7 +50,7 @@
                         class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2"
                         @submit.prevent="submit"
                     >
-                        <div>
+                        <!-- <div>
                             <label
                                 for="title"
                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
@@ -64,7 +64,7 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 required
                             />
-                        </div>
+                        </div> -->
                         <div>
                             <label
                                 for="description"
@@ -79,6 +79,34 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 required
                             ></textarea>
+                        </div>
+                        <div>
+                            <label
+                                for="type"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                >Type
+                            </label>
+                            <select
+                                v-model="form.evenement_type_id"
+                                id="evenment_type_id"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-700 :border-gray-600 :placeholder-gray-400 :text-white :focus:ring-blue-500 :focus:border-blue-500 appearance-none select-none relative z-10"
+                            >
+                                <option
+                                    v-for="evenementType in evenementTypes"
+                                    :key="evenementType.id"
+                                    :value="evenementType.id"
+                                    class="bg-white :bg-gray-800 py-2.5 px-4 cursor-pointer hover:bg-gray-200 :hover:bg-gray-700"
+                                >
+                                    {{ evenementType.name }}
+                                </option>
+                            </select>
+                            <span
+                                v-if="form.errors.evenement_type_id"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.evenement_type_id }}
+                            </span>
                         </div>
 
                         <div>
@@ -166,12 +194,6 @@
                                         scope="col"
                                         class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
-                                        #
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
                                         Évènement
                                     </th>
                                     <th
@@ -196,12 +218,6 @@
                                         scope="col"
                                         class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
-                                        Budget
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
                                         Actions
                                     </th>
                                 </tr>
@@ -216,12 +232,7 @@
                                     <td
                                         class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
-                                        {{ evenement.id }}
-                                    </td>
-                                    <td
-                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                    >
-                                        {{ evenement.title }}
+                                        {{ evenement.reference }}
                                     </td>
                                     <td
                                         class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -238,11 +249,7 @@
                                     >
                                         {{ evenement.location }}
                                     </td>
-                                    <td
-                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                    >
-                                        100DH
-                                    </td>
+
                                     <td
                                         class="border border-slate-400 px-6 py-3 whitespace-nowrap text-right text-sm font-medium"
                                     >
@@ -297,6 +304,7 @@
 
                                             <!-- Delete -->
                                             <button
+                                                @click="destroy(evenement.id)"
                                                 class="text-gray-400 hover:text-purple-500 transition-colors duration-200"
                                             >
                                                 <svg
@@ -365,7 +373,7 @@ export default {
 </script>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed, reactive, watchEffect } from "vue";
 import { Modal } from "flowbite-vue";
 import { useForm } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
@@ -383,15 +391,42 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    lastEvenement: {
+        type: Object,
+        default: () => ({}),
+    },
+    evenementTypes: {
+        type: Object,
+        default: () => ({}),
+    },
+});
+
+const incrementPart = computed(() => {
+    // Get the increment part of the last event's reference
+    const lastIncrementPart =
+        props.lastEvenement && props.lastEvenement.reference
+            ? parseInt(props.lastEvenement.reference.split("-")[1])
+            : 0;
+    return lastIncrementPart + 1;
+});
+
+const reference = reactive({
+    value: null,
+});
+
+watchEffect(() => {
+    const currentYear = new Date().getFullYear();
+    const nextYear = currentYear + 1;
+    reference.value = `${currentYear}/${nextYear}-${incrementPart.value}`;
 });
 
 const form = useForm({
     id: "",
-    title: "",
     description: "",
     start: "",
     end: "",
     location: "",
+    evenement_type_id: "",
 });
 
 const submit = () => {
@@ -428,5 +463,29 @@ const toggleDropdown = () => {
 const closeModal = () => {
     form.reset("title", "description", "start", "end", "location");
     isModalOpen.value = false;
+};
+
+const destroy = (id) => {
+    if (confirm("Êtes-vous sûr de vouloir supprimer cet évènement ?")) {
+        form.delete(route("evenements.destroy", id), {
+            onError: () => {
+                $toast.open({
+                    message: "Une erreur s'est produite",
+                    type: "error",
+                    dismissible: true,
+                    duration: 3000,
+                });
+            },
+            onSuccess: () => {
+                $toast.open({
+                    message: "Évènement supprimé avec succès",
+                    type: "success",
+                    dismissible: true,
+                    duration: 3000,
+                });
+                // page.value.$inertia.$refresh(); // This will refresh the page
+            },
+        });
+    }
 };
 </script>

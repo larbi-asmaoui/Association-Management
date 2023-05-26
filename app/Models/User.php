@@ -99,4 +99,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(EvenementType::class);
     }
+
+    public function evenements(): HasMany
+    {
+        return $this->hasMany(Evenement::class);
+    }
+
+    public function revenues(): HasMany
+    {
+        return $this->hasMany(Revenue::class);
+    }
+
+    public function depenses(): HasMany
+    {
+        return $this->hasMany(Depense::class);
+    }
 }
