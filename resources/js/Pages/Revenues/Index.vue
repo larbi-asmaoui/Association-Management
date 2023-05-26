@@ -56,6 +56,27 @@
                     >
                         <div>
                             <label
+                                for="titre"
+                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                >Titre
+                            </label>
+                            <input
+                                v-model="form.titre"
+                                type="text"
+                                name="titre"
+                                id="titre"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                            />
+                            <span
+                                v-if="form.errors.titre"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.titre }}
+                            </span>
+                        </div>
+                        <div>
+                            <label
                                 for="montant"
                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
                                 >Montant
@@ -193,7 +214,7 @@
                                         scope="col"
                                         class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
-                                        #
+                                        Titre
                                     </th>
                                     <th
                                         scope="col"
@@ -231,7 +252,7 @@
                                         scope="row"
                                         class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-normal dark:text-white"
                                     >
-                                        {{ revenue.id }}
+                                        {{ revenue.titre }}
                                     </td>
                                     <td
                                         class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-normal dark:text-white"
@@ -389,6 +410,7 @@ const $toast = useToast();
 
 const form = useForm({
     id: null,
+    titre: null,
     montant: null,
     revenue_date: null,
     reference_file: null,
@@ -418,6 +440,7 @@ const onFileChange = (e) => {
 
 const openEditModal = (revenue) => {
     form.id = revenue.id;
+    form.titre = revenue.titre;
     form.montant = revenue.montant;
     form.revenue_date = revenue.revenue_date;
     form.reference_file = revenue.reference_file;

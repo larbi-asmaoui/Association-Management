@@ -50,6 +50,7 @@ class RevenueController extends Controller
     public function store(Request $request)
     {
         $revenue = $request->validate([
+            'titre' => 'required,max:255',
             'montant' => 'required',
             'revenue_date' => 'required',
             'reference_file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png',
@@ -87,6 +88,7 @@ class RevenueController extends Controller
     {
         $revenue->update(
             $request->validate([
+                'titre' => 'required,max:255',
                 'montant' => 'required',
                 'Revenue_date' => 'required',
                 'reference_file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png',

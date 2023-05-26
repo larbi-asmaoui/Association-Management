@@ -50,6 +50,7 @@ class DepenseController extends Controller
     public function store(Request $request)
     {
         $depense = $request->validate([
+            'titre' => 'required',
             'montant' => 'required',
             'depense_date' => 'required',
             'reference_file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png',
@@ -91,6 +92,7 @@ class DepenseController extends Controller
     {
         $depense->update(
             $request->validate([
+                'titre' => 'required,max:255',
                 'montant' => 'required',
                 'depense_date' => 'required',
                 'reference_file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png',
