@@ -5,7 +5,7 @@
         type="button"
     >
         <svg
-            class="w-5 h-5 mr-2 -ml-1"
+            class="w-5 h-5"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -17,6 +17,7 @@
             ></path>
         </svg>
     </button>
+
     <div class="mb-4 bg-blue-600 px-4 py-4 shadow-md">
         <h1 class="text-xl font-semibold text-white sm:text-2xl">
             Gestion Adhérants
