@@ -58,7 +58,7 @@ class EvenementController extends Controller
     {
         $validatedData = $request->validate([
             // 'title' => 'required',
-            'description' => 'required',
+            // 'description' => 'required',
             'start' => 'required',
             'end' => 'required',
             'location' => 'required',
@@ -131,11 +131,14 @@ class EvenementController extends Controller
     public function update(UpdateEvenementRequest $request, Evenement $evenement)
     {
         $request->validate([
+            'description' => 'required',
             'start' => 'required',
             'end' => 'required',
+            'location' => 'required',
+            'evenement_type_id' => 'required|exists:evenement_types,id',
         ]);
 
-        $evenement->update($request->only('start', 'end'));
+        $evenement->update($request->all());
 
         return redirect()->back()->with('success', 'Evenement updated.');
     }

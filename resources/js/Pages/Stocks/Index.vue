@@ -1,7 +1,7 @@
 <template>
     <button
         @click="isModalOpen = true"
-        class="rounded-full fixed bottom-8 right-5 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
+        class="rounded-full z-50 fixed bottom-8 right-5 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
         type="button"
     >
         <svg

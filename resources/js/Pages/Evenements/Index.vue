@@ -1,7 +1,7 @@
 <template>
     <button
         @click="isModalOpen = true"
-        class="rounded-full fixed bottom-8 right-5 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
+        class="rounded-full fixed z-50 bottom-8 right-5 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
         type="button"
     >
         <svg
@@ -77,7 +77,6 @@
                                 name="description"
                                 id="description"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                required
                             ></textarea>
                         </div>
                         <div>
@@ -258,6 +257,7 @@
                                         >
                                             <!-- Eye -->
                                             <button
+                                                @click="show(evenement.id)"
                                                 class="text-gray-400 hover:text-purple-500 transition-colors duration-200"
                                             >
                                                 <svg
@@ -487,5 +487,9 @@ const destroy = (id) => {
             },
         });
     }
+};
+
+const show = (id) => {
+    form.get(route("evenements.show", id));
 };
 </script>
