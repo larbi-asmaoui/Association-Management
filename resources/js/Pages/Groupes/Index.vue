@@ -127,12 +127,6 @@
                                         scope="col"
                                         class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
-                                        #
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
                                         Groupe
                                     </th>
                                     <th
@@ -156,11 +150,6 @@
                                     v-for="groupe in groupes.data"
                                     :key="groupe.id"
                                 >
-                                    <td
-                                        class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
-                                    >
-                                        {{ groupe.id }}
-                                    </td>
                                     <td
                                         class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
                                     >

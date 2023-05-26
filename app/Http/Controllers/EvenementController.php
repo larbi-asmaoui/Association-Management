@@ -57,11 +57,12 @@ class EvenementController extends Controller
     public function store(StoreEvenementRequest $request)
     {
         $validatedData = $request->validate([
-            // 'title' => 'required',
-            // 'description' => 'required',
+            'title' => 'required',
             'start' => 'required',
             'end' => 'required',
             'location' => 'required',
+            'city' => 'required',
+            'region' => 'required',
             'evenement_type_id' => 'required|exists:evenement_types,id',
         ]);
 
@@ -95,9 +96,6 @@ class EvenementController extends Controller
      */
     public function show(Evenement $evenement)
     {
-        return Inertia::render('Evenements/Show', [
-            'evenement' => $evenement,
-        ]);
     }
 
     /**
@@ -105,40 +103,32 @@ class EvenementController extends Controller
      */
     public function edit(Evenement $evenement)
     {
-        return Inertia::render('Evenements/Edit', [
+        $userId = auth()->id();
+        $evenementTypes = EvenementType::where('user_id', $userId)->get();
+        return Inertia::render('Evenements/Show', [
             'evenement' => $evenement,
+            'evenementTypes' => $evenementTypes
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    // public function update(UpdateEvenementRequest $request, Evenement $evenement)
-    // {
-    //     $request->validated(
-    //         [
-    //             'title' => 'required',
-    //             'description' => 'required',
-    //             'start' => 'required',
-    //             'end' => 'required',
-    //             'location' => 'required',
-    //         ]
-    //     );
-    //     $evenement->update($request->all());
-    //     return redirect()->back()->with('success', 'Evenement updated.');
-    // }
+
 
     public function update(UpdateEvenementRequest $request, Evenement $evenement)
     {
-        $request->validate([
-            'description' => 'required',
+        $formFields = $request->validate([
+            'title' => 'required',
             'start' => 'required',
             'end' => 'required',
             'location' => 'required',
+            'city' => 'required',
+            'region' => 'required',
             'evenement_type_id' => 'required|exists:evenement_types,id',
         ]);
 
-        $evenement->update($request->all());
+        $evenement->update($formFields);
 
         return redirect()->back()->with('success', 'Evenement updated.');
     }

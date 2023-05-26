@@ -19,7 +19,7 @@
     </button>
     <div class="mb-4 bg-blue-600 px-4 py-4 shadow-md">
         <h1 class="text-xl font-semibold text-white sm:text-2xl">
-            Gestion Évènements
+            Gestion Événements
         </h1>
     </div>
     <div class="bg-white px-4 py-6 shadow-md">
@@ -32,7 +32,7 @@
                         type="text"
                         v-model="search"
                         class="bg-slate-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="rechercher évènements..."
+                        placeholder="rechercher Événements..."
                     />
                 </div>
             </div>
@@ -42,19 +42,19 @@
             <Modal size="xl" v-if="isModalOpen" @close="closeModal">
                 <template #header>
                     <div class="flex items-center text-lg">
-                        Ajouter un évènement {{ reference.value }}
+                        Ajouter un Événement {{ reference.value }}
                     </div>
                 </template>
                 <template #body>
                     <form
-                        class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2"
+                        class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
                         @submit.prevent="submit"
                     >
-                        <!-- <div>
+                        <div>
                             <label
                                 for="title"
                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Titre de l'évènement</label
+                                >Titre de l'Événement</label
                             >
                             <input
                                 v-model="form.title"
@@ -64,7 +64,63 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 required
                             />
-                        </div> -->
+                            <span
+                                v-if="form.errors.title"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.title }}
+                            </span>
+                        </div>
+                        <div>
+                            <label
+                                for="start"
+                                class="block text-sm text-gray-700 font-medium dark:text-white"
+                                >Date de début
+                            </label>
+
+                            <input
+                                :min="new Date().toISOString().split('T')[0]"
+                                v-model="form.start"
+                                lang="fr-FR"
+                                type="date"
+                                class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                placeholder="Select date"
+                                name="start"
+                            />
+                            <span
+                                v-if="form.errors.start"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.start }}
+                            </span>
+                        </div>
+                        <!--  -->
+                        <div>
+                            <label
+                                for="end"
+                                class="block text-sm text-gray-700 font-medium dark:text-white"
+                                >Date de Fin
+                            </label>
+
+                            <input
+                                lang="fr-CA"
+                                :min="new Date().toISOString().split('T')[0]"
+                                v-model="form.end"
+                                type="date"
+                                class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                placeholder="Select date"
+                                name="end"
+                            />
+                            <span
+                                v-if="form.errors.end"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.end }}
+                            </span>
+                        </div>
                         <div>
                             <label
                                 for="description"
@@ -78,6 +134,13 @@
                                 id="description"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                             ></textarea>
+                            <span
+                                v-if="form.errors.description"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.description }}
+                            </span>
                         </div>
                         <div>
                             <label
@@ -110,45 +173,9 @@
 
                         <div>
                             <label
-                                for="start"
-                                class="block text-sm text-gray-700 font-medium dark:text-white"
-                                >Date de début
-                            </label>
-
-                            <input
-                                :min="new Date().toISOString().split('T')[0]"
-                                v-model="form.start"
-                                lang="fr-FR"
-                                type="date"
-                                class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                placeholder="Select date"
-                                name="start"
-                            />
-                        </div>
-                        <!--  -->
-                        <div>
-                            <label
-                                for="end"
-                                class="block text-sm text-gray-700 font-medium dark:text-white"
-                                >Date de Fin
-                            </label>
-
-                            <input
-                                lang="fr-CA"
-                                :min="new Date().toISOString().split('T')[0]"
-                                v-model="form.end"
-                                type="date"
-                                class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                placeholder="Select date"
-                                name="end"
-                            />
-                        </div>
-
-                        <div>
-                            <label
                                 for="location"
                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Location</label
+                                >Lieu de l'événement</label
                             >
                             <input
                                 v-model="form.location"
@@ -158,6 +185,74 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 required
                             />
+                            <span
+                                v-if="form.errors.location"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.location }}
+                            </span>
+                        </div>
+                        <div>
+                            <label
+                                for="type"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >Région</label
+                            >
+                            <select
+                                v-model="form.region"
+                                id="type"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            >
+                                <option disabled value="">
+                                    Séléctionner région
+                                </option>
+                                <option
+                                    v-for="region in regions"
+                                    @change="filterCities"
+                                    :key="region.id"
+                                    :value="region.name"
+                                >
+                                    {{ region.name }}
+                                </option>
+                            </select>
+                            <span
+                                v-if="form.errors.region"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.region }}
+                            </span>
+                        </div>
+                        <div>
+                            <label
+                                for="type"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >Ville</label
+                            >
+                            <select
+                                v-model="form.city"
+                                id="type"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            >
+                                <option disabled value="">
+                                    Séléctionner ville
+                                </option>
+                                <option
+                                    v-for="city in filteredCities"
+                                    key="city.id"
+                                    :value="city"
+                                >
+                                    {{ city }}
+                                </option>
+                            </select>
+                            <span
+                                v-if="form.errors.city"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.city }}
+                            </span>
                         </div>
 
                         <div class="mt-5 flex justify-end gap-x-2">
@@ -193,7 +288,7 @@
                                         scope="col"
                                         class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
-                                        Évènement
+                                        Événement
                                     </th>
                                     <th
                                         scope="col"
@@ -207,12 +302,7 @@
                                     >
                                         Date fin
                                     </th>
-                                    <th
-                                        scope="col"
-                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
-                                        Location
-                                    </th>
+
                                     <th
                                         scope="col"
                                         class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -243,18 +333,11 @@
                                     >
                                         {{ evenement.end }}
                                     </td>
-                                    <td
-                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                    >
-                                        {{ evenement.location }}
-                                    </td>
 
                                     <td
                                         class="border border-slate-400 px-6 py-3 whitespace-nowrap text-right text-sm font-medium"
                                     >
-                                        <div
-                                            class="flex items-center justify-end space-x-2"
-                                        >
+                                        <div class="flex space-x-2">
                                             <!-- Eye -->
                                             <button
                                                 @click="show(evenement.id)"
@@ -278,26 +361,6 @@
                                                         stroke-linejoin="round"
                                                         stroke-width="2"
                                                         d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                                    ></path>
-                                                </svg>
-                                            </button>
-
-                                            <!-- Edit -->
-                                            <button
-                                                class="text-gray-400 hover:text-purple-500 transition-colors duration-200"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    class="h-5 w-5"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                                                     ></path>
                                                 </svg>
                                             </button>
@@ -380,6 +443,8 @@ import { router } from "@inertiajs/vue3";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 
+import regionsFile from "../../regions.json";
+
 const $toast = useToast();
 
 const props = defineProps({
@@ -420,12 +485,33 @@ watchEffect(() => {
     reference.value = `${currentYear}/${nextYear}-${incrementPart.value}`;
 });
 
+const regions = ref(regionsFile);
+
+const filteredCities = computed(() => {
+    if (form.region) {
+        const regionData = regions.value.find(
+            (region) => region.name === form.region
+        );
+        if (regionData) {
+            return regionData.cities_list;
+        }
+    }
+    return [];
+});
+
+const filterCities = () => {
+    form.city = "";
+};
+
 const form = useForm({
     id: "",
+    title: "",
     description: "",
     start: "",
     end: "",
     location: "",
+    region: "",
+    city: "",
     evenement_type_id: "",
 });
 
@@ -442,7 +528,7 @@ const submit = () => {
         onSuccess: () => {
             closeModal();
             $toast.open({
-                message: "Évènement ajouté avec succès",
+                message: "Événement ajouté avec succès",
                 type: "success",
                 dismissible: true,
                 duration: 3000,
@@ -466,7 +552,7 @@ const closeModal = () => {
 };
 
 const destroy = (id) => {
-    if (confirm("Êtes-vous sûr de vouloir supprimer cet évènement ?")) {
+    if (confirm("Êtes-vous sûr de vouloir supprimer cet Événement ?")) {
         form.delete(route("evenements.destroy", id), {
             onError: () => {
                 $toast.open({
@@ -478,7 +564,7 @@ const destroy = (id) => {
             },
             onSuccess: () => {
                 $toast.open({
-                    message: "Évènement supprimé avec succès",
+                    message: "Événement supprimé avec succès",
                     type: "success",
                     dismissible: true,
                     duration: 3000,
@@ -490,6 +576,6 @@ const destroy = (id) => {
 };
 
 const show = (id) => {
-    form.get(route("evenements.show", id));
+    form.get(route("evenements.edit", id));
 };
 </script>

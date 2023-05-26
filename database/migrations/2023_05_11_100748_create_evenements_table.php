@@ -15,13 +15,16 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('evenement_type_id')->constrained()->onDelete('cascade');
+            $table->string('title');
             $table->string('reference');
             $table->string('description')->nullable();
             $table->date('start');
             $table->date('end');
             $table->string('location');
-            $table->double('revenue')->default(0);
-            $table->double('depense')->default(0);
+            $table->string('city');
+            $table->string('region');
+            $table->double('revenue')->nullable(true);
+            $table->double('depense')->nullable(true);
             $table->timestamps();
         });
     }

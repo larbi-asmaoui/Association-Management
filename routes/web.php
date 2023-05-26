@@ -95,13 +95,13 @@ Route::middleware([
     //---------- Evenements ----------//
     Route::prefix('/evenements')->group(function () {
         Route::get('/', [EvenementController::class, 'index'])->name('evenements.index');
+        Route::get('/{evenement}/edit', [EvenementController::class, 'edit'])->name('evenements.edit');
         Route::get('/calendrier', [EvenementController::class, 'calender'])->name('evenements.calender');
         Route::delete('/{evenement}', [EvenementController::class, 'destroy'])->name('evenements.destroy');
         Route::put('/{evenement}', [EvenementController::class, 'update'])->name('evenements.update');
         Route::get('/create', [EvenementController::class, 'create'])->name('evenements.create');
         Route::post('/', [EvenementController::class, 'store'])->name('evenements.store');
         Route::get('/{evenement}', [EvenementController::class, 'show'])->name('evenements.show');
-        Route::get('/{evenement}/edit', [EvenementController::class, 'edit'])->name('evenements.edit');
     });
 
     // ---------Reveneues ------------ //
