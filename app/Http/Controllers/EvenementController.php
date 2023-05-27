@@ -60,6 +60,7 @@ class EvenementController extends Controller
             'title' => 'required',
             'start' => 'required',
             'end' => 'required',
+            'description' => 'nullable',
             'location' => 'required',
             'city' => 'required',
             'region' => 'required',
@@ -121,6 +122,9 @@ class EvenementController extends Controller
         $formFields = $request->validate([
             'title' => 'required',
             'start' => 'required',
+            'description' => 'nullable',
+            'revenue' => 'nullable',
+            'depense' => 'nullable',
             'end' => 'required',
             'location' => 'required',
             'city' => 'required',

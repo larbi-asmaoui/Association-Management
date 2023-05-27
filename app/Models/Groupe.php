@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Groupe extends Model
 {
@@ -20,4 +21,8 @@ class Groupe extends Model
     // {
     //     return Carbon::parse($value)->format('d/m/Y');
     // }
+    public function adherants(): BelongsToMany
+    {
+        return $this->belongsToMany(Adherant::class);
+    }
 }

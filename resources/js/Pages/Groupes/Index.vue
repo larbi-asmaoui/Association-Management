@@ -48,7 +48,7 @@
                 </template>
                 <template #body>
                     <form
-                        class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2"
+                        class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
                         @submit.prevent="submit"
                     >
                         <div>
@@ -93,6 +93,72 @@
                                 {{ form.errors.description }}
                             </span>
                         </div>
+
+                        <!-- ************************************** -->
+                        <div>
+                            <button
+                                @click="dropdownOpen = !dropdownOpen"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                type="button"
+                            >
+                                Choisir les membres
+                                <svg
+                                    class="w-4 h-4 ml-2"
+                                    aria-hidden="true"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M19 9l-7 7-7-7"
+                                    ></path>
+                                </svg>
+                            </button>
+
+                            <div
+                                v-if="dropdownOpen"
+                                class="z-40 w-48 h-40 overflow-auto bg-white rounded-lg shadow dark:bg-gray-700"
+                            >
+                                <ul
+                                    class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"
+                                >
+                                    <li
+                                        v-for="(adherant, index) in adherants"
+                                        :value="adherant.id"
+                                        :key="index"
+                                    >
+                                        <div
+                                            class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                :id="
+                                                    'checkbox-item-' +
+                                                    adherant.id
+                                                "
+                                                v-model="selectedAdherants"
+                                                :value="adherant.id"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                                            />
+                                            <label
+                                                :for="
+                                                    'checkbox-item-' +
+                                                    adherant.id
+                                                "
+                                                class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+                                                >{{ adherant.first_name }}
+                                                {{ adherant.last_name }}</label
+                                            >
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- **********  Select  ********** -->
 
                         <div class="mt-5 flex justify-end gap-x-2">
                             <button
@@ -139,6 +205,12 @@
                                         scope="col"
                                         class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
+                                        Nombre de membres
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
                                         Actions
                                     </th>
                                 </tr>
@@ -158,16 +230,20 @@
                                     <td
                                         class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
                                     >
-                                        {{ groupe.description }}
+                                        {{ groupe.description ?? "-" }}
                                     </td>
                                     <td
                                         class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
                                     >
-                                        <div
-                                            class="flex items-center justify-center"
-                                        >
+                                        {{ groupe.adherants_count }}
+                                    </td>
+
+                                    <td
+                                        class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
+                                    >
+                                        <div class="flex">
                                             <!-- Eye -->
-                                            <div
+                                            <!-- <div
                                                 @click="show(groupe.id)"
                                                 class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                                             >
@@ -190,10 +266,11 @@
                                                         d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                                                     ></path>
                                                 </svg>
-                                            </div>
+                                            </div> -->
 
                                             <!-- Edit -->
                                             <div
+                                                @click="openEditModal(groupe)"
                                                 class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                                             >
                                                 <svg
@@ -257,28 +334,62 @@ import { watch } from "vue";
 import { Modal } from "flowbite-vue";
 import { router } from "@inertiajs/vue3";
 import Pagination from "../../Components/Pagination.vue";
-
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
 import { useForm } from "@inertiajs/vue3";
 
+const $toast = useToast();
+
+let selectedAdherants = ref([]);
+
 const form = useForm({
+    id: null,
     name: null,
     description: null,
+    adherants: [],
 });
 
 const submit = () => {
-    form.post(route("groupes.store"), {
-        preserveScroll: true,
-        onSuccess: () => closeModal(),
-    });
+    if (form.id) {
+        form.adherants = selectedAdherants.value;
+        form.put(route("groupes.update", form.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                closeModal();
+                $toast.open({
+                    message: "Groupe modifié avec succès",
+                    type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+        });
+    } else {
+        form.adherants = selectedAdherants.value;
+        form.post(route("groupes.store"), {
+            preserveScroll: true,
+            onSuccess: () => {
+                closeModal();
+                $toast.open({
+                    message: "Groupe ajouté avec succès",
+                    type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+        });
+    }
 };
 
 let isModalOpen = ref(false);
 
 const closeModal = () => {
     isModalOpen.value = false;
-
     form.reset();
+    selectedAdherants.value = [];
 };
+
+const dropdownOpen = ref(false);
 
 const show = (id) => {
     form.get(route("groupes.show", id));
@@ -286,8 +397,34 @@ const show = (id) => {
 
 const destroy = (id) => {
     if (confirm("Are you sure?")) {
-        form.delete(route("groupes.destroy", id));
+        form.delete(route("groupes.destroy", id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                $toast.open({
+                    message: "Groupe supprimé avec succès",
+                    type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+            onError: () => {
+                $toast.open({
+                    message: "Erreur lors de la suppression",
+                    type: "error",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+        });
     }
+};
+
+const openEditModal = (groupe) => {
+    form.id = groupe.id;
+    form.name = groupe.name;
+    form.description = groupe.description;
+    selectedAdherants.value = groupe.adherants.map((adherant) => adherant.id);
+    isModalOpen.value = true;
 };
 
 const props = defineProps({
@@ -295,10 +432,10 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
-    // filters: {
-    //     type: Object,
-    //     default: () => ({}),
-    // },
+    adherants: {
+        type: Object,
+        default: () => ({}),
+    },
 });
 
 // pass filters in search

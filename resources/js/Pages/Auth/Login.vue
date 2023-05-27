@@ -42,8 +42,10 @@ const submit = () => {
         <div
             class="w-full max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-2xl dark:bg-gray-800"
         >
-            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-                Sign in to platform
+            <h2
+                class="text-2xl text-center font-bold text-gray-900 dark:text-white"
+            >
+                S'autentifier
             </h2>
             <form class="mt-8 space-y-6" @submit.prevent="submit">
                 <div>
@@ -61,12 +63,13 @@ const submit = () => {
                         placeholder="name@gmail.com"
                         required
                     />
+                    <InputError class="mt-2" :message="form.errors.email" />
                 </div>
                 <div>
                     <label
                         for="password"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >Password</label
+                        >Mot de passe</label
                     >
                     <input
                         v-model="form.password"
@@ -77,6 +80,7 @@ const submit = () => {
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         required
                     />
+                    <InputError class="mt-2" :message="form.errors.password" />
                 </div>
                 <div class="block mt-4">
                     <label class="flex items-center">
@@ -95,25 +99,26 @@ const submit = () => {
                         :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing"
                     >
-                        Log in
+                        S'identifier
                     </PrimaryButton>
                     <Link
                         v-if="canResetPassword"
                         :href="route('password.request')"
                         class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
-                        Forgot your password?
+                        Mot de passe oublié ?
                     </Link>
                 </div>
                 <div
                     class="text-sm text-center font-medium text-gray-500 dark:text-gray-400"
                 >
-                    Not registered?
+                    Pas de compte ?
                     <Link
                         :href="route('register')"
                         class="text-primary-700 hover:underline dark:text-primary-500"
-                        >Create account</Link
                     >
+                        Créer un compte
+                    </Link>
                 </div>
             </form>
         </div>
