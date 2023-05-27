@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateRevenueRequest;
 use App\Models\Revenue;
 use App\Models\RevenueType;
 use Illuminate\Http\Request;
@@ -53,7 +54,7 @@ class RevenueController extends Controller
             'titre' => 'required',
             'montant' => 'required',
             'revenue_date' => 'required',
-            'reference_file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png',
+            'reference_file' => 'required',
             'revenue_type_id' => 'required|exists:revenue_types,id',
         ]);
         if ($request->hasFile('reference_file')) {
@@ -90,12 +91,14 @@ class RevenueController extends Controller
             'titre' => 'required',
             'montant' => 'required',
             'revenue_date' => 'required',
-            'reference_file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png',
+            'reference_file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png',
             'revenue_type_id' => 'required|exists:revenue_types,id',
         ]);
+
         if ($request->hasFile('reference_file')) {
             $formFields['reference_file']  = $request->file('reference_file')->store('uploads/images/revenues', 'public');
         }
+
         $revenue->update($formFields);
         return redirect()->back()->with('success', 'Revenue updated.');
     }

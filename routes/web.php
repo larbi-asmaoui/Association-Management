@@ -107,12 +107,12 @@ Route::middleware([
     // ---------Reveneues ------------ //
     Route::prefix('/revenues')->group(function () {
         Route::get('/', [RevenueController::class, 'index'])->name('revenues.index');
+        Route::put('/{revenue}', [RevenueController::class, 'update'])->name('revenues.update');
         Route::delete('/{revenue}', [RevenueController::class, 'destroy'])->name('revenues.destroy');
         Route::get('/create', [RevenueController::class, 'create'])->name('revenues.create');
         Route::post('/', [RevenueController::class, 'store'])->name('revenues.store');
         Route::get('/{revenue}', [RevenueController::class, 'show'])->name('revenues.show');
         Route::get('/{revenue}/edit', [RevenueController::class, 'edit'])->name('revenues.edit');
-        Route::put('/{revenue}', [RevenueController::class, 'update'])->name('revenues.update');
     });
 
     //-----------Depenses------------//

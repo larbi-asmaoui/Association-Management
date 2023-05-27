@@ -44,8 +44,8 @@
                     <div class="flex items-center text-lg">
                         {{
                             form.id
-                                ? "Mettre à jour un revenue"
-                                : "Ajouter un revenue"
+                                ? "Mettre à jour un revenu"
+                                : "Ajouter un revenu"
                         }}
                     </div>
                 </template>
@@ -156,7 +156,7 @@
                             <label
                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
                                 for="file_input"
-                                >Reference
+                                >Référence
                             </label>
 
                             <input
@@ -167,14 +167,13 @@
                                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                 id="file_input"
                                 type="file"
-                                required
                             />
-                            <p
-                                class="mt-1 text-sm text-gray-500 dark:text-gray-300"
-                                id="file_input_help"
-                            >
-                                SVG, PNG, JPG, GIF
-                            </p>
+
+                            <span
+                                v-if="form.errors.reference_file"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            ></span>
                         </div>
                         <img v-if="previewUrl" :src="previewUrl" />
                         <img
@@ -273,8 +272,8 @@
 
                                     <Modal
                                         size="md"
-                                        v-if="isModalOpenApercu"
-                                        @close="closeModal"
+                                        v-show="isModalOpenApercu"
+                                        @close="closeModalApercu"
                                     >
                                         <template #header>
                                             <div
@@ -295,9 +294,7 @@
                                         </template>
                                         <template #footer>
                                             <button
-                                                @click="
-                                                    isModalOpenApercu = false
-                                                "
+                                                @click="closeModalApercu"
                                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                                                 type="button"
                                             >
@@ -420,11 +417,18 @@ const form = useForm({
 let isModalOpen = ref(false);
 let isModalOpenApercu = ref(false);
 
-const closeModal = () => {
+const closeModalApercu = () => {
+    selectedFile.value = null;
+    previewUrl.value = null;
     isModalOpenApercu.value = false;
-    isModalOpen.value = false;
+};
 
+const closeModal = () => {
+    selectedFile.value = null;
+    previewUrl.value = null;
+    isModalOpen.value = false;
     form.reset();
+    form.clearErrors();
 };
 const showImage = () => {
     return "/storage/";
@@ -487,20 +491,23 @@ const props = defineProps({
 
 const submit = () => {
     if (form.id) {
+        alert(form.id);
         form.put(route("revenues.update", form.id), {
+            forceFormData: true,
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
                 $toast.open({
-                    message: "revenue modifié avec succès",
+                    message: "Revenu modifié avec succès",
                     type: "success",
                     duration: 3000,
                     dismissible: true,
                 });
-                selectedFile.value = null;
-                previewUrl.value = null;
+                // selectedFile.value = null;
+                // previewUrl.value = null;
             },
             onError: () => {
+                console.log(form.errors);
                 $toast.open({
                     message: "Erreur lors de la modification",
                     type: "error",
@@ -516,24 +523,13 @@ const submit = () => {
             onSuccess: () => {
                 closeModal();
                 $toast.open({
-                    message: "revenue ajouté avec succès",
+                    message: "Revenu ajouté avec succès",
                     type: "success",
                     duration: 3000,
                     dismissible: true,
                 });
                 selectedFile.value = null;
                 previewUrl.value = null;
-            },
-            onError: () => {
-                console.log(form.errors.revenue_date);
-                console.log(form.errors.montant);
-                console.log(form.errors.revenue_type_id);
-                $toast.open({
-                    message: "Erreur lors de l'ajout",
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
-                });
             },
         });
     }
