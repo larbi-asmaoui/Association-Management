@@ -289,7 +289,11 @@
                                             </div>
 
                                             <!-- Delete -->
+
                                             <div
+                                                v-if="
+                                                    groupe.adherants_count == 0
+                                                "
                                                 @click="destroy(groupe.id)"
                                                 class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                                             >
