@@ -36,13 +36,13 @@
                             ></path>
                         </svg>
                     </button>
-                    <a href="#" class="flex ml-2 md:mr-24">
+                    <Link :href="route('dashboard')" class="flex ml-2 md:mr-24">
                         <img src="../../assets/logo.svg" alt="" class="mr-2" />
                         <span
                             class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white"
                             >MaAssociation</span
                         >
-                    </a>
+                    </Link>
                 </div>
                 <div class="flex items-center">
                     <Link :href="route('evenements.calender')">
@@ -67,11 +67,7 @@
                             <path d="M11 15h1"></path>
                             <path d="M12 15v3"></path>
                         </svg>
-                        <!-- <span class="flex-1 ml-3 whitespace-nowrap"
-                                    >Calendrier</span
-                                > -->
                     </Link>
-                    <!-- other -->
                     <Dropdown>
                         <template #trigger>
                             <button
@@ -206,7 +202,7 @@
                                         <path d="M7 11l5 5l5 -5"></path>
                                         <path d="M12 4l0 12"></path>
                                     </svg>
-                                    Type de revenues
+                                    Type de revenus
                                 </div>
                             </DropdownLink>
                             <div class="border-t border-gray-200" />
@@ -268,12 +264,9 @@
                         </template>
                     </Dropdown>
 
-                    <!-- Profile -->
                     <div class="flex items-center ml-3">
-                        <!-- Dropdown menu -->
                         <Dropdown>
                             <template #trigger>
-                                <!-- class="relative z-10 block w-8 h-8 overflow-hidden rounded-full shadow focus:outline-none" -->
                                 <button
                                     v-if="
                                         $page.props.jetstream
@@ -322,7 +315,6 @@
                                     Profile
                                 </DropdownLink>
                                 <div class="border-t border-gray-200" />
-                                <!-- Authentication -->
                                 <form @submit.prevent="logout">
                                     <DropdownLink as="button">
                                         Déconnexion
@@ -335,8 +327,6 @@
             </div>
         </div>
     </nav>
-
-    <div class="flex pt-16 overflow-hidden bg-gray-50"></div>
 
     <!-- Sidebar -->
 
@@ -356,7 +346,7 @@
                         <li>
                             <Link
                                 :class="[
-                                    $page.url === '/dashboard'
+                                    $page.url === '/'
                                         ? activeClass
                                         : inactiveClass,
                                 ]"
@@ -376,7 +366,7 @@
                                         d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"
                                     ></path>
                                 </svg>
-                                <span class="ml-3">Dashboard</span>
+                                <span class="ml-3">Tableau de board</span>
                             </Link>
                         </li>
 
@@ -474,7 +464,7 @@
                                     <path d="M12 4l0 12"></path>
                                 </svg>
                                 <span class="flex-1 ml-3 whitespace-nowrap"
-                                    >Revenues</span
+                                    >Revenus</span
                                 >
                             </Link>
                         </li>
@@ -568,7 +558,7 @@
                                     />
                                 </svg>
                                 <span class="flex-1 ml-3 whitespace-nowrap"
-                                    >Évènements</span
+                                    >Événements</span
                                 >
                             </Link>
                         </li>
@@ -612,9 +602,7 @@
         </div>
     </aside>
 
-    <div
-        class="relative h-screen overflow-y-auto bg-slate-200 lg:ml-64 dark:bg-gray-900"
-    >
+    <div class="relative pt-16 h-screen bg-slate-200 lg:ml-64 dark:bg-gray-900">
         <main>
             <div class="px-4 py-6">
                 <slot />

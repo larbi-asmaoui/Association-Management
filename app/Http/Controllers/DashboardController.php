@@ -7,6 +7,8 @@ use App\Models\Adherant;
 use App\Models\Cotisation;
 use App\Models\Depense;
 use App\Models\Evenement;
+use App\Models\EvenementType;
+use App\Models\Revenue;
 use App\Models\Stock;
 use App\Models\StockType;
 use Illuminate\Http\Request;
@@ -44,18 +46,22 @@ class DashboardController extends Controller
         $groupes_count = Groupe::where('user_id', $userId)->count();
         $adherants_count = Adherant::where('user_id', $userId)->count();
         $stock_count = Stock::where('user_id', $userId)->count();
-        $events_count = Evenement::all()->count();
-        // $events_count = Evenement::where('user_id', $userId)->count();
+        $events_count = Evenement::where('user_id', $userId)
+            ->whereDate('end', '>=', Carbon::today())
+            ->count();
         $groupesData = $this->getGroupesData();
         $calculateStockTotal = $this->calculateStockTotal();
         // Calculate total montant
         $totalMontant = Cotisation::sum('montant');
         $cotisation_count = Cotisation::all()->count();
         $stocksGroupedByType = $this->getStocksGroupedByType();
+        $evenementsGroupedByType = $this->getEvenementsGroupedByType();
         // ------------------------------------------------ //
-        $totalStockValue = Stock::where('user_id', $userId)->sum(DB::raw('price_per_unit * quantity'));
         $totalCotisationValue = Cotisation::sum('montant');
-        $autreDepense = Depense::where('user_id', $userId)->sum('montant');
+        $autreDepense = Depense::where('user_id', $userId)->sum('montant') + Stock::where('user_id', $userId)->sum(DB::raw('price_per_unit * quantity'));
+        $autreRevenue = Revenue::where('user_id', $userId)->sum('montant');
+        $eventsDepense = Evenement::where('user_id', $userId)->sum('depense');
+        $eventsRevenue = Evenement::where('user_id', $userId)->sum('revenue');
 
         return Inertia::render('Dashboard', [
             'groupes_count' => $groupes_count,
@@ -67,9 +73,12 @@ class DashboardController extends Controller
             'totalMontant' => $totalMontant,
             'cotisation_count' => $cotisation_count,
             'stocksGroupedByType' => $stocksGroupedByType,
-            'totalStockValue' => $totalStockValue,
             'totalCotisationValue' => $totalCotisationValue,
             'autreDepense' => $autreDepense,
+            'autreRevenue' => $autreRevenue,
+            'eventsDepense' => $eventsDepense,
+            'eventsRevenue' => $eventsRevenue,
+            'evenementsGroupedByType' => $evenementsGroupedByType,
         ]);
     }
 
@@ -102,5 +111,20 @@ class DashboardController extends Controller
         });
 
         return $stocksGroupedByType;
+    }
+
+    public function getEvenementsGroupedByType()
+    {
+        $userId = auth()->id();
+
+        $evenementsTypes = EvenementType::with('evenements')
+            ->where('user_id', $userId)
+            ->get();
+
+        $evenementsGroupedByType = $evenementsTypes->mapWithKeys(function ($evenementType) {
+            return [$evenementType->name => $evenementType->evenements];
+        });
+
+        return $evenementsGroupedByType;
     }
 }

@@ -50,7 +50,7 @@ class RevenueController extends Controller
     public function store(Request $request)
     {
         $revenue = $request->validate([
-            'titre' => 'required,max:255',
+            'titre' => 'required',
             'montant' => 'required',
             'revenue_date' => 'required',
             'reference_file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png',
@@ -86,16 +86,17 @@ class RevenueController extends Controller
      */
     public function update(Request $request, Revenue $revenue)
     {
-        $revenue->update(
-            $request->validate([
-                'titre' => 'required,max:255',
-                'montant' => 'required',
-                'Revenue_date' => 'required',
-                'reference_file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png',
-                'Revenue_type_id' => 'required|exists:Revenue_types,id',
-            ])
-        );
-
+        $formFields = $request->validate([
+            'titre' => 'required',
+            'montant' => 'required',
+            'revenue_date' => 'required',
+            'reference_file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png',
+            'revenue_type_id' => 'required|exists:revenue_types,id',
+        ]);
+        if ($request->hasFile('reference_file')) {
+            $formFields['reference_file']  = $request->file('reference_file')->store('uploads/images/revenues', 'public');
+        }
+        $revenue->update($formFields);
         return redirect()->back()->with('success', 'Revenue updated.');
     }
 

@@ -44,8 +44,9 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
-    totalStockValue: {
-        type: Number,
+    evenementsGroupedByType: {
+        type: Object,
+        default: () => ({}),
     },
     totalCotisationValue: {
         type: Number,
@@ -53,10 +54,20 @@ const props = defineProps({
     autreDepense: {
         type: Number,
     },
+    autreRevenue: {
+        type: Number,
+    },
+    eventsDepense: {
+        type: Number,
+    },
+    eventsRevenue: {
+        type: Number,
+    },
 });
 
 const pageProps = usePage().props;
 const stocksGroupedByType = props.stocksGroupedByType;
+const evenementsGroupedByType = props.evenementsGroupedByType;
 
 const revenueOptions = ref({
     responsive: true,
@@ -64,7 +75,10 @@ const revenueOptions = ref({
     plugins: {
         title: {
             display: true,
-            text: "Revenues de l'association",
+            text: "Revenus de l'association",
+            font: {
+                size: 18,
+            },
         },
     },
 });
@@ -76,6 +90,9 @@ const depenseOptions = ref({
         title: {
             display: true,
             text: "Dépenses de l'association",
+            font: {
+                size: 18,
+            },
         },
     },
 });
@@ -93,27 +110,31 @@ const barOptions = ref({
     },
 });
 
-const data = ref({
-    labels: ["Stocks (DH)", "Cotisations (DH)"],
+const dataRevenue = ref({
+    labels: ["Événements (DH)", "Cotisations (DH)", "Autres (DH)"],
     datasets: [
         {
-            backgroundColor: ["#247BA0", "#70C1B3"],
-            data: [props.totalStockValue, props.totalCotisationValue],
+            backgroundColor: ["#FF4560", "#FEB019", "#775DD0"],
+            data: [
+                props.eventsRevenue,
+                props.totalCotisationValue,
+                props.autreRevenue,
+            ],
         },
     ],
 });
 
 const dataDepense = ref({
-    labels: ["Stocks (DH)", "Autres dépenses (DH)"],
+    labels: ["Événements (DH)", "Autres dépenses (DH)"],
     datasets: [
         {
-            backgroundColor: ["#247BA0", "#70C1B3"],
-            data: [props.totalStockValue, props.autreDepense],
+            backgroundColor: ["#FF4560", "#FEB019"],
+            data: [props.eventsDepense, props.autreDepense],
         },
     ],
 });
 
-const dataBar = ref({
+const dataBarStocks = ref({
     labels: Object.keys(stocksGroupedByType),
     datasets: [
         {
@@ -127,10 +148,24 @@ const dataBar = ref({
         },
     ],
 });
+
+const dataBarEvent = ref({
+    labels: Object.keys(evenementsGroupedByType),
+    datasets: [
+        {
+            label: "Événements groupés par type",
+            data: Object.values(evenementsGroupedByType).map(
+                (evenements) => evenements.length
+            ),
+            backgroundColor: "#5A67D8",
+            borderColor: "transparent",
+            borderWidth: 1,
+        },
+    ],
+});
 </script>
 <template>
     <div>
-        {{ autreDepense }}
         <div class="mb-4">
             <h1
                 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
@@ -140,7 +175,7 @@ const dataBar = ref({
         </div>
         <div class="mt-4">
             <div
-                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6"
+                class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-6"
             >
                 <div class="card transition duration-500 ease-in-out transform">
                     <div
@@ -268,7 +303,7 @@ const dataBar = ref({
                             <h4 class="text-2xl font-semibold text-gray-700">
                                 {{ events_count }}
                             </h4>
-                            <div class="text-gray-500">Evenements</div>
+                            <div class="text-gray-500">Événements</div>
                         </div>
                     </div>
                 </div>
@@ -311,62 +346,25 @@ const dataBar = ref({
                     </div>
                 </div>
                 <!-- --------------------- -->
-                <div class="card transition duration-500 ease-in-out transform">
-                    <div
-                        class="flex items-center p-5 bg-white rounded shadow-lg"
-                    >
-                        <div class="p-3 rounded-full bg-rose-600 bg-opacity-75">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="w-8 h-8 text-white icon icon-tabler icon-tabler-components"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="#ffffff"
-                                fill="none"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            >
-                                <path
-                                    stroke="none"
-                                    d="M0 0h24v24H0z"
-                                    fill="none"
-                                ></path>
-                                <path
-                                    d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"
-                                ></path>
-                                <path
-                                    d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 1 0 0 4h2a2 2 0 1 1 0 4h-2a2 2 0 0 1 -1.8 -1"
-                                ></path>
-                                <path d="M12 7v10"></path>
-                            </svg>
-                        </div>
 
-                        <div class="mx-5">
-                            <h4 class="text-2xl font-semibold text-gray-700">
-                                {{ cotisation_count }}
-                            </h4>
-                            <div class="text-gray-500">Cotisations</div>
-                        </div>
-                    </div>
-                </div>
                 <!-- --------------------- -->
             </div>
 
-            <div class="mt-4">
-                <div class="grid gap-6 xl:grid-cols-4">
-                    <div
-                        class="bg-white p-4 shadow-2xl rounded-md xl:col-span-2"
-                    >
-                        <ChartBar :data="dataBar" :options="barOptions" />
+            <div class="my-4">
+                <div class="grid gap-6 xl:grid-cols-2">
+                    <div class="bg-white p-4 shadow-2xl rounded-md">
+                        <ChartBar :data="dataBarEvent" :options="barOptions" />
                     </div>
-                    <div
-                        class="bg-white p-4 shadow-2xl rounded-md xl:col-span-1"
-                    >
-                        <ChartPie :data="data" :options="revenueOptions" />
+                    <div class="bg-white p-4 shadow-2xl rounded-md">
+                        <ChartPie
+                            :data="dataRevenue"
+                            :options="revenueOptions"
+                        />
                     </div>
-                    <div
-                        class="bg-white p-4 shadow-2xl rounded-md xl:col-span-1"
-                    >
+                    <div class="bg-white p-4 shadow-2xl rounded-md">
+                        <ChartBar :data="dataBarStocks" :options="barOptions" />
+                    </div>
+                    <div class="bg-white p-4 shadow-2xl rounded-md">
                         <ChartPie
                             :data="dataDepense"
                             :options="depenseOptions"

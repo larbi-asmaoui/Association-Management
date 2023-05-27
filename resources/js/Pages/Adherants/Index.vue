@@ -306,7 +306,7 @@
                                 v-model="form.address"
                                 id="address"
                                 name="address"
-                                rows="3"
+                                rows="1"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                             ></textarea>
                             <span
@@ -316,6 +316,72 @@
                             >
                                 {{ form.errors.address }}
                             </span>
+                        </div>
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
+                        >
+                            <div>
+                                <label
+                                    for="region"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                    >Région</label
+                                >
+                                <select
+                                    v-model="form.region"
+                                    id="type"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                >
+                                    <option disabled value="">
+                                        Séléctionner région
+                                    </option>
+                                    <option
+                                        v-for="region in regions"
+                                        @change="filterCities"
+                                        :key="region.id"
+                                        :value="region.name"
+                                    >
+                                        {{ region.name }}
+                                    </option>
+                                </select>
+                                <span
+                                    v-if="form.errors.region"
+                                    class="text-xs text-red-600 mt-1"
+                                    id="hs-validation-name-error-helper"
+                                >
+                                    {{ form.errors.region }}
+                                </span>
+                            </div>
+
+                            <div>
+                                <label
+                                    for="city"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                    >Ville</label
+                                >
+                                <select
+                                    v-model="form.city"
+                                    id="type"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                >
+                                    <option disabled value="">
+                                        Séléctionner ville
+                                    </option>
+                                    <option
+                                        v-for="city in filteredCities"
+                                        key="city.id"
+                                        :value="city"
+                                    >
+                                        {{ city }}
+                                    </option>
+                                </select>
+                                <span
+                                    v-if="form.errors.city"
+                                    class="text-xs text-red-600 mt-1"
+                                    id="hs-validation-name-error-helper"
+                                >
+                                    {{ form.errors.city }}
+                                </span>
+                            </div>
                         </div>
                         <div class="flex justify-end gap-x-2">
                             <button
@@ -646,7 +712,7 @@ export default {
 
 <script setup>
 import defaultImg from "../../../assets/image.jpeg";
-import { ref, nextTick, onMounted } from "vue";
+import { ref, nextTick, computed, onMounted } from "vue";
 import { watch } from "vue";
 import { router } from "@inertiajs/vue3";
 import { Avatar } from "flowbite-vue";
@@ -658,6 +724,8 @@ import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import printJS from "print-js";
 import AdherentInfo from "./AdherantInfo.vue";
+
+import regionsFile from "../../regions.json";
 
 // const printSection = ref(null);
 
@@ -676,6 +744,24 @@ onMounted(printContent);
 
 const $toast = useToast();
 
+const regions = ref(regionsFile);
+
+const filteredCities = computed(() => {
+    if (form.region) {
+        const regionData = regions.value.find(
+            (region) => region.name === form.region
+        );
+        if (regionData) {
+            return regionData.cities_list;
+        }
+    }
+    return [];
+});
+
+const filterCities = () => {
+    form.city = "";
+};
+
 const form = useForm({
     id: null,
     image: null,
@@ -686,6 +772,8 @@ const form = useForm({
     sexe: null,
     cin: null,
     address: null,
+    region: null,
+    city: null,
     tel: null,
 });
 

@@ -19,7 +19,7 @@
     </button>
     <div class="mb-4 bg-blue-600 px-4 py-4 shadow-md">
         <h1 class="text-xl font-semibold text-white sm:text-2xl">
-            Revenues de l'association
+            Revenus de l'association
         </h1>
     </div>
     <div class="bg-white px-4 py-6 shadow-md">
