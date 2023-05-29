@@ -1,143 +1,307 @@
 <template>
-    <div class="overflow-hidden bg-white shadow-sm rounded-lg">
-        <div class="p-6">
-            <div
-                class="flex items-center space-x-2 font-semibold text-gray-900 leading-8"
-            >
-                <span clas="text-green-500">
-                    <svg
-                        class="h-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                        ></path>
-                    </svg>
-                </span>
-                <span class="tracking-wide">Informations d'adherant</span>
-            </div>
-            <div class="text-gray-700">
-                <div class="grid md:grid-cols-2 text-sm">
-                    <div class="col-span-full mb-5">
-                        <img
-                            :src="showImage() + adherant.image"
-                            class="object-cover h-40 w-40 rounded-full mx-auto"
-                        />
-                    </div>
-                    <div class="grid grid-cols-2">
-                        <div class="px-4 py-2 font-semibold">Prenom</div>
-                        <div class="px-4 py-2">{{ adherant.first_name }}</div>
-                    </div>
-                    <div class="grid grid-cols-2">
-                        <div class="px-4 py-2 font-semibold">Nom</div>
-                        <div class="px-4 py-2">{{ adherant.last_name }}</div>
-                    </div>
-                    <div class="grid grid-cols-2">
-                        <div class="px-4 py-2 font-semibold">Sexe</div>
-                        <div class="px-4 py-2">{{ adherant.sexe }}</div>
-                    </div>
-                    <div class="grid grid-cols-2">
-                        <div class="px-4 py-2 font-semibold">Telephone</div>
-                        <div class="px-4 py-2">{{ adherant.tel }}</div>
-                    </div>
-                    <div class="grid grid-cols-2">
-                        <div class="px-4 py-2 font-semibold">Addresse</div>
-                        <div class="px-4 py-2">
-                            {{ adherant.address }}
-                        </div>
-                    </div>
-                    <!-- <div class="grid grid-cols-2">
-                        <div class="px-4 py-2 font-semibold">Email</div>
-                        <div class="px-4 py-2">
-                            {{ adherant.email }}
-                        </div>
-                    </div> -->
-                    <div class="grid grid-cols-2">
-                        <div class="px-4 py-2 font-semibold">
-                            Date de naissance
-                        </div>
-                        <div class="px-4 py-2">
-                            {{ adherant.date_of_birth }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ___________________________________________________ -->
-
-        <div
-            class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6 shadow sm:rounded-bl-md sm:rounded-br-md"
+    <div class="inline-flex items-center mb-5">
+        <Link
+            :href="route('adherants.index')"
+            class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white"
         >
-            <!-- <div class="mr-3">
-                <div class="text-sm text-gray-600" style="display: none">
-                    Saved.
-                </div>
-            </div> -->
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-arrow-left"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M5 12l14 0"></path>
+                <path d="M5 12l6 6"></path>
+                <path d="M5 12l6 -6"></path>
+            </svg>
+            &nbsp; Retour
+        </Link>
+    </div>
 
-            <div class="mr-3">
-                <button
-                    @click="
-                        $inertia.visit(route('adherants.edit', adherant.id))
-                    "
-                    type="button"
-                    class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon icon-tabler icon-tabler-edit"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+    <div class="mb-4 bg-blue-600 px-4 py-4 shadow-md">
+        <h1 class="text-xl font-semibold text-white sm:text-2xl">
+            Détails de l'adhérant
+        </h1>
+    </div>
+
+    <div class="bg-white px-4 py-6 shadow-md">
+        <form @submit.prevent="submit">
+            <div class="mt-4 grid gap-4 lg:gap-6">
+                <div class="col-span-full">
+                    <label
+                        for="photo"
+                        class="block text-sm font-medium leading-6 text-gray-900"
+                        >Photo</label
                     >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path
-                            d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3"
+                    <div class="mt-2 flex items-center gap-x-3">
+                        <svg
+                            class="h-16 w-16 text-gray-300"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            aria-hidden="true"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
+                        <button
+                            type="button"
+                            class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                        >
+                            <input type="file" name="" id="" />
+                            Change
+                        </button>
+                    </div>
+                </div>
+                <!-- Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                    <div>
+                        <label
+                            for="last_name"
+                            class="block text-sm text-gray-700 font-medium dark:text-white"
+                            >Nom
+                        </label>
+                        <input
+                            :class="formEnabled ? 'bg-slate-300' : ''"
+                            disabled="formEnabled"
+                            v-model="form.last_name"
+                            type="text"
+                            name="last_name"
+                            id="last_name"
+                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
                         />
-                        <path
-                            d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3"
+                        <span
+                            v-if="form.errors.last_name"
+                            class="text-xs text-red-600 mt-1"
+                            id="hs-validation-name-error-helper"
+                        >
+                            {{ form.errors.last_name }}
+                        </span>
+                    </div>
+
+                    <div>
+                        <label
+                            for="first_name"
+                            class="block text-sm text-gray-700 font-medium dark:text-white"
+                            >Prénom
+                        </label>
+                        <input
+                            v-model="form.first_name"
+                            type="text"
+                            name="first_name"
+                            id="first_name"
+                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
                         />
-                        <line x1="16" y1="5" x2="19" y2="8" />
-                    </svg>
+                        <!-- <span
+                                v-if="form.errors.first_name"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.first_name }}
+                            </span> -->
+                    </div>
+                </div>
+                <!-- Grid -->
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                    <div>
+                        <label
+                            for="cin"
+                            class="block text-sm text-gray-700 font-medium dark:text-white"
+                            >CIN</label
+                        >
+                        <input
+                            v-model="form.cin"
+                            pattern="^[A-Za-z\d]+$"
+                            type="text"
+                            name="cin"
+                            id="cin"
+                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                        />
+                        <!-- <span
+                                v-if="form.errors.cin"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.cin }}
+                            </span> -->
+                    </div>
+                    <div>
+                        <label
+                            for="sexe"
+                            class="block text-sm text-gray-700 font-medium dark:text-white"
+                            >Sexe</label
+                        >
+                        <div class="flex gap-x-6">
+                            <div class="flex">
+                                <input
+                                    v-model="form.sexe"
+                                    type="radio"
+                                    name="sexe"
+                                    class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                    id="homme"
+                                    checked
+                                    value="homme"
+                                />
+                                <label
+                                    for="homme"
+                                    class="text-sm text-gray-500 ml-2 dark:text-gray-400"
+                                    >Homme</label
+                                >
+                            </div>
+
+                            <div class="flex">
+                                <input
+                                    v-model="form.sexe"
+                                    type="radio"
+                                    name="sexe"
+                                    class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                    id="femme"
+                                    value="femme"
+                                />
+                                <label
+                                    for="femme"
+                                    class="text-sm text-gray-500 ml-2 dark:text-gray-400"
+                                    >Femme</label
+                                >
+                            </div>
+                        </div>
+                        <!-- <span
+                                v-if="form.errors.sexe"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.sexe }}
+                            </span> -->
+                    </div>
+                </div>
+
+                <!-- Grid -->
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                    <div>
+                        <label
+                            for="tel"
+                            class="block text-sm text-gray-700 font-medium dark:text-white"
+                            >Tel</label
+                        >
+                        <!-- pattern="^0\d{9}$" -->
+                        <input
+                            v-model="form.tel"
+                            type="text"
+                            name="tel"
+                            id="tel"
+                            autocomplete="text"
+                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                        />
+                        <!-- <span
+                                v-if="form.errors.tel"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.tel }}
+                            </span> -->
+                    </div>
+
+                    <div>
+                        <label
+                            for="email"
+                            class="block text-sm text-gray-700 font-medium dark:text-white"
+                            >Email</label
+                        >
+                        <input
+                            v-model="form.email"
+                            type="email"
+                            name="email"
+                            id="email"
+                            autocomplete="text"
+                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                        />
+                        <!-- <span
+                                v-if="form.errors.email"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.email }}
+                            </span> -->
+                    </div>
+                </div>
+
+                <!-- //////////////////////// -->
+                <div>
+                    <div>
+                        <label
+                            for="date_of_birth"
+                            class="block text-sm text-gray-700 font-medium dark:text-white"
+                            >Date de naissance
+                        </label>
+
+                        <input
+                            v-model="form.date_of_birth"
+                            type="date"
+                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                            placeholder="Select date"
+                            name="date_of_birth"
+                        />
+                        <span
+                            v-if="form.errors.date_of_birth"
+                            class="text-xs text-red-600 mt-1"
+                            id="hs-validation-name-error-helper"
+                        >
+                            {{ form.errors.date_of_birth }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- TEXTAREA -->
+                <div>
+                    <label
+                        for="hs-about-hire-us-1"
+                        class="block text-sm text-gray-700 font-medium dark:text-white"
+                        >Addresse</label
+                    >
+                    <textarea
+                        v-model="form.address"
+                        id="address"
+                        name="address"
+                        rows="2"
+                        class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                    ></textarea>
+                    <span
+                        v-if="form.errors.address"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.address }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="mt-6 flex">
+                <button
+                    type="submit"
+                    class="inline-flex mr-4 justify-center items-center gap-x-3 text-center bg-blue-600 hover:bg-blue-700 border border-transparent text-sm lg:text-base text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:focus:ring-offset-gray-800"
+                >
+                    Mettre à jour
+                </button>
+                <button
+                    type="button"
+                    @click="formEnabled = true"
+                    class="inline-flex justify-center border-blue-200 items-center gap-x-3 text-center hover:bg-blue-200 border border-transparent text-sm lg:text-base text-blue-700 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:focus:ring-offset-gray-800"
+                >
+                    Modifer
                 </button>
             </div>
-            <button
-                @click="destroy(adherant.id)"
-                type="button"
-                class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="icon icon-tabler icon-tabler-trash"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="#fff"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                >
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <line x1="4" y1="7" x2="20" y2="7" />
-                    <line x1="10" y1="11" x2="10" y2="17" />
-                    <line x1="14" y1="11" x2="14" y2="17" />
-                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                </svg>
-            </button>
-        </div>
+        </form>
     </div>
 </template>
 
@@ -150,23 +314,30 @@ export default {
 </script>
 
 <script setup>
-import { useForm } from "@inertiajs/vue3";
-
-const form = useForm({});
+import { ref } from "vue";
+import { useForm, Link } from "@inertiajs/vue3";
 
 const props = defineProps({
     adherant: {
         type: Object,
+        default: () => ({}),
     },
 });
 
-const destroy = (id) => {
-    if (confirm("Are you sure?")) {
-        form.delete(route("adherants.destroy", id));
-    }
-};
+const formEnabled = ref(true);
 
-const showImage = () => {
-    return "/storage/";
+const form = useForm({
+    first_name: props.adherant.first_name,
+    last_name: props.adherant.last_name,
+    email: props.adherant.email,
+    date_of_birth: props.adherant.date_of_birth,
+    sexe: props.adherant.sexe,
+    cin: props.adherant.cin,
+    address: props.adherant.address,
+    tel: props.adherant.tel,
+});
+
+const submit = () => {
+    form.put(route("adherants.update", props.adherant.id));
 };
 </script>

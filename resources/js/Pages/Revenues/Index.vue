@@ -209,6 +209,11 @@
                                     @change="onFileChange"
                                     name="image"
                                 />
+                                <span
+                                    v-if="form.errors.reference_file"
+                                    class="text-xs text-red-600 mt-1"
+                                    id="hs-validation-name-error-helper"
+                                ></span>
                             </label>
                         </div>
 
@@ -264,7 +269,7 @@
                                         scope="col"
                                         class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
-                                        Date d'operation
+                                        Date d'opération
                                     </th>
                                     <th
                                         scope="col"
@@ -302,48 +307,12 @@
                                         {{ revenue.revenue_date }}
                                     </td>
 
-                                    <Modal
-                                        size="md"
-                                        v-show="isModalOpenApercu"
-                                        @close="closeModalApercu"
-                                    >
-                                        <template #header>
-                                            <div
-                                                class="flex items-center text-lg"
-                                            >
-                                                Aperçu
-                                            </div>
-                                        </template>
-                                        <template #body>
-                                            <div class="flex justify-center">
-                                                <img
-                                                    :src="
-                                                        showImage() +
-                                                        revenue.reference_file
-                                                    "
-                                                />
-                                            </div>
-                                        </template>
-                                        <template #footer>
-                                            <button
-                                                @click="closeModalApercu"
-                                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                                                type="button"
-                                            >
-                                                Fermer
-                                            </button>
-                                        </template>
-                                    </Modal>
-
                                     <td
                                         class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-normal dark:text-white"
                                     >
                                         <div class="flex">
                                             <!-- Eye -->
                                             <div
-                                                @click="
-                                                    isModalOpenApercu = true
-                                                "
                                                 class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                                             >
                                                 <svg
@@ -428,7 +397,7 @@ export default {
 
 <script setup>
 import { ref, watch, onMounted, onBeforeUnmount } from "vue";
-import { useForm, router } from "@inertiajs/vue3";
+import { useForm } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
 import Pagination from "../../Components/Pagination.vue";
 import { useToast } from "vue-toast-notification";
@@ -448,17 +417,8 @@ const form = useForm({
 });
 
 let isModalOpen = ref(false);
-let isModalOpenApercu = ref(false);
-
-const closeModalApercu = () => {
-    selectedFile.value = null;
-    previewUrl.value = null;
-    isModalOpenApercu.value = false;
-};
 
 const closeModal = () => {
-    selectedFile.value = null;
-    previewUrl.value = null;
     isModalOpen.value = false;
     form.reset();
     form.clearErrors();
@@ -466,9 +426,6 @@ const closeModal = () => {
 const showImage = () => {
     return "/storage/";
 };
-
-const selectedFile = ref(null);
-const previewUrl = ref(null);
 
 const onFileChange = (e) => {
     const file = e.target.files[0];
@@ -481,7 +438,6 @@ const onFileChange = (e) => {
 };
 
 const openEditModal = (revenue) => {
-    console.log(revenue);
     form.id = revenue.id;
     form.titre = revenue.titre;
     form.montant = revenue.montant;
@@ -531,16 +487,23 @@ const props = defineProps({
 
 const submit = () => {
     if (form.id) {
-        router.post(`/revenues/`, form.id, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
+        form.put(route("revenues.update", form.id), {
+            forceFormData: true,
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
                 $toast.open({
                     message: "Revenu modifié avec succès",
                     type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+            onError: () => {
+                console.log(form.errors);
+                $toast.open({
+                    message: "Erreur lors de la modification",
+                    type: "error",
                     duration: 3000,
                     dismissible: true,
                 });

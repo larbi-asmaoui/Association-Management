@@ -64,7 +64,6 @@ const props = defineProps({
         type: Number,
     },
 });
-
 const pageProps = usePage().props;
 const stocksGroupedByType = props.stocksGroupedByType;
 const evenementsGroupedByType = props.evenementsGroupedByType;
@@ -348,6 +347,17 @@ const dataBarEvent = ref({
                 <!-- --------------------- -->
 
                 <!-- --------------------- -->
+            </div>
+            <div class="mt-4 flex text-right justify-start items-center">
+                <!-- ************************************** -->
+                <select
+                    id="type"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                >
+                    <option disabled value="">Séléctionner année</option>
+                    <option>2022/2023</option>
+                </select>
+                <!-- **********  Select  ********** -->
             </div>
 
             <div class="my-4">

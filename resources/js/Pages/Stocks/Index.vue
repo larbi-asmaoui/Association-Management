@@ -26,14 +26,57 @@
         <div
             class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
         >
-            <div class="flex items-center mb-4 sm:mb-0">
+            <div class="w-full flex justify-between items-center mb-4 sm:mb-0">
                 <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
                     <input
                         type="text"
                         v-model="search"
-                        class="bg-slate-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :focus:border-blue-500"
-                        placeholder="rechercher cotisations..."
+                        class="bg-slate-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :text-white :focus:ring-blue-500 :focus:border-blue-500"
+                        placeholder="rechercher adhérants..."
                     />
+                </div>
+                <div>
+                    <button
+                        @click="
+                            printJS({
+                                printable: stocks.data,
+                                properties: [
+                                    {
+                                        field: 'name',
+                                        displayName: 'Stock',
+                                    },
+                                    {
+                                        field: 'quantity',
+                                        displayName: 'Quantité',
+                                    },
+                                    {
+                                        field: 'price_per_unit',
+                                        displayName: 'Prix Unitaire',
+                                    },
+                                    {
+                                        field: 'purchase_date',
+                                        displayName: 'Date de l\'ajout',
+                                    },
+                                    {
+                                        field: 'stock_type.name',
+                                        displayName: 'Type',
+                                    },
+                                ],
+
+                                type: 'json',
+                            })
+                        "
+                        class="text-center mr-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-2 focus:outline-none"
+                        type="button"
+                    >
+                        PDF
+                    </button>
+                    <button
+                        class="text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-2 focus:outline-none"
+                        type="button"
+                    >
+                        CSV
+                    </button>
                 </div>
             </div>
         </div>
@@ -392,11 +435,12 @@ export default {
 
 <script setup>
 import { ref, watch } from "vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, router } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
 import Pagination from "../../Components/Pagination.vue";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
+import printJS from "print-js";
 
 const $toast = useToast();
 

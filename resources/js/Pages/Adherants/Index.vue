@@ -27,7 +27,7 @@
         <div
             class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
         >
-            <div class="flex items-center mb-4 sm:mb-0">
+            <div class="w-full flex justify-between items-center mb-4 sm:mb-0">
                 <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
                     <input
                         type="text"
@@ -36,17 +36,68 @@
                         placeholder="rechercher adhérants..."
                     />
                 </div>
+                <div>
+                    <button
+                        @click="
+                            printJS({
+                                printable: adherants.data,
+                                properties: [
+                                    {
+                                        field: 'first_name',
+                                        displayName: 'Prenom',
+                                    },
+                                    {
+                                        field: 'last_name',
+                                        displayName: 'Nom',
+                                    },
+                                    {
+                                        field: 'sexe',
+                                        displayName: 'Sexe',
+                                    },
+                                    {
+                                        field: 'date_of_birth',
+                                        displayName: 'Date de naissance',
+                                    },
+                                    {
+                                        field: 'date_of_membership',
+                                        displayName: 'Date d\'adhésion',
+                                    },
+                                    {
+                                        field: 'cin',
+                                        displayName: 'CIN',
+                                    },
+                                    {
+                                        field: 'tel',
+                                        displayName: 'Telephone',
+                                    },
+                                    {
+                                        field: 'address',
+                                        displayName: 'Addresse',
+                                    },
+                                ],
+
+                                type: 'json',
+                            })
+                        "
+                        class="text-center mr-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-2 focus:outline-none"
+                        type="button"
+                    >
+                        PDF
+                    </button>
+                    <button
+                        class="text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-2 focus:outline-none"
+                        type="button"
+                    >
+                        CSV
+                    </button>
+                </div>
             </div>
         </div>
         <div class="">
             <Modal size="3xl" v-if="isModalOpen" @close="closeModal">
                 <template #header>
                     <div class="flex items-center text-lg">
-                        {{
-                            form.id
-                                ? "Mettre à jour un adhérant"
-                                : "Ajouter un adhérant"
-                        }}
+                        Ajouter un adhérant
                     </div>
                 </template>
                 <template #body>
@@ -496,7 +547,7 @@
                                             })
                                         "
                                         scope="col"
-                                        class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
+                                        class="px-12 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                                     >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -588,10 +639,13 @@
                                             </div>
                                         </div>
 
-                                        <div class="flex">
+                                        <div
+                                            class="flex justify-center items-center"
+                                        >
                                             <!-- Eye -->
                                             <div
-                                                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                                                @click="show(adherant.id)"
+                                                class="cursor-pointer w-4 mr-2 transform text-blue-700 hover:scale-110"
                                             >
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
@@ -614,30 +668,10 @@
                                                 </svg>
                                             </div>
 
-                                            <!-- Edit -->
-                                            <div
-                                                @click="openEditModal(adherant)"
-                                                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                                    ></path>
-                                                </svg>
-                                            </div>
-
                                             <!-- Delete -->
                                             <div
                                                 @click="destroy(adherant.id)"
-                                                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                                                class="cursor-pointer w-4 mr-2 transform text-red-700 hover:scale-110"
                                             >
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
@@ -657,7 +691,7 @@
                                             <!-- Print -->
                                             <div
                                                 @click="printContent"
-                                                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                                                class="cursor-pointer w-4 mr-2 transform text-purple-700 hover:scale-110"
                                             >
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
@@ -781,6 +815,10 @@ const showImage = () => {
     return "/storage/";
 };
 
+const show = (id) => {
+    form.get(route("adherants.show", id));
+};
+
 const destroy = (id) => {
     if (confirm("Are you sure to delete?")) {
         form.delete(route("adherants.destroy", id), {
@@ -860,19 +898,19 @@ const closeModal = () => {
     form.reset();
 };
 
-const openEditModal = (adherant) => {
-    form.id = adherant.id;
-    form.image = adherant.image;
-    form.first_name = adherant.first_name;
-    form.last_name = adherant.last_name;
-    form.date_of_birth = adherant.date_of_birth;
-    form.date_of_membership = adherant.date_of_membership;
-    form.sexe = adherant.sexe;
-    form.cin = adherant.cin;
-    form.address = adherant.address;
-    form.tel = adherant.tel;
-    isModalOpen.value = true;
-};
+// const openEditModal = (adherant) => {
+//     form.id = adherant.id;
+//     form.image = adherant.image;
+//     form.first_name = adherant.first_name;
+//     form.last_name = adherant.last_name;
+//     form.date_of_birth = adherant.date_of_birth;
+//     form.date_of_membership = adherant.date_of_membership;
+//     form.sexe = adherant.sexe;
+//     form.cin = adherant.cin;
+//     form.address = adherant.address;
+//     form.tel = adherant.tel;
+//     isModalOpen.value = true;
+// };
 
 const props = defineProps({
     adherants: {

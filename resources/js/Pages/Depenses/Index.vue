@@ -158,22 +158,13 @@
                                 for="file_input"
                                 >Reference
                             </label>
-                            <progress
-                                v-if="form.progress"
-                                :value="form.progress.percentage"
-                                max="100"
-                            >
-                                {{ form.progress.percentage }}%
-                            </progress>
                             <input
-                                @change="onFileChange"
                                 @input="
                                     form.reference_file = $event.target.files[0]
                                 "
                                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 :text-gray-400 focus:outline-none :bg-gray-700 :border-gray-600 :placeholder-gray-400"
                                 id="file_input"
                                 type="file"
-                                required
                             />
                             <p
                                 class="mt-1 text-sm text-gray-500 :text-gray-300"
@@ -181,13 +172,18 @@
                             >
                                 SVG, PNG, JPG, PDF.
                             </p>
+                            <span
+                                v-if="form.errors.reference_file"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.reference_file }}
+                            </span>
                         </div>
-                        <img v-if="previewUrl" :src="previewUrl" />
                         <img
-                            v-else-if="form.reference_file"
-                            :src="showImage() + form.reference_file"
+                            v-if="form.id"
+                            :src="showImage() + form.imageReader"
                         />
-                        {{ showImage() + form.reference_file }}
                         <div class="mt-8 flex justify-end gap-x-2">
                             <button
                                 @click="isModalOpen = false"
@@ -383,6 +379,7 @@ const form = useForm({
     depense_date: null,
     reference_file: null,
     depense_type_id: null,
+    imageReader: null,
 });
 
 let isModalOpen = ref(false);
@@ -412,7 +409,7 @@ const openEditModal = (depense) => {
     form.depense_date = depense.depense_date;
     form.depense_type_id = depense.depense_type_id;
     form.reference_file = depense.reference_file;
-    previewUrl.value = depense.reference_file;
+    form.imageReader = depense.reference_file;
     isModalOpen.value = true;
 };
 
@@ -456,6 +453,7 @@ const props = defineProps({
 const submit = () => {
     if (form.id) {
         form.put(route("depenses.update", form.id), {
+            forceFormData: true,
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
@@ -467,6 +465,7 @@ const submit = () => {
                 });
             },
             onError: () => {
+                console.log(form.errors);
                 $toast.open({
                     message: "Erreur lors de la modification",
                     type: "error",
