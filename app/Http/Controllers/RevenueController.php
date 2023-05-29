@@ -6,6 +6,7 @@ use App\Http\Requests\UpdateRevenueRequest;
 use App\Models\Revenue;
 use App\Models\RevenueType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class RevenueController extends Controller
@@ -87,17 +88,19 @@ class RevenueController extends Controller
      */
     public function update(Request $request, Revenue $revenue)
     {
+
         $formFields = $request->validate([
             'titre' => 'required',
             'montant' => 'required',
             'revenue_date' => 'required',
-            'reference_file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png',
             'revenue_type_id' => 'required|exists:revenue_types,id',
         ]);
 
         if ($request->hasFile('reference_file')) {
+            Storage::disk('public')->delete($revenue->reference_file);
             $formFields['reference_file']  = $request->file('reference_file')->store('uploads/images/revenues', 'public');
         }
+
 
         $revenue->update($formFields);
         return redirect()->back()->with('success', 'Revenue updated.');

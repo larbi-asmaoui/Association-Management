@@ -51,7 +51,7 @@
                 </template>
                 <template #body>
                     <form
-                        class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 h-[32rem] overflow-y-auto"
+                        class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 h-[30rem] overflow-y-auto"
                         @submit.prevent="submit"
                     >
                         <div>
@@ -152,34 +152,66 @@
                                 </span>
                             </div>
                         </div>
-                        <div>
+                        <div class="flex items-center justify-center w-full">
                             <label
-                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                for="file_input"
-                                >Référence
+                                for="dropzone3-file"
+                                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                            >
+                                <div
+                                    class="flex flex-col items-center justify-center"
+                                >
+                                    <img
+                                        v-if="form.imageReader"
+                                        :src="showImage() + form.imageReader"
+                                        alt="image"
+                                        class="w-full h-64"
+                                    />
+                                    <div
+                                        v-else
+                                        class="flex justify-center items-center flex-col"
+                                    >
+                                        <svg
+                                            aria-hidden="true"
+                                            class="w-10 h-10 mb-3 text-gray-400"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                                            ></path>
+                                        </svg>
+                                        <p
+                                            class="mb-2 text-sm text-gray-500 dark:text-gray-400"
+                                        >
+                                            <span class="font-semibold"
+                                                >Cliquez pour télécharger</span
+                                            >
+                                            ou glissez et déposez
+                                        </p>
+                                        <p
+                                            class="text-xs text-gray-500 dark:text-gray-400"
+                                        >
+                                            SVG, PNG, JPG ou GIF (MAX.
+                                            800x400px)
+                                        </p>
+                                        sélectionnez une image et affichez-ici
+                                    </div>
+                                </div>
+                                <input
+                                    id="dropzone3-file"
+                                    type="file"
+                                    class="hidden"
+                                    @change="onFileChange"
+                                    name="image"
+                                />
                             </label>
-
-                            <input
-                                @change="onFileChange"
-                                @input="
-                                    form.reference_file = $event.target.files[0]
-                                "
-                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                id="file_input"
-                                type="file"
-                            />
-
-                            <span
-                                v-if="form.errors.reference_file"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            ></span>
                         </div>
-                        <img v-if="previewUrl" :src="previewUrl" />
-                        <img
-                            v-else-if="form.reference_file"
-                            :src="showImage() + form.reference_file"
-                        />
+
                         <div class="mt-8 flex justify-end gap-x-2">
                             <button
                                 @click="isModalOpen = false"
@@ -396,7 +428,7 @@ export default {
 
 <script setup>
 import { ref, watch, onMounted, onBeforeUnmount } from "vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, router } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
 import Pagination from "../../Components/Pagination.vue";
 import { useToast } from "vue-toast-notification";
@@ -412,6 +444,7 @@ const form = useForm({
     revenue_date: null,
     reference_file: null,
     revenue_type_id: null,
+    imageReader: null,
 });
 
 let isModalOpen = ref(false);
@@ -438,17 +471,24 @@ const selectedFile = ref(null);
 const previewUrl = ref(null);
 
 const onFileChange = (e) => {
-    selectedFile.value = e.target.files[0];
-    previewUrl.value = URL.createObjectURL(selectedFile.value);
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+        form.imageReader = reader.result;
+    };
+    reader.readAsDataURL(file);
+    form.reference_file = file;
 };
 
 const openEditModal = (revenue) => {
+    console.log(revenue);
     form.id = revenue.id;
     form.titre = revenue.titre;
     form.montant = revenue.montant;
     form.revenue_date = revenue.revenue_date;
     form.reference_file = revenue.reference_file;
     form.revenue_type_id = revenue.revenue_type_id;
+    form.imageReader = revenue.reference_file;
     isModalOpen.value = true;
 };
 
@@ -491,26 +531,16 @@ const props = defineProps({
 
 const submit = () => {
     if (form.id) {
-        alert(form.id);
-        form.put(route("revenues.update", form.id), {
-            forceFormData: true,
+        router.post(`/revenues/`, form.id, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
                 $toast.open({
                     message: "Revenu modifié avec succès",
                     type: "success",
-                    duration: 3000,
-                    dismissible: true,
-                });
-                // selectedFile.value = null;
-                // previewUrl.value = null;
-            },
-            onError: () => {
-                console.log(form.errors);
-                $toast.open({
-                    message: "Erreur lors de la modification",
-                    type: "error",
                     duration: 3000,
                     dismissible: true,
                 });
@@ -528,8 +558,6 @@ const submit = () => {
                     duration: 3000,
                     dismissible: true,
                 });
-                selectedFile.value = null;
-                previewUrl.value = null;
             },
         });
     }
