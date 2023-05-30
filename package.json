@@ -40,6 +40,7 @@
         "viewerjs": "^1.11.3",
         "vue-chartjs": "^5.2.0",
         "vue-filepond": "^7.0.3",
+        "vue-json-csv": "^2.1.0",
         "vue-multiselect": "^2.1.7",
         "vue-sonner": "^0.3.2",
         "vue-toast-notification": "^3.1.1",

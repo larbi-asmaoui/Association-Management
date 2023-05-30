@@ -114,7 +114,7 @@ const handleEventClick = ({ el, event }) => {
 </script>
 
 <template>
-    <div class="bg-white p-6 shadow-sm rounded-lg">
+    <div class="bg-white p-6 shadow-sm">
         <FullCalendar v-bind:options="calendarOptions" :key="eventRefreshKey" />
         <div
             class="popover fade show bs-popover-right"

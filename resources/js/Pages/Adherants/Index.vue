@@ -44,7 +44,7 @@
                                 properties: [
                                     {
                                         field: 'first_name',
-                                        displayName: 'Prenom',
+                                        displayName: 'Prénom',
                                     },
                                     {
                                         field: 'last_name',
@@ -88,7 +88,13 @@
                         class="text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-2 focus:outline-none"
                         type="button"
                     >
-                        CSV
+                        <JsonCSV
+                            :data="adherants.data"
+                            :fields="csvFields"
+                            name="adherants.csv"
+                        >
+                            CSV
+                        </JsonCSV>
                     </button>
                 </div>
             </div>
@@ -258,7 +264,6 @@
                                     >Tel</label
                                 >
                                 <input
-                                    pattern="^06|07\d{9}$"
                                     v-model="form.tel"
                                     type="text"
                                     name="tel"
@@ -758,6 +763,7 @@ import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import printJS from "print-js";
 import AdherentInfo from "./AdherantInfo.vue";
+import JsonCSV from "vue-json-csv";
 
 import regionsFile from "../../regions.json";
 
@@ -773,7 +779,21 @@ const printContent = async () => {
     //     targetStyles: ["*"],
     // });
 };
-
+const csvFields = ref({
+    separator: ",",
+    labels: {
+        first_name: "First Name",
+        last_name: "Last Name",
+        is_actif: "Active Status",
+        cin: "CIN",
+        sexe: "Gender",
+        date_of_birth: "Date of Birth",
+        date_of_membership: "Date of Membership",
+        address: "Address",
+        tel: "Phone Number",
+        email: "Email Address",
+    },
+});
 onMounted(printContent);
 
 const $toast = useToast();
