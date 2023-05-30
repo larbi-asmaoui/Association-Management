@@ -7,11 +7,13 @@ export default {
 </script>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 
-import { usePage } from "@inertiajs/vue3";
+import { usePage, router } from "@inertiajs/vue3";
 import ChartBar from "../Components/ChartBar.vue";
 import ChartPie from "../Components/ChartPie.vue";
+import ChartLine from "../Components/ChartLine.vue";
+
 // import { Inertia } from "@inertiajs/vue3";
 
 const props = defineProps({
@@ -63,10 +65,82 @@ const props = defineProps({
     eventsRevenue: {
         type: Number,
     },
+    yearsList: {
+        type: Array,
+        default: () => [],
+    },
+    depenseGroupedByMonth: {
+        type: Object,
+        default: () => ({}),
+    },
+    revenueGroupedByMonth: {
+        type: Object,
+        default: () => ({}),
+    },
 });
+let selectedYear = ref("");
+
+watchEffect(() => {
+    if (selectedYear.value) {
+        router.get(
+            route("dashboard", {
+                year: selectedYear.value,
+            })
+        );
+    }
+});
+
 const pageProps = usePage().props;
 const stocksGroupedByType = props.stocksGroupedByType;
 const evenementsGroupedByType = props.evenementsGroupedByType;
+
+const lineOptions = ref({
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+        title: {
+            display: true,
+            text: "Revenus et dépenses de l'association",
+            font: {
+                size: 18,
+            },
+        },
+    },
+});
+
+const lineData = ref({
+    // labels: [
+    //     "janvier",
+    //     "février",
+    //     "mars",
+    //     "avril",
+    //     "mai",
+    //     "juin",
+    //     "juillet",
+    //     "août",
+    //     "septembre",
+    //     "octobre",
+    //     "novembre",
+    //     "décembre",
+    // ],
+    labels: Object.keys(props.revenueGroupedByMonth),
+    datasets: [
+        {
+            label: "Revenus",
+            data: Object.values(props.revenueGroupedByMonth),
+            borderColor: "#5A67D8",
+            backgroundColor: "transparent",
+            borderWidth: 2,
+        },
+        {
+            label: "Dépenses",
+            data: Object.values(props.depenseGroupedByMonth),
+            borderColor: "#FF4560",
+            backgroundColor: "transparent",
+            borderWidth: 2,
+        },
+    ],
+});
 
 const revenueOptions = ref({
     responsive: true,
@@ -351,19 +425,23 @@ const dataBarEvent = ref({
             <div class="mt-4 flex text-right justify-start items-center">
                 <!-- ************************************** -->
                 <select
+                    v-model="selectedYear"
                     id="type"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
                     <option disabled value="">Séléctionner année</option>
-                    <option>2022/2023</option>
+                    <option v-for="year in yearsList" :value="year">
+                        {{ year }}
+                    </option>
                 </select>
                 <!-- **********  Select  ********** -->
             </div>
 
-            <div class="my-4">
-                <div class="grid gap-6 xl:grid-cols-2">
-                    <div class="bg-white p-4 shadow-2xl rounded-md">
-                        <ChartBar :data="dataBarEvent" :options="barOptions" />
+            <div class="mt-4 h-screen">
+                <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+                    <div class="bg-white p-4 shadow-2xl rounded-md col-span-2">
+                        <!-- <ChartBar :data="dataBarEvent" :options="barOptions" /> -->
+                        <ChartLine :data="lineData" :options="lineOptions" />
                     </div>
                     <div class="bg-white p-4 shadow-2xl rounded-md">
                         <ChartPie
@@ -372,13 +450,18 @@ const dataBarEvent = ref({
                         />
                     </div>
                     <div class="bg-white p-4 shadow-2xl rounded-md">
-                        <ChartBar :data="dataBarStocks" :options="barOptions" />
-                    </div>
-                    <div class="bg-white p-4 shadow-2xl rounded-md">
                         <ChartPie
                             :data="dataDepense"
                             :options="depenseOptions"
                         />
+                    </div>
+                </div>
+                <div class="mt-4 grid gap-4 xl:grid-cols-2">
+                    <div class="bg-white p-4 shadow-2xl rounded-md">
+                        <ChartBar :data="dataBarStocks" :options="barOptions" />
+                    </div>
+                    <div class="bg-white p-4 shadow-2xl rounded-md">
+                        <ChartBar :data="dataBarEvent" :options="barOptions" />
                     </div>
                 </div>
             </div>

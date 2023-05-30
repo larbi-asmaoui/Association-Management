@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Depense;
 use App\Models\DepenseType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class DepenseController extends Controller
@@ -53,7 +54,7 @@ class DepenseController extends Controller
             'titre' => 'required',
             'montant' => 'required',
             'depense_date' => 'required',
-            'reference_file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png',
+            'reference_file' => 'image|mimes:jpg,jpeg,png',
             'depense_type_id' => 'required|exists:depense_types,id',
         ]);
 
@@ -90,15 +91,21 @@ class DepenseController extends Controller
      */
     public function update(Request $request, Depense $depense)
     {
-        $depense->update(
-            $request->validate([
-                'titre' => 'required,max:255',
-                'montant' => 'required',
-                'depense_date' => 'required',
-                'reference_file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png',
-                'depense_type_id' => 'required|exists:depense_types,id',
-            ])
-        );
+
+        $formData = $request->validate([
+            'titre' => 'required',
+            'montant' => 'required',
+            'depense_date' => 'required',
+            'depense_type_id' => 'required|exists:depense_types,id',
+        ]);
+
+        if (isset($request->reference_file)) {
+            if ($request->file('reference_file')) {
+                Storage::disk('public')->delete($depense->reference_file);
+                $formData['reference_file']  = $request->file('reference_file')->store('uploads/images/depenses', 'public');
+            }
+        }
+        $depense->update($formData);
 
         return redirect()->back()->with('success', 'Depense updated.');
     }

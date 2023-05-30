@@ -159,12 +159,11 @@
                                 >Reference
                             </label>
                             <input
-                                @input="
-                                    form.reference_file = $event.target.files[0]
-                                "
+                                @change="selectImage"
                                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 :text-gray-400 focus:outline-none :bg-gray-700 :border-gray-600 :placeholder-gray-400"
                                 id="file_input"
                                 type="file"
+                                accept="image/*"
                             />
                             <p
                                 class="mt-1 text-sm text-gray-500 :text-gray-300"
@@ -180,10 +179,7 @@
                                 {{ form.errors.reference_file }}
                             </span>
                         </div>
-                        <img
-                            v-if="form.id"
-                            :src="showImage() + form.imageReader"
-                        />
+                        <img v-if="imagePreview" :src="imagePreview" />
                         <div class="mt-8 flex justify-end gap-x-2">
                             <button
                                 @click="isModalOpen = false"
@@ -364,7 +360,7 @@ export default {
 
 <script setup>
 import { ref, watch } from "vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, router } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
 import Pagination from "../../Components/Pagination.vue";
 import { useToast } from "vue-toast-notification";
@@ -379,14 +375,17 @@ const form = useForm({
     depense_date: null,
     reference_file: null,
     depense_type_id: null,
-    imageReader: null,
 });
+let imagePreview = ref(null);
+let image = ref(null);
 
 let isModalOpen = ref(false);
 
 const closeModal = () => {
     isModalOpen.value = false;
-
+    imagePreview.value = null;
+    image.value = null;
+    form.clearErrors();
     form.reset();
 };
 
@@ -394,12 +393,9 @@ const showImage = () => {
     return "/storage/";
 };
 
-const selectedFile = ref(null);
-const previewUrl = ref(null);
-
-const onFileChange = (e) => {
-    selectedFile.value = e.target.files[0];
-    previewUrl.value = URL.createObjectURL(selectedFile.value);
+const selectImage = (event) => {
+    image.value = event.target.files[0];
+    form.reference_file = image.value;
 };
 
 const openEditModal = (depense) => {
@@ -409,7 +405,7 @@ const openEditModal = (depense) => {
     form.depense_date = depense.depense_date;
     form.depense_type_id = depense.depense_type_id;
     form.reference_file = depense.reference_file;
-    form.imageReader = depense.reference_file;
+    imagePreview.value = showImage() + depense.reference_file;
     isModalOpen.value = true;
 };
 
@@ -456,6 +452,7 @@ const submit = () => {
             forceFormData: true,
             preserveScroll: true,
             onSuccess: () => {
+                console.log("SUCEss" + form);
                 closeModal();
                 $toast.open({
                     message: "depense modifié avec succès",
@@ -481,23 +478,20 @@ const submit = () => {
             onSuccess: () => {
                 closeModal();
                 $toast.open({
-                    message: "depense ajouté avec succès",
+                    message: "dépense ajouté avec succès",
                     type: "success",
                     duration: 3000,
                     dismissible: true,
                 });
             },
-            onError: () => {
-                console.log(form.errors.depense_date);
-                console.log(form.errors.montant);
-                console.log(form.errors.depense_type_id);
-                $toast.open({
-                    message: "Erreur lors de l'ajout",
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
+            // onError: () => {
+            //     $toast.open({
+            //         message: "Erreur lors de l'ajout",
+            //         type: "error",
+            //         duration: 3000,
+            //         dismissible: true,
+            //     });
+            // },
         });
     }
 };

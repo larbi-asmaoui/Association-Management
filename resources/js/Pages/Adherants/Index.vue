@@ -88,11 +88,7 @@
                         class="text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-2 focus:outline-none"
                         type="button"
                     >
-                        <JsonCSV
-                            :data="adherants.data"
-                            :fields="csvFields"
-                            name="adherants.csv"
-                        >
+                        <JsonCSV :data="adherants.data" name="adherants.csv">
                             CSV
                         </JsonCSV>
                     </button>
