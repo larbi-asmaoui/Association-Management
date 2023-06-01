@@ -53,6 +53,7 @@
                     <form
                         class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
                         @submit.prevent="submit"
+                        enctype="multipart/form-data"
                     >
                         <div>
                             <label
@@ -360,13 +361,24 @@ export default {
 
 <script setup>
 import { ref, watch } from "vue";
-import { useForm, router } from "@inertiajs/vue3";
+import { useForm, router, usePage } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
 import Pagination from "../../Components/Pagination.vue";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 
 const $toast = useToast();
+
+const { flash } = usePage().props;
+if (flash.message) {
+    $toast.open({
+        message: flash.message,
+        type: flash.messageType,
+        duration: 3000,
+        dismissible: true,
+    });
+    this.closeModal();
+}
 
 const form = useForm({
     id: null,
@@ -394,8 +406,18 @@ const showImage = () => {
 };
 
 const selectImage = (event) => {
-    image.value = event.target.files[0];
-    form.reference_file = image.value;
+    if (event.target.files[0]) {
+        let file = event.target.files[0];
+        form.reference_file = file;
+
+        let reader = new FileReader();
+
+        reader.onloadend = () => {
+            imagePreview.value = reader.result;
+        };
+
+        reader.readAsDataURL(file);
+    }
 };
 
 const openEditModal = (depense) => {
@@ -448,11 +470,20 @@ const props = defineProps({
 
 const submit = () => {
     if (form.id) {
-        form.put(route("depenses.update", form.id), {
-            forceFormData: true,
+        router.post(`/depenses/${form.id}`, {
+            _method: "put",
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            id: form.id,
+            titre: form.titre,
+            montant: form.montant,
+            depense_date: form.depense_date,
+            reference_file: form.reference_file,
+            depense_type_id: form.depense_type_id,
+
             preserveScroll: true,
             onSuccess: () => {
-                console.log("SUCEss" + form);
                 closeModal();
                 $toast.open({
                     message: "depense modifié avec succès",
@@ -460,9 +491,9 @@ const submit = () => {
                     duration: 3000,
                     dismissible: true,
                 });
+                router.reload();
             },
             onError: () => {
-                console.log(form.errors);
                 $toast.open({
                     message: "Erreur lors de la modification",
                     type: "error",

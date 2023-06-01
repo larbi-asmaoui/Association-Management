@@ -437,7 +437,7 @@ const dataBarEvent = ref({
                 <!-- **********  Select  ********** -->
             </div>
 
-            <div class="mt-4 h-screen">
+            <div class="mt-4">
                 <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
                     <div class="bg-white p-4 shadow-2xl rounded-md col-span-2">
                         <!-- <ChartBar :data="dataBarEvent" :options="barOptions" /> -->
@@ -456,13 +456,13 @@ const dataBarEvent = ref({
                         />
                     </div>
                 </div>
-                <div class="mt-4 grid gap-4 xl:grid-cols-2">
-                    <div class="bg-white p-4 shadow-2xl rounded-md">
-                        <ChartBar :data="dataBarStocks" :options="barOptions" />
-                    </div>
-                    <div class="bg-white p-4 shadow-2xl rounded-md">
-                        <ChartBar :data="dataBarEvent" :options="barOptions" />
-                    </div>
+            </div>
+            <div class="mt-4 grid gap-4 xl:grid-cols-2">
+                <div class="bg-white p-4 shadow-2xl rounded-md h-[300px]">
+                    <ChartBar :data="dataBarStocks" :options="barOptions" />
+                </div>
+                <div class="bg-white p-4 shadow-2xl rounded-md h-[300px]">
+                    <ChartBar :data="dataBarEvent" :options="barOptions" />
                 </div>
             </div>
         </div>

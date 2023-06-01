@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateDepenseRequest;
 use App\Models\Depense;
 use App\Models\DepenseType;
 use Illuminate\Http\Request;
@@ -89,7 +90,7 @@ class DepenseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Depense $depense)
+    public function update(UpdateDepenseRequest $request, Depense $depense)
     {
 
         $formData = $request->validate([
@@ -105,9 +106,10 @@ class DepenseController extends Controller
                 $formData['reference_file']  = $request->file('reference_file')->store('uploads/images/depenses', 'public');
             }
         }
+        // dd($request);
         $depense->update($formData);
 
-        return redirect()->back()->with('success', 'Depense updated.');
+        return redirect()->back()->with('message', 'Depense updated.')->with('messageType', 'success');
     }
 
     /**
