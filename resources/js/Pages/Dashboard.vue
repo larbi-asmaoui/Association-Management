@@ -109,21 +109,21 @@ const lineOptions = ref({
 });
 
 const lineData = ref({
-    // labels: [
-    //     "janvier",
-    //     "février",
-    //     "mars",
-    //     "avril",
-    //     "mai",
-    //     "juin",
-    //     "juillet",
-    //     "août",
-    //     "septembre",
-    //     "octobre",
-    //     "novembre",
-    //     "décembre",
-    // ],
-    labels: Object.keys(props.revenueGroupedByMonth),
+    labels: [
+        "janvier",
+        "février",
+        "mars",
+        "avril",
+        "mai",
+        "juin",
+        "juillet",
+        "août",
+        "septembre",
+        "octobre",
+        "novembre",
+        "décembre",
+    ],
+    // labels: Object.keys(props.revenueGroupedByMonth),
     datasets: [
         {
             label: "Revenus",

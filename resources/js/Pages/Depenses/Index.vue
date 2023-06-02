@@ -157,7 +157,7 @@
                             <label
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                 for="file_input"
-                                >Reference
+                                >Réference
                             </label>
                             <input
                                 @change="selectImage"
@@ -360,7 +360,7 @@ export default {
 </script>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, watchEffect } from "vue";
 import { useForm, router, usePage } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
 import Pagination from "../../Components/Pagination.vue";
@@ -369,16 +369,18 @@ import "vue-toast-notification/dist/theme-sugar.css";
 
 const $toast = useToast();
 
-const { flash } = usePage().props;
-if (flash.message) {
-    $toast.open({
-        message: flash.message,
-        type: flash.messageType,
-        duration: 3000,
-        dismissible: true,
-    });
-    this.closeModal();
-}
+// const { flash } = usePage().props;
+
+// watchEffect(() => {
+//     if (flash.message) {
+//         $toast.open({
+//             message: flash.message,
+//             type: flash.messageType,
+//             duration: 3000,
+//             dismissible: true,
+//         });
+//     }
+// });
 
 const form = useForm({
     id: null,
@@ -482,25 +484,11 @@ const submit = () => {
             reference_file: form.reference_file,
             depense_type_id: form.depense_type_id,
 
-            preserveScroll: true,
-            onSuccess: () => {
-                closeModal();
-                $toast.open({
-                    message: "depense modifié avec succès",
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
-                });
-                router.reload();
-            },
-            onError: () => {
-                $toast.open({
-                    message: "Erreur lors de la modification",
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
+            // preserveScroll: true,
+            // onFinish: (visit) => {
+            //     closeModal();
+            //     console.log(visit);
+            // },
         });
     } else {
         form.post(route("depenses.store"), {

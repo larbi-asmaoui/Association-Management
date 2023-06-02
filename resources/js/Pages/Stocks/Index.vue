@@ -19,7 +19,7 @@
     </button>
     <div class="mb-4 bg-blue-600 px-4 py-4 shadow-md">
         <h1 class="text-xl font-semibold text-white sm:text-2xl">
-            Liste de Stocks
+            Liste de propriétés de l'association
         </h1>
     </div>
     <div class="bg-white px-4 py-6 shadow-md">
@@ -32,7 +32,7 @@
                         type="text"
                         v-model="search"
                         class="bg-slate-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :text-white :focus:ring-blue-500 :focus:border-blue-500"
-                        placeholder="rechercher adhérants..."
+                        placeholder="rechercher..."
                     />
                 </div>
                 <div>
@@ -261,14 +261,14 @@
                                         scope="col"
                                         class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
-                                        Stock
+                                        titre
                                     </th>
-                                    <th
+                                    <!-- <th
                                         scope="col"
                                         class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Type
-                                    </th>
+                                    </th> -->
                                     <th
                                         scope="col"
                                         class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -311,11 +311,11 @@
                                     >
                                         {{ stock.name }}
                                     </td>
-                                    <td
+                                    <!-- <td
                                         class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
                                     >
                                         {{ stock.stock_type.name }}
-                                    </td>
+                                    </td> -->
 
                                     <td
                                         class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"

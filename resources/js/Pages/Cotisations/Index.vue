@@ -113,24 +113,22 @@ const closeModal = () => {
             ></path>
         </svg>
     </button>
-    <div class="bg-white px-4 py-6 shadow-md rounded-lg">
-        <div class="mb-4">
-            <h1
-                class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
-            >
-                Gestion Cotisations
-            </h1>
-        </div>
+    <div class="mb-4 bg-blue-600 px-4 py-4 shadow-md">
+        <h1 class="text-xl font-semibold text-white sm:text-2xl">
+            Gestion Cotisations
+        </h1>
+    </div>
+    <div class="bg-white px-4 py-6 shadow-md">
         <div
-            class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
+            class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
         >
-            <div class="flex items-center mb-4 sm:mb-0">
+            <div class="w-full flex justify-between items-center mb-4 sm:mb-0">
                 <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
                     <input
                         type="text"
                         v-model="search"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="rechercher cotisations..."
+                        class="bg-slate-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :text-white :focus:ring-blue-500 :focus:border-blue-500"
+                        placeholder="rechercher..."
                     />
                 </div>
             </div>
