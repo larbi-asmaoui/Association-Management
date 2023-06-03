@@ -77,6 +77,7 @@
                                 ],
 
                                 type: 'json',
+                                header: '<h3 class=\'text-2xl font-semibold text-center\'>Liste des adhérants</h3>',
                             })
                         "
                         class="text-center mr-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-2 focus:outline-none"
@@ -185,7 +186,6 @@
                                     >CIN</label
                                 >
                                 <input
-                                    pattern="^[A-Za-z\d]+$"
                                     v-model="form.cin"
                                     type="text"
                                     name="cin"
@@ -545,6 +545,7 @@
                                                 ],
 
                                                 type: 'json',
+                                                header: '<h3 class=\'text-2xl font-semibold text-center\'>Liste des adherants</h3>',
                                             })
                                         "
                                         scope="col"
