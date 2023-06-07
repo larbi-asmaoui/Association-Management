@@ -15,6 +15,7 @@ use App\Http\Controllers\RevenueTypeController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\StockTypeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StatutController;
 
 
 /*
@@ -63,4 +64,5 @@ Route::middleware([
     Route::resource('cotisation-types', CotisationTypeController::class);
     Route::resource('stock-types', StockTypeController::class);
     Route::resource('evenement-types', EvenementTypeController::class);
+    Route::resource('status', StatutController::class);
 });

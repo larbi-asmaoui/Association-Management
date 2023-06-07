@@ -25,4 +25,9 @@ class Groupe extends Model
     {
         return $this->belongsToMany(Adherant::class);
     }
+
+    public function evenements(): BelongsToMany
+    {
+        return $this->belongsToMany(Evenement::class);
+    }
 }

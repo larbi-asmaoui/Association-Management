@@ -74,6 +74,10 @@
                                         field: 'address',
                                         displayName: 'Addresse',
                                     },
+                                    {
+                                        field: 'city',
+                                        displayName: 'Ville',
+                                    },
                                 ],
 
                                 type: 'json',
@@ -104,7 +108,6 @@
                     </div>
                 </template>
                 <template #body>
-                    image {{ form.image }}
                     <form
                         class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
                         @submit.prevent="submit"
@@ -119,13 +122,13 @@
                                 v-model="form.image"
                                 :default-src="defaultImg"
                             />
-                            <span
+                            <!-- <span
                                 v-if="form.errors.image"
                                 class="text-xs text-red-600 mt-1"
                                 id="hs-validation-name-error-helper"
                             >
                                 {{ form.errors.image }}
-                            </span>
+                            </span> -->
                         </div>
 
                         <div
@@ -144,13 +147,13 @@
                                     id="last_name"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                                 />
-                                <span
+                                <!-- <span
                                     v-if="form.errors.last_name"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.last_name }}
-                                </span>
+                                </span> -->
                             </div>
 
                             <div>
@@ -166,13 +169,13 @@
                                     id="first_name"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                                 />
-                                <span
+                                <!-- <span
                                     v-if="form.errors.first_name"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.first_name }}
-                                </span>
+                                </span> -->
                             </div>
                         </div>
 
@@ -192,13 +195,13 @@
                                     id="cin"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                                 />
-                                <span
+                                <!-- <span
                                     v-if="form.errors.cin"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.cin }}
-                                </span>
+                                </span> -->
                             </div>
                             <div>
                                 <label
@@ -240,13 +243,13 @@
                                         >
                                     </div>
                                 </div>
-                                <span
+                                <!-- <span
                                     v-if="form.errors.sexe"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.sexe }}
-                                </span>
+                                </span> -->
                             </div>
                         </div>
 
@@ -267,13 +270,13 @@
                                     autocomplete="text"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                                 />
-                                <span
+                                <!-- <span
                                     v-if="form.errors.tel"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.tel }}
-                                </span>
+                                </span> -->
                             </div>
 
                             <div>
@@ -290,13 +293,13 @@
                                     autocomplete="text"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                                 />
-                                <span
+                                <!-- <span
                                     v-if="form.errors.email"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.email }}
-                                </span>
+                                </span> -->
                             </div>
                         </div>
 
@@ -317,13 +320,13 @@
                                     placeholder="Select date"
                                     name="date_of_birth"
                                 />
-                                <span
+                                <!-- <span
                                     v-if="form.errors.date_of_birth"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.date_of_birth }}
-                                </span>
+                                </span> -->
                             </div>
                             <div>
                                 <label
@@ -339,13 +342,13 @@
                                     placeholder="Select date"
                                     name="date_of_membership"
                                 />
-                                <span
+                                <!-- <span
                                     v-if="form.errors.date_of_membership"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.date_of_membership }}
-                                </span>
+                                </span> -->
                             </div>
                         </div>
                         <div>
@@ -361,13 +364,13 @@
                                 rows="1"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                             ></textarea>
-                            <span
+                            <!-- <span
                                 v-if="form.errors.address"
                                 class="text-xs text-red-600 mt-1"
                                 id="hs-validation-name-error-helper"
                             >
                                 {{ form.errors.address }}
-                            </span>
+                            </span> -->
                         </div>
                         <div
                             class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
@@ -395,13 +398,13 @@
                                         {{ region.name }}
                                     </option>
                                 </select>
-                                <span
+                                <!-- <span
                                     v-if="form.errors.region"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.region }}
-                                </span>
+                                </span> -->
                             </div>
 
                             <div>
@@ -426,13 +429,13 @@
                                         {{ city }}
                                     </option>
                                 </select>
-                                <span
+                                <!-- <span
                                     v-if="form.errors.city"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.city }}
-                                </span>
+                                </span> -->
                             </div>
                         </div>
                         <div class="flex justify-end gap-x-2">
@@ -814,7 +817,6 @@ const filterCities = () => {
 };
 
 const form = useForm({
-    id: null,
     image: null,
     first_name: null,
     last_name: null,
@@ -860,51 +862,27 @@ const destroy = (id) => {
 };
 
 const submit = () => {
-    if (form.id) {
-        console.log(form.id);
-        form.put(route("adherants.update", form.id), {
-            preserveScroll: true,
-            onSuccess: () => {
-                closeModal();
-                $toast.open({
-                    message: "Adhérant est modifié avec succès",
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-            onError: () => {
-                $toast.open({
-                    message: "Erreur lors de la modification d'adhérant",
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-        });
-    } else {
-        form.post(route("adherants.store"), {
-            // forceFormData: true,
-            preserveScroll: true,
-            onSuccess: () => {
-                closeModal();
-                $toast.open({
-                    message: "Adhérant est ajouté avec succès",
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-            onError: () => {
-                $toast.open({
-                    message: "Erreur lors de l'ajout d'adhérant",
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-        });
-    }
+    form.post(route("adherants.store"), {
+        // forceFormData: true,
+        preserveScroll: true,
+        onSuccess: () => {
+            closeModal();
+            $toast.open({
+                message: "Adhérant est ajouté avec succès",
+                type: "success",
+                duration: 3000,
+                dismissible: true,
+            });
+        },
+        onError: () => {
+            $toast.open({
+                message: "Erreur lors de l'ajout d'adhérant",
+                type: "error",
+                duration: 3000,
+                dismissible: true,
+            });
+        },
+    });
 };
 
 let isModalOpen = ref(false);

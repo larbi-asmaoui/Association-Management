@@ -24,6 +24,8 @@ return new class extends Migration
             $table->date('date_of_membership');
             $table->string('address');
             $table->string('tel');
+            $table->string('city');
+            $table->string('region');
             $table->string('email')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();

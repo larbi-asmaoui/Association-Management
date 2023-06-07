@@ -46,7 +46,6 @@ class AdherantController extends Controller
     {
         $formFields = $request->validate(
             [
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'sexe' => 'required',
@@ -55,6 +54,8 @@ class AdherantController extends Controller
                 'date_of_birth' => 'required',
                 'date_of_membership' => 'required',
                 'address' => 'required',
+                'city' => 'required',
+                'region' => 'required',
             ]
         );
         $formFields['user_id'] = auth()->id();
@@ -90,14 +91,16 @@ class AdherantController extends Controller
     {
         $formFields = $request->validate(
             [
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
                 'first_name' => 'required',
                 'last_name' => 'required',
+                'is_actif' => 'nullable',
                 'sexe' => 'required',
                 'tel' => 'required',
                 'date_of_birth' => 'required',
-                'date_of_membership' => 'required',
+                'date_of_membership' => 'nullable',
                 'address' => 'required',
+                'city' => 'required',
+                'region' => 'required',
             ]
         );
 
@@ -106,7 +109,7 @@ class AdherantController extends Controller
         }
 
         $adherant->update($formFields);
-        return redirect()->route('adherants.index')->with('success', 'Adherant updated.');
+        return redirect()->route('adherants.index')->with('message', 'Adherant updated.');
     }
 
     /**

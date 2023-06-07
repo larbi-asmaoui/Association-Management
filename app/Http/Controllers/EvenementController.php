@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEvenementRequest;
 use App\Http\Requests\UpdateEvenementRequest;
+use App\Models\Adherant;
 use App\Models\Evenement;
 use App\Models\EvenementType;
 use App\Models\Groupe;
@@ -18,9 +19,9 @@ class EvenementController extends Controller
     {
         $userId = auth()->id();
         $evenements = Evenement::paginate(10);
-        $groupes = Groupe::all();
         $lastEvenement = Evenement::latest()->first();
         $evenementTypes = EvenementType::where('user_id', $userId)->get();
+        $groupes = Groupe::where('user_id', $userId)->get();
 
         return Inertia::render('Evenements/Index', [
             'evenements' => $evenements,
@@ -34,7 +35,7 @@ class EvenementController extends Controller
     {
         $userId = auth()->id();
         $evenements = Evenement::all();
-        $groupes = Groupe::all();
+        $groupes = Groupe::where('user_id', $userId)->get();
 
         return Inertia::render('Evenements/Calender', [
             'evenements' => $evenements,
@@ -90,6 +91,9 @@ class EvenementController extends Controller
         $validatedData['user_id'] = auth()->id();
         // Create the event
         Evenement::create($validatedData);
+        // if (isset($validatedData['adherants'])) {
+        //     $newGroupe->adherants()->sync($validatedData['adherants']);
+        // }
     }
 
     /**
@@ -105,6 +109,7 @@ class EvenementController extends Controller
     public function edit(Evenement $evenement)
     {
         $userId = auth()->id();
+        // $evenement->load('adherants');
         $evenementTypes = EvenementType::where('user_id', $userId)->get();
         return Inertia::render('Evenements/Show', [
             'evenement' => $evenement,
@@ -119,6 +124,7 @@ class EvenementController extends Controller
 
     public function update(UpdateEvenementRequest $request, Evenement $evenement)
     {
+        // $evenement->load('adherants');
         $formFields = $request->validate([
             'title' => 'required',
             'start' => 'required',
@@ -130,6 +136,7 @@ class EvenementController extends Controller
             'city' => 'required',
             'region' => 'required',
             'evenement_type_id' => 'required|exists:evenement_types,id',
+            // 'adherants.*' => 'exists:adherants,id',
         ]);
 
         $evenement->update($formFields);

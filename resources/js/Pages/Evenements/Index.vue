@@ -171,6 +171,69 @@
                             </span>
                         </div>
 
+                        <!-- ************************************** -->
+                        <div>
+                            <button
+                                @click="dropdownOpen = !dropdownOpen"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                type="button"
+                            >
+                                Choisir les membres
+                                <svg
+                                    class="w-4 h-4 ml-2"
+                                    aria-hidden="true"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M19 9l-7 7-7-7"
+                                    ></path>
+                                </svg>
+                            </button>
+
+                            <div
+                                v-if="dropdownOpen"
+                                class="z-40 w-48 h-40 overflow-auto bg-white rounded-lg shadow dark:bg-gray-700"
+                            >
+                                <ul
+                                    class="p-3 mt-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"
+                                >
+                                    <li
+                                        v-for="(groupe, index) in groupes"
+                                        :value="groupe.id"
+                                        :key="index"
+                                    >
+                                        <div
+                                            class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                :id="
+                                                    'checkbox-item-' + groupe.id
+                                                "
+                                                v-model="selectedgroupes"
+                                                :value="groupe.id"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                                            />
+                                            <label
+                                                :for="
+                                                    'checkbox-item-' + groupe.id
+                                                "
+                                                class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+                                                >{{ groupe.name }}</label
+                                            >
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- **********  Select  ********** -->
+
                         <div>
                             <label
                                 for="location"
@@ -452,7 +515,7 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
-    groupes: {
+    adherents: {
         type: Object,
         default: () => ({}),
     },
@@ -465,6 +528,10 @@ const props = defineProps({
         default: () => ({}),
     },
 });
+
+let selectedgroupes = ref([]);
+
+const dropdownOpen = ref(false);
 
 const incrementPart = computed(() => {
     // Get the increment part of the last event's reference
@@ -547,8 +614,9 @@ const toggleDropdown = () => {
 };
 
 const closeModal = () => {
-    form.reset("title", "description", "start", "end", "location");
     isModalOpen.value = false;
+    form.reset();
+    selectedgroupes.value = [];
 };
 
 const destroy = (id) => {
