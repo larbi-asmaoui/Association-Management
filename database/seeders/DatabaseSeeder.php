@@ -64,6 +64,52 @@ class DatabaseSeeder extends Seeder
             'name' => 'autres',
         ]);
 
+        \App\Models\Statut::create([
+            'user_id' => 1,
+            'name' => 'president',
+        ]);
+
+        \App\Models\Statut::create([
+            'user_id' => 1,
+            'name' => 'vice-president',
+        ]);
+
+        \App\Models\Statut::create([
+            'user_id' => 1,
+            'name' => 'tresorier',
+        ]);
+
+        \App\Models\Statut::create([
+            'user_id' => 1,
+            'name' => 'vice-tresorier',
+        ]);
+
+        \App\Models\Statut::create([
+            'user_id' => 1,
+            'name' => 'Secretaire',
+        ]);
+
+        \App\Models\Statut::create([
+            'user_id' => 1,
+            'name' => 'vice-Secretaire',
+        ]);
+
+        \App\Models\Statut::create([
+            'user_id' => 1,
+            'name' => 'Membre',
+        ]);
+
+        \App\Models\Statut::create([
+            'user_id' => 1,
+            'name' => 'Consultant 1',
+        ]);
+
+        \App\Models\Statut::create([
+            'user_id' => 1,
+            'name' => 'Consultant 2',
+        ]);
+
+
         \App\Models\Groupe::factory(5)->create();
         // \App\Models\Adherant::factory(20)->create();
         // \App\Models\Cotisation::factory(10)->create();

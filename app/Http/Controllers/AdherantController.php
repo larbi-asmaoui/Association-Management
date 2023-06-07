@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAdherantRequest;
 use App\Http\Requests\UpdateAdherantRequest;
 use App\Models\Adherant;
+use App\Models\Statut;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request;
 
@@ -17,8 +18,14 @@ class AdherantController extends Controller
     public function index()
     {
         $userId = auth()->id();
+        $status  = Statut::where('user_id', $userId)->get();
+
+        // $depensesQuery = Depense::with('depense_type')
+        //     ->where('user_id', $userId);
         return Inertia::render('Adherants/Index', [
+            'status' => $status,
             'adherants' => Adherant::query()
+                ->with('statut')
                 ->where('user_id', $userId)
                 ->when(Request::input('search'), function ($query, $search) {
                     $query->where('first_name', 'like', '%' . $search . '%')
@@ -56,6 +63,7 @@ class AdherantController extends Controller
                 'address' => 'required',
                 'city' => 'required',
                 'region' => 'required',
+                'statut_id' => 'nullable|exists:statuts,id',
             ]
         );
         $formFields['user_id'] = auth()->id();
@@ -101,6 +109,7 @@ class AdherantController extends Controller
                 'address' => 'required',
                 'city' => 'required',
                 'region' => 'required',
+                'status_id' => 'nullable',
             ]
         );
 

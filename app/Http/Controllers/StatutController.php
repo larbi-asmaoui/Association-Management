@@ -35,18 +35,18 @@ class StatutController extends Controller
     public function store(Request $request)
     {
 
-        $Statut = $request->validate([
+        $statut = $request->validate([
             'name' => 'required',
         ]);
-        $Statut['user_id'] = auth()->id();
-        Statut::create($Statut);
+        $statut['user_id'] = auth()->id();
+        Statut::create($statut);
         return redirect()->back()->with('success', 'Statut created.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Statut $Statut)
+    public function show(Statut $statut)
     {
         //
     }
@@ -54,7 +54,7 @@ class StatutController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Statut $Statut)
+    public function edit(Statut $statut)
     {
         //
     }
@@ -62,9 +62,9 @@ class StatutController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Statut $Statut)
+    public function update(Request $request, Statut $statut)
     {
-        $Statut->update(
+        $statut->update(
             $request->validate([
                 'name' => 'required',
             ])
@@ -75,9 +75,9 @@ class StatutController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Statut $Statut)
+    public function destroy(Statut $statut)
     {
-        $Statut->delete();
+        $statut->delete();
         return redirect()->back()->with('success', 'Statut deleted.');
     }
 }

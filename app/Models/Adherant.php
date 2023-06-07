@@ -18,6 +18,11 @@ class Adherant extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function statut(): BelongsTo
+    {
+        return $this->belongsTo(Statut::class);
+    }
+
     public function cotisations(): HasMany
     {
         return $this->HasMany(Cotisation::class);
