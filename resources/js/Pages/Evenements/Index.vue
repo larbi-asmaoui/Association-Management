@@ -584,6 +584,7 @@ const form = useForm({
 });
 
 const submit = () => {
+    form.groupes = selectedGroupes.value;
     form.post(route("evenements.store"), {
         onError: () => {
             $toast.open({

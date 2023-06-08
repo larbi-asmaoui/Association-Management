@@ -109,6 +109,7 @@ class EvenementController extends Controller
 
         if (isset($validatedData['groupes'])) {
             $newEvent->groupes()->sync($validatedData['groupes']);
+            // dd($newEvent);
         }
         return redirect()->back()->with('success', 'Event created.');
     }
@@ -157,14 +158,14 @@ class EvenementController extends Controller
             // 'adherants.*' => 'exists:adherants,id',
         ]);
 
-        $groupes = $formFields['groupes'];
-        unset($formFields['groupes']);
+        // $groupes = $formFields['groupes'];
+        // unset($formFields['groupes']);
 
         $evenement->update($formFields);
 
-        if (isset($groupes)) {
-            $evenement->groupes()->sync($groupes);
-        }
+        // if (isset($groupes)) {
+        //     $evenement->groupes()->sync($groupes);
+        // }
 
         return redirect()->back()->with('success', 'Evenement updated.');
     }

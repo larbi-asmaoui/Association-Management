@@ -116,7 +116,7 @@ const handleEventClick = ({ el, event }) => {
 <template>
     <div class="bg-white p-6 shadow-sm">
         <FullCalendar v-bind:options="calendarOptions" :key="eventRefreshKey" />
-        <div
+        <!-- <div
             class="popover fade show bs-popover-right"
             :class="{ 'd-none': !isPopoverVisible }"
             :style="{ top: `${popoverY}px`, left: `${popoverX}px` }"
@@ -126,6 +126,6 @@ const handleEventClick = ({ el, event }) => {
             <div class="popover-body">
                 {{ popoverContent }}
             </div>
-        </div>
+        </div> -->
     </div>
 </template>

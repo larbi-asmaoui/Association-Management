@@ -211,7 +211,7 @@
                                 </label>
                                 <input
                                     v-model="form.price_per_unit"
-                                    min="1"
+                                    min="0"
                                     step="0.01"
                                     type="number"
                                     name=" price_per_unit"
