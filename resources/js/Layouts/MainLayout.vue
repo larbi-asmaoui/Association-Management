@@ -262,8 +262,8 @@
                                     Type de dépenses
                                 </div>
                             </DropdownLink>
-                            <div class="border-t border-gray-200" />
-                            <DropdownLink :href="route('profile.show')">
+                            <!-- <div class="border-t border-gray-200" /> -->
+                            <!-- <DropdownLink :href="route('profile.show')">
                                 <div class="flex justify-start items-end">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -290,7 +290,7 @@
                                     </svg>
                                     Type de cotisation
                                 </div>
-                            </DropdownLink>
+                            </DropdownLink> -->
                         </template>
                     </Dropdown>
 

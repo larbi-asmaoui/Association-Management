@@ -546,7 +546,7 @@
                 </button>
             </div>
         </form>
-        <div class="">
+        <div class="" v-show="false">
             <div id="card" class="py-4 rounded-lg border border-cyan-950">
                 <img
                     :src="showImage() + adherant.image"

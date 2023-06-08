@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Statut;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+
+use Illuminate\Support\Facades\Request;
 
 class StatutController extends Controller
 {
@@ -13,11 +14,16 @@ class StatutController extends Controller
      */
     public function index()
     {
-
+        //  ->withCount('adherants')
         $userId = auth()->id();
-        $Status = Statut::where('user_id', $userId)->get();
+        // $Status = Statut::where('user_id', $userId)->get();
         return Inertia::render('Status/Index', [
-            'status' => $Status
+            'status' => Statut::query()
+                ->with('adherants')
+                ->withCount('adherants')
+                ->where('user_id', $userId)
+                ->get()
+            // ->appends(Request::all()),
         ]);
     }
 
@@ -64,6 +70,7 @@ class StatutController extends Controller
      */
     public function update(Request $request, Statut $statut)
     {
+        $statut->load('adherants');
         $statut->update(
             $request->validate([
                 'name' => 'required',

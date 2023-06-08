@@ -66,6 +66,8 @@ class EvenementController extends Controller
             'city' => 'required',
             'region' => 'required',
             'evenement_type_id' => 'required|exists:evenement_types,id',
+            'groupes' => 'nullable|array',
+            'groupes.*' => 'exists:groupes,id',
         ]);
 
         // Fetch the last created event's reference number
@@ -88,12 +90,27 @@ class EvenementController extends Controller
 
         // Add the reference to the data
         $validatedData['reference'] = $newReference;
-        $validatedData['user_id'] = auth()->id();
+
+        $evenementData = [
+            'title' => $validatedData['title'],
+            'start' => $validatedData['start'],
+            'end' => $validatedData['end'],
+            'description' => $validatedData['description'],
+            'location' => $validatedData['location'],
+            'region' => $validatedData['region'],
+            'city' => $validatedData['city'],
+            'evenement_type_id' => $validatedData['evenement_type_id'],
+            'user_id' => auth()->id(),
+            'reference' => $validatedData['reference']
+
+        ];
         // Create the event
-        Evenement::create($validatedData);
-        // if (isset($validatedData['adherants'])) {
-        //     $newGroupe->adherants()->sync($validatedData['adherants']);
-        // }
+        $newEvent = Evenement::create($evenementData);
+
+        if (isset($validatedData['groupes'])) {
+            $newEvent->groupes()->sync($validatedData['groupes']);
+        }
+        return redirect()->back()->with('success', 'Event created.');
     }
 
     /**
@@ -109,6 +126,7 @@ class EvenementController extends Controller
     public function edit(Evenement $evenement)
     {
         $userId = auth()->id();
+        $evenement->load('groupes');
         // $evenement->load('adherants');
         $evenementTypes = EvenementType::where('user_id', $userId)->get();
         return Inertia::render('Evenements/Show', [
@@ -124,7 +142,7 @@ class EvenementController extends Controller
 
     public function update(UpdateEvenementRequest $request, Evenement $evenement)
     {
-        // $evenement->load('adherants');
+        $evenement->load('groupes');
         $formFields = $request->validate([
             'title' => 'required',
             'start' => 'required',
@@ -139,7 +157,14 @@ class EvenementController extends Controller
             // 'adherants.*' => 'exists:adherants,id',
         ]);
 
+        $groupes = $formFields['groupes'];
+        unset($formFields['groupes']);
+
         $evenement->update($formFields);
+
+        if (isset($groupes)) {
+            $evenement->groupes()->sync($groupes);
+        }
 
         return redirect()->back()->with('success', 'Evenement updated.');
     }

@@ -93,6 +93,9 @@ export default {
                     {{ statut.name }}
                 </h5>
                 <p class="font-normal text-gray-700 dark:text-gray-400">
+                    Nombre : {{ statut.adherants_count }}
+                </p>
+                <p class="font-normal text-gray-700 dark:text-gray-400">
                     Date d'ajout {{ statut.created_at }}
                 </p>
                 <div class="flex justify-end mt-5 items-end">

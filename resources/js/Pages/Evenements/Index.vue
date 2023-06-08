@@ -175,10 +175,10 @@
                         <div>
                             <button
                                 @click="dropdownOpen = !dropdownOpen"
-                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                class="text-black bg-gray-50 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                 type="button"
                             >
-                                Choisir les membres
+                                Choisir les groupes
                                 <svg
                                     class="w-4 h-4 ml-2"
                                     aria-hidden="true"
@@ -216,7 +216,7 @@
                                                 :id="
                                                     'checkbox-item-' + groupe.id
                                                 "
-                                                v-model="selectedgroupes"
+                                                v-model="selectedGroupes"
                                                 :value="groupe.id"
                                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                                             />
@@ -515,7 +515,7 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
-    adherents: {
+    groupes: {
         type: Object,
         default: () => ({}),
     },
@@ -529,7 +529,7 @@ const props = defineProps({
     },
 });
 
-let selectedgroupes = ref([]);
+let selectedGroupes = ref([]);
 
 const dropdownOpen = ref(false);
 
@@ -580,6 +580,7 @@ const form = useForm({
     region: "",
     city: "",
     evenement_type_id: "",
+    groupes: [],
 });
 
 const submit = () => {
@@ -616,7 +617,7 @@ const toggleDropdown = () => {
 const closeModal = () => {
     isModalOpen.value = false;
     form.reset();
-    selectedgroupes.value = [];
+    selectedGroupes.value = [];
 };
 
 const destroy = (id) => {

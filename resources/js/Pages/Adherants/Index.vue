@@ -20,7 +20,7 @@
 
     <div class="mb-4 bg-blue-600 px-4 py-4 shadow-md">
         <h1 class="text-xl font-semibold text-white sm:text-2xl">
-            Gestion Adhérants
+            Gestion adhérents
         </h1>
     </div>
     <div class="bg-white px-4 py-6 shadow-md">
@@ -33,7 +33,7 @@
                         type="text"
                         v-model="search"
                         class="bg-slate-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :text-white :focus:ring-blue-500 :focus:border-blue-500"
-                        placeholder="rechercher adhérants..."
+                        placeholder="rechercher adhérents..."
                     />
                 </div>
                 <div>
@@ -81,7 +81,7 @@
                                 ],
 
                                 type: 'json',
-                                header: '<h3 class=\'text-2xl font-semibold text-center\'>Liste des adhérants</h3>',
+                                header: '<h3 class=\'text-2xl font-semibold text-center\'>Liste des adhérents</h3>',
                             })
                         "
                         class="text-center mr-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-2 focus:outline-none"
@@ -104,7 +104,7 @@
             <Modal size="3xl" v-if="isModalOpen" @close="closeModal">
                 <template #header>
                     <div class="flex items-center text-lg">
-                        Ajouter un adhérant
+                        Ajouter un adhérent
                     </div>
                 </template>
                 <template #body>
@@ -886,7 +886,7 @@ const destroy = (id) => {
         form.delete(route("adherants.destroy", id), {
             onError: () => {
                 $toast.open({
-                    message: "Erreur lors de la suppression d'adhérant",
+                    message: "Erreur lors de la suppression d'adhérent",
                     type: "error",
                     duration: 3000,
                     dismissible: true,
@@ -894,7 +894,7 @@ const destroy = (id) => {
             },
             onSuccess: () => {
                 $toast.open({
-                    message: "Adhérant est supprimé avec succès",
+                    message: "adhérent est supprimé avec succès",
                     type: "success",
                     duration: 3000,
                     dismissible: true,
@@ -911,7 +911,7 @@ const submit = () => {
         onSuccess: () => {
             closeModal();
             $toast.open({
-                message: "Adhérant est ajouté avec succès",
+                message: "adhérent est ajouté avec succès",
                 type: "success",
                 duration: 3000,
                 dismissible: true,
@@ -919,7 +919,7 @@ const submit = () => {
         },
         onError: () => {
             $toast.open({
-                message: "Erreur lors de l'ajout d'adhérant",
+                message: "Erreur lors de l'ajout d'adhérent",
                 type: "error",
                 duration: 3000,
                 dismissible: true,
