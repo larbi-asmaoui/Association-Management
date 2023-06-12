@@ -471,9 +471,16 @@
     </div>
     <div class="mt-4">
       <div class="overflow-hidden bg-white">
-        <div class="bg-white">
-          <div class="relative overflow-x-auto shadow-lg mb-5">
+        <div class="">
+          <div class="relative overflow-x-auto mb-5">
+            <div
+              class="mt-3 flex justify-center items-center text-md text-gray-600 capitalize"
+              v-if="adherents.data.length == 0"
+            >
+              Pas d'adhérents
+            </div>
             <table
+              v-else
               class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse :text-gray-400"
             >
               <thead class="bg-gray-100">

@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEvenementRequest;
 use App\Http\Requests\UpdateEvenementRequest;
-use App\Models\Adherant;
+use App\Models\Adherent;
 use App\Models\Evenement;
 use App\Models\EvenementType;
-use App\Models\Groupe;
 use Inertia\Inertia;
 
 class EvenementController extends Controller
@@ -21,11 +20,11 @@ class EvenementController extends Controller
         $evenements = Evenement::paginate(10);
         $lastEvenement = Evenement::latest()->first();
         $evenementTypes = EvenementType::where('user_id', $userId)->get();
-        $groupes = Groupe::where('user_id', $userId)->get();
+        $adherents = Adherent::where('user_id', $userId)->get();
 
         return Inertia::render('Evenements/Index', [
             'evenements' => $evenements,
-            'groupes' => $groupes,
+            'adherents' => $adherents,
             'lastEvenement' => $lastEvenement,
             'evenementTypes' => $evenementTypes
             // 'filters' => Request::only(['search'])
@@ -35,11 +34,11 @@ class EvenementController extends Controller
     {
         $userId = auth()->id();
         $evenements = Evenement::all();
-        $groupes = Groupe::where('user_id', $userId)->get();
+        $adherents = Adherent::where('user_id', $userId)->get();
 
         return Inertia::render('Evenements/Calender', [
             'evenements' => $evenements,
-            'groupes' => $groupes
+            'adherents' => $adherents
             // 'filters' => Request::only(['search'])
         ]);
     }
@@ -66,8 +65,8 @@ class EvenementController extends Controller
             'city' => 'required',
             'region' => 'required',
             'evenement_type_id' => 'required|exists:evenement_types,id',
-            'groupes' => 'nullable|array',
-            'groupes.*' => 'exists:groupes,id',
+            'adherents' => 'nullable|array',
+            'adherents.*' => 'exists:adherents,id',
         ]);
 
         // Fetch the last created event's reference number
@@ -107,8 +106,8 @@ class EvenementController extends Controller
         // Create the event
         $newEvent = Evenement::create($evenementData);
 
-        if (isset($validatedData['groupes'])) {
-            $newEvent->groupes()->sync($validatedData['groupes']);
+        if (isset($validatedData['adherents'])) {
+            $newEvent->adherents()->sync($validatedData['adherents']);
             // dd($newEvent);
         }
         return redirect()->back()->with('success', 'Event created.');
@@ -127,8 +126,7 @@ class EvenementController extends Controller
     public function edit(Evenement $evenement)
     {
         $userId = auth()->id();
-        $evenement->load('groupes');
-        // $evenement->load('adherants');
+        $evenement->load('adherents');
         $evenementTypes = EvenementType::where('user_id', $userId)->get();
         return Inertia::render('Evenements/Show', [
             'evenement' => $evenement,
@@ -143,7 +141,7 @@ class EvenementController extends Controller
 
     public function update(UpdateEvenementRequest $request, Evenement $evenement)
     {
-        $evenement->load('groupes');
+        $evenement->load('adherents');
         $formFields = $request->validate([
             'title' => 'required',
             'start' => 'required',
@@ -158,13 +156,13 @@ class EvenementController extends Controller
             // 'adherants.*' => 'exists:adherants,id',
         ]);
 
-        // $groupes = $formFields['groupes'];
-        // unset($formFields['groupes']);
+        // $adherents = $formFields['adherents'];
+        // unset($formFields['adherents']);
 
         $evenement->update($formFields);
 
-        // if (isset($groupes)) {
-        //     $evenement->groupes()->sync($groupes);
+        // if (isset($adherents)) {
+        //     $evenement->adherents()->sync($adherents);
         // }
 
         return redirect()->back()->with('success', 'Evenement updated.');
