@@ -7,7 +7,9 @@
   <Sidebar />
   <!-- end Sidebar -->
 
-  <div class="relative pt-16 h-screen bg-slate-200 lg:ml-64 dark:bg-gray-900">
+  <div
+    class="relative pt-16 h-screen no-scrollbar bg-slate-200 lg:ml-64 dark:bg-gray-900"
+  >
     <main>
       <div class="px-4 py-6">
         <slot />
