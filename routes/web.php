@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AdherantController;
+use App\Http\Controllers\AdherentController;
 use App\Http\Controllers\CotisationController;
 use App\Http\Controllers\CotisationTypeController;
 use App\Http\Controllers\DashboardController;
@@ -50,8 +50,8 @@ Route::middleware([
     Route::get('/evenements/calendrier', [EvenementController::class, 'calender'])->name('evenements.calender');
 
 
-    Route::resource('adherants', AdherantController::class);
-    Route::get('adherants/{adherant}/print', [PrintController::class, 'printAdherentCard'])->name('adherants.print');
+    Route::resource('adherents', AdherentController::class);
+    Route::get('adherents/{adherent}/print', [PrintController::class, 'printAdherentCard'])->name('adherents.print');
     Route::resource('cotisations', CotisationController::class);
     Route::resource('groupes', GroupeController::class);
     Route::resource('stocks', StockController::class);

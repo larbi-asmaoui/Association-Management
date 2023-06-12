@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Adherant extends Model
+class Adherent extends Model
 {
     use HasFactory;
 
@@ -46,5 +46,10 @@ class Adherant extends Model
     public function groupes(): BelongsToMany
     {
         return $this->belongsToMany(Groupe::class);
+    }
+
+    public function evenements(): BelongsToMany
+    {
+        return $this->belongsToMany(Evenement::class);
     }
 }

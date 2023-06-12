@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCotisationRequest;
 use App\Http\Requests\UpdateCotisationRequest;
-use App\Models\Adherant;
+use App\Models\Adherent;
 use App\Models\Cotisation;
 use Inertia\Inertia;
 
@@ -16,12 +16,12 @@ class CotisationController extends Controller
     public function index()
     {
         $userId = auth()->id();
-        $cotisations = Cotisation::with('adherant')->paginate(5);
-        $adherants = Adherant::paginate(10);
+        $cotisations = Cotisation::with('adherent')->paginate(5);
+        $adherents = Adherent::paginate(10);
 
         return Inertia::render('Cotisations/Index', [
             'cotisations' => $cotisations,
-            'adherants' => $adherants
+            'adherents' => $adherents
             // 'filters' => Request::only(['search'])
         ]);
     }
@@ -43,7 +43,7 @@ class CotisationController extends Controller
             [
                 'montant' => 'required',
                 'type' => 'required',
-                'adherant_id' => 'required|exists:adherants,id'
+                'adherent_id' => 'required|exists:adherents,id'
             ]
         );
         Cotisation::create($formFields);

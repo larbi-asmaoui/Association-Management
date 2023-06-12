@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreAdherantRequest;
-use App\Http\Requests\UpdateAdherantRequest;
-use App\Models\Adherant;
+use App\Http\Requests\StoreAdherentRequest;
+use App\Http\Requests\UpdateAdherentRequest;
+use App\Models\Adherent;
 use App\Models\Statut;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request;
 
 
-class AdherantController extends Controller
+class AdherentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,9 +22,9 @@ class AdherantController extends Controller
 
         // $depensesQuery = Depense::with('depense_type')
         //     ->where('user_id', $userId);
-        return Inertia::render('Adherants/Index', [
+        return Inertia::render('Adherents/Index', [
             'status' => $status,
-            'adherants' => Adherant::query()
+            'adherents' => Adherent::query()
                 ->with('statut')
                 ->where('user_id', $userId)
                 ->when(Request::input('search'), function ($query, $search) {
@@ -49,7 +49,7 @@ class AdherantController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAdherantRequest $request)
+    public function store(Request $request)
     {
         $formFields = $request->validate(
             [
@@ -72,30 +72,30 @@ class AdherantController extends Controller
             $formFields['image']  = $request->file('image')->store('image', 'public');
         }
 
-        Adherant::create($formFields);
-        return redirect()->back()->with('success', 'Adherant created.');
+        Adherent::create($formFields);
+        return redirect()->back()->with('success', 'Adherent created.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Adherant $adherant)
+    public function show(Adherent $adherent)
     {
-        return Inertia::render('Adherants/Show', ['adherant' => $adherant]);
+        return Inertia::render('Adherents/Show', ['adherent' => $adherent]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Adherant $adherant)
+    public function edit(Adherent $adherent)
     {
-        return Inertia::render('Adherants/Edit', ['adherant' => $adherant]);
+        return Inertia::render('Adherents/Edit', ['adherent' => $adherent]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAdherantRequest $request, Adherant $adherant)
+    public function update(Request $request, Adherent $adherent)
     {
         $formFields = $request->validate(
             [
@@ -117,17 +117,17 @@ class AdherantController extends Controller
             $formFields['image']  = $request->file('image')->store('image', 'public');
         }
 
-        $adherant->update($formFields);
-        return redirect()->route('adherants.index')->with('message', 'Adherant updated.');
+        $adherent->update($formFields);
+        return redirect()->route('adherents.index')->with('message', 'Adherent updated.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Adherant $adherant)
+    public function destroy(Adherent $adherent)
     {
-        $adherant->delete();
+        $adherent->delete();
 
-        return redirect()->route('adherants.index')->with('message', 'adherant est supprimé avec succès');
+        return redirect()->route('adherents.index')->with('message', 'adherent est supprimé avec succès');
     }
 }

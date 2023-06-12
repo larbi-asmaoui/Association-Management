@@ -27,9 +27,9 @@ class Evenement extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function groupes(): BelongsToMany
+    public function adherents(): BelongsToMany
     {
-        return $this->belongsToMany(Groupe::class);
+        return $this->belongsToMany(Adherent::class);
     }
 
     // public function getStartAttribute($value)

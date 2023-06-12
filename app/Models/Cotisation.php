@@ -11,9 +11,9 @@ class Cotisation extends Model
 {
     use HasFactory;
 
-    public function adherant(): BelongsTo
+    public function adherent(): BelongsTo
     {
-        return $this->belongsTo(Adherant::class);
+        return $this->belongsTo(Adherent::class);
     }
 
     public function getCreatedAtAttribute($value)

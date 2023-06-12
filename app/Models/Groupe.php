@@ -21,13 +21,8 @@ class Groupe extends Model
     // {
     //     return Carbon::parse($value)->format('d/m/Y');
     // }
-    public function adherants(): BelongsToMany
+    public function adherents(): BelongsToMany
     {
-        return $this->belongsToMany(Adherant::class);
-    }
-
-    public function evenements(): BelongsToMany
-    {
-        return $this->belongsToMany(Evenement::class);
+        return $this->belongsToMany(Adherent::class);
     }
 }

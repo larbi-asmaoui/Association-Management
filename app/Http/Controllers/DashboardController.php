@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Groupe;
-use App\Models\Adherant;
+use App\Models\Adherent;
 use App\Models\Cotisation;
 use App\Models\Depense;
 use App\Models\Evenement;
@@ -37,7 +37,7 @@ class DashboardController extends Controller
         $userId = auth()->id();
 
         $groupes_count = Groupe::where('user_id', $userId)->count();
-        $adherants_count = Adherant::where('user_id', $userId)->count();
+        $adherents_count = Adherent::where('user_id', $userId)->count();
         $stock_count = Stock::where('user_id', $userId)->count();
 
         $events_count = Evenement::where('user_id', $userId)
@@ -94,7 +94,7 @@ class DashboardController extends Controller
 
         return Inertia::render('Dashboard', [
             'groupes_count' => $groupes_count,
-            'adherants_count' => $adherants_count,
+            'adherents_count' => $adherents_count,
             'stock_count' => $stock_count,
             'events_count' => $events_count,
             'groupesData' => $groupesData,

@@ -20,8 +20,8 @@ class Statut extends Model
         return Carbon::parse($value)->format('d/m/Y');
     }
 
-    public function adherants(): HasMany
+    public function adherents(): HasMany
     {
-        return $this->HasMany(Adherant::class);
+        return $this->HasMany(Adherent::class);
     }
 }

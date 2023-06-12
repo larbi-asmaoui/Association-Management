@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreGroupeRequest;
 use App\Http\Requests\UpdateGroupeRequest;
-use App\Models\Adherant;
+use App\Models\Adherent;
 use Illuminate\Support\Facades\Request;
 use App\Models\Groupe;
 use Inertia\Inertia;
@@ -17,13 +17,13 @@ class GroupeController extends Controller
     public function index()
     {
         $userId = auth()->id();
-        $adherants = Adherant::where('user_id', $userId)->get();
+        $adherents = Adherent::where('user_id', $userId)->get();
         return Inertia::render('Groupes/Index', [
             // 'groupes' => $groupes,
-            'adherants' => $adherants,
+            'adherents' => $adherents,
             'groupes' => Groupe::query()
-                ->with('adherants')
-                ->withCount('adherants')
+                ->with('adherents')
+                ->withCount('adherents')
                 ->where('user_id', $userId)
                 ->when(Request::input('search'), function ($query, $search) {
                     $query->where('name', 'like', '%' . $search . '%')
@@ -52,8 +52,8 @@ class GroupeController extends Controller
             [
                 'name' => 'required',
                 'description' => 'nullable',
-                'adherants' => 'nullable|array',
-                'adherants.*' => 'exists:adherants,id',
+                'adherents' => 'nullable|array',
+                'adherents.*' => 'exists:adherents,id',
             ]
         );
 
@@ -65,8 +65,8 @@ class GroupeController extends Controller
 
         $newGroupe = Groupe::create($groupeData);
 
-        if (isset($validatedData['adherants'])) {
-            $newGroupe->adherants()->sync($validatedData['adherants']);
+        if (isset($validatedData['adherents'])) {
+            $newGroupe->adherents()->sync($validatedData['adherents']);
         }
 
         return redirect()->back()->with('success', 'Groupe created.');
@@ -78,7 +78,7 @@ class GroupeController extends Controller
      */
     public function show(Groupe $groupe)
     {
-        $groupe->load('adherants');
+        $groupe->load('adherents');
         return Inertia::render('Groupes/Show', [
             'groupe' => $groupe,
         ]);
@@ -89,7 +89,7 @@ class GroupeController extends Controller
      */
     public function edit(Groupe $groupe)
     {
-        $groupe->load('adherants');
+        $groupe->load('adherents');
         return Inertia::render('Groupes/Edit', [
             'groupe' => $groupe,
         ]);
@@ -100,23 +100,23 @@ class GroupeController extends Controller
      */
     public function update(UpdateGroupeRequest $request, Groupe $groupe)
     {
-        $groupe->load('adherants');
+        $groupe->load('adherents');
         $formFields = $request->validate(
             [
                 'name' => 'required',
                 'description' => 'nullable',
-                'adherants' => 'nullable|array',
-                'adherants.*' => 'exists:adherants,id',
+                'adherents' => 'nullable|array',
+                'adherents.*' => 'exists:adherents,id',
             ]
         );
 
-        $adherants = $formFields['adherants']; // Save adherants
-        unset($formFields['adherants']); // Remove adherants from form fields
+        $adherents = $formFields['adherents']; // Save adherents
+        unset($formFields['adherents']); // Remove adherents from form fields
 
         $groupe->update($formFields);
 
-        if (isset($adherants)) {
-            $groupe->adherants()->sync($adherants);
+        if (isset($adherents)) {
+            $groupe->adherents()->sync($adherents);
         }
 
         return redirect()->route('groupes.index');
