@@ -111,8 +111,8 @@ class DatabaseSeeder extends Seeder
 
 
         \App\Models\Groupe::factory(5)->create();
-        // \App\Models\Adherant::factory(20)->create();
-        // \App\Models\Cotisation::factory(10)->create();
+        \App\Models\Adherent::factory(20)->create();
+        \App\Models\Cotisation::factory(10)->create();
 
 
 

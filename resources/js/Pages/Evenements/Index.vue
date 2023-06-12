@@ -17,9 +17,7 @@
       ></path>
     </svg>
   </button>
-  <div>
-    <Multiselect v-model="value" :options="options" />
-  </div>
+
   <div class="bg-white px-2 py-6 shadow-md rounded-xl relative mt-5">
     <div
       class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
@@ -174,63 +172,21 @@
                 {{ form.errors.evenement_type_id }}
               </span>
             </div>
-
             <!-- ************************************** -->
             <div>
-              <button
-                @click="dropdownOpen = !dropdownOpen"
-                class="text-black bg-gray-50 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                type="button"
+              <label
+                for="adherents"
+                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                >Participants</label
               >
-                Choisir les adherents
-                <svg
-                  class="w-4 h-4 ml-2"
-                  aria-hidden="true"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 9l-7 7-7-7"
-                  ></path>
-                </svg>
-              </button>
-
-              <div
-                v-if="dropdownOpen"
-                class="z-40 w-48 h-40 overflow-auto bg-white rounded-lg shadow dark:bg-gray-700"
-              >
-                <ul
-                  class="p-3 mt-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"
-                >
-                  <li
-                    v-for="(adherent, index) in adherents"
-                    :value="adherent.id"
-                    :key="index"
-                  >
-                    <div
-                      class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
-                    >
-                      <input
-                        type="checkbox"
-                        :id="'checkbox-item-' + adherent.id"
-                        v-model="selectedadherents"
-                        :value="adherent.id"
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                      />
-                      <label
-                        :for="'checkbox-item-' + adherent.id"
-                        class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
-                        >{{ adherent.name }}</label
-                      >
-                    </div>
-                  </li>
-                </ul>
-              </div>
+              <Multiselect
+                v-model="form.adherents"
+                mode="tags"
+                :close-on-select="false"
+                :searchable="true"
+                :create-option="true"
+                :options="formattedAdherents"
+              />
             </div>
             <!-- **********  Select  ********** -->
 
@@ -333,7 +289,6 @@
         </template>
       </Modal>
     </teleport>
-
     <div class="mt-4">
       <div class="overflow-hidden bg-white shadow-sm">
         <div class="bg-white border-b border-gray-200">
@@ -477,7 +432,9 @@
 
 
 
-<style src="@vueform/multiselect/themes/default.css"></style>
+<style src="@vueform/multiselect/themes/default.css">
+</style>
+
 <script>
 import MainLayout from "../../Layouts/MainLayout.vue";
 import Multiselect from "@vueform/multiselect";
@@ -490,7 +447,6 @@ export default {
   data() {
     return {
       value: null,
-      options: ["Batman", "Robin", "Joker"],
     };
   },
 };
@@ -526,6 +482,13 @@ const props = defineProps({
     default: () => ({}),
   },
 });
+
+const formattedAdherents = computed(() =>
+  Object.values(props.adherents).map((adherent) => ({
+    value: adherent.id,
+    label: adherent.last_name + " " + adherent.first_name,
+  }))
+);
 
 let selectedadherents = ref([]);
 
@@ -582,7 +545,7 @@ const form = useForm({
 });
 
 const submit = () => {
-  form.adherents = selectedadherents.value;
+  //   form.adherents = selectedadherents.value;
   form.post(route("evenements.store"), {
     onError: () => {
       $toast.open({

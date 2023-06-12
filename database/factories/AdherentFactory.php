@@ -2,13 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Statut;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Adherant>
  */
-class AdherantFactory extends Factory
+class AdherentFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -29,6 +30,9 @@ class AdherantFactory extends Factory
             'address' => $this->faker->address(),
             'tel' => $this->faker->regexify('^0\d{9}$'),
             'email' => $this->faker->email(),
+            'region' => "souss",
+            'city' => "taroudant",
+            'statut_id' => Statut::all()->random()->id
         ];
     }
 }

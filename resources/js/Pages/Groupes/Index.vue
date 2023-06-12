@@ -125,8 +125,8 @@
                   class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"
                 >
                   <li
-                    v-for="(adherant, index) in adherants"
-                    :value="adherant.id"
+                    v-for="(adherent, index) in adherents"
+                    :value="adherent.id"
                     :key="index"
                   >
                     <div
@@ -134,16 +134,16 @@
                     >
                       <input
                         type="checkbox"
-                        :id="'checkbox-item-' + adherant.id"
-                        v-model="selectedAdherants"
-                        :value="adherant.id"
+                        :id="'checkbox-item-' + adherent.id"
+                        v-model="selectedAdherents"
+                        :value="adherent.id"
                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
                       <label
-                        :for="'checkbox-item-' + adherant.id"
+                        :for="'checkbox-item-' + adherent.id"
                         class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
-                        >{{ adherant.first_name }}
-                        {{ adherant.last_name }}</label
+                        >{{ adherent.first_name }}
+                        {{ adherent.last_name }}</label
                       >
                     </div>
                   </li>
@@ -224,7 +224,7 @@
                   <td
                     class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
                   >
-                    {{ groupe.adherants_count }}
+                    {{ groupe.adherents_count }}
                   </td>
 
                   <td
@@ -280,7 +280,7 @@
                       <!-- Delete -->
 
                       <div
-                        v-if="groupe.adherants_count == 0"
+                        v-if="groupe.adherents_count == 0"
                         @click="destroy(groupe.id)"
                         class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                       >
@@ -331,18 +331,18 @@ import { useForm } from "@inertiajs/vue3";
 
 const $toast = useToast();
 
-let selectedAdherants = ref([]);
+let selectedAdherents = ref([]);
 
 const form = useForm({
   id: null,
   name: null,
   description: null,
-  adherants: [],
+  adherents: [],
 });
 
 const submit = () => {
   if (form.id) {
-    form.adherants = selectedAdherants.value;
+    form.adherents = selectedAdherents.value;
     form.put(route("groupes.update", form.id), {
       preserveScroll: true,
       onSuccess: () => {
@@ -356,7 +356,7 @@ const submit = () => {
       },
     });
   } else {
-    form.adherants = selectedAdherants.value;
+    form.adherents = selectedAdherents.value;
     form.post(route("groupes.store"), {
       preserveScroll: true,
       onSuccess: () => {
@@ -377,7 +377,7 @@ let isModalOpen = ref(false);
 const closeModal = () => {
   isModalOpen.value = false;
   form.reset();
-  selectedAdherants.value = [];
+  selectedAdherents.value = [];
 };
 
 const dropdownOpen = ref(false);
@@ -414,7 +414,7 @@ const openEditModal = (groupe) => {
   form.id = groupe.id;
   form.name = groupe.name;
   form.description = groupe.description;
-  selectedAdherants.value = groupe.adherants.map((adherant) => adherant.id);
+  selectedAdherents.value = groupe.adherents.map((adherent) => adherent.id);
   isModalOpen.value = true;
 };
 
@@ -423,7 +423,7 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-  adherants: {
+  adherents: {
     type: Object,
     default: () => ({}),
   },

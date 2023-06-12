@@ -40,3 +40,8 @@
         scrollbar-width: none; /* Firefox */
     }
 }
+
+.multiselect-blue {
+    --ms-tag-bg: #dbeafe;
+    --ms-tag-color: #2563eb;
+}

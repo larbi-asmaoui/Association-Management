@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Adherant;
+use App\Models\Adherent;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +18,7 @@ class CotisationFactory extends Factory
     public function definition(): array
     {
         return [
-            'adherant_id' => Adherant::all()->random()->id,
+            'adherent_id' => Adherent::all()->random()->id,
             'montant' => $this->faker->randomFloat(2, 0, 1000),
             'type' => $this->faker->randomElement(['espece', 'cheque', 'virement']),
             'cotisation_date' => $this->faker->date(),
