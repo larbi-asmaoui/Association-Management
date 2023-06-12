@@ -9,19 +9,22 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('adherent_groupe', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('adherent_id')->constrained()->onDelete('cascade');
+            $table->foreignId('groupe_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('adherent_groupe');
     }
 };

@@ -17,24 +17,18 @@
       ></path>
     </svg>
   </button>
-  <div class="mb-4 bg-blue-600 px-4 py-4 shadow-md">
-    <h1 class="text-xl font-semibold text-white sm:text-2xl">
-      Gestion Événements
-    </h1>
+  <div>
+    <Multiselect v-model="value" :options="options" />
   </div>
-
-  <!-- <div>
-    <DropDownListComponent
-      :dataSource="dropdownData"
-      :fields="{ text: 'text', value: 'id' }"
-      v-model="selectedValue"
-      @change="handleSelect"
-    />
-    <p>Selected Value: {{ selectedValue }}</p>
-  </div> -->
-  <div class="bg-white px-4 py-6 shadow-md">
+  <div class="bg-white px-2 py-6 shadow-md rounded-xl relative mt-5">
     <div
-      class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
+      class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
+    >
+      <h2 class="text-xl font-semibold text-white">Gestion Événements</h2>
+    </div>
+
+    <div
+      class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
     >
       <div class="flex items-center mb-4 sm:mb-0">
         <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
@@ -483,12 +477,22 @@
 
 
 
+<style src="@vueform/multiselect/themes/default.css"></style>
 <script>
 import MainLayout from "../../Layouts/MainLayout.vue";
-// import Multiselect from "@vueform/multiselect";
+import Multiselect from "@vueform/multiselect";
 
 export default {
   layout: MainLayout,
+  components: {
+    Multiselect,
+  },
+  data() {
+    return {
+      value: null,
+      options: ["Batman", "Robin", "Joker"],
+    };
+  },
 };
 </script>
 

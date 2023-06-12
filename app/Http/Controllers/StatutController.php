@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Statut;
 use Inertia\Inertia;
 
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Request;
 
 class StatutController extends Controller
 {

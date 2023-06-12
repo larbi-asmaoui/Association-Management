@@ -117,14 +117,13 @@
                     stroke-linejoin="round"
                   >
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
-                    <path d="M10 16.5l2 -3l2 3m-2 -3v-2l3 -1m-6 0l3 1"></path>
-                    <circle
-                      cx="12"
-                      cy="7.5"
-                      r=".5"
-                      fill="currentColor"
-                    ></circle>
+                    <path
+                      d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"
+                    ></path>
+                    <path d="M16 3l0 4"></path>
+                    <path d="M8 3l0 4"></path>
+                    <path d="M4 11l16 0"></path>
+                    <path d="M8 15h2v2h-2z"></path>
                   </svg>
                   Type d'événements
                 </div>
@@ -216,35 +215,33 @@
                   Type de dépenses
                 </div>
               </DropdownLink>
-              <!-- <div class="border-t border-gray-200" /> -->
-              <!-- <DropdownLink :href="route('profile.show')">
-                                <div class="flex justify-start items-end">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="icon icon-tabler icon-tabler-coin mr-1 w-6 h-6"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="2"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <path
-                                            stroke="none"
-                                            d="M0 0h24v24H0z"
-                                            fill="none"
-                                        ></path>
-                                        <path
-                                            d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"
-                                        ></path>
-                                        <path
-                                            d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 1 0 0 4h2a2 2 0 1 1 0 4h-2a2 2 0 0 1 -1.8 -1"
-                                        ></path>
-                                        <path d="M12 7v10"></path>
-                                    </svg>
-                                    Type de cotisation
-                                </div>
-                            </DropdownLink> -->
+              <div class="border-t border-gray-200" />
+              <DropdownLink :href="route('profile.show')">
+                <div class="flex justify-start items-end">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-tabler icon-tabler-coin mr-1 w-6 h-6"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+                    <path d="M10 16.5l2 -3l2 3m-2 -3v-2l3 -1m-6 0l3 1"></path>
+                    <circle
+                      cx="12"
+                      cy="7.5"
+                      r=".5"
+                      fill="currentColor"
+                    ></circle>
+                  </svg>
+
+                  Users
+                </div>
+              </DropdownLink>
             </template>
           </Dropdown>
 
