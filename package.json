@@ -24,8 +24,9 @@
         "@fullcalendar/list": "^6.1.6",
         "@fullcalendar/timegrid": "^6.1.6",
         "@fullcalendar/vue3": "^6.1.6",
+        "@syncfusion/ej2-vue-dropdowns": "^21.2.8",
+        "@vueform/multiselect": "^2.6.2",
         "apexcharts": "^3.39.0",
-        "bootstrap": "^5.2.3",
         "chart.js": "^4.3.0",
         "filepond": "^4.30.4",
         "flowbite": "^1.6.5",
@@ -43,7 +44,6 @@
         "vue-chartjs": "^5.2.0",
         "vue-filepond": "^7.0.3",
         "vue-json-csv": "^2.1.0",
-        "vue-multiselect": "^2.1.7",
         "vue-sonner": "^0.3.2",
         "vue-toast-notification": "^3.1.1",
         "vue3-apexcharts": "^1.4.1"

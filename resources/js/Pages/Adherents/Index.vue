@@ -18,17 +18,25 @@
     </svg>
   </button>
 
-  <div class="mb-4 bg-blue-600 px-4 py-4 shadow-md">
+  <!-- <div class="mb-4 bg-blue-600 px-4 py-4 shadow-md">
     <h1 class="text-xl font-semibold text-white sm:text-2xl">
       Gestion adhérents
     </h1>
-  </div>
-  <div class="bg-white px-4 py-6 shadow-md">
+  </div> -->
+
+  <div class="bg-white px-2 py-6 shadow-md rounded-xl relative mt-5">
+    <!-- Start  -->
     <div
-      class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
+      class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
+    >
+      <h2 class="text-xl font-semibold text-white">Gestion Adhérents</h2>
+    </div>
+    <!-- End -->
+    <div
+      class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
     >
       <div class="w-full flex justify-between items-center mb-4 sm:mb-0">
-        <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
+        <div class="w-48 mt-1 sm:w-64 xl:w-96">
           <input
             type="text"
             v-model="search"

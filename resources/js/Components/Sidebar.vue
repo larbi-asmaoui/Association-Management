@@ -9,7 +9,7 @@
     >
       <div class="flex flex-col flex-1 pb-4 overflow-y-auto">
         <div
-          class="px-5 py-3 mt-2 mb-4 flex gap-4 justify-start items-center bg-orange-400"
+          class="px-5 py-3 mt-2 mb-4 flex gap-4 justify-start items-center border-b border-gray-200"
         >
           <Avatar
             status="online"

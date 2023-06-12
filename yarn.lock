@@ -379,7 +379,7 @@
   resolved "https://registry.npmjs.org/@pkgjs/parseargs/-/parseargs-0.11.0.tgz"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
-"@popperjs/core@^2.11.6", "@popperjs/core@^2.9.3":
+"@popperjs/core@^2.9.3":
   version "2.11.7"
   resolved "https://registry.npmjs.org/@popperjs/core/-/core-2.11.7.tgz"
   integrity sha512-Cr4OjIkipTtcXKjAsm8agyleBuDHvxzeBoa1v543lbv1YaIwQjESsVcmjiWiPEbC1FIeHOG/Op9kdCmAmiS3Kw==
@@ -388,6 +388,107 @@
   version "0.1.0"
   resolved "https://registry.npmjs.org/@sigstore/protobuf-specs/-/protobuf-specs-0.1.0.tgz"
   integrity sha512-a31EnjuIDSX8IXBUib3cYLDRlPMU36AWX4xS8ysLaNu4ZzUesDiPt83pgrW2X1YLMe5L2HbDyaKK5BrL4cNKaQ==
+
+"@syncfusion/ej2-base@~21.2.3", "@syncfusion/ej2-base@~21.2.9":
+  version "21.2.9"
+  resolved "https://registry.npmjs.org/@syncfusion/ej2-base/-/ej2-base-21.2.9.tgz"
+  integrity sha512-H9RzMPW4I+8dvhdnqcJc+Nc1WHy1v+EKMjxy9MkK/fSaDcz++SotDQ4dZpOIq4/5zQIwW3yZErRtKUU6eM6WKA==
+  dependencies:
+    "@syncfusion/ej2-icons" "~21.2.3"
+
+"@syncfusion/ej2-buttons@~21.2.3", "@syncfusion/ej2-buttons@~21.2.6":
+  version "21.2.6"
+  resolved "https://registry.npmjs.org/@syncfusion/ej2-buttons/-/ej2-buttons-21.2.6.tgz"
+  integrity sha512-o5BpoJki1CPsfW98HRpzgg7xt63IZoKcFGPatj8p+pSb9sawVuPpCOsomdZOTB+xRJgGKSCRUVgFA7pnaZrl5w==
+  dependencies:
+    "@syncfusion/ej2-base" "~21.2.3"
+
+"@syncfusion/ej2-data@~21.2.8", "@syncfusion/ej2-data@~21.2.9":
+  version "21.2.9"
+  resolved "https://registry.npmjs.org/@syncfusion/ej2-data/-/ej2-data-21.2.9.tgz"
+  integrity sha512-YIJuxuFyVqcYppCIbyr4xPS+e36bWTg7ykGbHTPcXsxLVodda74lNfRT9r+blZL85nJ/PQmpq2WQ80432Z+wgg==
+  dependencies:
+    "@syncfusion/ej2-base" "~21.2.9"
+
+"@syncfusion/ej2-dropdowns@21.2.8":
+  version "21.2.8"
+  resolved "https://registry.npmjs.org/@syncfusion/ej2-dropdowns/-/ej2-dropdowns-21.2.8.tgz"
+  integrity sha512-0ydvjc3mpQeF8L/XltqS7D+sKt9tj1aSih0fK22rKJdWZPhOWpVVOxARyvRCVI+GW3fgr5+NLYz073keGRae/Q==
+  dependencies:
+    "@syncfusion/ej2-base" "~21.2.3"
+    "@syncfusion/ej2-data" "~21.2.8"
+    "@syncfusion/ej2-inputs" "~21.2.8"
+    "@syncfusion/ej2-lists" "~21.2.6"
+    "@syncfusion/ej2-navigations" "~21.2.8"
+    "@syncfusion/ej2-popups" "~21.2.4"
+
+"@syncfusion/ej2-icons@~21.2.3":
+  version "21.2.3"
+  resolved "https://registry.npmjs.org/@syncfusion/ej2-icons/-/ej2-icons-21.2.3.tgz"
+  integrity sha512-LSu+sXQHRO6eTjD1D66GPQALoUMVRZXeLnZ86WWAI7V3j8rfCDAiI4tG8XQ7nncuHgGO2e36T9A70J1eRh0/ng==
+
+"@syncfusion/ej2-inputs@~21.2.8", "@syncfusion/ej2-inputs@~21.2.9":
+  version "21.2.9"
+  resolved "https://registry.npmjs.org/@syncfusion/ej2-inputs/-/ej2-inputs-21.2.9.tgz"
+  integrity sha512-V8b6cuNRKY1ilxKkBuNGg0fKopxcmCohoOWVfOR3tH57bGO9CXzNXahpEi4LN+pVDvENLl1xpA8mEx3tQz1dFA==
+  dependencies:
+    "@syncfusion/ej2-base" "~21.2.9"
+    "@syncfusion/ej2-buttons" "~21.2.6"
+    "@syncfusion/ej2-popups" "~21.2.4"
+    "@syncfusion/ej2-splitbuttons" "~21.2.5"
+
+"@syncfusion/ej2-lists@~21.2.6", "@syncfusion/ej2-lists@~21.2.9":
+  version "21.2.9"
+  resolved "https://registry.npmjs.org/@syncfusion/ej2-lists/-/ej2-lists-21.2.9.tgz"
+  integrity sha512-+7wNUm3OVuvwePVIRvlc0cevs5zyyk4fl7y53wSNr+9r3W3iFWl0HdMv6zqVgtDMBnYjT1pTh3uVkA+kQebtFw==
+  dependencies:
+    "@syncfusion/ej2-base" "~21.2.9"
+    "@syncfusion/ej2-buttons" "~21.2.6"
+    "@syncfusion/ej2-data" "~21.2.9"
+
+"@syncfusion/ej2-navigations@~21.2.8":
+  version "21.2.9"
+  resolved "https://registry.npmjs.org/@syncfusion/ej2-navigations/-/ej2-navigations-21.2.9.tgz"
+  integrity sha512-0vAVh+XSbVv3gfmum8MQ8aR5ZnH1UZt0YpvzX4eLB7FDmsZKSxD2ytS3Q73CsWkaLmnZsqaQ7xkFChCPxzqxlA==
+  dependencies:
+    "@syncfusion/ej2-base" "~21.2.9"
+    "@syncfusion/ej2-buttons" "~21.2.6"
+    "@syncfusion/ej2-data" "~21.2.9"
+    "@syncfusion/ej2-inputs" "~21.2.9"
+    "@syncfusion/ej2-lists" "~21.2.9"
+    "@syncfusion/ej2-popups" "~21.2.4"
+
+"@syncfusion/ej2-popups@~21.2.4":
+  version "21.2.4"
+  resolved "https://registry.npmjs.org/@syncfusion/ej2-popups/-/ej2-popups-21.2.4.tgz"
+  integrity sha512-M2uRhzQ8pyLbzbu2Z7WvaLqOF2N5EO+bY9fyu2ZNGGGIqyi8Htgi0B91FutH7/UKYuqJEC2GolH+svu8ANuF+A==
+  dependencies:
+    "@syncfusion/ej2-base" "~21.2.3"
+    "@syncfusion/ej2-buttons" "~21.2.3"
+
+"@syncfusion/ej2-splitbuttons@~21.2.5":
+  version "21.2.5"
+  resolved "https://registry.npmjs.org/@syncfusion/ej2-splitbuttons/-/ej2-splitbuttons-21.2.5.tgz"
+  integrity sha512-SCyYHcstrA5FU9corJxZMjoDjsIRZYDFvSLKyyrfPYgI9Ece2Sr87EGGeYf4WHBxJlpQ3Qcrn0zvwTB1ND5mwQ==
+  dependencies:
+    "@syncfusion/ej2-base" "~21.2.3"
+    "@syncfusion/ej2-popups" "~21.2.4"
+
+"@syncfusion/ej2-vue-base@~21.2.6":
+  version "21.2.9"
+  resolved "https://registry.npmjs.org/@syncfusion/ej2-vue-base/-/ej2-vue-base-21.2.9.tgz"
+  integrity sha512-NZek+a42bmhgahoERBGiG/rF7LLl1mGN1waJC9dES5O4k81Tli/E8ECLhkkV6PAe/8PT3Ffxs99mvJxbJ2c0DQ==
+  dependencies:
+    "@syncfusion/ej2-base" "~21.2.9"
+
+"@syncfusion/ej2-vue-dropdowns@^21.2.8":
+  version "21.2.8"
+  resolved "https://registry.npmjs.org/@syncfusion/ej2-vue-dropdowns/-/ej2-vue-dropdowns-21.2.8.tgz"
+  integrity sha512-CIXB5MOKGzqYDwSSNC5nbIbvAm9xPB6xu6pEqy9+Em7cHx1QCpsDDZ8AQ7au8R2RXGVOEi2wlJfiVNFTwamKxw==
+  dependencies:
+    "@syncfusion/ej2-base" "~21.2.3"
+    "@syncfusion/ej2-dropdowns" "21.2.8"
+    "@syncfusion/ej2-vue-base" "~21.2.6"
 
 "@tailwindcss/forms@^0.5.2":
   version "0.5.3"
@@ -528,6 +629,11 @@
   version "3.2.47"
   resolved "https://registry.npmjs.org/@vue/shared/-/shared-3.2.47.tgz"
   integrity sha512-BHGyyGN3Q97EZx0taMQ+OLNuZcW3d37ZEVmEAyeoA9ERdGvm9Irc/0Fua8SNyOtV1w6BS4q25wbMzJujO9HIfQ==
+
+"@vueform/multiselect@^2.6.2":
+  version "2.6.2"
+  resolved "https://registry.npmjs.org/@vueform/multiselect/-/multiselect-2.6.2.tgz"
+  integrity sha512-4BFvXyzyi0Pqi/lsYdGwONsQy+ypiVzuQbmoDUlttTxuoujFtf9AdeHi1ZhfIorXG9BiysK1HcQSfYB6USgwfQ==
 
 "@vueuse/core@9.3.0":
   version "9.3.0"
@@ -781,11 +887,6 @@ binary-extensions@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/binary-extensions/-/binary-extensions-2.2.0.tgz"
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
-
-bootstrap@^5.2.3:
-  version "5.2.3"
-  resolved "https://registry.npmjs.org/bootstrap/-/bootstrap-5.2.3.tgz"
-  integrity sha512-cEKPM+fwb3cT8NzQZYEu4HilJ3anCrWqh3CHAok1p9jXqMPsPTBhU25fBckEJHJ/p+tTxTFTsFQGM+gaHpi3QQ==
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -3820,11 +3921,6 @@ vue-json-csv@^2.1.0:
     lodash.pickby "^4.6.0"
     papaparse "^5.3.2"
     vue "^3.2"
-
-vue-multiselect@^2.1.7:
-  version "2.1.7"
-  resolved "https://registry.npmjs.org/vue-multiselect/-/vue-multiselect-2.1.7.tgz"
-  integrity sha512-KIegcN+Ntwg3cbkY/jhw2s/+XJUM0Lpi/LcKFYCS8PrZHcWBl2iKCVze7ZCnRj3w8H7/lUJ9v7rj9KQiNxApBw==
 
 vue-resize@^2.0.0-alpha.1:
   version "2.0.0-alpha.1"

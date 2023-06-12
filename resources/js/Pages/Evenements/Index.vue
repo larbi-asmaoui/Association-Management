@@ -22,6 +22,16 @@
       Gestion Événements
     </h1>
   </div>
+
+  <!-- <div>
+    <DropDownListComponent
+      :dataSource="dropdownData"
+      :fields="{ text: 'text', value: 'id' }"
+      v-model="selectedValue"
+      @change="handleSelect"
+    />
+    <p>Selected Value: {{ selectedValue }}</p>
+  </div> -->
   <div class="bg-white px-4 py-6 shadow-md">
     <div
       class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
@@ -470,8 +480,13 @@
     </div>
   </div>
 </template>
+
+
+
 <script>
 import MainLayout from "../../Layouts/MainLayout.vue";
+// import Multiselect from "@vueform/multiselect";
+
 export default {
   layout: MainLayout,
 };
