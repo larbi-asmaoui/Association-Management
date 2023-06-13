@@ -18,7 +18,7 @@
     </svg>
   </button>
 
-  <div class="bg-white px-2 py-6 shadow-md rounded-xl relative mt-5">
+  <div class="bg-white py-6 shadow-md rounded-xl relative mt-5">
     <div
       class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
     >
@@ -26,14 +26,14 @@
     </div>
 
     <div
-      class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
+      class="mt-7 px-2 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
     >
       <div class="flex items-center mb-4 sm:mb-0">
         <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
           <input
             type="text"
             v-model="search"
-            class="bg-slate-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            class="bg-slate-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="rechercher Événements..."
           />
         </div>
@@ -86,7 +86,7 @@
                 v-model="form.start"
                 lang="fr-FR"
                 type="date"
-                class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700"
                 placeholder="Select date"
                 name="start"
               />
@@ -111,7 +111,7 @@
                 :min="new Date().toISOString().split('T')[0]"
                 v-model="form.end"
                 type="date"
-                class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700"
                 placeholder="Select date"
                 name="end"
               />
@@ -221,7 +221,7 @@
               <select
                 v-model="form.region"
                 id="type"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               >
                 <option disabled value="">Séléctionner région</option>
                 <option
@@ -250,7 +250,7 @@
               <select
                 v-model="form.city"
                 id="type"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               >
                 <option disabled value="">Séléctionner ville</option>
                 <option
@@ -274,7 +274,7 @@
               <button
                 @click="isModalOpen = false"
                 type="button"
-                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:hover:text-white dark:focus:ring-offset-gray-800"
               >
                 Annuler
               </button>
@@ -291,35 +291,33 @@
     </teleport>
     <div class="mt-4">
       <div class="overflow-hidden bg-white shadow-sm">
-        <div class="bg-white border-b border-gray-200">
+        <div class="bg-white">
           <div class="relative overflow-x-auto shadow-md">
-            <table
-              class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
-            >
-              <thead class="bg-gray-100 dark:bg-gray-700">
+            <table class="w-full text-sm text-left text-gray-500">
+              <thead class="bg-gray-100">
                 <tr>
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Événement
                   </th>
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Date début
                   </th>
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Date fin
                   </th>
 
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Actions
                   </th>
@@ -330,23 +328,23 @@
               >
                 <tr v-for="evenement in evenements.data" :key="evenement.id">
                   <td
-                    class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
                     {{ evenement.reference }}
                   </td>
                   <td
-                    class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
                     {{ evenement.start }}
                   </td>
                   <td
-                    class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
                     {{ evenement.end }}
                   </td>
 
                   <td
-                    class="border border-slate-400 px-6 py-3 whitespace-nowrap text-right text-sm font-medium"
+                    class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium"
                   >
                     <div class="flex space-x-2">
                       <!-- Eye -->

@@ -1,170 +1,247 @@
+<template>
+  <form @submit.prevent="submit">
+    <input type="hidden" name="_token" :value="$page.props.csrf_token" />
+    <div
+      class="grid grid-cols-1 px-3 pt-2 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900"
+    >
+      <!-- Right Content -->
+
+      <div class="col-span-full xl:col-auto">
+        <div
+          class="mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
+        >
+          <div
+            class="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4"
+          >
+            <h3 class="mb-2 text-xl font-bold text-slate-800 uppercase">
+              Logo de l'organisme
+            </h3>
+            <file-pond
+              name="imageFilepond"
+              ref="pond"
+              v-bind:allow-multiple="false"
+              accepted-file-types="image/png, image/jpeg"
+              v-bind:server="{
+                url: '',
+                timeout: 7000,
+                process: {
+                  url: '/upload-association',
+                  method: 'POST',
+                  headers: {
+                    'X-CSRF-TOKEN': $page.props.csrf_token,
+                  },
+                  withCredentials: false,
+                  onload: handleFilePondLoad,
+                  onerror: () => {},
+                },
+                remove: handleFilePondRemove,
+                revert: handleFilePondRevert,
+              }"
+              v-bind:files="files"
+              v-on:init="handleFilePondInit"
+            >
+            </file-pond>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-2">
+        <div
+          class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
+        >
+          <h3 class="mb-4 text-xl font-semibold uppercase text-slate-800">
+            Informations générales
+          </h3>
+
+          <div class="col-span-6 sm:col-span-3 mb-3">
+            <label
+              for="name"
+              class="block mb-2 text-sm font-medium text-gray-900"
+              >Nom de l'association</label
+            >
+            <input
+              v-model="form.name"
+              type="text"
+              name="name"
+              id="name"
+              class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Nom de l'association"
+            />
+          </div>
+          <div class="col-span-6 sm:col-span-3 mb-3">
+            <label
+              for="objectifs"
+              class="block mb-2 text-sm font-medium text-gray-900"
+              >Objectifs</label
+            >
+            <textarea
+              v-model="form.objectifs"
+              name="objectifs"
+              id="objectifs"
+              class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Objectifs de l'association"
+            ></textarea>
+          </div>
+          <div class="col-span-6 sm:col-span-3 mb-3">
+            <label
+              for="Addresse"
+              class="block mb-2 text-sm font-medium text-gray-900"
+              >Addresse</label
+            >
+            <textarea
+              v-model="form.address"
+              name="Addresse"
+              id="Addresse"
+              class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Addresse"
+            ></textarea>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 mb-3">
+            <div>
+              <label
+                for="Region"
+                class="block mb-2 text-sm font-medium text-gray-900"
+                >Région</label
+              >
+
+              <select
+                v-model="form.region"
+                name=""
+                id=""
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option disabled value="">Séléctionner région</option>
+                <option
+                  v-for="region in regions"
+                  @change="filterCities"
+                  :key="region.id"
+                  :value="region.name"
+                >
+                  {{ region.name }}
+                </option>
+              </select>
+            </div>
+            <div>
+              <label
+                for="Ville"
+                class="block mb-2 text-sm font-medium text-gray-900"
+                >Ville</label
+              >
+              <select
+                v-model="form.city"
+                id="type"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option disabled selected value="">Séléctionner ville</option>
+                <option
+                  v-for="city in filteredCities"
+                  :key="city.id"
+                  :value="city"
+                >
+                  {{ city }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-span-6 sm:col-full">
+            <button
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              type="submit"
+            >
+              Enregistrer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</template>
+
+
+<script setup>
+import axios from "axios";
+import vueFilePond from "vue-filepond";
+import "filepond/dist/filepond.min.css";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+import FilePondPluginFilePoster from "filepond-plugin-file-poster";
+import "filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css";
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import regionsFile from "../../regions.json";
+import { ref, nextTick, computed, onMounted } from "vue";
+import { useForm, usePage } from "@inertiajs/vue3";
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+
+const props = defineProps({
+  association: {
+    type: Object,
+  },
+});
+
+const $toast = useToast();
+
+const FilePond = vueFilePond(
+  FilePondPluginFileValidateType,
+  FilePondPluginImagePreview
+);
+
+const pond = ref(null);
+const page = usePage();
+const files = ref([]);
+const csrf_token = page.props.csrf_token;
+const regions = ref(regionsFile);
+
+const form = useForm({
+  id: props.association.id,
+  name: props.association.name,
+  objectifs: props.association.objectifs,
+  address: props.association.address,
+  region: props.association.region,
+  city: props.association.city,
+});
+
+const filteredCities = computed(() => {
+  if (form.region) {
+    const regionData = regions.value.find(
+      (region) => region.name === form.region
+    );
+    if (regionData) {
+      return regionData.cities_list;
+    }
+  }
+  return [];
+});
+
+const filterCities = () => {
+  form.city = "";
+};
+
+const submit = (e) => {
+  e.preventDefault();
+  form.put(route("association.update", form.id), {
+    onSuccess: () => {
+      $toast.open({
+        message: "Association ajoutée avec succès",
+        type: "success",
+      });
+    },
+  });
+};
+</script>
 
 <script>
 import MainLayout from "../../Layouts/MainLayout.vue";
 
 export default {
   layout: MainLayout,
+  components: {},
 };
 </script>
 
-<template>
-  <div
-    class="grid grid-cols-1 px-3 pt-2 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900"
-  >
-    <!-- Right Content -->
-    <div class="col-span-full xl:col-auto">
-      <div
-        class="mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
-      >
-        <div
-          class="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4"
-        >
-          <img
-            class="mb-4 rounded-lg w-28 h-28 sm:mb-0 xl:mb-4 2xl:mb-0"
-            src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fbrandfetch.com%2Flaravel.com&psig=AOvVaw2ouDPWbuL6ySfnaD2xts94&ust=1686672186583000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCOD_g9WNvv8CFQAAAAAdAAAAABAE"
-            alt="Jese picture"
-          />
-          <div>
-            <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white">
-              Profile picture
-            </h3>
-            <div class="mb-4 text-sm text-gray-500 dark:text-gray-400">
-              JPG, GIF or PNG. Max size of 800K
-            </div>
-            <div class="flex items-center space-x-4">
-              <button
-                type="button"
-                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                <svg
-                  class="w-4 h-4 mr-2 -ml-1"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z"
-                  ></path>
-                  <path d="M9 13h2v5a1 1 0 11-2 0v-5z"></path>
-                </svg>
-                Upload picture
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-span-2">
-      <div
-        class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
-      >
-        <h3 class="mb-4 text-xl font-semibold dark:text-white">
-          Infromations générales
-        </h3>
-        <form action="#">
-          <div class="grid grid-cols-6 gap-6">
-            <div class="col-span-6 sm:col-span-3">
-              <label
-                for="first-name"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >First Name</label
-              >
-              <input
-                type="text"
-                name="first-name"
-                id="first-name"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Bonnie"
-                required
-              />
-            </div>
-            <div class="col-span-6 sm:col-span-3">
-              <label
-                for="last-name"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Last Name</label
-              >
-              <input
-                type="text"
-                name="last-name"
-                id="last-name"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Green"
-                required
-              />
-            </div>
-            <div class="col-span-6 sm:col-span-3">
-              <label
-                for="country"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Country</label
-              >
-              <input
-                type="text"
-                name="country"
-                id="country"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="United States"
-                required
-              />
-            </div>
-            <div class="col-span-6 sm:col-span-3">
-              <label
-                for="city"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >City</label
-              >
-              <input
-                type="text"
-                name="city"
-                id="city"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="e.g. San Francisco"
-                required
-              />
-            </div>
-            <div class="col-span-6 sm:col-span-3">
-              <label
-                for="address"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Address</label
-              >
-              <input
-                type="text"
-                name="address"
-                id="address"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="e.g. California"
-                required
-              />
-            </div>
-            <div class="col-span-6 sm:col-span-3">
-              <label
-                for="email"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Email</label
-              >
-              <input
-                type="email"
-                name="email"
-                id="email"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="example@company.com"
-                required
-              />
-            </div>
 
-            <div class="col-span-6 sm:col-full">
-              <button
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                type="submit"
-              >
-                Save all
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</template>
+<style >
+.filepond--credits {
+  display: none;
+}
+</style>

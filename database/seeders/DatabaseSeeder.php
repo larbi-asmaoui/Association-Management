@@ -109,6 +109,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Consultant 2',
         ]);
 
+        // \App\Models\Association::create()
+
 
         \App\Models\Groupe::factory(5)->create();
         \App\Models\Adherent::factory(20)->create();

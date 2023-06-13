@@ -97,7 +97,7 @@ const closeModal = () => {
 <template>
   <button
     @click="isModalOpen = true"
-    class="rounded-full fixed bottom-8 right-5 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
+    class="rounded-full fixed z-50 bottom-8 right-5 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
     type="button"
   >
     <svg
@@ -114,7 +114,7 @@ const closeModal = () => {
     </svg>
   </button>
 
-  <div class="bg-white px-2 py-6 shadow-md rounded-xl relative mt-5">
+  <div class="bg-white py-6 shadow-md rounded-xl relative mt-5">
     <div
       class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
     >
@@ -124,7 +124,7 @@ const closeModal = () => {
     <div
       class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
     >
-      <div class="w-full flex justify-between items-center mb-4 sm:mb-0">
+      <div class="w-full px-2 flex justify-between items-center mb-4 sm:mb-0">
         <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
           <input
             type="text"
@@ -159,7 +159,7 @@ const closeModal = () => {
                   type="number"
                   name="montant"
                   id="montant"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400"
                 />
                 <span
                   v-if="form.errors.montant"
@@ -181,7 +181,7 @@ const closeModal = () => {
                   type="text"
                   name="type"
                   id="type"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400"
                 />
                 <span
                   v-if="form.errors.type"
@@ -203,7 +203,7 @@ const closeModal = () => {
               <input
                 v-model="form.date"
                 type="date"
-                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400"
                 placeholder="Select date"
                 name="date"
               />
@@ -220,13 +220,13 @@ const closeModal = () => {
             <div>
               <label
                 for="adherants"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                class="block mb-2 text-sm font-medium text-gray-900"
                 >Select an option</label
               >
               <select
                 v-model="form.adherant_id"
                 id="adherants"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 appearance-none select-none relative z-10"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 appearance-none select-none relative z-10"
               >
                 <option
                   v-for="adherant in adherants.data"
@@ -275,95 +275,75 @@ const closeModal = () => {
     <div class="mt-4">
       <div class="overflow-hidden bg-white">
         <div class="bg-white" v-show="cotisations.length !== 0">
-          <div class="relative overflow-x-auto shadow-lg mb-5">
-            <table
-              class="w-full text-sm text-left text-gray-500 border-collapse dark:text-gray-400"
-            >
+          <div class="relative overflow-x-auto mb-5">
+            <table class="w-full text-sm text-left text-gray-500">
               <thead class="bg-gray-100 dark:bg-gray-700">
                 <tr>
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                   >
-                    #
+                    Payeur
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-3 border border-slate-400 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Adherant
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 border border-slate-400 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                   >
                     Type
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-3 border border-slate-400 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                   >
                     Date
                   </th>
 
                   <th
                     scope="col"
-                    class="px-6 py-3 border border-slate-400 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                   >
                     Montant (DH)
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-3 border border-slate-400 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                   >
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody
-                class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"
-              >
-                <tr
-                  v-for="(cotisation, index) in cotisations.data"
-                  :key="cotisation.id"
-                  class="hover:bg-gray-100 transition-colors duration-200"
-                >
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr v-for="cotisation in cotisations.data" :key="cotisation.id">
                   <td
-                    class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    {{ index + 1 }}
-                  </td>
-
-                  <td
-                    class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                   >
                     {{
-                      cotisation.adherant.first_name +
+                      cotisation.adherent.first_name +
                       " " +
-                      cotisation.adherant.last_name
+                      cotisation.adherent.last_name
                     }}
                   </td>
 
                   <td
-                    class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                   >
                     {{ cotisation.type }}
                   </td>
 
                   <td
-                    class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                   >
                     {{ cotisation.created_at }}
                   </td>
 
                   <td
-                    class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                   >
                     {{ cotisation.montant }}
                   </td>
 
                   <td
-                    class="px-6 py-3 border border-slate-400 whitespace-nowrap text-right text-sm font-medium"
+                    class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium"
                   >
                     <div class="flex gap-3">
                       <!-- Eye -->

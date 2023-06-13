@@ -18,7 +18,7 @@
     </svg>
   </button>
 
-  <div class="bg-white px-2 py-6 shadow-md rounded-xl relative mt-5">
+  <div class="bg-white py-6 shadow-md rounded-xl relative mt-5">
     <div
       class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
     >
@@ -30,7 +30,7 @@
     <div
       class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
     >
-      <div class="flex items-center mb-4 sm:mb-0">
+      <div class="px-2 flex items-center mb-4 sm:mb-0">
         <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
           <input
             type="text"
@@ -205,39 +205,37 @@
       <div class="overflow-hidden bg-white">
         <div class="bg-white">
           <div class="relative overflow-x-auto shadow-lg mb-5">
-            <table
-              class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse :text-gray-400"
-            >
+            <table class="w-full sm:rounded-lg text-sm text-left text-gray-500">
               <thead class="bg-gray-100 :bg-gray-700">
                 <tr>
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Titre
                   </th>
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Montant (DH)
                   </th>
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Type
                   </th>
 
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Date d'opération
                   </th>
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Actions
                   </th>
@@ -247,28 +245,28 @@
                 <tr v-for="depense in depenses.data" :key="depense.id">
                   <td
                     scope="row"
-                    class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                   >
                     {{ depense.titre }}
                   </td>
                   <td
-                    class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                   >
                     {{ depense.montant }}
                   </td>
                   <td
-                    class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                   >
                     {{ depense.depense_type.name }}
                   </td>
 
                   <td
-                    class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                   >
                     {{ depense.depense_date }}
                   </td>
                   <td
-                    class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                   >
                     <div class="flex">
                       <!-- Eye -->

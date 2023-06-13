@@ -16,7 +16,7 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\StockTypeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StatutController;
-use Inertia\Inertia;
+use \App\Http\Controllers\AssociationController;
 
 /*
 |------------------------------------------------------------------------
@@ -65,7 +65,8 @@ Route::middleware([
     Route::resource('stock-types', StockTypeController::class);
     Route::resource('evenement-types', EvenementTypeController::class);
     Route::resource('status', StatutController::class);
-    Route::get('/a-propos', function () {
-        return Inertia::render('Association/Index');
-    })->name('a-propos');
+    Route::resource('association', AssociationController::class);
+
+    Route::post('/upload-association', [AssociationController::class, 'upload']);
+    Route::post('/upload-association-revert', [AssociationController::class, 'uploadRevert']);
 });

@@ -24,7 +24,7 @@
     </h1>
   </div> -->
 
-  <div class="bg-white px-2 py-6 shadow-md rounded-xl relative mt-5">
+  <div class="bg-white py-6 shadow-md rounded-xl relative mt-5">
     <!-- Start  -->
     <div
       class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
@@ -33,7 +33,7 @@
     </div>
     <!-- End -->
     <div
-      class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
+      class="mt-7 px-4 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
     >
       <div class="w-full flex justify-between items-center mb-4 sm:mb-0">
         <div class="w-48 mt-1 sm:w-64 xl:w-96">
@@ -489,49 +489,49 @@
             </div>
             <table
               v-else
-              class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse :text-gray-400"
+              class="w-full sm:rounded-lg text-sm text-left text-gray-500"
             >
               <thead class="bg-gray-100">
                 <tr>
                   <th
                     scope="col"
-                    class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
+                    class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                   >
                     #
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
+                    class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                   >
                     Nom
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
+                    class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                   >
                     Prénom
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
+                    class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                   >
                     CIN
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
+                    class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                   >
                     Statut
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
+                    class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                   >
                     Telephone
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
+                    class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                   >
                     Date d'adhésion
                   </th>
@@ -580,7 +580,7 @@
                       })
                     "
                     scope="col"
-                    class="px-12 py-3 border border-slate-400 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
+                    class="px-12 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -609,7 +609,7 @@
               <tbody class="bg-white divide-y divide-gray-200 :bg-gray-800">
                 <tr v-for="adherent in adherents.data" :key="adherent.id">
                   <td
-                    class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                   >
                     <img
                       class="w-10 h-10 rounded-full"
@@ -617,37 +617,37 @@
                     />
                   </td>
                   <td
-                    class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                   >
                     {{ adherent.last_name }}
                   </td>
                   <td
-                    class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                   >
                     {{ adherent.first_name }}
                   </td>
                   <td
-                    class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                   >
                     {{ adherent.cin }}
                   </td>
                   <td
-                    class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                   >
                     {{ adherent.statut.name }}
                   </td>
                   <td
-                    class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                   >
                     {{ adherent.tel }}
                   </td>
                   <td
-                    class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                   >
                     {{ adherent.date_of_membership }}
                   </td>
                   <td
-                    class="px-6 py-3 border border-slate-400 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                   >
                     <div v-show="false" id="#print-section">
                       <div>

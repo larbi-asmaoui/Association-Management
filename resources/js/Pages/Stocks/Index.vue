@@ -18,7 +18,7 @@
     </svg>
   </button>
 
-  <div class="bg-white px-2 py-6 shadow-md rounded-xl relative mt-5">
+  <div class="bg-white py-6 shadow-md rounded-xl relative mt-5">
     <div
       class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
     >
@@ -29,7 +29,7 @@
     <div
       class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
     >
-      <div class="w-full flex justify-between items-center mb-4 sm:mb-0">
+      <div class="px-2 w-full flex justify-between items-center mb-4 sm:mb-0">
         <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
           <input
             type="text"
@@ -246,51 +246,49 @@
     <div class="mt-4">
       <div class="overflow-hidden bg-white">
         <div class="bg-white">
-          <div class="relative overflow-x-auto shadow-lg mb-5">
-            <table
-              class="w-full text-sm text-left text-gray-500 border-collapse :text-gray-400"
-            >
+          <div class="relative overflow-x-auto mb-5">
+            <table class="w-full text-sm text-left text-gray-500">
               <thead class="bg-gray-100">
                 <tr>
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     titre
                   </th>
                   <!-- <th
                                         scope="col"
-                                        class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
                                         Type
                                     </th> -->
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Quantité
                   </th>
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Prix unitaire (DH)
                   </th>
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Prix Total (DH)
                   </th>
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Date d'achat
                   </th>
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Actions
                   </th>
@@ -299,39 +297,39 @@
               <tbody class="bg-white divide-y divide-gray-200">
                 <tr v-for="stock in stocks.data" :key="stock.id">
                   <td
-                    class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
                   >
                     {{ stock.name }}
                   </td>
                   <!-- <td
-                                        class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
+                                        class=" px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
                                     >
                                         {{ stock.stock_type.name }}
                                     </td> -->
 
                   <td
-                    class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
                   >
                     {{ stock.quantity }}
                   </td>
 
                   <td
-                    class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
                   >
                     {{ stock.price_per_unit }}
                   </td>
                   <td
-                    class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
                   >
                     {{ stock.price_per_unit * stock.quantity }}
                   </td>
                   <td
-                    class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
                   >
                     {{ stock.purchase_date }}
                   </td>
                   <td
-                    class="border border-slate-400 px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
+                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
                   >
                     <div class="flex item-center justify-center">
                       <!-- Eye -->

@@ -9,7 +9,7 @@
     >
       <div class="flex flex-col flex-1 pb-4 overflow-y-auto">
         <div
-          class="px-5 py-3 mt-2 mb-4 flex gap-4 justify-start items-center border-b border-gray-200"
+          class="px-5 py-2 mt-2 mb-4 flex flex-col gap-2 justify-start items-center border-b border-gray-200"
         >
           <Avatar
             status="online"
@@ -18,7 +18,9 @@
             size="md"
             :img="$page.props.auth.user.profile_photo_url"
           />
-          <h3>{{ $page.props.auth.user.name }}</h3>
+          <h2 class="text-md text-slate-400">
+            {{ $page.props.auth.user.name }}
+          </h2>
         </div>
 
         <div
@@ -47,9 +49,9 @@
             <li>
               <Link
                 :class="[
-                  $page.url === '/a-propos' ? activeClass : inactiveClass,
+                  $page.url === '/association' ? activeClass : inactiveClass,
                 ]"
-                :href="route('a-propos')"
+                :href="route('association.index')"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

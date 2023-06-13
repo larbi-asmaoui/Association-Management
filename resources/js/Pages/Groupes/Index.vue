@@ -18,7 +18,7 @@
     </svg>
   </button>
 
-  <div class="bg-white px-2 py-6 shadow-md rounded-xl relative mt-5">
+  <div class="bg-white py-6 shadow-md rounded-xl relative mt-5">
     <div
       class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
     >
@@ -27,7 +27,7 @@
     <div
       class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
     >
-      <div class="flex items-center mb-4 sm:mb-0">
+      <div class="px-2 flex items-center mb-4 sm:mb-0">
         <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
           <input
             type="text"
@@ -92,65 +92,21 @@
               </span>
             </div>
 
-            <!-- ************************************** -->
             <div>
-              <button
-                @click="dropdownOpen = !dropdownOpen"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                type="button"
+              <label
+                for="adherents"
+                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                >Participants</label
               >
-                Choisir les membres
-                <svg
-                  class="w-4 h-4 ml-2"
-                  aria-hidden="true"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 9l-7 7-7-7"
-                  ></path>
-                </svg>
-              </button>
-
-              <div
-                v-if="dropdownOpen"
-                class="z-40 w-48 h-40 overflow-auto bg-white rounded-lg shadow dark:bg-gray-700"
-              >
-                <ul
-                  class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"
-                >
-                  <li
-                    v-for="(adherent, index) in adherents"
-                    :value="adherent.id"
-                    :key="index"
-                  >
-                    <div
-                      class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
-                    >
-                      <input
-                        type="checkbox"
-                        :id="'checkbox-item-' + adherent.id"
-                        v-model="selectedAdherents"
-                        :value="adherent.id"
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                      />
-                      <label
-                        :for="'checkbox-item-' + adherent.id"
-                        class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
-                        >{{ adherent.first_name }}
-                        {{ adherent.last_name }}</label
-                      >
-                    </div>
-                  </li>
-                </ul>
-              </div>
+              <Multiselect
+                v-model="form.adherents"
+                mode="tags"
+                :close-on-select="false"
+                :searchable="true"
+                :create-option="true"
+                :options="formattedAdherents"
+              />
             </div>
-            <!-- **********  Select  ********** -->
 
             <div class="mt-5 flex justify-end gap-x-2">
               <button
@@ -175,60 +131,56 @@
     <div class="mt-4">
       <div class="overflow-hidden bg-white">
         <div class="bg-white">
-          <div class="relative shadow-lg mb-5">
-            <table
-              class="w-full sm:rounded-lg text-sm text-left text-gray-500 border-collapse :text-gray-400"
-            >
-              <thead class="bg-gray-100 :bg-gray-700">
+          <div class="relative mb-5">
+            <table class="w-full sm:rounded-lg text-sm text-left text-gray-500">
+              <thead class="bg-gray-100">
                 <tr>
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Groupe
                   </th>
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Description
                   </th>
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Nombre de membres
                   </th>
                   <th
                     scope="col"
-                    class="border border-slate-400 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody
-                class="bg-white divide-y divide-gray-200 :bg-gray-800 :divide-gray-700"
-              >
+              <tbody class="bg-white divide-y divide-gray-200">
                 <tr v-for="groupe in groupes.data" :key="groupe.id">
                   <td
-                    class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
+                    class="p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
                   >
                     {{ groupe.name }}
                   </td>
                   <td
-                    class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
+                    class="p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
                   >
                     {{ groupe.description ?? "-" }}
                   </td>
                   <td
-                    class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
+                    class="p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
                   >
                     {{ groupe.adherents_count }}
                   </td>
 
                   <td
-                    class="border border-slate-400 p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
+                    class="p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
                   >
                     <div class="flex">
                       <!-- Eye -->
@@ -320,7 +272,8 @@ export default {
 </script>
 
 <script setup>
-import { ref } from "vue";
+import Multiselect from "@vueform/multiselect";
+import { ref, computed } from "vue";
 import { watch } from "vue";
 import { Modal } from "flowbite-vue";
 import { router } from "@inertiajs/vue3";
@@ -340,9 +293,16 @@ const form = useForm({
   adherents: [],
 });
 
+const formattedAdherents = computed(() =>
+  Object.values(props.adherents).map((adherent) => ({
+    value: adherent.id,
+    label: adherent.last_name + " " + adherent.first_name,
+  }))
+);
+
 const submit = () => {
   if (form.id) {
-    form.adherents = selectedAdherents.value;
+    // form.adherents = selectedAdherents.value;
     form.put(route("groupes.update", form.id), {
       preserveScroll: true,
       onSuccess: () => {
@@ -356,7 +316,7 @@ const submit = () => {
       },
     });
   } else {
-    form.adherents = selectedAdherents.value;
+    // form.adherents = selectedAdherents.value;
     form.post(route("groupes.store"), {
       preserveScroll: true,
       onSuccess: () => {
@@ -414,7 +374,7 @@ const openEditModal = (groupe) => {
   form.id = groupe.id;
   form.name = groupe.name;
   form.description = groupe.description;
-  selectedAdherents.value = groupe.adherents.map((adherent) => adherent.id);
+  form.adherents = groupe.adherents.map((adherent) => adherent.id);
   isModalOpen.value = true;
 };
 
@@ -442,3 +402,6 @@ watch(search, (value) => {
   );
 });
 </script>
+
+<style src="@vueform/multiselect/themes/default.css">
+</style>

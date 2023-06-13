@@ -28,7 +28,6 @@
         "@vueform/multiselect": "^2.6.2",
         "apexcharts": "^3.39.0",
         "chart.js": "^4.3.0",
-        "filepond": "^4.30.4",
         "flowbite": "^1.6.5",
         "flowbite-vue": "^0.0.10",
         "html-to-pdfmake": "^2.4.20",
@@ -42,10 +41,14 @@
         "v-viewer": "^1.6.4",
         "viewerjs": "^1.11.3",
         "vue-chartjs": "^5.2.0",
-        "vue-filepond": "^7.0.3",
         "vue-json-csv": "^2.1.0",
         "vue-sonner": "^0.3.2",
         "vue-toast-notification": "^3.1.1",
-        "vue3-apexcharts": "^1.4.1"
+        "vue3-apexcharts": "^1.4.1",
+        "filepond": "^4.30.4",
+        "filepond-plugin-file-poster": "^2.5.1",
+        "filepond-plugin-file-validate-type": "^1.2.8",
+        "filepond-plugin-image-preview": "^4.6.11",
+        "vue-filepond": "^7.0.3"
     }
 }
