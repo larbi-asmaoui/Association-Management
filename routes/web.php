@@ -67,6 +67,6 @@ Route::middleware([
     Route::resource('status', StatutController::class);
     Route::resource('association', AssociationController::class);
 
-    Route::post('/upload-association', [AssociationController::class, 'upload']);
-    Route::post('/upload-association-revert', [AssociationController::class, 'uploadRevert']);
+    // Route::post('/upload-association', [AssociationController::class, 'upload']);
+    // Route::post('/upload-association-revert', [AssociationController::class, 'uploadRevert']);
 });

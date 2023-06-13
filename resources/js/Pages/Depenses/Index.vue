@@ -467,24 +467,46 @@ const props = defineProps({
 
 const submit = () => {
   if (form.id) {
-    router.post(`/depenses/${form.id}`, {
-      _method: "put",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      id: form.id,
-      titre: form.titre,
-      montant: form.montant,
-      depense_date: form.depense_date,
-      reference_file: form.reference_file,
-      depense_type_id: form.depense_type_id,
+    router.post(
+      `/depenses/${form.id}`,
+      {
+        _method: "put",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        id: form.id,
+        titre: form.titre,
+        montant: form.montant,
+        depense_date: form.depense_date,
+        reference_file: form.reference_file,
+        depense_type_id: form.depense_type_id,
 
-      // preserveScroll: true,
-      // onFinish: (visit) => {
-      //     closeModal();
-      //     console.log(visit);
-      // },
-    });
+        // preserveScroll: true,
+        // onFinish: (visit) => {
+        //     closeModal();
+        //     console.log(visit);
+        // },
+      },
+      {
+        onSuccess: () => {
+          closeModal();
+          $toast.open({
+            message: "dépense modifié avec succès",
+            type: "success",
+            duration: 3000,
+            dismissible: true,
+          });
+        },
+        onError: () => {
+          $toast.open({
+            message: "Erreur lors de la modification",
+            type: "error",
+            duration: 3000,
+            dismissible: true,
+          });
+        },
+      }
+    );
   } else {
     form.post(route("depenses.store"), {
       forceFormData: true,

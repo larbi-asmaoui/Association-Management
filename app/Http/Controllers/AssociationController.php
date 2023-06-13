@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Association;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
@@ -85,25 +86,23 @@ class AssociationController extends Controller
      */
     public function update(Request $request, Association $association)
     {
-        // with user id
-        $association->update($request->all() + ['user_id' => auth()->id()]);
-        // Validator::make($request->all(), [
-        //     'title' => 'required',
-        //     'author' => 'required'
-        // ])->validate();
+        $formData = $request->validate([
+            'name' => 'nullable',
+            'objectifs' => 'nullable',
+            'address' => 'nullable',
+            'region' => 'nullable',
+            'city' => 'nullable'
+        ]);
+        if (isset($request->image)) {
+            if ($request->file('image')) {
+                Storage::disk('public')->delete($association->image);
+                $formData['image']  = $request->file('image')->store('uploads/logos', 'public');
+            }
+        }
 
-        // $association->update($request->only([
-        //     'name' => 'nullable',
-        //     'objectifs' => 'nullable',
-        //     'address' => 'nullable',
-        //     'region' => 'nullable',
-        //     'city' => 'nullable'
-        // ]));
-
-        // $this->processImage($request, $association);
-
+        $association->update($formData);
         return redirect()->back()
-            ->with('message', 'Book updated');
+            ->with('message', 'association updated');
     }
 
     /**
@@ -114,46 +113,46 @@ class AssociationController extends Controller
         //
     }
 
-    protected function processImage(Request $request, Association $association = null)
-    {
-        if ($image = $request->get('image')) {
-            $path = storage_path('app/public/' . $image);
-            if (file_exists($path)) {
-                copy($path, public_path($image));
-                unlink($path);
-            }
-        }
+    // protected function processImage(Request $request, Association $association = null)
+    // {
+    //     if ($image = $request->get('image')) {
+    //         $path = storage_path('app/public/' . $image);
+    //         if (file_exists($path)) {
+    //             copy($path, public_path($image));
+    //             unlink($path);
+    //         }
+    //     }
 
-        if ($association) {
-            if (!$request->get('image')) {
-                if ($association->image) {
-                    if (file_exists(public_path($association->image))) {
-                        unlink(public_path($association->image));
-                    }
-                }
-            }
-            $association->update([
-                'image' => $request->get('image')
-            ]);
-        }
-    }
+    //     if ($association) {
+    //         if (!$request->get('image')) {
+    //             if ($association->image) {
+    //                 if (file_exists(public_path($association->image))) {
+    //                     unlink(public_path($association->image));
+    //                 }
+    //             }
+    //         }
+    //         $association->update([
+    //             'image' => $request->get('image')
+    //         ]);
+    //     }
+    // }
 
-    public function uploadRevert(Request $request)
-    {
-        if ($image = $request->get('image')) {
-            $path = storage_path('app/public/' . $image);
-            if (file_exists($path)) {
-                unlink($path);
-            }
-        }
-        return '';
-    }
+    // public function uploadRevert(Request $request)
+    // {
+    //     if ($image = $request->get('image')) {
+    //         $path = storage_path('app/public/' . $image);
+    //         if (file_exists($path)) {
+    //             unlink($path);
+    //         }
+    //     }
+    //     return '';
+    // }
 
-    public function upload(Request $request)
-    {
-        if ($request->hasFile('imageFilepond')) {
-            return $request->file('imageFilepond')->store('uploads/logos', 'public');
-        }
-        return '';
-    }
+    // public function upload(Request $request)
+    // {
+    //     if ($request->hasFile('imageFilepond')) {
+    //         return $request->file('imageFilepond')->store('uploads/logos', 'public');
+    //     }
+    //     return '';
+    // }
 }

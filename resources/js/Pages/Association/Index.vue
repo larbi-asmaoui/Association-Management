@@ -16,31 +16,20 @@
             <h3 class="mb-2 text-xl font-bold text-slate-800 uppercase">
               Logo de l'organisme
             </h3>
-            <file-pond
-              name="imageFilepond"
-              ref="pond"
-              v-bind:allow-multiple="false"
-              accepted-file-types="image/png, image/jpeg"
-              v-bind:server="{
-                url: '',
-                timeout: 7000,
-                process: {
-                  url: '/upload-association',
-                  method: 'POST',
-                  headers: {
-                    'X-CSRF-TOKEN': $page.props.csrf_token,
-                  },
-                  withCredentials: false,
-                  onload: handleFilePondLoad,
-                  onerror: () => {},
-                },
-                remove: handleFilePondRemove,
-                revert: handleFilePondRevert,
-              }"
-              v-bind:files="files"
-              v-on:init="handleFilePondInit"
-            >
-            </file-pond>
+            <div class="flex-shrink-0">
+              <!-- <ImageUpload v-model="form.image" /> -->
+
+              <label
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                for="file_input"
+                >Changer une image</label
+              >
+              <input
+                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                id="file_input"
+                type="file"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -159,14 +148,15 @@
 
 
 <script setup>
+import ImageUpload from "../../Components/ImageUpload.vue";
 import axios from "axios";
-import vueFilePond from "vue-filepond";
-import "filepond/dist/filepond.min.css";
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
-import FilePondPluginFilePoster from "filepond-plugin-file-poster";
-import "filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css";
-import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
-import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+// import vueFilePond from "vue-filepond";
+// import "filepond/dist/filepond.min.css";
+// import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+// import FilePondPluginFilePoster from "filepond-plugin-file-poster";
+// import "filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css";
+// import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+// import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import regionsFile from "../../regions.json";
 import { ref, nextTick, computed, onMounted } from "vue";
 import { useForm, usePage } from "@inertiajs/vue3";
@@ -181,10 +171,10 @@ const props = defineProps({
 
 const $toast = useToast();
 
-const FilePond = vueFilePond(
-  FilePondPluginFileValidateType,
-  FilePondPluginImagePreview
-);
+// const FilePond = vueFilePond(
+//   FilePondPluginFileValidateType,
+//   FilePondPluginImagePreview
+// );
 
 const pond = ref(null);
 const page = usePage();
@@ -199,6 +189,7 @@ const form = useForm({
   address: props.association.address,
   region: props.association.region,
   city: props.association.city,
+  image: props.association.image,
 });
 
 const filteredCities = computed(() => {
@@ -227,6 +218,10 @@ const submit = (e) => {
       });
     },
   });
+};
+
+const showImage = () => {
+  return "/storage/";
 };
 </script>
 
