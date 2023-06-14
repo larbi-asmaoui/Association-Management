@@ -95,11 +95,11 @@ class AssociationController extends Controller
         ]);
         if (isset($request->image)) {
             if ($request->file('image')) {
-                Storage::disk('public')->delete($association->image);
+                // Storage::disk('public')->delete($association->image);
                 $formData['image']  = $request->file('image')->store('uploads/logos', 'public');
             }
         }
-
+        // dd($formData);
         $association->update($formData);
         return redirect()->back()
             ->with('message', 'association updated');
@@ -112,47 +112,4 @@ class AssociationController extends Controller
     {
         //
     }
-
-    // protected function processImage(Request $request, Association $association = null)
-    // {
-    //     if ($image = $request->get('image')) {
-    //         $path = storage_path('app/public/' . $image);
-    //         if (file_exists($path)) {
-    //             copy($path, public_path($image));
-    //             unlink($path);
-    //         }
-    //     }
-
-    //     if ($association) {
-    //         if (!$request->get('image')) {
-    //             if ($association->image) {
-    //                 if (file_exists(public_path($association->image))) {
-    //                     unlink(public_path($association->image));
-    //                 }
-    //             }
-    //         }
-    //         $association->update([
-    //             'image' => $request->get('image')
-    //         ]);
-    //     }
-    // }
-
-    // public function uploadRevert(Request $request)
-    // {
-    //     if ($image = $request->get('image')) {
-    //         $path = storage_path('app/public/' . $image);
-    //         if (file_exists($path)) {
-    //             unlink($path);
-    //         }
-    //     }
-    //     return '';
-    // }
-
-    // public function upload(Request $request)
-    // {
-    //     if ($request->hasFile('imageFilepond')) {
-    //         return $request->file('imageFilepond')->store('uploads/logos', 'public');
-    //     }
-    //     return '';
-    // }
 }

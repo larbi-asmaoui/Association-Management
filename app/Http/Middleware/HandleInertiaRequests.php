@@ -37,6 +37,23 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
+            'auth' => function () use ($request) {
+                $user = $request->user();
+                $userArray = null;
+
+                if ($user) {
+                    $userArray = $user->only('id', 'name', 'email');
+
+                    // If the user is logged in, load their profile
+                    $userArray['association'] = $user->association
+                        ? $user->association->only('image', 'name') // replace with your actual attribute names
+                        : null;
+                }
+
+                return [
+                    'user' => $userArray,
+                ];
+            },
             'flash' => [
                 'message' => session('message')
             ]

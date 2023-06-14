@@ -181,6 +181,7 @@
               </span>
             </div>
             <img v-if="imagePreview" :src="imagePreview" />
+
             <div class="mt-8 flex justify-end gap-x-2">
               <button
                 @click="isModalOpen = false"
@@ -363,19 +364,6 @@ import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 
 const $toast = useToast();
-
-// const { flash } = usePage().props;
-
-// watchEffect(() => {
-//     if (flash.message) {
-//         $toast.open({
-//             message: flash.message,
-//             type: flash.messageType,
-//             duration: 3000,
-//             dismissible: true,
-//         });
-//     }
-// });
 
 const form = useForm({
   id: null,

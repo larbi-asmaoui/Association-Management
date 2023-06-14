@@ -1,6 +1,5 @@
 <template>
   <form @submit.prevent="submit">
-    <input type="hidden" name="_token" :value="$page.props.csrf_token" />
     <div
       class="grid grid-cols-1 px-3 pt-2 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900"
     >
@@ -17,17 +16,22 @@
               Logo de l'organisme
             </h3>
             <div class="flex-shrink-0">
-              <!-- <ImageUpload v-model="form.image" /> -->
+              <img
+                :src="showImage() + props.association.image"
+                class="h-24 w-24 rounded-full object-cover mb-4"
+              />
 
               <label
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 for="file_input"
-                >Changer une image</label
+                >Choisir une image</label
               >
               <input
+                @change="selectImage"
                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                 id="file_input"
                 type="file"
+                accept="image/*"
               />
             </div>
           </div>
@@ -139,27 +143,29 @@
             >
               Enregistrer
             </button>
+            <span class="ml-4"></span>
+            <button
+              @click="toggleDisabled"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              type="button"
+            >
+              Modifier
+            </button>
           </div>
         </div>
       </div>
     </div>
   </form>
+
+  <div id="my-doc">hello</div>
+  <button @click="generatePdf">print me</button>
 </template>
 
 
 <script setup>
-import ImageUpload from "../../Components/ImageUpload.vue";
-import axios from "axios";
-// import vueFilePond from "vue-filepond";
-// import "filepond/dist/filepond.min.css";
-// import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
-// import FilePondPluginFilePoster from "filepond-plugin-file-poster";
-// import "filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css";
-// import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
-// import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import regionsFile from "../../regions.json";
 import { ref, nextTick, computed, onMounted } from "vue";
-import { useForm, usePage } from "@inertiajs/vue3";
+import { useForm, usePage, router } from "@inertiajs/vue3";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 
@@ -169,17 +175,14 @@ const props = defineProps({
   },
 });
 
+const isDisabled = ref(true);
+
+const toggleDisabled = () => {
+  isDisabled.value = !isDisabled.value;
+};
+
 const $toast = useToast();
 
-// const FilePond = vueFilePond(
-//   FilePondPluginFileValidateType,
-//   FilePondPluginImagePreview
-// );
-
-const pond = ref(null);
-const page = usePage();
-const files = ref([]);
-const csrf_token = page.props.csrf_token;
 const regions = ref(regionsFile);
 
 const form = useForm({
@@ -191,6 +194,13 @@ const form = useForm({
   city: props.association.city,
   image: props.association.image,
 });
+
+const selectImage = (event) => {
+  if (event.target.files[0]) {
+    let file = event.target.files[0];
+    form.image = file;
+  }
+};
 
 const filteredCities = computed(() => {
   if (form.region) {
@@ -210,14 +220,40 @@ const filterCities = () => {
 
 const submit = (e) => {
   e.preventDefault();
-  form.put(route("association.update", form.id), {
-    onSuccess: () => {
-      $toast.open({
-        message: "Association ajoutée avec succès",
-        type: "success",
-      });
+  router.post(
+    `/association/${form.id}`,
+    {
+      _method: "put",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      id: form.id,
+      name: form.name,
+      objectifs: form.objectifs,
+      address: form.address,
+      region: form.region,
+      city: form.city,
+      image: form.image,
     },
-  });
+    {
+      onSuccess: () => {
+        $toast.open({
+          message: "Association modifié avec succès",
+          type: "success",
+          duration: 3000,
+          dismissible: true,
+        });
+      },
+      onError: () => {
+        $toast.open({
+          message: "Erreur lors de la modification",
+          type: "error",
+          duration: 3000,
+          dismissible: true,
+        });
+      },
+    }
+  );
 };
 
 const showImage = () => {
@@ -227,16 +263,45 @@ const showImage = () => {
 
 <script>
 import MainLayout from "../../Layouts/MainLayout.vue";
+import printJS from "print-js";
+import jsPDF from "jspdf";
 
 export default {
   layout: MainLayout,
   components: {},
+  methods: {
+    generatePdf() {
+      // Create a new jsPDF instance
+      const doc = new jsPDF();
+
+      // Add content to the PDF
+      doc.text("Hello, this is a PDF generated with jsPDF!", 10, 10);
+
+      // Save the PDF
+      doc.save("generated.pdf");
+    },
+    print() {
+      printJS({
+        printable: "my-doc", // ID, class, or HTML element of the content you want to print
+        type: "html",
+        onPrintDialogClose: () => {
+          console.log("Print dialog closed");
+        },
+      });
+    },
+  },
 };
 </script>
 
 
-<style >
+<style>
 .filepond--credits {
   display: none;
+}
+
+@media print {
+  #my-doc {
+    visibility: hidden;
+  }
 }
 </style>

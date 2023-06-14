@@ -361,7 +361,7 @@
                       <!-- Edit -->
                       <div
                         @click="openEditModal(stock)"
-                        class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                        class="cursor-pointer w-4 mr-2 transform hover:text-yellow-200 hover:scale-110"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -381,7 +381,7 @@
                       <!-- Delete -->
                       <div
                         @click="destroy(stock.id)"
-                        class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                        class="cursor-pointer w-4 mr-2 transform hover:text-red-500 hover:scale-110"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"

@@ -99,10 +99,12 @@
             PDF
           </button>
           <button
+            @click="exportToPDF"
             class="text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-2 focus:outline-none"
             type="button"
           >
-            <JsonCSV :data="adherents.data" name="adherents.csv"> CSV </JsonCSV>
+            <!-- <JsonCSV :data="adherents.data" name="adherents.csv"> CSV </JsonCSV> -->
+            click me
           </button>
         </div>
       </div>
@@ -488,6 +490,7 @@
               Pas d'adhérents
             </div>
             <table
+              id="my-doc"
               v-else
               class="w-full sm:rounded-lg text-sm text-left text-gray-500"
             >
@@ -668,7 +671,7 @@
                       <!-- Eye -->
                       <div
                         @click="show(adherent.id)"
-                        class="cursor-pointer w-4 mr-2 transform text-blue-700 hover:scale-110"
+                        class="cursor-pointer w-4 mr-2 transform hover:text-yellow-200 hover:scale-110"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -694,7 +697,7 @@
                       <!-- Delete -->
                       <div
                         @click="destroy(adherent.id)"
-                        class="cursor-pointer w-4 mr-2 transform text-red-700 hover:scale-110"
+                        class="cursor-pointer w-4 mr-2 transform hover:text-red-500 hover:scale-110"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -713,8 +716,7 @@
 
                       <!-- Print -->
                       <div
-                        @click="printContent"
-                        class="cursor-pointer w-4 mr-2 transform text-purple-700 hover:scale-110"
+                        class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -747,13 +749,16 @@
       </div>
     </div>
   </div>
+  {{ page.props.auth.user.association.image }}
 </template>
 
 <script>
 import MainLayout from "../../Layouts/MainLayout.vue";
+import html2pdf from "html2pdf.js";
 
 export default {
   layout: MainLayout,
+  methods: {},
 };
 </script>
 
@@ -761,7 +766,7 @@ export default {
 import defaultImg from "../../../assets/image.jpeg";
 import { ref, nextTick, computed, onMounted } from "vue";
 import { watch } from "vue";
-import { router } from "@inertiajs/vue3";
+import { router, usePage } from "@inertiajs/vue3";
 import { Avatar } from "flowbite-vue";
 import Pagination from "../../Components/Pagination.vue";
 import ImageUpload from "../../Components/ImageUpload.vue";
@@ -772,21 +777,46 @@ import "vue-toast-notification/dist/theme-sugar.css";
 import printJS from "print-js";
 import AdherentInfo from "./AdherentInfo.vue";
 import JsonCSV from "vue-json-csv";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 import regionsFile from "../../regions.json";
+const page = usePage();
+const exportToPDF = () => {
+  // Create a new jsPDF instance
+  const doc = new jsPDF("p", "mm", [297, 210]);
 
-// const printSection = ref(null);
+  // Define the table headers and data
+  const headers = [
+    "ID",
+    "Nom",
+    "Prenom",
+    "CIN",
+    "Telephone",
+    "Date d'adhesion",
+  ];
 
-const printContent = async () => {
-  // await nextTick();
-  // let printSection = document.getElementById("printSection");
-  // printJS({
-  //     printable: printSection.innerHTML,
-  //     type: "html",
-  //     header: "Adherent Information",
-  //     targetStyles: ["*"],
-  // });
+  const data = props.adherents.data.map((adherent) => [
+    adherent.id,
+    adherent.last_name,
+    adherent.first_name,
+    adherent.cin,
+    adherent.tel,
+    adherent.date_of_membership,
+  ]);
+  doc.addImage(page.props.auth.user.association.image, "JPEG", 10, 10, 10, 10);
+  doc.text("Liste membres", 10, 10);
+
+  // Add the table to the PDF
+  doc.autoTable({
+    head: [headers],
+    body: data,
+  });
+
+  // Save the PDF
+  doc.save("membres_list.pdf");
 };
+
 const csvFields = ref({
   separator: ",",
   labels: {
@@ -802,7 +832,6 @@ const csvFields = ref({
     email: "Email Address",
   },
 });
-onMounted(printContent);
 
 const $toast = useToast();
 
@@ -902,20 +931,6 @@ const closeModal = () => {
   form.reset();
 };
 
-// const openEditModal = (adherent) => {
-//     form.id = adherent.id;
-//     form.image = adherent.image;
-//     form.first_name = adherent.first_name;
-//     form.last_name = adherent.last_name;
-//     form.date_of_birth = adherent.date_of_birth;
-//     form.date_of_membership = adherent.date_of_membership;
-//     form.sexe = adherent.sexe;
-//     form.cin = adherent.cin;
-//     form.address = adherent.address;
-//     form.tel = adherent.tel;
-//     isModalOpen.value = true;
-// };
-
 const props = defineProps({
   adherents: {
     type: Object,
@@ -925,10 +940,6 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-  // filters: {
-  //     type: Object,
-  //     default: () => ({}),
-  // },
 });
 
 // pass filters in search
@@ -944,3 +955,9 @@ watch(search, (value) => {
   );
 });
 </script>
+
+<style scoped>
+#my-doc {
+  font: 33rem;
+}
+</style>

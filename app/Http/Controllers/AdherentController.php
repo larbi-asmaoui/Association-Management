@@ -33,7 +33,7 @@ class AdherentController extends Controller
                         ->OrWhere('cin', 'like', '%' . $search . '%')
                         ->OrWhere('tel', 'like', '%' . $search . '%')
                         ->OrWhere('email', 'like', '%' . $search . '%');
-                })->paginate(5)
+                })->paginate(10)
                 ->appends(Request::all()),
         ]);
     }

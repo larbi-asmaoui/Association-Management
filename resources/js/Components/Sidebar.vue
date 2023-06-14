@@ -7,19 +7,17 @@
     <div
       class="relative no-scrollbar flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
     >
-      <div class="flex flex-col flex-1 pb-4 overflow-y-auto">
+      <div class="flex flex-col flex-1 pb-2 overflow-y-auto">
         <div
-          class="px-5 py-2 mt-2 mb-4 flex flex-col gap-2 justify-start items-center border-b border-gray-200"
+          class="px-5 py-1 mt-2 mb-2 flex flex-col gap-2 justify-start items-center border-b border-gray-200"
         >
           <Avatar
-            status="online"
-            status-position="top-right"
-            rounded
-            size="md"
-            :img="$page.props.auth.user.profile_photo_url"
+            square
+            size="lg"
+            :img="/storage/ + $page.props.auth.user.association.image"
           />
           <h2 class="text-md text-slate-400">
-            {{ $page.props.auth.user.name }}
+            {{ $page.props.auth.user.association.name }}
           </h2>
         </div>
 
