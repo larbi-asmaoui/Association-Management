@@ -14,11 +14,13 @@
     <!-- Scripts -->
     @routes
     @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
+
     @inertiaHead
 </head>
 
 <body class="font-sans antialiased bg-slate-200 h-screen">
     @inertia
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/datepicker.min.js"></script>
 </body>
 
 </html>

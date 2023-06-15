@@ -66,7 +66,7 @@ Route::middleware([
     Route::resource('evenement-types', EvenementTypeController::class);
     Route::resource('status', StatutController::class);
     Route::resource('association', AssociationController::class);
-
+    Route::get('/e-documents', [App\Http\Controllers\DocumentsController::class, 'index'])->name('e-documents.index');
     // Route::post('/upload-association', [AssociationController::class, 'upload']);
     // Route::post('/upload-association-revert', [AssociationController::class, 'uploadRevert']);
 });

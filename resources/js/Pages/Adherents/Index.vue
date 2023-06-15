@@ -749,7 +749,8 @@
       </div>
     </div>
   </div>
-  {{ page.props.auth.user.association.image }}
+  {{ $page.props.auth.user.profile_photo_url }}
+  <!-- <ve-table :columns="columns" :table-data="tableData" /> -->
 </template>
 
 <script>
@@ -763,6 +764,8 @@ export default {
 </script>
 
 <script setup>
+// import "vue-easytable/libs/theme-default/index.css";
+// import VueEasytable from "vue-easytable";
 import defaultImg from "../../../assets/image.jpeg";
 import { ref, nextTick, computed, onMounted } from "vue";
 import { watch } from "vue";
@@ -781,11 +784,46 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
 import regionsFile from "../../regions.json";
+
+const props = defineProps({
+  all_adherents: {
+    type: Object,
+    default: () => ({}),
+  },
+  adherents: {
+    type: Object,
+    default: () => ({}),
+  },
+  status: {
+    type: Object,
+    default: () => ({}),
+  },
+});
+
 const page = usePage();
 const exportToPDF = () => {
   // Create a new jsPDF instance
-  const doc = new jsPDF("p", "mm", [297, 210]);
+  const doc = new jsPDF();
+  const pageWidth = doc.internal.pageSize.getWidth();
+  // Add the image to the PDF
+  const img = doc.addImage(
+    `/storage/${page.props.auth.user.association.image}`,
+    "JPEG",
+    (pageWidth - 30) / 2,
+    2,
+    30,
+    30
+  );
 
+  doc.setFontSize(10);
+  const title = `${page.props.auth.user.association.name}`;
+  const titleWidth = doc.getTextWidth(title);
+
+  const titleX = (pageWidth - titleWidth) / 2;
+  doc.text(title, titleX, 32);
+  doc.setFontSize(9);
+  doc.text("Liste de membres", 10, 43);
+  doc.line(0, 45, 400, 45);
   // Define the table headers and data
   const headers = [
     "ID",
@@ -794,21 +832,23 @@ const exportToPDF = () => {
     "CIN",
     "Telephone",
     "Date d'adhesion",
+    " ",
+    //
   ];
 
-  const data = props.adherents.data.map((adherent) => [
+  const data = props.all_adherents.map((adherent) => [
     adherent.id,
     adherent.last_name,
     adherent.first_name,
     adherent.cin,
     adherent.tel,
     adherent.date_of_membership,
+    "  ",
   ]);
-  doc.addImage(page.props.auth.user.association.image, "JPEG", 10, 10, 10, 10);
-  doc.text("Liste membres", 10, 10);
 
   // Add the table to the PDF
   doc.autoTable({
+    margin: { top: 50 },
     head: [headers],
     body: data,
   });
@@ -930,17 +970,6 @@ const closeModal = () => {
 
   form.reset();
 };
-
-const props = defineProps({
-  adherents: {
-    type: Object,
-    default: () => ({}),
-  },
-  status: {
-    type: Object,
-    default: () => ({}),
-  },
-});
 
 // pass filters in search
 let search = ref("");

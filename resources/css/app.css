@@ -2,12 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-[x-cloak] {
-    display: none;
-}
-::-webkit-scrollbar {
-    display: none;
-}
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }
@@ -17,28 +11,9 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
 }
-::-webkit-scrollbar-track {
-    background: #2d3748;
-}
 
-::-webkit-scrollbar-thumb {
-    background: #cbd5e0;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #718096;
-}
-
-@layer utilities {
-    /* Chrome, Safari and Opera */
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-
-    .no-scrollbar {
-        -ms-overflow-style: none; /* IE and Edge */
-        scrollbar-width: none; /* Firefox */
-    }
+[x-cloak] {
+    display: none;
 }
 
 .multiselect-blue {

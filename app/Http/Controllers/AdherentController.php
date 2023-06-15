@@ -24,6 +24,7 @@ class AdherentController extends Controller
         //     ->where('user_id', $userId);
         return Inertia::render('Adherents/Index', [
             'status' => $status,
+            'all_adherents' => Adherent::all(),
             'adherents' => Adherent::query()
                 ->with('statut')
                 ->where('user_id', $userId)

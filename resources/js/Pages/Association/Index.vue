@@ -21,18 +21,20 @@
                 class="h-24 w-24 rounded-full object-cover mb-4"
               />
 
-              <label
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                for="file_input"
-                >Choisir une image</label
-              >
-              <input
-                @change="selectImage"
-                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                id="file_input"
-                type="file"
-                accept="image/*"
-              />
+              <div v-show="isEnabled">
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  for="file_input"
+                  >Choisir une image</label
+                >
+                <input
+                  @change="selectImage"
+                  class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                  id="file_input"
+                  type="file"
+                  accept="image/*"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -145,7 +147,7 @@
             </button>
             <span class="ml-4"></span>
             <button
-              @click="toggleDisabled"
+              @click="toggleEnabled"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               type="button"
             >
@@ -157,8 +159,11 @@
     </div>
   </form>
 
-  <div id="my-doc">hello</div>
-  <button @click="generatePdf">print me</button>
+  <!-- <div ref="capture"> -->
+  <!-- The content you want to convert to an image -->
+  <!-- <h1>HELLO</h1>
+  </div> -->
+  <!-- <button @click="downloadImage">Download Image</button> -->
 </template>
 
 
@@ -175,10 +180,10 @@ const props = defineProps({
   },
 });
 
-const isDisabled = ref(true);
+const isEnabled = ref(false);
 
-const toggleDisabled = () => {
-  isDisabled.value = !isDisabled.value;
+const toggleEnabled = () => {
+  isEnabled.value = !isEnabled.value;
 };
 
 const $toast = useToast();
@@ -263,32 +268,44 @@ const showImage = () => {
 
 <script>
 import MainLayout from "../../Layouts/MainLayout.vue";
-import printJS from "print-js";
-import jsPDF from "jspdf";
+// import printJS from "print-js";
+// import jsPDF from "jspdf";
+// import htmlToImage from "html-to-image";
 
 export default {
   layout: MainLayout,
   components: {},
   methods: {
-    generatePdf() {
-      // Create a new jsPDF instance
-      const doc = new jsPDF();
-
-      // Add content to the PDF
-      doc.text("Hello, this is a PDF generated with jsPDF!", 10, 10);
-
-      // Save the PDF
-      doc.save("generated.pdf");
-    },
-    print() {
-      printJS({
-        printable: "my-doc", // ID, class, or HTML element of the content you want to print
-        type: "html",
-        onPrintDialogClose: () => {
-          console.log("Print dialog closed");
-        },
-      });
-    },
+    // downloadImage() {
+    //   htmlToImage
+    //     .toPng(this.$refs.capture)
+    //     .then((dataUrl) => {
+    //       var a = document.createElement("a");
+    //       a.href = dataUrl;
+    //       a.download = "image.png";
+    //       a.click();
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error:", error);
+    //     });
+    // },
+    // generatePdf() {
+    //   // Create a new jsPDF instance
+    //   const doc = new jsPDF();
+    //   // Add content to the PDF
+    //   doc.text("Hello, this is a PDF generated with jsPDF!", 10, 10);
+    //   // Save the PDF
+    //   doc.save("generated.pdf");
+    // },
+    // print() {
+    //   printJS({
+    //     printable: "my-doc", // ID, class, or HTML element of the content you want to print
+    //     type: "html",
+    //     onPrintDialogClose: () => {
+    //       console.log("Print dialog closed");
+    //     },
+    //   });
+    // },
   },
 };
 </script>

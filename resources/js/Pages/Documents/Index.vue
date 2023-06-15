@@ -1,0 +1,177 @@
+<template>
+  {{ startDate }}
+
+  <Modal :size="md" v-if="isShowModal" @close="closeModal">
+    <template #header>
+      <div class="flex items-center text-lg">{{ modalTitle }}</div>
+    </template>
+    <template #body>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+        <div>
+          <label
+            for="end"
+            class="block text-sm text-gray-700 font-medium dark:text-white"
+            >Date de Début
+          </label>
+
+          <input
+            lang="fr-CA"
+            :min="new Date().toISOString().split('T')[0]"
+            v-model="startDate"
+            type="date"
+            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700"
+            placeholder="Select date"
+            name="end"
+          />
+        </div>
+        <div>
+          <label
+            for="end"
+            class="block text-sm text-gray-700 font-medium dark:text-white"
+            >Date de Fin
+          </label>
+
+          <input
+            lang="fr-CA"
+            :min="new Date().toISOString().split('T')[0]"
+            v-model="startDate"
+            type="date"
+            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700"
+            placeholder="Select date"
+            name="end"
+          />
+        </div>
+      </div>
+    </template>
+    <template #footer>
+      <div class="flex justify-between">
+        <button
+          @click="closeModal"
+          type="button"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon icon-tabler icon-tabler-device-floppy"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path
+              d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2"
+            ></path>
+            <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+            <path d="M14 4l0 4l-6 0l0 -4"></path>
+          </svg>
+        </button>
+      </div>
+    </template>
+  </Modal>
+
+  <div class="px-2 pt-2">
+    <ul
+      class="max-w-md bg-white rounded-lg p-4 divide-y divide-gray-200 dark:divide-gray-700"
+    >
+      <li class="pb-3 sm:pb-4">
+        <div class="flex items-center space-x-4">
+          <div class="flex-1 min-w-0">
+            <p
+              class="text-sm font-medium text-gray-900 truncate dark:text-white"
+            >
+              Rapport financier
+            </p>
+          </div>
+          <div
+            class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
+          >
+            <button
+              @click="showModal('Rapport financier')"
+              class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-chevron-right"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M9 6l6 6l-6 6"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </li>
+
+      <li class="py-3 sm:py-4">
+        <div class="flex items-center space-x-4">
+          <div class="flex-1 min-w-0">
+            <p
+              class="text-sm font-medium text-gray-900 truncate dark:text-white"
+            >
+              Rapport littéraire
+            </p>
+          </div>
+          <div
+            class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
+          >
+            <button
+              @click="showModal('Rapport littéraire')"
+              class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-chevron-right"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M9 6l6 6l-6 6"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script setup>
+import { ref } from "vue";
+import { Modal } from "flowbite-vue";
+const startDate = ref(null);
+const isShowModal = ref(false);
+const modalTitle = ref("");
+const closeModal = (title) => {
+  isShowModal.value = false;
+};
+const showModal = (title) => {
+  modalTitle.value = title;
+  isShowModal.value = true;
+};
+</script>
+
+
+<script>
+import MainLayout from "@/Layouts/MainLayout.vue";
+export default {
+  layout: MainLayout,
+};
+</script>

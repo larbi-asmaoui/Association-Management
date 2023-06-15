@@ -79,7 +79,6 @@ const submit = () => {
 };
 </script>
 <template>
-  {{ $page.props.evenement.adherents }}
   <div class="inline-flex items-center mb-5">
     <Link
       :href="route('evenements.index')"
@@ -327,7 +326,7 @@ const submit = () => {
               <option disabled value="">Séléctionner ville</option>
               <option
                 v-for="city in filteredCities"
-                key="city.id"
+                :key="city.id"
                 :value="city"
               >
                 {{ city }}
