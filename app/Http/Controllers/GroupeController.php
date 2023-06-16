@@ -25,11 +25,7 @@ class GroupeController extends Controller
                 ->with('adherents')
                 ->withCount('adherents')
                 ->where('user_id', $userId)
-                ->when(Request::input('search'), function ($query, $search) {
-                    $query->where('name', 'like', '%' . $search . '%')
-                        ->OrWhere('description', 'like', '%' . $search . '%');
-                })->paginate(5)
-                ->appends(Request::all()),
+                ->get()
             // 'filters' => Request::only(['search'])
         ]);
     }

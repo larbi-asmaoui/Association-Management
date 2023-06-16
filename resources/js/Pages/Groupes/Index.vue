@@ -18,7 +18,7 @@
     </svg>
   </button>
 
-  <div class="bg-white py-6 shadow-md rounded-xl relative mt-5">
+  <div class="bg-white pt-6 shadow-md rounded-xl relative mt-5">
     <div
       class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
     >
@@ -129,135 +129,67 @@
     </teleport>
 
     <div class="mt-4">
-      <div class="overflow-hidden bg-white">
-        <div class="bg-white">
-          <div class="relative mb-5">
-            <table class="w-full sm:rounded-lg text-sm text-left text-gray-500">
-              <thead class="bg-gray-100">
-                <tr>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Groupe
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Description
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Nombre de membres
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
-                <tr v-for="groupe in groupes.data" :key="groupe.id">
-                  <td
-                    class="p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
-                  >
-                    {{ groupe.name }}
-                  </td>
-                  <td
-                    class="p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
-                  >
-                    {{ groupe.description ?? "-" }}
-                  </td>
-                  <td
-                    class="p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
-                  >
-                    {{ groupe.adherents_count }}
-                  </td>
+      <div class="relative">
+        <!-- vue table -->
+        <vue-good-table
+          :columns="columns"
+          :rows="rows"
+          :pagination-options="{
+            enabled: true,
+          }"
+        >
+          <template v-slot:table-row="{ row, column, formattedRow }">
+            <div
+              v-if="column.field === 'actions'"
+              class="flex justify-center items-center"
+            >
+              <div
+                @click="openEditModal(row)"
+                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                  ></path>
+                </svg>
+              </div>
 
-                  <td
-                    class="p-4 text-base font-medium text-gray-900 whitespace-normal :text-white"
-                  >
-                    <div class="flex">
-                      <!-- Eye -->
-                      <!-- <div
-                                                @click="show(groupe.id)"
-                                                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                                    ></path>
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                                    ></path>
-                                                </svg>
-                                            </div> -->
+              <!-- Delete -->
 
-                      <!-- Edit -->
-                      <div
-                        @click="openEditModal(groupe)"
-                        class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                          ></path>
-                        </svg>
-                      </div>
-
-                      <!-- Delete -->
-
-                      <div
-                        v-if="groupe.adherents_count == 0"
-                        @click="destroy(groupe.id)"
-                        class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                          ></path>
-                        </svg>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <Pagination :data="groupes" />
-        </div>
+              <div
+                v-if="row.nombre_de_membres == 0"
+                @click="destroy(row)"
+                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div v-else>
+              {{ formattedRow[column.field] }}
+            </div>
+          </template>
+        </vue-good-table>
+        <!-- vue table -->
       </div>
     </div>
   </div>
@@ -272,6 +204,8 @@ export default {
 </script>
 
 <script setup>
+import { VueGoodTable } from "vue-good-table-next";
+import "vue-good-table-next/dist/vue-good-table-next.css";
 import Multiselect from "@vueform/multiselect";
 import { ref, computed } from "vue";
 import { watch } from "vue";
@@ -281,6 +215,39 @@ import Pagination from "../../Components/Pagination.vue";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import { useForm } from "@inertiajs/vue3";
+
+const columns = ref([
+  {
+    label: "#",
+    field: "id",
+  },
+  {
+    label: "Groupe",
+    field: "name",
+  },
+  {
+    label: "Description",
+    field: "description",
+  },
+  {
+    label: "Nombre de membres",
+    field: "nombre_de_membres",
+  },
+
+  {
+    label: "Actions",
+    field: "actions",
+  },
+]);
+const rows = computed(() =>
+  Object.values(props.groupes).map((groupe) => ({
+    id: groupe.id,
+    name: groupe.name,
+    description: groupe.description ?? "-",
+    nombre_de_membres: groupe.adherents_count,
+    adherents: props.adherents,
+  }))
+);
 
 const $toast = useToast();
 
@@ -292,13 +259,6 @@ const form = useForm({
   description: null,
   adherents: [],
 });
-
-const formattedAdherents = computed(() =>
-  Object.values(props.adherents).map((adherent) => ({
-    value: adherent.id,
-    label: adherent.last_name + " " + adherent.first_name,
-  }))
-);
 
 const submit = () => {
   if (form.id) {
@@ -387,19 +347,6 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-});
-
-// pass filters in search
-let search = ref("");
-watch(search, (value) => {
-  router.get(
-    "/groupes",
-    { search: value },
-    {
-      preserveState: true,
-      replace: true,
-    }
-  );
 });
 </script>
 

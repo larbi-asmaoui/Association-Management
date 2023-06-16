@@ -49,6 +49,7 @@
         "vue-chartjs": "^5.2.0",
         "vue-easytable": "^2.27.1",
         "vue-filepond": "^7.0.3",
+        "vue-good-table-next": "^0.2.1",
         "vue-json-csv": "^2.1.0",
         "vue-sonner": "^0.3.2",
         "vue-toast-notification": "^3.1.1",

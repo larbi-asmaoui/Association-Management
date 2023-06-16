@@ -101,7 +101,7 @@
               </Link>
             </li>
 
-            <li>
+            <!-- <li>
               <Link
                 :class="[
                   $page.url === '/cotisations' ? activeClass : inactiveClass,
@@ -125,7 +125,7 @@
                 </svg>
                 <span class="flex-1 ml-3 whitespace-nowrap">Cotisations</span>
               </Link>
-            </li>
+            </li> -->
 
             <li>
               <Link

@@ -67,6 +67,8 @@ Route::middleware([
     Route::resource('status', StatutController::class);
     Route::resource('association', AssociationController::class);
     Route::get('/e-documents', [App\Http\Controllers\DocumentsController::class, 'index'])->name('e-documents.index');
+    Route::get('/e-document/rapport-litteraire', [App\Http\Controllers\DocumentsController::class, 'generateRapportLitterairePdf'])->name('e-documents.rapport_litteraire');
+
     // Route::post('/upload-association', [AssociationController::class, 'upload']);
     // Route::post('/upload-association-revert', [AssociationController::class, 'uploadRevert']);
 });

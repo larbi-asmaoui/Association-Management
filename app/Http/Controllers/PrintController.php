@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Adherant;
+use App\Models\Adherent;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 // use Dompdf\Dompdf;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Response;
 
 class PrintController extends Controller
 {
-    public function printAdherentCard(Adherant $adherant)
+    public function printAdherentCard(Adherent $adherant)
     {
         $data = [
             'adherant' => $adherant,

@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('location');
             $table->string('city');
             $table->string('region');
-            $table->double('revenue')->nullable(true);
-            $table->double('depense')->nullable(true);
+            $table->double('revenue')->default(0);
+            $table->double('depense')->default(0);
             $table->timestamps();
         });
     }
