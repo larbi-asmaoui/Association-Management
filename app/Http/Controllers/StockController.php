@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Groupe;
 use App\Models\Stock;
 use App\Models\StockType;
 // use Illuminate\Support\Facades\Request;
@@ -19,19 +20,11 @@ class StockController extends Controller
         $userId = auth()->id();
         $stockTypes = StockType::where('user_id', $userId)->get();
 
-        $stocksQuery = Stock::with('stock_type')
-            ->where('user_id', $userId)
-            ->when(\Illuminate\Support\Facades\Request::input('search'), function ($query, $search) {
-                $query->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('type', 'like', '%' . $search . '%');
-            });
-
-        $stocks = $stocksQuery->paginate(5)
-            ->appends(\Illuminate\Support\Facades\Request::all());
-
         return Inertia::render('Stocks/Index', [
             'stockTypes' => $stockTypes,
-            'stocks' => $stocks,
+            'stocks' => Stock::query()
+                ->with('stock_type')
+                ->get()
             // 'filters' => Request::only(['search'])
         ]);
     }

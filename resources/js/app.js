@@ -6,7 +6,7 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
 import VueApexCharts from "vue3-apexcharts";
 
-import "../css/app.css";
+import "../css/app.css"
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText ||
     "MaAssociation";

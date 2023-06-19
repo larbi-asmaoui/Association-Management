@@ -43,32 +43,34 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-])->group(function () {
+])->group(
+    function () {
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/evenements/calendrier', [EvenementController::class, 'calender'])->name('evenements.calender');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/evenements/calendrier', [EvenementController::class, 'calender'])->name('evenements.calender');
 
 
-    Route::resource('adherents', AdherentController::class);
-    Route::get('adherents/{adherent}/print', [PrintController::class, 'printAdherentCard'])->name('adherents.print');
-    Route::resource('cotisations', CotisationController::class);
-    Route::resource('groupes', GroupeController::class);
-    Route::resource('stocks', StockController::class);
-    Route::resource('evenements', EvenementController::class);
+        Route::resource('adherents', AdherentController::class);
+        Route::get('adherents/{adherent}/print', [PrintController::class, 'printAdherentCard'])->name('adherents.print');
+        Route::resource('cotisations', CotisationController::class);
+        Route::resource('groupes', GroupeController::class);
+        Route::resource('stocks', StockController::class);
+        Route::resource('evenements', EvenementController::class);
 
-    Route::resource('revenues', RevenueController::class);
-    Route::resource('depenses', DepenseController::class);
-    Route::resource('depense-types', DepenseTypeController::class);
-    Route::resource('revenue-types', RevenueTypeController::class);
-    Route::resource('cotisation-types', CotisationTypeController::class);
-    Route::resource('stock-types', StockTypeController::class);
-    Route::resource('evenement-types', EvenementTypeController::class);
-    Route::resource('status', StatutController::class);
-    Route::resource('association', AssociationController::class);
-    Route::get('/e-documents', [App\Http\Controllers\DocumentsController::class, 'index'])->name('e-documents.index');
-    Route::get('/e-document/rapport-litteraire', [App\Http\Controllers\DocumentsController::class, 'generateRapportLitterairePdf'])->name('e-documents.rapport_litteraire');
-
-    // Route::post('/upload-association', [AssociationController::class, 'upload']);
-    // Route::post('/upload-association-revert', [AssociationController::class, 'uploadRevert']);
-});
+        Route::resource('revenues', RevenueController::class);
+        Route::resource('depenses', DepenseController::class);
+        Route::resource('depense-types', DepenseTypeController::class);
+        Route::resource('revenue-types', RevenueTypeController::class);
+        Route::resource('cotisation-types', CotisationTypeController::class);
+        Route::resource('stock-types', StockTypeController::class);
+        Route::resource('evenement-types', EvenementTypeController::class);
+        Route::resource('status', StatutController::class);
+        Route::resource('association', AssociationController::class);
+        Route::resource('reunions', \App\Http\Controllers\ReunionController::class);
+        Route::get('/e-documents', [App\Http\Controllers\DocumentsController::class, 'index'])->name('e-documents.index');
+        // Route::get('/e-document/rapport-litteraire', [App\Http\Controllers\DocumentsController::class, 'generateRapportLitterairePdf'])->name('e-documents.rapport_litteraire');
+        Route::get('/e-document/rapport-litteraire', [App\Http\Controllers\DocumentsController::class, 'generateRapportLitterairePdf'])->name('e-documents.rapport_litteraire');
+        Route::get('/e-document/rapport-financier', [App\Http\Controllers\DocumentsController::class, 'generateRapportFinancierPdf'])->name('e-documents.rapport_financier');
+    }
+);

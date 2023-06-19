@@ -137,4 +137,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Association::class);
     }
+
+    public function reunions(): HasMany
+    {
+        return $this->hasMany(Reunion::class);
+    }
+
+    public function reunionTypes(): HasMany
+    {
+        return $this->hasMany(ReunionType::class);
+    }
 }

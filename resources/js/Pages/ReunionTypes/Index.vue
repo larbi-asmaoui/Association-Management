@@ -84,18 +84,18 @@ export default {
 
   <div class="mt-4">
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-      <the-card v-for="depenseType in depenseTypes" :key="depenseType.id">
+      <the-card v-for="reunionType in reunionTypes" :key="reunionType.id">
         <h5
           class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
         >
-          {{ depenseType.name }}
+          {{ reunionType.name }}
         </h5>
         <p class="font-normal text-gray-700 dark:text-gray-400">
-          Date d'ajout {{ depenseType.created_at }}
+          Date d'ajout {{ reunionType.created_at }}
         </p>
         <div class="flex justify-end mt-5 items-end">
           <button
-            @click="openEditModal(depenseType)"
+            @click="openEditModal(reunionType)"
             class="text-slate-800 hover:text-blue-600 text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-l-lg font-medium px-4 py-2 inline-flex space-x-1 items-center"
           >
             <span
@@ -116,7 +116,7 @@ export default {
             </span>
           </button>
           <button
-            @click="destroy(depenseType.id)"
+            @click="destroy(reunionType.id)"
             class="text-slate-800 hover:text-white text-sm bg-white hover:bg-red-600 border border-slate-200 rounded-r-lg font-medium px-4 py-2 inline-flex space-x-1 items-center"
           >
             <span>
@@ -155,7 +155,7 @@ import "vue-toast-notification/dist/theme-sugar.css";
 const $toast = useToast();
 
 const props = defineProps({
-  depenseTypes: {
+  reunionTypes: {
     type: Object,
     default: () => ({}),
   },
@@ -175,10 +175,10 @@ const closeModal = () => {
 
 const destroy = (id) => {
   if (confirm("vous êtes sûr?")) {
-    form.delete(route("depense-types.destroy", id), {
+    form.delete(route("reunion-types.destroy", id), {
       onSuccess: () => {
         $toast.open({
-          message: "Type de depense supprimé avec succès",
+          message: "Type de reunion supprimé avec succès",
           type: "success",
           duration: 3000,
           dismissible: true,
@@ -196,15 +196,15 @@ const destroy = (id) => {
   }
 };
 
-const openEditModal = (depenseType) => {
-  form.id = depenseType.id;
-  form.name = depenseType.name;
+const openEditModal = (reunionType) => {
+  form.id = reunionType.id;
+  form.name = reunionType.name;
   isModalOpen.value = true;
 };
 
 const submit = () => {
   if (form.id) {
-    form.put(route("depense-types.update", form.id), {
+    form.put(route("reunion-types.update", form.id), {
       // forceFormData: true,
       preserveScroll: true,
       onSuccess: () => {
@@ -228,7 +228,7 @@ const submit = () => {
       },
     });
   } else {
-    form.post(route("depense-types.store"), {
+    form.post(route("reunion-types.store"), {
       forceFormData: true,
       preserveScroll: true,
       onSuccess: () => {

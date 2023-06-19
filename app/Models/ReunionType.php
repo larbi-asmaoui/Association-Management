@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Stock extends Model
+class ReunionType extends Model
 {
     use HasFactory;
 
@@ -16,8 +16,8 @@ class Stock extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function stock_type(): BelongsTo
+    public function reunions(): HasMany
     {
-        return $this->belongsTo(StockType::class, 'stock_type_id');
+        return $this->hasMany(Reunion::class);
     }
 }

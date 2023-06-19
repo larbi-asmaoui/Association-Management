@@ -26,18 +26,7 @@
     </div>
     <div
       class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
-    >
-      <div class="px-2 flex items-center mb-4 sm:mb-0">
-        <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
-          <input
-            type="text"
-            v-model="search"
-            class="bg-slate-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-700 :border-gray-600 :placeholder-gray-400 :text-white :focus:ring-blue-500 :focus:border-blue-500"
-            placeholder="rechercher groupes..."
-          />
-        </div>
-      </div>
-    </div>
+    ></div>
 
     <teleport to="body">
       <Modal size="xl" v-if="isModalOpen" @close="closeModal">
@@ -137,6 +126,9 @@
           :pagination-options="{
             enabled: true,
           }"
+          :search-options="{
+            enabled: true,
+          }"
         >
           <template v-slot:table-row="{ row, column, formattedRow }">
             <div
@@ -216,6 +208,28 @@ import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import { useForm } from "@inertiajs/vue3";
 
+const props = defineProps({
+  groupes: {
+    type: Object,
+    default: () => ({}),
+  },
+  adherents: {
+    type: Object,
+    default: () => ({}),
+  },
+});
+
+const $toast = useToast();
+
+let selectedAdherents = ref([]);
+
+const form = useForm({
+  id: null,
+  name: null,
+  description: null,
+  adherents: [],
+});
+
 const columns = ref([
   {
     label: "#",
@@ -245,20 +259,9 @@ const rows = computed(() =>
     name: groupe.name,
     description: groupe.description ?? "-",
     nombre_de_membres: groupe.adherents_count,
-    adherents: props.adherents,
+    adherents: groupe.adherents,
   }))
 );
-
-const $toast = useToast();
-
-let selectedAdherents = ref([]);
-
-const form = useForm({
-  id: null,
-  name: null,
-  description: null,
-  adherents: [],
-});
 
 const submit = () => {
   if (form.id) {
@@ -338,16 +341,12 @@ const openEditModal = (groupe) => {
   isModalOpen.value = true;
 };
 
-const props = defineProps({
-  groupes: {
-    type: Object,
-    default: () => ({}),
-  },
-  adherents: {
-    type: Object,
-    default: () => ({}),
-  },
-});
+const formattedAdherents = computed(() =>
+  Object.values(props.adherents).map((adherent) => ({
+    value: adherent.id,
+    label: adherent.last_name + " " + adherent.first_name,
+  }))
+);
 </script>
 
 <style src="@vueform/multiselect/themes/default.css">

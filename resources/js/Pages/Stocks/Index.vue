@@ -18,7 +18,7 @@
     </svg>
   </button>
 
-  <div class="bg-white py-6 shadow-md rounded-xl relative mt-5">
+  <div class="bg-white pt-6 shadow-md rounded-md relative mt-5">
     <div
       class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
     >
@@ -29,15 +29,8 @@
     <div
       class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
     >
-      <div class="px-2 w-full flex justify-between items-center mb-4 sm:mb-0">
-        <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
-          <input
-            type="text"
-            v-model="search"
-            class="bg-slate-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :text-white :focus:ring-blue-500 :focus:border-blue-500"
-            placeholder="rechercher..."
-          />
-        </div>
+      <div class="px-2 w-full flex justify-between items-center sm:mb-0">
+        <div class="relative w-48 mt-1 sm:w-64 xl:w-96"></div>
         <div>
           <button
             @click="
@@ -83,7 +76,6 @@
         </div>
       </div>
     </div>
-
     <teleport to="body">
       <Modal size="4xl" v-if="isModalOpen" @close="closeModal">
         <template #header>
@@ -242,170 +234,66 @@
         </template>
       </Modal>
     </teleport>
-
     <div class="mt-4">
-      <div class="overflow-hidden bg-white">
-        <div class="bg-white">
-          <div class="relative overflow-x-auto mb-5">
-            <table class="w-full text-sm text-left text-gray-500">
-              <thead class="bg-gray-100">
-                <tr>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    titre
-                  </th>
-                  <!-- <th
-                                        scope="col"
-                                        class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
-                                        Type
-                                    </th> -->
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Quantité
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Prix unitaire (DH)
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Prix Total (DH)
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Date d'achat
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
-                <tr v-for="stock in stocks.data" :key="stock.id">
-                  <td
-                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
-                  >
-                    {{ stock.name }}
-                  </td>
-                  <!-- <td
-                                        class=" px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
-                                    >
-                                        {{ stock.stock_type.name }}
-                                    </td> -->
+      <!-- vue table -->
+      <vue-good-table
+        :columns="columns"
+        :rows="rows"
+        :pagination-options="{
+          enabled: true,
+        }"
+      >
+        <template v-slot:table-row="{ row, column, formattedRow }">
+          <div
+            v-if="column.field === 'actions'"
+            class="flex justify-center items-center"
+          >
+            <div
+              @click="openEditModal(row)"
+              class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                ></path>
+              </svg>
+            </div>
 
-                  <td
-                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
-                  >
-                    {{ stock.quantity }}
-                  </td>
+            <!-- Delete -->
 
-                  <td
-                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
-                  >
-                    {{ stock.price_per_unit }}
-                  </td>
-                  <td
-                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
-                  >
-                    {{ stock.price_per_unit * stock.quantity }}
-                  </td>
-                  <td
-                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
-                  >
-                    {{ stock.purchase_date }}
-                  </td>
-                  <td
-                    class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap"
-                  >
-                    <div class="flex item-center justify-center">
-                      <!-- Eye -->
-                      <!-- <div
-                                                @click="show(stock.id)"
-                                                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                                    ></path>
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                                    ></path>
-                                                </svg>
-                                            </div> -->
-
-                      <!-- Edit -->
-                      <div
-                        @click="openEditModal(stock)"
-                        class="cursor-pointer w-4 mr-2 transform hover:text-yellow-200 hover:scale-110"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                          ></path>
-                        </svg>
-                      </div>
-
-                      <!-- Delete -->
-                      <div
-                        @click="destroy(stock.id)"
-                        class="cursor-pointer w-4 mr-2 transform hover:text-red-500 hover:scale-110"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                          ></path>
-                        </svg>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div
+              @click="destroy(row)"
+              class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                ></path>
+              </svg>
+            </div>
           </div>
-          <Pagination :data="stocks" />
-        </div>
-      </div>
+          <div v-else>
+            {{ formattedRow[column.field] }}
+          </div>
+        </template>
+      </vue-good-table>
+      <!-- vue table -->
     </div>
   </div>
 </template>
@@ -419,7 +307,9 @@ export default {
 </script>
 
 <script setup>
-import { ref, watch } from "vue";
+import { VueGoodTable } from "vue-good-table-next";
+import "vue-good-table-next/dist/vue-good-table-next.css";
+import { ref, watch, computed } from "vue";
 import { useForm, router } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
 import Pagination from "../../Components/Pagination.vue";
@@ -437,6 +327,49 @@ const form = useForm({
   purchase_date: null,
   stock_type_id: null,
 });
+
+const columns = ref([
+  {
+    label: "#",
+    field: "id",
+  },
+  {
+    label: "Titre",
+    field: "name",
+  },
+  {
+    label: "Quantité",
+    field: "quantity",
+  },
+  {
+    label: "Prix Unitaire (DH)",
+    field: "price_per_unit",
+  },
+  {
+    label: "Prix Total (DH)",
+    field: "total_price",
+  },
+
+  {
+    label: "Date d'ajout",
+    field: "purchase_date",
+  },
+  {
+    label: "Actions",
+    field: "actions",
+  },
+]);
+const rows = computed(() =>
+  Object.values(props.stocks).map((stock) => ({
+    id: stock.id,
+    name: stock.name,
+    quantity: stock.quantity,
+    price_per_unit: stock.price_per_unit,
+    total_price: stock.price_per_unit * stock.quantity,
+    purchase_date: stock.purchase_date,
+    stock_type_id: stock.stock_type_id,
+  }))
+);
 
 let isModalOpen = ref(false);
 
@@ -530,26 +463,8 @@ const submit = () => {
       },
       onError: () => {
         console.log(form);
-        // $toast.open({
-        //     message: "Erreur lors de l'ajout",
-        //     type: "error",
-        //     duration: 3000,
-        //     dismissible: true,
-        // });
       },
     });
   }
 };
-
-let search = ref("");
-watch(search, (value) => {
-  router.get(
-    "/stocks",
-    { search: value },
-    {
-      preserveState: true,
-      replace: true,
-    }
-  );
-});
 </script>

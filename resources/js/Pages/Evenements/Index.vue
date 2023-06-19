@@ -488,7 +488,7 @@ const formattedAdherents = computed(() =>
   }))
 );
 
-let selectedadherents = ref([]);
+let selectedAdherents = ref([]);
 
 const dropdownOpen = ref(false);
 
@@ -543,7 +543,7 @@ const form = useForm({
 });
 
 const submit = () => {
-  //   form.adherents = selectedadherents.value;
+  //   form.adherents = selectedAdherents.value;
   form.post(route("evenements.store"), {
     onError: () => {
       $toast.open({
@@ -577,7 +577,7 @@ const toggleDropdown = () => {
 const closeModal = () => {
   isModalOpen.value = false;
   form.reset();
-  selectedadherents.value = [];
+  selectedAdherents.value = [];
 };
 
 const destroy = (id) => {

@@ -1,6 +1,4 @@
 <template>
-  {{ startDate }}
-
   <Modal :size="md" v-if="isShowModal" @close="closeModal">
     <template #header>
       <div class="flex items-center text-lg">{{ modalTitle }}</div>
@@ -75,113 +73,156 @@
   </Modal>
 
   <div class="px-2 pt-2">
-    <ul
-      class="max-w-md bg-white rounded-lg p-4 divide-y divide-gray-200 dark:divide-gray-700"
+    <div
+      class="grid grid-cols-1 px-3 pt-2 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900"
     >
-      <li class="pb-3 sm:pb-4">
-        <div class="flex items-center space-x-4">
-          <div class="flex-1 min-w-0">
-            <p
-              class="text-sm font-medium text-gray-900 truncate dark:text-white"
-            >
-              Rapport financier
-            </p>
-          </div>
-          <div
-            class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
-          >
-            <button
-              @click="showModal('Rapport financier')"
-              class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-chevron-right"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                stroke-width="2"
-                stroke="currentColor"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+      <div class="col-span-full xl:col-auto mb-4">
+        <ul
+          class="rounded-lg p-4 bg-white divide-y divide-gray-200 dark:divide-gray-700"
+        >
+          <li class="pb-3 sm:pb-4">
+            <div class="flex items-center justify-between space-x-4">
+              <div class="min-w-0">
+                <p
+                  class="text-sm font-medium text-gray-900 truncate dark:text-white"
+                >
+                  Rapport financier
+                </p>
+              </div>
+              <div
+                class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
               >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path d="M9 6l6 6l-6 6"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </li>
+                <button
+                  @click="showModal('Rapport financier')"
+                  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-tabler icon-tabler-chevron-right"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M9 6l6 6l-6 6"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </li>
 
-      <li class="py-3 sm:py-4">
-        <div class="flex items-center space-x-4">
-          <div class="flex-1 min-w-0">
-            <p
-              class="text-sm font-medium text-gray-900 truncate dark:text-white"
-            >
-              Rapport littéraire
-            </p>
-          </div>
-          <div
-            class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
-          >
-            <button
-              @click="showModal('Rapport littéraire')"
-              class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-chevron-right"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                stroke-width="2"
-                stroke="currentColor"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+          <li class="py-3 sm:py-4">
+            <div class="flex items-center space-x-4">
+              <div class="flex-1 min-w-0">
+                <p
+                  class="text-sm font-medium text-gray-900 truncate dark:text-white"
+                >
+                  Rapport littéraire
+                </p>
+              </div>
+              <div
+                class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
               >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path d="M9 6l6 6l-6 6"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </li>
-    </ul>
+                <button
+                  @click="showModal('Rapport littéraire')"
+                  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-tabler icon-tabler-chevron-right"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M9 6l6 6l-6 6"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div
+        class="col-span-2 bg-white p-4 border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 max-h-96 overflow-y-auto"
+      >
+        <h2 class="uppercase tet-gray-600 mb-4 italic">Rapports :</h2>
+        <ul
+          v-for="rapport in rapports"
+          :key="rapport.id"
+          class="rounded-lg divide-y divide-gray-200 dark:divide-gray-700"
+        >
+          <li class="pb-1 sm:pb-1">
+            <div class="flex items-center justify-between space-x-4">
+              <div class="min-w-0">
+                <p
+                  class="text-sm font-medium text-gray-900 truncate dark:text-white"
+                >
+                  {{ rapport.title }}
+                </p>
+              </div>
+              <div class="min-w-0">
+                <p
+                  class="text-sm font-medium text-gray-900 truncate dark:text-white"
+                >
+                  {{ rapport.created_at }}
+                </p>
+              </div>
+              <div
+                class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
+              >
+                <a
+                  target="_blank"
+                  :href="/storage/ + rapport.file_path"
+                  class="inline-flex items-center p-2 text-sm text-center text-blue-700 focus:outline-none"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-tabler icon-tabler-chevron-right"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                    <path
+                      d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"
+                    ></path>
+                    <path d="M12 17v-6"></path>
+                    <path d="M9.5 14.5l2.5 2.5l2.5 -2.5"></path>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
-  <div>
-    <!-- :pagination-options="{
-    enabled: true,
-    nextLabel: 'next',
-    prevLabel: 'prev',
-    rowsPerPageLabel: 'Rows per page',
-    ofLabel: 'of',
-    pageLabel: 'page', // for 'pages' mode
-    allLabel: 'All',
-  }"> -->
-    <vue-good-table
-      :columns="columns"
-      :rows="rows"
-      :pagination-options="{
-        enabled: true,
-      }"
-    >
-      <template v-slot:table-row="{ row, column, formattedRow }">
-        <span v-if="column.field === 'actions'">
-          <button @click="editRow(row)">Edit</button>
-          <button @click="deleteRow(row)">Delete</button>
-        </span>
-        <span v-else>
-          {{ formattedRow[column.field] }}
-        </span>
-      </template>
-    </vue-good-table>
-  </div>
-  <Link :href="route('e-documents.rapport_litteraire')">
+  <a
+    class="inline-flex mt-6 items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    :href="route('e-documents.rapport_litteraire')"
+    target="_blank"
+    rel="noreferrer"
+  >
     Generer rapport litteraire
-  </Link>
+  </a>
 </template>
 
 <script setup>
@@ -208,6 +249,10 @@ const showModal = (title) => {
 
 const props = defineProps({
   evenements: {
+    type: Object,
+    default: () => ({}),
+  },
+  rapports: {
     type: Object,
     default: () => ({}),
   },
@@ -274,88 +319,8 @@ const generateRapportLitteraire = () => {
 import MainLayout from "@/Layouts/MainLayout.vue";
 export default {
   layout: MainLayout,
-  methods: {
-    editRow(row) {
-      // Handle the edit action
-    },
-    deleteRow(row) {
-      // Handle the delete action
-    },
-  },
-  data() {
-    return {
-      columns: [
-        {
-          label: "Name",
-          field: "name",
-        },
-        {
-          label: "Age",
-          field: "age",
-          type: "number",
-        },
-        {
-          label: "Created On",
-          field: "createdAt",
-          type: "date",
-          dateInputFormat: "yyyy-MM-dd",
-          dateOutputFormat: "MMM do yy",
-        },
-        {
-          label: "Percent",
-          field: "score",
-          type: "percentage",
-        },
-        {
-          label: "Actions",
-          field: "actions",
-        },
-      ],
-      rows: [
-        {
-          id: 1,
-          name: "John",
-          age: 20,
-          createdAt: "2011-10-31",
-          score: 0.03343,
-        },
-        {
-          id: 2,
-          name: "Jane",
-          age: 24,
-          createdAt: "2011-10-31",
-          score: 0.03343,
-        },
-        {
-          id: 3,
-          name: "Susan",
-          age: 16,
-          createdAt: "2011-10-30",
-          score: 0.03343,
-        },
-        {
-          id: 4,
-          name: "Chris",
-          age: 55,
-          createdAt: "2011-10-11",
-          score: 0.03343,
-        },
-        {
-          id: 5,
-          name: "Dan",
-          age: 40,
-          createdAt: "2011-10-21",
-          score: 0.03343,
-        },
-        {
-          id: 6,
-          name: "John",
-          age: 20,
-          createdAt: "2011-10-31",
-          score: 0.03343,
-        },
-      ],
-    };
-  },
 };
 </script>
+
+
+
