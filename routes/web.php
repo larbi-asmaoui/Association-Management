@@ -17,6 +17,7 @@ use App\Http\Controllers\StockTypeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StatutController;
 use \App\Http\Controllers\AssociationController;
+use \App\Http\Controllers\ReunionTypeController;
 
 /*
 |------------------------------------------------------------------------
@@ -61,6 +62,7 @@ Route::middleware([
         Route::resource('revenues', RevenueController::class);
         Route::resource('depenses', DepenseController::class);
         Route::resource('depense-types', DepenseTypeController::class);
+        Route::resource('reunion-types', ReunionTypeController::class);
         Route::resource('revenue-types', RevenueTypeController::class);
         Route::resource('cotisation-types', CotisationTypeController::class);
         Route::resource('stock-types', StockTypeController::class);

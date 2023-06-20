@@ -5,12 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Rapport litteraire</title>
     <style>
-        * {
-            font-family: DejaVu Sans, sans-serif;
-        }
-
-
-
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
@@ -45,9 +39,9 @@
     <div>
         <h1>{{ $association[0]->name }}</h1>
         <h2>التقرير الأدبي للجمعية</h2>
-        <p>لقد قطعت {{ $association[0]->name }} أشواطا مهمة خلال مدة وجيزة وقصيرة لا تتعدى سنة واحدة من عمر
+        <p>لقد قطعت {{ $association[0]->name ?? 'null' }} أشواطا مهمة خلال مدة وجيزة وقصيرة لا تتعدى سنة واحدة من عمر
             هذه الجمعية، فقد تأسست جمعيتنا تحت اسم: الجمعية النسوية لتربية النحل بتاريخ
-            {{ $association[0]->created_at }}،
+            {{ date_format($association[0]->created_at, 'Y/m/d') }}،
             ومنذ ذلك التاريخ وهي
             تحاول تحقيق الأهداف المتوخاة والمسطرة في القانون الأساسي للجمعية، فطبقا للمادة السابعة من القانون الأساسي
             للجمعية فإنها تعقد جمعا سنويا لتقييم نشاطها ووضع برنامج للسنة التالية، وهكذا قامت الجمعية بمجموعة من الأنشطة

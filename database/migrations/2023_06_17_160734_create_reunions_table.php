@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('reunion_type_id')->constrained()->onDelete('cascade');
-            $table->string('reference');
+            $table->string('name');
+            $table->string('description')->nullable();
             $table->date('date');
             $table->timestamps();
         });

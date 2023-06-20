@@ -7,11 +7,12 @@ export default {
 </script>
 
 <template>
+  {{ renionType }}
   <div
     class="mb-4 bg-white px-4 py-4 rounded-md shadow-md justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
   >
     <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-      Type de dépense
+      Type de réunion
     </h1>
     <button
       @click="isModalOpen = true"
@@ -26,11 +27,7 @@ export default {
     <Modal size="md" v-if="isModalOpen" @close="closeModal">
       <template #header>
         <div class="flex items-center text-lg">
-          {{
-            form.id
-              ? "Mettre à jour un type de dépense"
-              : "Ajouter un type de dépense"
-          }}
+          {{ form.id ? "Mettre à jour un réunion" : "Ajouter un réunion" }}
         </div>
       </template>
       <template #body>
@@ -178,7 +175,7 @@ const destroy = (id) => {
     form.delete(route("reunion-types.destroy", id), {
       onSuccess: () => {
         $toast.open({
-          message: "Type de reunion supprimé avec succès",
+          message: "Type de réunion supprimé avec succès",
           type: "success",
           duration: 3000,
           dismissible: true,
@@ -210,7 +207,7 @@ const submit = () => {
       onSuccess: () => {
         closeModal();
         $toast.open({
-          message: "Type de dépense mis à jour avec succès",
+          message: "réunion mis à jour avec succès",
           type: "success",
           duration: 3000,
           dismissible: true,
@@ -234,7 +231,7 @@ const submit = () => {
       onSuccess: () => {
         closeModal();
         $toast.open({
-          message: "Type de dépense ajouté avec succès",
+          message: "réunion ajouté avec succès",
           type: "success",
           duration: 3000,
           dismissible: true,

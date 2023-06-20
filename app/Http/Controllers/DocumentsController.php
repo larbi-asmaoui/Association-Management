@@ -24,7 +24,7 @@ class DocumentsController extends Controller
         $startYear = $yearParts[0];
         $endYear = isset($yearParts[1]) ? $yearParts[1] : null;
         $userId = auth()->id();
-        $rapports = Rapport::all();
+        $rapports = Rapport::where('user_id', $userId)->get();
 
         $evenements = Evenement::where('user_id', $userId)->with('evenement_type')
             ->get();
@@ -82,13 +82,10 @@ class DocumentsController extends Controller
     public function  generateRapportLitterairePdf()
     {
 
-        // $year = $request->get('year');
-        // $yearParts = explode('/', $year);
-        // $startYear = $yearParts[0];
-        // $endYear = isset($yearParts[1]) ? $yearParts[1] : null;
-
-        $lastRapport = Rapport::latest()->first();
-
+        $userId = auth()->id();
+        $lastRapport = Rapport::where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->first();
         if ($lastRapport) {
             // Extract the increment part and increment it
             // $lastIncrementPart = intval(explode('-', $lastRapport->reference)[1]);
@@ -104,7 +101,6 @@ class DocumentsController extends Controller
         $nextYear = intval($currentYear) + 1;
         $newReference = "$currentYear-$nextYear-$newIncrementPart";
 
-        $userId = auth()->id();
         $evenements = Evenement::where('user_id', $userId)->with('evenement_type')
             ->get();
         $association = Association::where('user_id', $userId)->get();
@@ -123,13 +119,12 @@ class DocumentsController extends Controller
         $filePath = $directoryPath . $fileName;
         // Save the PDF to a file
         Storage::disk('public')->put($filePath, $mpdf->output());
-
         // Save the Rapport
         Rapport::create([
+            'user_id' => $userId,
             'file_path' => $filePath,
             'title' => $newReference,
         ]);
-
         return response()->streamDownload(function () use ($mpdf) {
             echo $mpdf->output();
         }, $fileName, ['Content-Type' => 'application/pdf']);

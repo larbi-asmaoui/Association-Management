@@ -28,6 +28,8 @@ class User extends Authenticatable
     {
         static::created(function ($user) {
             $user->association()->create();
+            ReunionType::create(['name' => 'Normal', 'user_id' => $user->id]);
+            ReunionType::create(['name' => 'Urgent', 'user_id' => $user->id]);
         });
     }
 
@@ -141,6 +143,11 @@ class User extends Authenticatable
     public function reunions(): HasMany
     {
         return $this->hasMany(Reunion::class);
+    }
+
+    public function rapports(): HasMany
+    {
+        return $this->hasMany(Rapport::class);
     }
 
     public function reunionTypes(): HasMany

@@ -129,9 +129,9 @@
             <li>
               <Link
                 :class="[
-                  $page.url === '/groupes' ? activeClass : inactiveClass,
+                  $page.url === '/reunions' ? activeClass : inactiveClass,
                 ]"
-                :href="route('groupes.index')"
+                :href="route('reunions.index')"
               >
                 <svg
                   aria-hidden="true"
