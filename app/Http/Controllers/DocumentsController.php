@@ -77,15 +77,20 @@ class DocumentsController extends Controller
                         'totalDepense' => $groupedEvents->sum('depense'),
                     ];
                 });
+            $totalRevenue = $evenements->sum('revenue');
+            $totalDepense = $evenements->sum('depense');
+            $totalBenefice = $totalRevenue - $totalDepense;
+        } else {
+            $totalRevenue = 0;
+            $totalDepense = 0;
+            $totalBenefice = 0;
         }
 
         // dd($evenements);
 
 
 
-        $totalRevenue = $evenements->sum('revenue');
-        $totalDepense = $evenements->sum('depense');
-        $totalBenefice = $totalRevenue - $totalDepense;
+
 
         // dd($depenses);
         return Inertia::render('Documents/Index', [
@@ -233,33 +238,29 @@ class DocumentsController extends Controller
                 ->where('revenue_date', '>=', $previousReunion->date)
                 ->get();
         }
+        $evenements = $evenements->groupBy('evenement_type.name')
+            ->map(function ($groupedEvents) {
+                return [
+                    'totalRevenue' => $groupedEvents->sum('revenue'),
+                    'totalDepense' => $groupedEvents->sum('depense'),
+                ];
+            });
 
-        if ($evenements->count() > 0) {
-            $evenements = $evenements->groupBy('evenement_type.name')
-                ->map(function ($groupedEvents) {
-                    return [
-                        'totalRevenue' => $groupedEvents->sum('revenue'),
-                        'totalDepense' => $groupedEvents->sum('depense'),
-                    ];
-                });
-        }
-        if ($depenses->count() > 0) {
-            $depenses = $depenses->groupBy('depense_type.name')
-                ->map(function ($groupedDepenses) {
-                    return [
-                        'total' => $groupedDepenses->sum('montant'),
-                    ];
-                });
-        }
-        if ($revenues->count() > 0) {
+        $depenses = $depenses->groupBy('depense_type.name')
+            ->map(function ($groupedDepenses) {
+                return [
+                    'total' => $groupedDepenses->sum('montant'),
+                ];
+            });
 
-            $revenues = $revenues->groupBy('revenue_type.name')
-                ->map(function ($groupedRevenues) {
-                    return [
-                        'total' => $groupedRevenues->sum('montant'),
-                    ];
-                });
-        }
+
+        $revenues = $revenues->groupBy('revenue_type.name')
+            ->map(function ($groupedRevenues) {
+                return [
+                    'total' => $groupedRevenues->sum('montant'),
+                ];
+            });
+
 
         $data = [
             'revenues' => $revenues,

@@ -35,12 +35,7 @@
         }
 
         .signature {
-            margin: auto;
-            text-align: center
-        }
-
-        .signature p {
-            margin-top: 80px;
+            width: 100%;
         }
     </style>
 </head>
@@ -81,11 +76,12 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="signature">
-            <p>إمضاء الرئيس</p>
-            <p></p>
-            <p>إمضاء الكاتب</p>
+        <div style="width: 80%; margin:auto;margin-top:40px;">
+            <p align="left" style="width: 50%;float: left;">إمضاء الرئيس</p>
+            <p align="left" style="width: 50%;float: left;">إمضاء الكاتب</p>
         </div>
+
+
     </div>
 </body>
 
