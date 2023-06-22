@@ -4095,7 +4095,7 @@ vue-toast-notification@^3.1.1:
   resolved "https://registry.npmjs.org/vue-toast-notification/-/vue-toast-notification-3.1.1.tgz"
   integrity sha512-DXEE38NxXFCNinKI+MyZBMWsaqE9Lwxg9GkMVkzKXY1ACCeNztBXuUiSvKMe36dnnYd1qnlP+cWNSvHlkt5xNA==
 
-vue@*, vue@^2.0.0, vue@^2.2.0, vue@^3.0, vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.0-0 || ^2.7.0", vue@^3.0.11, vue@^3.2, vue@^3.2.0, vue@^3.2.25, vue@^3.2.31, vue@^3.2.41, "vue@> 3.0.0", "vue@>=3 < 4", vue@3.2.47:
+vue@*, vue@^2.0.0, vue@^2.2.0, vue@^3.0, vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.0-0 || ^2.7.0", vue@^3.0.11, vue@^3.2, vue@^3.2.0, vue@^3.2.25, vue@^3.2.31, vue@^3.2.41, vue@^3.2.45, "vue@> 3.0.0", "vue@>=3 < 4", vue@3.2.47:
   version "3.2.47"
   resolved "https://registry.npmjs.org/vue/-/vue-3.2.47.tgz"
   integrity sha512-60188y/9Dc9WVrAZeUVSDxRQOZ+z+y5nO2ts9jWXSTkMvayiWxCWOWtBQoYjLeccfXkiiPZWAHcV+WTPhkqJHQ==
@@ -4118,6 +4118,13 @@ vue3-apexcharts@^1.4.1:
   version "1.4.1"
   resolved "https://registry.npmjs.org/vue3-apexcharts/-/vue3-apexcharts-1.4.1.tgz"
   integrity sha512-96qP8JDqB9vwU7bkG5nVU+E0UGQn7yYQVqUUCLQMYWDuQyu2vE77H/UFZ1yI+hwzlSTBKT9BqnNG8JsFegB3eg==
+
+vue3-easy-data-table@^1.5.45:
+  version "1.5.45"
+  resolved "https://registry.npmjs.org/vue3-easy-data-table/-/vue3-easy-data-table-1.5.45.tgz"
+  integrity sha512-zpMhHATicyEgWuICmkY/5e1WmbALLkmCeEAR40pY2GyTFURuYd8TNH6ZiFlhCSF9CBZP0Cgyqy9EeBvfs/9C9w==
+  dependencies:
+    vue "^3.2.45"
 
 vuejs-datatable@^2.0.0-alpha.7:
   version "2.0.0-alpha.7"

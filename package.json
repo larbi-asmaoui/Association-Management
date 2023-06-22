@@ -55,6 +55,7 @@
         "vue-sonner": "^0.3.2",
         "vue-toast-notification": "^3.1.1",
         "vue3-apexcharts": "^1.4.1",
+        "vue3-easy-data-table": "^1.5.45",
         "vuejs-datatable": "^2.0.0-alpha.7"
     }
 }

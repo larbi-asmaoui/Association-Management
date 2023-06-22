@@ -169,7 +169,6 @@ import "vue-good-table-next/dist/vue-good-table-next.css";
 import { ref, watch, computed } from "vue";
 import { useForm, router, usePage } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
-import Pagination from "../../Components/Pagination.vue";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 
@@ -365,15 +364,4 @@ const submit = () => {
     }
 };
 
-let search = ref("");
-watch(search, (value) => {
-    router.get(
-        "/depenses",
-        { search: value },
-        {
-            preserveState: true,
-            replace: true,
-        }
-    );
-});
 </script>
