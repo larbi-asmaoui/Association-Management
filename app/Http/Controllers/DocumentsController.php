@@ -69,13 +69,15 @@ class DocumentsController extends Controller
         }
 
         // create a associative array that contains the total revenue and name of the event type
-        $evenements = $evenements->groupBy('evenement_type.name')
-            ->map(function ($groupedEvents) {
-                return [
-                    'totalRevenue' => $groupedEvents->sum('revenue'),
-                    'totalDepense' => $groupedEvents->sum('depense'),
-                ];
-            });
+        if ($evenements) {
+            $evenements = $evenements->groupBy('evenement_type.name')
+                ->map(function ($groupedEvents) {
+                    return [
+                        'totalRevenue' => $groupedEvents->sum('revenue'),
+                        'totalDepense' => $groupedEvents->sum('depense'),
+                    ];
+                });
+        }
 
         // dd($evenements);
 
@@ -232,28 +234,32 @@ class DocumentsController extends Controller
                 ->get();
         }
 
-        // create a associative array that contains the total revenue and name of the event type
-        $evenements = $evenements->groupBy('evenement_type.name')
-            ->map(function ($groupedEvents) {
-                return [
-                    'totalRevenue' => $groupedEvents->sum('revenue'),
-                    'totalDepense' => $groupedEvents->sum('depense'),
-                ];
-            });
+        if ($evenements->count() > 0) {
+            $evenements = $evenements->groupBy('evenement_type.name')
+                ->map(function ($groupedEvents) {
+                    return [
+                        'totalRevenue' => $groupedEvents->sum('revenue'),
+                        'totalDepense' => $groupedEvents->sum('depense'),
+                    ];
+                });
+        }
+        if ($depenses->count() > 0) {
+            $depenses = $depenses->groupBy('depense_type.name')
+                ->map(function ($groupedDepenses) {
+                    return [
+                        'total' => $groupedDepenses->sum('montant'),
+                    ];
+                });
+        }
+        if ($revenues->count() > 0) {
 
-        $depenses = $depenses->groupBy('depense_type.name')
-            ->map(function ($groupedDepenses) {
-                return [
-                    'total' => $groupedDepenses->sum('montant'),
-                ];
-            });
-
-        $revenues = $revenues->groupBy('revenue_type.name')
-            ->map(function ($groupedRevenues) {
-                return [
-                    'total' => $groupedRevenues->sum('montant'),
-                ];
-            });
+            $revenues = $revenues->groupBy('revenue_type.name')
+                ->map(function ($groupedRevenues) {
+                    return [
+                        'total' => $groupedRevenues->sum('montant'),
+                    ];
+                });
+        }
 
         $data = [
             'revenues' => $revenues,
