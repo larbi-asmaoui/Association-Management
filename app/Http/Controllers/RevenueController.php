@@ -21,19 +21,13 @@ class RevenueController extends Controller
         $userId = auth()->id();
         $revenueTypes = RevenueType::where('user_id', $userId)->get();
 
-        $revenuesQuery = Revenue::with('revenue_type')
-            ->where('user_id', $userId);
-        // ->when(\Illuminate\Support\Facades\Request::input('search'), function ($query, $search) {
-        //     $query->where('type', 'like', '%' . $search . '%');
-        // });
-
-        $revenues = $revenuesQuery->paginate(5)
-            ->appends(\Illuminate\Support\Facades\Request::all());
-
 
         return Inertia::render('Revenues/Index', [
             'revenueTypes' => $revenueTypes,
-            'revenues' => $revenues,
+            'revenues' => Revenue::query()
+                ->where('user_id', $userId)
+                ->with('revenue_type')
+                ->get()
             // 'filters' => Request::only(['search'])
         ]);
     }
