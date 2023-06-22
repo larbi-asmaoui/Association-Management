@@ -22,25 +22,36 @@
             background-color: #dddddd;
         }
 
-        h1 {
+        .name {
             text-align: center;
             margin-bottom: 20px;
+            font-size: 22px;
         }
 
-        h2 {
+        .title {
             font-size: 18px;
             text-align: center;
             margin-bottom: 30px;
+        }
+
+        .signature {
+            margin: auto;
+            text-align: center
+        }
+
+        .signature p {
+            margin-top: 80px;
         }
     </style>
 </head>
 
 <body style="font-family: DejaVu Sans; direction: rtl;">
     <div>
-        <h1>{{ $association[0]->name }}</h1>
-        <h2>التقرير الأدبي للجمعية</h2>
-        <p>لقد قطعت {{ $association[0]->name ?? 'null' }} أشواطا مهمة خلال مدة وجيزة وقصيرة لا تتعدى سنة واحدة من عمر
-            هذه الجمعية، فقد تأسست جمعيتنا تحت اسم: الجمعية النسوية لتربية النحل بتاريخ
+        <p class="name">{{ $association[0]->name }}</p>
+        <p class="title">التقرير الأدبي للجمعية</p>
+        <p>لقد قطعت {{ $association[0]->name ?? 'null' }} أشواطا مهمة خلال مدة وجيزة وقصيرة لا تتعدى
+            {{ $association[0]->created_at->diff(new DateTime())->y }} سنوات من عمر
+            هذه الجمعية، فقد تأسست جمعيتنا تحت اسم: {{ $association[0]->name ?? 'null' }} بتاريخ
             {{ date_format($association[0]->created_at, 'Y/m/d') }}،
             ومنذ ذلك التاريخ وهي
             تحاول تحقيق الأهداف المتوخاة والمسطرة في القانون الأساسي للجمعية، فطبقا للمادة السابعة من القانون الأساسي
@@ -51,11 +62,11 @@
         <table>
             <thead>
                 <tr>
-                    <th>Evenement</th>
-                    <th>Description</th>
-                    <th>type</th>
-                    <th>Date de debut</th>
-                    <th>Date de fin</th>
+                    <th>النشاط</th>
+                    <th>الوصف</th>
+                    {{-- <th>الصنف</th> --}}
+                    <th>تاريخ البدء</th>
+                    <th>تاريخ النهاية</th>
                 </tr>
             </thead>
             <tbody>
@@ -63,13 +74,18 @@
                     <tr>
                         <td>{{ $evenement['title'] }}</td>
                         <td>{{ $evenement['description'] }}</td>
-                        <td>{{ $evenement['evenement_type']['name'] }}</td>
+                        {{-- <td>{{ $evenement['evenement_type']['name'] }}</td> --}}
                         <td>{{ $evenement['start'] }}</td>
                         <td>{{ $evenement['end'] }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        <div class="signature">
+            <p>إمضاء الرئيس</p>
+            <p></p>
+            <p>إمضاء الكاتب</p>
+        </div>
     </div>
 </body>
 

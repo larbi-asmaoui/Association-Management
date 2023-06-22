@@ -231,10 +231,7 @@ const form = useForm({
 });
 
 const columns = ref([
-  {
-    label: "#",
-    field: "id",
-  },
+
   {
     label: "Groupe",
     field: "name",

@@ -18,6 +18,7 @@ class ReunionController extends Controller
             'reunionTypes' => $reunion_types,
             'reunions' => Reunion::query()
                 ->with('reunion_type')
+                ->orderBy('date', 'desc')
                 ->get(),
         ]);
     }

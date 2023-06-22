@@ -21,19 +21,13 @@ class DepenseController extends Controller
         $userId = auth()->id();
         $depenseTypes = DepenseType::where('user_id', $userId)->get();
 
-        $depensesQuery = Depense::with('depense_type')
-            ->where('user_id', $userId);
-        // ->when(\Illuminate\Support\Facades\Request::input('search'), function ($query, $search) {
-        //     $query->where('type', 'like', '%' . $search . '%');
-        // });
-
-        $depenses = $depensesQuery->paginate(5)
-            ->appends(\Illuminate\Support\Facades\Request::all());
-
 
         return Inertia::render('Depenses/Index', [
             'depenseTypes' => $depenseTypes,
-            'depenses' => $depenses,
+            'depenses' => Depense::query()
+                ->where('user_id', $userId)
+                ->with('depense_type')
+                ->get()
             // 'filters' => Request::only(['search'])
         ]);
     }

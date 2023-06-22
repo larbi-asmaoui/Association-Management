@@ -263,10 +263,6 @@ const form = useForm({
 
 const columns = ref([
   {
-    label: "#",
-    field: "id",
-  },
-  {
     label: "Réunion",
     field: "name",
   },

@@ -223,6 +223,7 @@
   >
     Generer rapport litteraire
   </a>
+  {{ evenements }}
 </template>
 
 <script setup>
@@ -253,6 +254,10 @@ const props = defineProps({
     default: () => ({}),
   },
   rapports: {
+    type: Object,
+    default: () => ({}),
+  },
+  latestReunion: {
     type: Object,
     default: () => ({}),
   },

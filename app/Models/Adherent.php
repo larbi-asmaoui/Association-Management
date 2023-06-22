@@ -52,4 +52,9 @@ class Adherent extends Model
     {
         return $this->belongsToMany(Evenement::class);
     }
+
+    public function abonnements(): HasMany
+    {
+        return $this->HasMany(Abonnement::class);
+    }
 }

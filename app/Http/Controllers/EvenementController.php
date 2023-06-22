@@ -18,14 +18,16 @@ class EvenementController extends Controller
     {
         $userId = auth()->id();
         $evenements = Evenement::paginate(10);
-        $lastEvenement = Evenement::latest()->first();
         $evenementTypes = EvenementType::where('user_id', $userId)->get();
         $adherents = Adherent::where('user_id', $userId)->get();
 
         return Inertia::render('Evenements/Index', [
-            'evenements' => $evenements,
+            'evenements' => Evenement::query()
+                ->where('user_id', $userId)
+                ->with('adherents')
+                ->with('evenement_type')
+                ->get(),
             'adherents' => $adherents,
-            'lastEvenement' => $lastEvenement,
             'evenementTypes' => $evenementTypes
             // 'filters' => Request::only(['search'])
         ]);

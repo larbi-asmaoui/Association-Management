@@ -16,6 +16,7 @@
             size="lg"
             :img="/storage/ + $page.props.auth.user.association.image"
           />
+
           <h2 class="text-md text-slate-400">
             {{ $page.props.auth.user.association.name }}
           </h2>
