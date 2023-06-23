@@ -43,6 +43,8 @@
         "moment": "^2.29.4",
         "npm": "^9.6.6",
         "pdfmake": "^0.2.7",
+        "pinia": "^2.1.4",
+        "pinia-plugin-persistedstate": "^3.1.0",
         "print-js": "^1.6.0",
         "v-viewer": "^1.6.4",
         "viewerjs": "^1.11.3",

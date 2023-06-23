@@ -81,7 +81,7 @@ class AdherentController extends Controller
             'adherent_id' => $adherent->id,
             'date_debut' => $adherent->date_of_membership,
             'date_fin' => (new Carbon($adherent->date_of_membership))->addYear(),
-            'montant' => 120,
+            'montant' => $request->montant,
         ]);
         return redirect()->back()->with('success', 'Adherent created.');
     }

@@ -481,6 +481,7 @@
                                     >Frais d'adhésion</label
                                 >
                                 <input
+                                    v-model="form.montant"
                                     type="number"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                                     placeholder="Frais d'adhésion (en DH)"
@@ -814,8 +815,12 @@
             </div>
         </div>
     </div>
-    {{ $page.props.auth.user.profile_photo_url }}
-    <!-- <ve-table :columns="columns" :table-data="tableData" /> -->
+    <!-- <div class="w-5 h-5">
+        <Cropper
+            src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80"
+            @change="change"
+        />
+    </div> -->
 </template>
 
 <script>
@@ -831,6 +836,8 @@ export default {
 <script setup>
 // import "vue-easytable/libs/theme-default/index.css";
 // import VueEasytable from "vue-easytable";
+import { Cropper } from "vue-advanced-cropper";
+import "vue-advanced-cropper/dist/style.css";
 import defaultImg from "../../../assets/image.jpeg";
 import { ref, nextTick, computed, onMounted } from "vue";
 import { watch } from "vue";
@@ -864,6 +871,10 @@ const props = defineProps({
         default: () => ({}),
     },
 });
+
+const change = ({ coordinates, canvas }) => {
+    console.log(coordinates, canvas);
+};
 
 const page = usePage();
 const exportToPDF = () => {
@@ -971,6 +982,7 @@ const form = useForm({
     city: null,
     tel: null,
     statut_id: null,
+    montant: null,
 });
 
 const showImage = () => {

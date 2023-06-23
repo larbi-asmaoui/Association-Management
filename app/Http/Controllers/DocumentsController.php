@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Abonnement;
 use App\Models\Association;
 use App\Models\Depense;
 use App\Models\Evenement;
@@ -32,10 +33,12 @@ class DocumentsController extends Controller
 
         $latestReunion = null;
         $depenses = null;
+        $frais_adhesions = 0;
         $reunionsCount = Reunion::where('user_id', $userId)->count();
         if ($reunionsCount == 0) {
             $evenements = [];
             $depenses = null;
+            $frais_adhesions = 0;
         } else if ($reunionsCount == 1) {
             $latestReunion = Reunion::whereHas('reunion_type', function ($query) {
                 $query->where('name', 'normal');
@@ -48,6 +51,9 @@ class DocumentsController extends Controller
                 ->where('depense_date', '<=', $latestReunion->date)
                 ->get();
             // ->sum('montant');
+            $frais_adhesions = Abonnement::where('user_id', $userId)
+                ->where('date_debut', '<=', $latestReunion->date)
+                ->sum('montant');
         } else {
             $reunions = Reunion::whereHas('reunion_type', function ($query) {
                 $query->where('name', 'normal');
@@ -66,6 +72,10 @@ class DocumentsController extends Controller
                 ->where('depense_date', '>=', $previousReunion->date)
                 ->get();
             // ->sum('montant');
+            $frais_adhesions = Abonnement::where('user_id', $userId)
+                ->where('date_debut', '<=', $newestReunion->date)
+                ->where('date_debut', '>=', $previousReunion->date)
+                ->sum('montant');
         }
 
         // create a associative array that contains the total revenue and name of the event type
@@ -101,6 +111,7 @@ class DocumentsController extends Controller
             'totalDepense' => $totalDepense,
             'totalBenefice' => $totalBenefice,
             'depenses' => $depenses,
+            'frais_adhesions' => $frais_adhesions,
         ]);
     }
 
@@ -291,169 +302,3 @@ class DocumentsController extends Controller
         }, $fileName, ['Content-Type' => 'application/pdf']);
     }
 }
-
-
-
-// <?php
-
-// namespace App\Http\Controllers;
-
-// use App\Models\{Association, Depense, Evenement, Rapport, Reunion};
-// use Illuminate\Http\Request;
-// use Barryvdh\DomPDF\Facade\Pdf;
-// use Illuminate\Support\Facades\Storage;
-// use Inertia\Inertia;
-// use Mpdf\Mpdf;
-
-// class DocumentsController extends Controller
-// {
-//     public function index(Request $request)
-//     {
-//         $year = $request->get('year');
-//         $yearParts = explode('/', $year);
-//         $userId = auth()->id();
-//         $rapports = Rapport::where('user_id', $userId)->get();
-
-//         [$evenements, $depenses, $latestReunion] = $this->getEventData($userId);
-
-//         $evenements = $this->mapEvents($evenements);
-
-//         $totalRevenue = $evenements->sum('revenue');
-//         $totalDepense = $evenements->sum('depense');
-//         $totalBenefice = $totalRevenue - $totalDepense;
-
-//         return Inertia::render('Documents/Index', [
-//             'evenements' => $evenements,
-//             'rapports' => $rapports,
-//             'latestReunion' => $latestReunion,
-//             'totalRevenue' => $totalRevenue,
-//             'totalDepense' => $totalDepense,
-//             'totalBenefice' => $totalBenefice,
-//             'depenses' => $depenses,
-//         ]);
-//     }
-
-//     private function getEventData($userId)
-//     {
-//         $reunionsCount = Reunion::where('user_id', $userId)->count();
-//         $latestReunion = null;
-//         $evenements = [];
-//         $depenses = null;
-
-//         if ($reunionsCount > 0) {
-//             $latestReunion = Reunion::whereHas('reunion_type', fn ($query) => $query->where('name', 'normal'))
-//                 ->orderBy('date', 'desc')
-//                 ->first();
-
-//             $evenements = Evenement::where('user_id', $userId)
-//                 ->where('start', '<=', $latestReunion->date)
-//                 ->with('evenement_type')
-//                 ->get();
-
-//             $depenses = Depense::where('user_id', $userId)
-//                 ->where('depense_date', '<=', $latestReunion->date)
-//                 ->get();
-//         }
-
-//         if ($reunionsCount > 1) {
-//             $reunions = Reunion::whereHas('reunion_type', fn ($query) => $query->where('name', 'normal'))
-//                 ->orderBy('date', 'desc')
-//                 ->take(2)
-//                 ->get();
-
-//             $newestReunion = $reunions->first();
-//             $previousReunion = $reunions->last();
-
-//             $evenements = Evenement::where('user_id', $userId)
-//                 ->whereBetween('start', [$previousReunion->date, $newestReunion->date])
-//                 ->with('evenement_type')
-//                 ->get();
-
-//             $depenses = Depense::where('user_id', $userId)
-//                 ->whereBetween('depense_date', [$previousReunion->date, $newestReunion->date])
-//                 ->get();
-//         }
-
-//         return [$evenements, $depenses, $latestReunion];
-//     }
-
-//     private function mapEvents($evenements)
-//     {
-//         return $evenements->groupBy('evenement_type.name')
-//             ->map(fn ($groupedEvents) => [
-//                 'totalRevenue' => $groupedEvents->sum('revenue'),
-//                 'totalDepense' => $groupedEvents->sum('depense'),
-//             ]);
-//     }
-
-//     public function generateRapportLitterairePdf()
-//     {
-//         $userId = auth()->id();
-//         $newReference = $this->getReference($userId);
-
-//         [$evenements,, $latestReunion] = $this->getEventData($userId);
-//         $association = Association::where('user_id', $userId)->get();
-
-//         $data = [
-//             'evenements' => $evenements,
-//             'association' => $association
-//         ];
-
-//         $filePath = $this->generatePdf($data, 'documents.rapport_litteraire', $newReference, 'littéraire');
-
-//         return $this->streamDownload($filePath, 'rapport_litteraire_' . $newReference . '.pdf');
-//     }
-
-//     public function generateRapportFinancierPdf()
-//     {
-//         $userId = auth()->id();
-//         $newReference = $this->getReference($userId);
-
-//         $data = [
-//             'evenements' => Evenement::where('user_id', $userId)->with('evenement_type')->get(),
-//             'association' => Association::where('user_id', $userId)->get()
-//         ];
-
-//         $filePath = $this->generatePdf($data, 'documents.rapport_financier', $newReference, 'financier');
-
-//         return $this->streamDownload($filePath, 'rapport_financier_' . $newReference . '.pdf');
-//     }
-
-//     private function getReference($userId)
-//     {
-//         $count = Rapport::where('user_id', $userId)->count();
-
-//         $newIncrementPart = $count ? $count + 1 : 1;
-
-//         $currentYear = date('Y');
-//         $nextYear = intval($currentYear) + 1;
-
-//         return "$currentYear-$nextYear-$newIncrementPart";
-//     }
-
-//     private function generatePdf($data, $viewName, $newReference, $title)
-//     {
-//         $mpdf = new mPDF();
-//         $html = view($viewName, $data)->render();
-//         $mpdf->WriteHTML($html);
-
-//         $filePath = 'documents/rapports/rapport_' . $title . '_' . $newReference . '.pdf';
-
-//         Rapport::create([
-//             'user_id' => auth()->id(),
-//             'file_path' => $filePath,
-//             'title' => $title . "-" . $newReference,
-//         ]);
-
-//         Storage::disk('public')->put($filePath, $mpdf->output());
-
-//         return $filePath;
-//     }
-
-//     private function streamDownload($filePath, $fileName)
-//     {
-//         return response()->streamDownload(function () use ($filePath) {
-//             echo Storage::disk('public')->get($filePath);
-//         }, $fileName, ['Content-Type' => 'application/pdf']);
-//     }
-// }
