@@ -46,6 +46,7 @@
         "print-js": "^1.6.0",
         "v-viewer": "^1.6.4",
         "viewerjs": "^1.11.3",
+        "vue-advanced-cropper": "^2.8.8",
         "vue-chartjs": "^5.2.0",
         "vue-easytable": "^2.27.1",
         "vue-filepond": "^7.0.3",
