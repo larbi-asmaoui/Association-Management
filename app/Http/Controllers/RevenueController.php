@@ -49,7 +49,6 @@ class RevenueController extends Controller
             'titre' => 'required',
             'montant' => 'required',
             'revenue_date' => 'required',
-            'reference_file' => 'required',
             'revenue_type_id' => 'required|exists:revenue_types,id',
         ]);
         if ($request->hasFile('reference_file')) {

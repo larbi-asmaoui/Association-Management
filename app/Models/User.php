@@ -12,6 +12,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Role;
 
 class User extends Authenticatable
 {
@@ -30,6 +31,8 @@ class User extends Authenticatable
             $user->association()->create();
             ReunionType::create(['name' => 'Normal', 'user_id' => $user->id]);
             ReunionType::create(['name' => 'Urgent', 'user_id' => $user->id]);
+            // Assign 'Admin' role to the new user
+            $user->assignRole('Admin');
         });
     }
 
@@ -75,9 +78,9 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function adherants(): HasMany
+    public function adherents(): HasMany
     {
-        return $this->hasMany(Adherant::class);
+        return $this->hasMany(Adherent::class);
     }
 
     public function groupes(): HasMany

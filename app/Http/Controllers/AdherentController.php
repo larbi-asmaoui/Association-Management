@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAdherentRequest;
 use App\Http\Requests\UpdateAdherentRequest;
+use App\Models\Abonnement;
 use App\Models\Adherent;
 use App\Models\Statut;
+use Carbon\Carbon;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request;
 
@@ -73,7 +75,14 @@ class AdherentController extends Controller
             $formFields['image']  = $request->file('image')->store('image', 'public');
         }
 
-        Adherent::create($formFields);
+        $adherent = Adherent::create($formFields);
+        $adherent->abonnements()->create([
+            'user_id' => auth()->id(),
+            'adherent_id' => $adherent->id,
+            'date_debut' => $adherent->date_of_membership,
+            'date_fin' => (new Carbon($adherent->date_of_membership))->addYear(),
+            'montant' => $request->montant,
+        ]);
         return redirect()->back()->with('success', 'Adherent created.');
     }
 
