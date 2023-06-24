@@ -15,6 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
+        // display users except current user and that have the same association
+        // $users = User::where('id', '!=', auth()->user()->id)->where('association_id', auth()->user()->association_id)->get();
         // display users except current user
         $users = User::where('id', '!=', auth()->user()->id)->get();
         $users->map(function ($user) {
@@ -101,6 +103,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        // Delete user
+        $user->delete();
+
+        // Return back with success message
+        return back()->with('success', 'User deleted successfully.');
     }
 }

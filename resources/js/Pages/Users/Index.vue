@@ -228,6 +228,7 @@ export default {
     </div>
 </template>
 <script setup>
+import { usePage } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
 import { ref } from "vue";
 import { watch } from "vue";
