@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StatutController;
 use \App\Http\Controllers\AssociationController;
 use \App\Http\Controllers\ReunionTypeController;
-use Illuminate\Http\Request;
+use \App\Http\Controllers\UserController;
 
 /*
 |------------------------------------------------------------------------
@@ -31,14 +31,6 @@ use Illuminate\Http\Request;
 |
 */
 
-//Route::get('/', function () {
-//    return Inertia::render('Welcome', [
-//        'canLogin' => Route::has('login'),
-//        'canRegister' => Route::has('register'),
-//        'laravelVersion' => Application::VERSION,
-//        'phpVersion' => PHP_VERSION,
-//    ]);
-//});
 
 
 Route::middleware([
@@ -47,15 +39,7 @@ Route::middleware([
     'verified',
 ])->group(
     function () {
-        // Route::get('/only-once', function (Request $request) {
-        //     if ($request->session()->has('visited')) {
-        //         abort(403, "You can't visit this page again.");
-        //     }
-
-        //     $request->session()->put('visited', true);
-
-        //     return "This is a one-time page visit. You will not be able to visit this page again.";
-        // });
+        Route::resource('users', UserController::class);
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/evenements/calendrier', [EvenementController::class, 'calender'])->name('evenements.calender');
