@@ -689,7 +689,7 @@
                                     <td
                                         class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                                     >
-                                        {{ adherent.statut.name }}
+                                        {{ "-" }}
                                     </td>
                                     <td
                                         class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -15,8 +16,15 @@ class UserController extends Controller
     public function index()
     {
         // display users except current user
-        // $users = User::where('id', '!=', auth()->user()->id)->get();
-        $users = User::all();
+        $users = User::where('id', '!=', auth()->user()->id)->get();
+        $users->map(function ($user) {
+            $role = DB::table('model_has_roles')->where('model_id', $user->id)->first();
+            if ($role    != null) {
+                $role_name = Role::find($role->role_id)->name;
+                $user->role = $role_name;
+            }
+            return $user;
+        });
         return Inertia::render('Users/Index', [
             'users' => $users,
             'roles' => Role::all(),
@@ -59,28 +67,33 @@ class UserController extends Controller
         return back()->with('success', 'User added successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, User $user)
     {
-        //
+        // Validate request
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'nullable',
+            'role' => 'required|exists:roles,name'
+        ]);
+
+        // Remove all assigned roles from the user
+        foreach ($user->roles as $role) {
+            $user->removeRole($role->name);
+        }
+
+        // Assign the new role to the user
+        $user->assignRole($request->role);
+
+        // Update user with request data
+        $user->update($request->only('name', 'email'));
+
+        // Return back with success message
+        return back()->with('success', 'User updated successfully.');
     }
 
     /**

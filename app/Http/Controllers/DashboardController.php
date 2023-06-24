@@ -34,7 +34,8 @@ class DashboardController extends Controller
         $startYear = $yearParts[0];
         $endYear = isset($yearParts[1]) ? $yearParts[1] : null;
 
-        $userId = auth()->id();
+        $userId = auth()->user()->association()->first()->id;
+        // dd($userId);
 
         $groupes_count = Groupe::where('user_id', $userId)->count();
         $adherents_count = Adherent::where('user_id', $userId)->count();

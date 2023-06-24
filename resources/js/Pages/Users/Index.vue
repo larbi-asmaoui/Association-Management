@@ -97,7 +97,7 @@ export default {
                             </label>
                             <input
                                 v-model="form.password"
-                                type="text"
+                                type="password"
                                 name="password"
                                 id="password"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
@@ -115,17 +115,26 @@ export default {
                     <div class="grid grid-cols-1 gap-4 lg:gap-6">
                         <div>
                             <label
-                                for="name"
-                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Role
-                            </label>
-                            <input
+                                for="role"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                >Role</label
+                            >
+                            <select
                                 v-model="form.role"
-                                type="text"
-                                name="role"
-                                id="role"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            />
+                                id="type"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            >
+                                <option disabled value="">
+                                    Séléctionner Role
+                                </option>
+                                <option
+                                    v-for="role in roles"
+                                    :key="role.id"
+                                    :value="role.name"
+                                >
+                                    {{ role.name }}
+                                </option>
+                            </select>
                             <span
                                 v-if="form.errors.role"
                                 class="text-xs text-red-600 mt-1"
@@ -167,6 +176,9 @@ export default {
                 <p class="font-normal text-gray-700 dark:text-gray-400">
                     Email: {{ user.email }}
                 </p>
+                <p class="font-normal text-gray-700 dark:text-gray-400">
+                    Role: {{ user.role }}
+                </p>
                 <div class="flex justify-end mt-5 items-end">
                     <button
                         @click="openEditModal(user)"
@@ -190,6 +202,7 @@ export default {
                         </span>
                     </button>
                     <button
+                        @click="destroy(user.id)"
                         class="text-slate-800 hover:text-white text-sm bg-white hover:bg-red-600 border border-slate-200 rounded-r-lg font-medium px-4 py-2 inline-flex space-x-1 items-center"
                     >
                         <span>
@@ -260,5 +273,68 @@ const openEditModal = (user) => {
     form.password = user.password;
     form.role = user.role;
     isModalOpen.value = true;
+};
+
+const destroy = (id) => {
+    if (confirm("vous êtes sûr?")) {
+        form.delete(route("users.destroy", id), {
+            onSuccess: () => {
+                $toast.open({
+                    message: "User est supprimé avec succès",
+                    type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+            onError: () => {
+                $toast.open({
+                    message: "Une erreur s'est produite",
+                    type: "error",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+        });
+    }
+};
+
+const submit = () => {
+    if (form.id) {
+        form.put(route("users.update", form.id), {
+            // forceFormData: true,
+            preserveScroll: true,
+            onSuccess: () => {
+                closeModal();
+                $toast.open({
+                    message: "Utilisateur mis à jour avec succès",
+                    type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+            onError: () => {
+                $toast.open({
+                    message: "Une erreur s'est produite lors de la mise à jour",
+                    type: "error",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+        });
+    } else {
+        form.post(route("users.store"), {
+            forceFormData: true,
+            preserveScroll: true,
+            onSuccess: () => {
+                closeModal();
+                $toast.open({
+                    message: "Utilisateur ajouté avec succès",
+                    type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+        });
+    }
 };
 </script>
