@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class EvenementType extends Model
+class ActivityType extends Model
 {
     use HasFactory;
 
 
 
-    public function evenements(): HasMany
+    public function activities(): HasMany
     {
-        return $this->hasMany(Evenement::class, 'evenement_type_id');
+        return $this->hasMany(Activity::class, 'activity_type_id');
     }
 
     public function getCreatedAtAttribute($value)

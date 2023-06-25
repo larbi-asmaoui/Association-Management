@@ -294,11 +294,11 @@
                         <li>
                             <Link
                                 :class="[
-                                    $page.url === '/evenements'
+                                    $page.url === '/activities'
                                         ? activeClass
                                         : inactiveClass,
                                 ]"
-                                :href="route('evenements.index')"
+                                :href="route('activities.index')"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -327,7 +327,7 @@
                                 </svg>
 
                                 <span class="flex-1 ml-3 whitespace-nowrap"
-                                    >Événements</span
+                                    >Activités</span
                                 >
                             </Link>
                         </li>

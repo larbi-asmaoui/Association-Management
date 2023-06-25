@@ -64,22 +64,22 @@ class DatabaseSeeder extends Seeder
             'name' => 'sécurité',
         ]);
 
-        \App\Models\EvenementType::create([
+        \App\Models\ActivityType::create([
 
             'name' => 'séminaire',
         ]);
 
-        \App\Models\EvenementType::create([
+        \App\Models\ActivityType::create([
 
             'name' => 'conférence',
         ]);
 
-        \App\Models\EvenementType::create([
+        \App\Models\ActivityType::create([
 
             'name' => 'formation',
         ]);
 
-        \App\Models\EvenementType::create([
+        \App\Models\ActivityType::create([
 
             'name' => 'autres',
         ]);

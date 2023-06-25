@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Evenement extends Model
+class Activity extends Model
 {
     use HasFactory;
 
@@ -17,9 +17,9 @@ class Evenement extends Model
         return Carbon::parse($value)->format('d/m/Y');
     }
 
-    public function evenement_type(): BelongsTo
+    public function activity_type(): BelongsTo
     {
-        return $this->belongsTo(EvenementType::class, 'evenement_type_id');
+        return $this->belongsTo(ActivityType::class, 'activity_type_id');
     }
 
 

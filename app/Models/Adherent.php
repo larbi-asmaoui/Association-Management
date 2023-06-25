@@ -45,9 +45,9 @@ class Adherent extends Model
         return $this->belongsToMany(Groupe::class);
     }
 
-    public function evenements(): BelongsToMany
+    public function activities(): BelongsToMany
     {
-        return $this->belongsToMany(Evenement::class);
+        return $this->belongsToMany(Activity::class);
     }
 
     public function abonnements(): HasMany

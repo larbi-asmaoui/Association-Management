@@ -5,7 +5,7 @@
         <h1
             class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
         >
-            Types d'évènements
+            Types d'activités
         </h1>
         <button
             @click="isModalOpen = true"
@@ -20,8 +20,8 @@
             <div class="flex items-center text-lg">
                 {{
                     form.id
-                        ? "Mettre à jour un type d'évènement"
-                        : "Ajouter un type d'évènement"
+                        ? "Mettre à jour un type d'activité"
+                        : "Ajouter un type d'activité"
                 }}
             </div>
         </template>
@@ -74,18 +74,18 @@
     </Modal>
     <div class="mt-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <the-card v-for="evenementType in evenementTypes">
+            <the-card v-for="activityType in activityTypes">
                 <h5
                     class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
                 >
-                    {{ evenementType.name }}
+                    {{ activityType.name }}
                 </h5>
                 <p class="font-normal text-gray-700 dark:text-gray-400">
-                    Date d'ajout {{ evenementType.created_at }}
+                    Date d'ajout {{ activityType.created_at }}
                 </p>
                 <div class="flex justify-end mt-5 items-end">
                     <button
-                        @click="openEditModal(evenementType)"
+                        @click="openEditModal(activityType)"
                         class="text-slate-800 hover:text-blue-600 text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-l-lg font-medium px-4 py-2 inline-flex space-x-1 items-center"
                     >
                         <span
@@ -106,7 +106,7 @@
                         </span>
                     </button>
                     <button
-                        @click="destroy(evenementType.id)"
+                        @click="destroy(activityType.id)"
                         class="text-slate-800 hover:text-white text-sm bg-white hover:bg-red-600 border border-slate-200 rounded-r-lg font-medium px-4 py-2 inline-flex space-x-1 items-center"
                     >
                         <span>
@@ -142,7 +142,7 @@ import "vue-toast-notification/dist/theme-sugar.css";
 const $toast = useToast();
 
 const props = defineProps({
-    evenementTypes: {
+    activityTypes: {
         type: Object,
         default: () => ({}),
     },
@@ -159,18 +159,18 @@ const closeModal = () => {
     form.reset();
 };
 
-const openEditModal = (evenementType) => {
-    form.id = evenementType.id;
-    form.name = evenementType.name;
+const openEditModal = (activityType) => {
+    form.id = activityType.id;
+    form.name = activityType.name;
     isModalOpen.value = true;
 };
 
 const destroy = (id) => {
     if (confirm("vous êtes sûr?")) {
-        form.delete(route("evenement-types.destroy", id), {
+        form.delete(route("activity-types.destroy", id), {
             onSuccess: () => {
                 $toast.open({
-                    message: "Type d'évènement supprimé avec succès",
+                    message: "Type d'activité supprimé avec succès",
                     type: "success",
                     duration: 3000,
                     dismissible: true,
@@ -190,13 +190,13 @@ const destroy = (id) => {
 
 const submit = () => {
     if (form.id) {
-        form.put(route("evenement-types.update", form.id), {
+        form.put(route("activity-types.update", form.id), {
             // forceFormData: true,
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
                 $toast.open({
-                    message: "Type d'évènement mis à jour avec succès",
+                    message: "Type d'activité mis à jour avec succès",
                     type: "success",
                     duration: 3000,
                     dismissible: true,
@@ -214,13 +214,13 @@ const submit = () => {
             },
         });
     } else {
-        form.post(route("evenement-types.store"), {
+        form.post(route("activity-types.store"), {
             forceFormData: true,
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
                 $toast.open({
-                    message: "Type d'évènement ajouté avec succès",
+                    message: "Type d'activité ajouté avec succès",
                     type: "success",
                     duration: 3000,
                     dismissible: true,

@@ -515,7 +515,12 @@
                             </svg>
                         </div>
                     </div>
-                    <div v-if="column.field === 'image'" class="flex"></div>
+                    <div v-if="column.field === 'image'" class="flex">
+                        <img
+                            class="w-10 h-10 rounded-full"
+                            :src="showImage() + row.image"
+                        />
+                    </div>
                     <div v-else>
                         {{ formattedRow[column.field] }}
                     </div>
@@ -578,10 +583,14 @@ const columns = ref([
         label: "CIN",
         field: "cin",
     },
-    // {
-    //     label: "Profession",
-    //     field: "profession",
-    // },
+    {
+        label: "Profession",
+        field: "profession",
+    },
+    {
+        label: "Situation Familiale",
+        field: "situation_familiale",
+    },
     {
         label: "Telephone",
         field: "tel",
@@ -595,8 +604,10 @@ const columns = ref([
 const rows = computed(() =>
     Object.values(props.all_adherents).map((adherent) => ({
         id: adherent.id,
-        image: showImage() + adherent.image,
+        image: adherent.image,
         nom_complet: adherent.first_name + " " + adherent.last_name,
+        profession: adherent.profession,
+        situation_familiale: adherent.situation_familiale,
         cin: adherent.cin,
         tel: adherent.tel,
     }))

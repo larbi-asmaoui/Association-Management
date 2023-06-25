@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreEvenementRequest;
-use App\Http\Requests\UpdateEvenementRequest;
-use App\Models\Adherent;
-use App\Models\Evenement;
-use App\Models\EvenementType;
-use Inertia\Inertia;
 
-class EvenementController extends Controller
+use App\Models\Adherent;
+use App\Models\Activity;
+use App\Models\ActivityType;
+use Inertia\Inertia;
+use Illuminate\Http\Request;
+
+class ActivityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,27 +17,27 @@ class EvenementController extends Controller
     public function index()
     {
 
-        $evenementTypes = EvenementType::all();
+        $activityTypes = ActivityType::all();
         $adherents = Adherent::all();
 
-        return Inertia::render('Evenements/Index', [
-            'evenements' => Evenement::query()
+        return Inertia::render('Activities/Index', [
+            'activities' => Activity::query()
                 ->with('adherents')
-                ->with('evenement_type')
+                ->with('activity_type')
                 ->get(),
             'adherents' => $adherents,
-            'evenementTypes' => $evenementTypes
+            'activityTypes' => $activityTypes
             // 'filters' => Request::only(['search'])
         ]);
     }
     public function calender()
     {
 
-        $evenements = Evenement::all();
+        $Activities = Activity::all();
         $adherents = Adherent::all();
 
-        return Inertia::render('Evenements/Calender', [
-            'evenements' => $evenements,
+        return Inertia::render('Activities/Calender', [
+            'activities' => $Activities,
             'adherents' => $adherents
             // 'filters' => Request::only(['search'])
         ]);
@@ -48,13 +48,13 @@ class EvenementController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Evenements/Create');
+        return Inertia::render('Activities/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreEvenementRequest $request)
+    public function store(Request $request)
     {
         $validatedData = $request->validate([
             'title' => 'required',
@@ -64,18 +64,18 @@ class EvenementController extends Controller
             'location' => 'required',
             'city' => 'required',
             'region' => 'required',
-            'evenement_type_id' => 'required|exists:evenement_types,id',
+            'activity_type_id' => 'required|exists:activity_types,id',
             'adherents' => 'nullable|array',
             'adherents.*' => 'exists:adherents,id',
         ]);
 
         // Fetch the last created event's reference number
-        $lastEvenement = Evenement::latest()->first();
+        $lastActivity = Activity::latest()->first();
 
-        if ($lastEvenement) {
+        if ($lastActivity) {
             // Extract the increment part and increment it
-            // $lastIncrementPart = intval(explode('-', $lastEvenement->reference)[1]);
-            $lastIncrementPart = $lastEvenement ? substr($lastEvenement->reference, -3) : 0;
+            // $lastIncrementPart = intval(explode('-', $lastActivity->reference)[1]);
+            $lastIncrementPart = $lastActivity ? substr($lastActivity->reference, -3) : 0;
             $newIncrementPart = str_pad((int)$lastIncrementPart + 1, 3, '0', STR_PAD_LEFT);
         } else {
             // If there is no event yet, start the increment part from 1
@@ -90,7 +90,7 @@ class EvenementController extends Controller
         // Add the reference to the data
         $validatedData['reference'] = $newReference;
 
-        $evenementData = [
+        $activityData = [
             'title' => $validatedData['title'],
             'start' => $validatedData['start'],
             'end' => $validatedData['end'],
@@ -98,13 +98,13 @@ class EvenementController extends Controller
             'location' => $validatedData['location'],
             'region' => $validatedData['region'],
             'city' => $validatedData['city'],
-            'evenement_type_id' => $validatedData['evenement_type_id'],
+            'activity_type_id' => $validatedData['activity_type_id'],
 
             'reference' => $validatedData['reference']
 
         ];
         // Create the event
-        $newEvent = Evenement::create($evenementData);
+        $newEvent = Activity::create($activityData);
 
         if (isset($validatedData['adherents'])) {
             $newEvent->adherents()->sync($validatedData['adherents']);
@@ -116,21 +116,21 @@ class EvenementController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Evenement $evenement)
+    public function show(Activity $activity)
     {
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Evenement $evenement)
+    public function edit(Activity $activity)
     {
 
-        $evenement->load('adherents');
-        $evenementTypes = EvenementType::all();
-        return Inertia::render('Evenements/Show', [
-            'evenement' => $evenement,
-            'evenementTypes' => $evenementTypes
+        $activity->load('adherents');
+        $activityTypes = ActivityType::all();
+        return Inertia::render('Activities/Show', [
+            'activity' => $activity,
+            'activityTypes' => $activityTypes
         ]);
     }
 
@@ -139,9 +139,9 @@ class EvenementController extends Controller
      */
 
 
-    public function update(UpdateEvenementRequest $request, Evenement $evenement)
+    public function update(Request $request, Activity $activity)
     {
-        $evenement->load('adherents');
+        $activity->load('adherents');
         $formFields = $request->validate([
             'title' => 'required',
             'start' => 'required',
@@ -152,28 +152,28 @@ class EvenementController extends Controller
             'location' => 'required',
             'city' => 'required',
             'region' => 'required',
-            'evenement_type_id' => 'required|exists:evenement_types,id',
+            'activity_type_id' => 'required|exists:activity_types,id',
             // 'adherants.*' => 'exists:adherants,id',
         ]);
 
         // $adherents = $formFields['adherents'];
         // unset($formFields['adherents']);
 
-        $evenement->update($formFields);
+        $activity->update($formFields);
 
         // if (isset($adherents)) {
-        //     $evenement->adherents()->sync($adherents);
+        //     $Activity->adherents()->sync($adherents);
         // }
 
-        return redirect()->back()->with('success', 'Evenement updated.');
+        return redirect()->back()->with('success', 'Activity updated.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Evenement $evenement)
+    public function destroy(Activity $activity)
     {
-        $evenement->delete();
-        return redirect()->back()->with('success', 'Evenement deleted.');
+        $activity->delete();
+        return redirect()->back()->with('success', 'Activity deleted.');
     }
 }

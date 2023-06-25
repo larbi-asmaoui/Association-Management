@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\Groupe;
 use App\Models\Adherent;
 use App\Models\Cotisation;
 use App\Models\Depense;
-use App\Models\Evenement;
-use App\Models\EvenementType;
+use App\Models\ActivityType;
 use App\Models\Revenue;
 use App\Models\Stock;
 use App\Models\StockType;
@@ -40,7 +40,7 @@ class DashboardController extends Controller
         $adherents_count = Adherent::count();
         $stock_count = Stock::count();
 
-        $events_count = Evenement::whereDate('end', '>=', Carbon::today())
+        $events_count = Activity::whereDate('end', '>=', Carbon::today())
             ->count();
 
         $groupesData = $this->getGroupesData();
@@ -72,8 +72,8 @@ class DashboardController extends Controller
             + $stockQuery->sum(DB::raw('price_per_unit * quantity'));
 
         $autreRevenue = Revenue::all()->sum('montant');
-        $eventsDepense = Evenement::all()->sum('depense');
-        $eventsRevenue = Evenement::all()->sum('revenue');
+        $eventsDepense = Activity::all()->sum('depense');
+        $eventsRevenue = Activity::all()->sum('revenue');
 
         // Group Depense by Month for the selected year
         $depenseGroupedByMonth = Depense::select(DB::raw('MONTH(created_at) as month'), DB::raw('SUM(montant) as total'))
@@ -145,7 +145,7 @@ class DashboardController extends Controller
     {
 
 
-        $evenementsTypes = EvenementType::with('evenements')
+        $evenementsTypes = ActivityType::with('activities')
             ->get();
 
         $evenementsGroupedByType = $evenementsTypes->mapWithKeys(function ($evenementType) {

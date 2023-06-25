@@ -47,7 +47,7 @@
                     </Link>
                 </div>
                 <div class="flex items-center">
-                    <Link :href="route('evenements.calender')">
+                    <Link :href="route('activities.calender')">
                         <svg
                             fill="none"
                             stroke-width="2.5"
@@ -116,9 +116,7 @@
                             </button>
                         </template>
                         <template #content>
-                            <DropdownLink
-                                :href="route('evenement-types.index')"
-                            >
+                            <DropdownLink :href="route('activity-types.index')">
                                 <div class="flex justify-start items-end">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -143,7 +141,84 @@
                                         <path d="M4 11l16 0"></path>
                                         <path d="M8 15h2v2h-2z"></path>
                                     </svg>
-                                    Type d'événements
+                                    Type d'activités
+                                </div>
+                            </DropdownLink>
+                            <div class="border-t border-gray-200" />
+                        </template>
+                    </Dropdown>
+                    <Dropdown>
+                        <template #trigger>
+                            <button
+                                class="flex mx-4 text-gray-600 focus:outline-none"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="icon icon-tabler icon-tabler-apps-filled"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="2"
+                                    stroke="currentColor"
+                                    fill="none"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path
+                                        stroke="none"
+                                        d="M0 0h24v24H0z"
+                                        fill="none"
+                                    ></path>
+                                    <path
+                                        d="M9 3h-4a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2z"
+                                        stroke-width="0"
+                                        fill="currentColor"
+                                    ></path>
+                                    <path
+                                        d="M9 13h-4a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2z"
+                                        stroke-width="0"
+                                        fill="currentColor"
+                                    ></path>
+                                    <path
+                                        d="M19 13h-4a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2z"
+                                        stroke-width="0"
+                                        fill="currentColor"
+                                    ></path>
+                                    <path
+                                        d="M17 3a1 1 0 0 1 .993 .883l.007 .117v2h2a1 1 0 0 1 .117 1.993l-.117 .007h-2v2a1 1 0 0 1 -1.993 .117l-.007 -.117v-2h-2a1 1 0 0 1 -.117 -1.993l.117 -.007h2v-2a1 1 0 0 1 1 -1z"
+                                        stroke-width="0"
+                                        fill="currentColor"
+                                    ></path>
+                                </svg>
+                            </button>
+                        </template>
+                        <template #content>
+                            <DropdownLink :href="route('activity-types.index')">
+                                <div class="flex justify-start items-end">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="icon icon-tabler icon-tabler-accessible mr-1 w-6 h-6"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="2"
+                                        stroke="currentColor"
+                                        fill="none"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    >
+                                        <path
+                                            stroke="none"
+                                            d="M0 0h24v24H0z"
+                                            fill="none"
+                                        ></path>
+                                        <path
+                                            d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"
+                                        ></path>
+                                        <path d="M16 3l0 4"></path>
+                                        <path d="M8 3l0 4"></path>
+                                        <path d="M4 11l16 0"></path>
+                                        <path d="M8 15h2v2h-2z"></path>
+                                    </svg>
+                                    Type d'activités
                                 </div>
                             </DropdownLink>
                             <div class="border-t border-gray-200" />

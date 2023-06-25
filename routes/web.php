@@ -6,8 +6,8 @@ use App\Http\Controllers\CotisationTypeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\DepenseTypeController;
-use App\Http\Controllers\EvenementController;
-use App\Http\Controllers\EvenementTypeController;
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\ActivityTypeController;
 use App\Http\Controllers\GroupeController;
 use App\Http\Controllers\PrintController;
 use App\Http\Controllers\RevenueController;
@@ -42,7 +42,7 @@ Route::middleware([
         Route::resource('users', UserController::class);
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-        Route::get('/evenements/calendrier', [EvenementController::class, 'calender'])->name('evenements.calender');
+        Route::get('/activities/calendrier', [ActivityController::class, 'calender'])->name('activities.calender');
 
 
         Route::resource('adherents', AdherentController::class);
@@ -50,7 +50,7 @@ Route::middleware([
         Route::resource('cotisations', CotisationController::class);
         Route::resource('groupes', GroupeController::class);
         Route::resource('stocks', StockController::class);
-        Route::resource('evenements', EvenementController::class);
+        Route::resource('activities', ActivityController::class);
 
         Route::resource('revenues', RevenueController::class);
         Route::resource('depenses', DepenseController::class);
@@ -59,7 +59,7 @@ Route::middleware([
         Route::resource('revenue-types', RevenueTypeController::class);
         Route::resource('cotisation-types', CotisationTypeController::class);
         Route::resource('stock-types', StockTypeController::class);
-        Route::resource('evenement-types', EvenementTypeController::class);
+        Route::resource('activity-types', ActivityTypeController::class);
         Route::resource('status', StatutController::class);
         Route::resource('association', AssociationController::class);
         Route::resource('reunions', \App\Http\Controllers\ReunionController::class);

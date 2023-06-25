@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('evenement_types', function (Blueprint $table) {
+        Schema::create('activity_adherent', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('name');
+            $table->foreignId('adherent_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('activity_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('evenement_types');
+        Schema::dropIfExists('activity_adherent');
     }
 };
