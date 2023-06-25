@@ -13,6 +13,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Role;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -29,8 +30,8 @@ class User extends Authenticatable
     {
         static::created(function ($user) {
             $user->association()->create();
-            ReunionType::create(['name' => 'Normal', 'user_id' => $user->id]);
-            ReunionType::create(['name' => 'Urgent', 'user_id' => $user->id]);
+            ReunionType::create(['name' => 'Normal']);
+            ReunionType::create(['name' => 'Urgent']);
             // Assign 'Admin' role to the new user
             $user->assignRole('Admin');
         });
@@ -78,83 +79,12 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function adherents(): HasMany
-    {
-        return $this->hasMany(Adherent::class);
-    }
 
-    public function groupes(): HasMany
-    {
-        return $this->hasMany(Groupe::class);
-    }
 
-    public function stocks(): HasMany
-    {
-        return $this->hasMany(Stock::class);
-    }
 
-    public function stockTypes(): HasMany
-    {
-        return $this->hasMany(StockType::class);
-    }
-
-    public function revenueTypes(): HasMany
-    {
-        return $this->hasMany(RevenueType::class);
-    }
-
-    public function depenseTypes(): HasMany
-    {
-        return $this->hasMany(DepenseType::class);
-    }
-
-    public function cotisationTypes(): HasMany
-    {
-        return $this->hasMany(CotisationType::class);
-    }
-
-    public function evenementTypes(): HasMany
-    {
-        return $this->hasMany(EvenementType::class);
-    }
-
-    public function evenements(): HasMany
-    {
-        return $this->hasMany(Evenement::class);
-    }
-
-    public function revenues(): HasMany
-    {
-        return $this->hasMany(Revenue::class);
-    }
-
-    public function depenses(): HasMany
-    {
-        return $this->hasMany(Depense::class);
-    }
-
-    public function status(): HasMany
-    {
-        return $this->hasMany(Statut::class);
-    }
 
     public function association(): HasOne
     {
         return $this->hasOne(Association::class);
-    }
-
-    public function reunions(): HasMany
-    {
-        return $this->hasMany(Reunion::class);
-    }
-
-    public function rapports(): HasMany
-    {
-        return $this->hasMany(Rapport::class);
-    }
-
-    public function reunionTypes(): HasMany
-    {
-        return $this->hasMany(ReunionType::class);
     }
 }

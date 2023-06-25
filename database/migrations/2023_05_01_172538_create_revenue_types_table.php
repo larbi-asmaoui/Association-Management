@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('revenue_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            // $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->timestamps();
         });

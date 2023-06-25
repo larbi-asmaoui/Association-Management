@@ -18,14 +18,13 @@ class DepenseController extends Controller
     {
 
 
-        $userId = auth()->id();
-        $depenseTypes = DepenseType::where('user_id', $userId)->get();
+
+        $depenseTypes = DepenseType::all();
 
 
         return Inertia::render('Depenses/Index', [
             'depenseTypes' => $depenseTypes,
             'depenses' => Depense::query()
-                ->where('user_id', $userId)
                 ->with('depense_type')
                 ->get()
             // 'filters' => Request::only(['search'])
@@ -57,7 +56,6 @@ class DepenseController extends Controller
             $depense['reference_file']  = $request->file('reference_file')->store('uploads/images/depenses', 'public');
         }
 
-        $depense['user_id'] = auth()->id();
 
         Depense::create($depense);
 

@@ -12,8 +12,7 @@ class ReunionController extends Controller
     // index
     public function index()
     {
-        $userId = auth()->id();
-        $reunion_types = ReunionType::where('user_id', $userId)->get();
+        $reunion_types = ReunionType::all();
         return Inertia::render('Reunions/Index', [
             'reunionTypes' => $reunion_types,
             'reunions' => Reunion::query()
@@ -32,7 +31,6 @@ class ReunionController extends Controller
             'date' => 'required',
             'reunion_type_id' => 'required|exists:reunion_types,id',
         ]);
-        $reunion['user_id'] = auth()->id();
         Reunion::create($reunion);
         return redirect()->back()->with('success', 'reunion created.');
     }

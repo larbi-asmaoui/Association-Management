@@ -15,8 +15,8 @@ class EvenementTypeController extends Controller
     public function index()
     {
 
-        $userId = auth()->id();
-        $evenementTypes = EvenementType::where('user_id', $userId)->get();
+
+        $evenementTypes = EvenementType::all();
         return Inertia::render('EvenementTypes/Index', [
             'evenementTypes' => $evenementTypes
         ]);
@@ -39,7 +39,6 @@ class EvenementTypeController extends Controller
         $evenementType = $request->validate([
             'name' => 'required',
         ]);
-        $evenementType['user_id'] = auth()->id();
         EvenementType::create($evenementType);
         return redirect()->back()->with('success', 'EvenementType created.');
     }

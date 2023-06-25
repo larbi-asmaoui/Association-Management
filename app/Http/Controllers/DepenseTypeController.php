@@ -14,8 +14,7 @@ class DepenseTypeController extends Controller
     public function index()
     {
 
-        $userId = auth()->id();
-        $depenseTypes = DepenseType::where('user_id', $userId)->get();
+        $depenseTypes = DepenseType::all();
 
         return Inertia::render('DepenseTypes/Index', [
             'depenseTypes' => $depenseTypes
@@ -39,7 +38,6 @@ class DepenseTypeController extends Controller
         $depenseType = $request->validate([
             'name' => 'required',
         ]);
-        $depenseType['user_id'] = auth()->id();
         DepenseType::create($depenseType);
         return redirect()->back()->with('success', 'DepenseType created.');
     }

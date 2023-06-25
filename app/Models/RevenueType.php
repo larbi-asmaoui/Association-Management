@@ -17,10 +17,7 @@ class RevenueType extends Model
         return Carbon::parse($value)->format('d/m/Y');
     }
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
+
     public function revenues(): HasMany
     {
         return $this->hasMany(Revenue::class, 'revenue_type_id');

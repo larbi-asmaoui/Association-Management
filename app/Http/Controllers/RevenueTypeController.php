@@ -14,8 +14,7 @@ class RevenueTypeController extends Controller
     public function index()
     {
 
-        $userId = auth()->id();
-        $revenueTypes = RevenueType::where('user_id', $userId)->get();
+        $revenueTypes = RevenueType::all();
         return Inertia::render('RevenueTypes/Index', [
             'revenueTypes' => $revenueTypes
         ]);
@@ -38,7 +37,6 @@ class RevenueTypeController extends Controller
         $revenueType = $request->validate([
             'name' => 'required',
         ]);
-        $revenueType['user_id'] = auth()->id();
         RevenueType::create($revenueType);
         return redirect()->back()->with('success', 'RevenueType created.');
     }

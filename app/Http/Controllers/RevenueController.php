@@ -18,14 +18,12 @@ class RevenueController extends Controller
     {
 
 
-        $userId = auth()->id();
-        $revenueTypes = RevenueType::where('user_id', $userId)->get();
+        $revenueTypes = RevenueType::all();
 
 
         return Inertia::render('Revenues/Index', [
             'revenueTypes' => $revenueTypes,
             'revenues' => Revenue::query()
-                ->where('user_id', $userId)
                 ->with('revenue_type')
                 ->get()
             // 'filters' => Request::only(['search'])
@@ -55,7 +53,6 @@ class RevenueController extends Controller
             $revenue['reference_file']  = $request->file('reference_file')->store('uploads/images/revenues', 'public');
         }
 
-        $revenue['user_id'] = auth()->id();
         revenue::create($revenue);
         return redirect()->back()->with('success', 'Revenue created.');
     }

@@ -15,14 +15,11 @@ class StatutController extends Controller
      */
     public function index()
     {
-        //  ->withCount('adherents')
-        $userId = auth()->id();
         // $Status = Statut::where('user_id', $userId)->get();
         return Inertia::render('Status/Index', [
             'status' => Statut::query()
                 ->with('adherents')
                 ->withCount('adherents')
-                ->where('user_id', $userId)
                 ->get()
             // ->appends(Request::all()),
         ]);
@@ -45,7 +42,6 @@ class StatutController extends Controller
         $statut = $request->validate([
             'name' => 'required',
         ]);
-        $statut['user_id'] = auth()->id();
         Statut::create($statut);
         return redirect()->back()->with('success', 'Statut created.');
     }

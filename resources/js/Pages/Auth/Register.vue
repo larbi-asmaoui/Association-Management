@@ -27,13 +27,13 @@ const submit = () => {
     <Head title="Register" />
 
     <AuthenticationCard>
-        <!-- <template #logo>
+        <template #logo>
             <AuthenticationCardLogo />
-        </template> -->
+        </template>
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="name" value="Nom association" />
+                <InputLabel for="name" value="Nom" />
                 <TextInput
                     id="name"
                     v-model="form.name"

@@ -11,10 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Statut extends Model
 {
     use HasFactory;
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
+
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('d/m/Y');

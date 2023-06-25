@@ -22,10 +22,7 @@ class Evenement extends Model
         return $this->belongsTo(EvenementType::class, 'evenement_type_id');
     }
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
+
 
     public function adherents(): BelongsToMany
     {

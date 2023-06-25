@@ -15,18 +15,21 @@ class UserController extends Controller
      */
     public function index()
     {
-        // display users except current user and that have the same association
-        // $users = User::where('id', '!=', auth()->user()->id)->where('association_id', auth()->user()->association_id)->get();
-        // display users except current user
+
+        // Get all users for this association except the current user
         $users = User::where('id', '!=', auth()->user()->id)->get();
+
+        // Append role to each user
         $users->map(function ($user) {
             $role = DB::table('model_has_roles')->where('model_id', $user->id)->first();
-            if ($role    != null) {
+            if ($role != null) {
                 $role_name = Role::find($role->role_id)->name;
                 $user->role = $role_name;
             }
             return $user;
         });
+
+        // Render the user index view
         return Inertia::render('Users/Index', [
             'users' => $users,
             'roles' => Role::all(),
@@ -64,6 +67,7 @@ class UserController extends Controller
 
         // assign role to user
         $user->assignRole($request->role);
+
 
         // return back with success message
         return back()->with('success', 'User added successfully.');

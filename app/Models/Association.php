@@ -11,13 +11,8 @@ class Association extends Model
 {
     use HasFactory;
 
-    public function creator(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function users()
-    {
-        return $this->belongsToMany(User::class, 'association_users');
     }
 }

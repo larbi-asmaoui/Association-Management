@@ -17,8 +17,7 @@ class StockController extends Controller
      */
     public function index()
     {
-        $userId = auth()->id();
-        $stockTypes = StockType::where('user_id', $userId)->get();
+        $stockTypes = StockType::all();
 
         return Inertia::render('Stocks/Index', [
             'stockTypes' => $stockTypes,
@@ -53,8 +52,6 @@ class StockController extends Controller
         ]);
 
         // $stock = $request->all()
-
-        $stock['user_id'] = auth()->id();
 
         Stock::create($stock);
 

@@ -16,10 +16,7 @@ class Depense extends Model
         return Carbon::parse($value)->format('d/m/Y');
     }
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
+
 
     public function depense_type(): BelongsTo
     {

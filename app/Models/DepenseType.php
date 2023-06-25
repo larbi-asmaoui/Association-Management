@@ -21,8 +21,4 @@ class DepenseType extends Model
     {
         return $this->hasMany(Depense::class, 'depense_type_id');
     }
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 }

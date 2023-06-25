@@ -19,8 +19,8 @@ class AdherentController extends Controller
      */
     public function index()
     {
-        $userId = auth()->id();
-        $status  = Statut::where('user_id', $userId)->get();
+
+        $status  = Statut::all();
 
         // $depensesQuery = Depense::with('depense_type')
         //     ->where('user_id', $userId);
@@ -29,7 +29,6 @@ class AdherentController extends Controller
             'all_adherents' => Adherent::all(),
             'adherents' => Adherent::query()
                 ->with('statut')
-                ->where('user_id', $userId)
                 ->when(Request::input('search'), function ($query, $search) {
                     $query->where('first_name', 'like', '%' . $search . '%')
                         ->OrWhere('last_name', 'like', '%' . $search . '%')
@@ -69,7 +68,6 @@ class AdherentController extends Controller
                 'statut_id' => 'nullable|exists:statuts,id',
             ]
         );
-        $formFields['user_id'] = auth()->id();
 
         if ($request->hasFile('image')) {
             $formFields['image']  = $request->file('image')->store('image', 'public');
@@ -77,7 +75,7 @@ class AdherentController extends Controller
 
         $adherent = Adherent::create($formFields);
         $adherent->abonnements()->create([
-            'user_id' => auth()->id(),
+
             'adherent_id' => $adherent->id,
             'date_debut' => $adherent->date_of_membership,
             'date_fin' => (new Carbon($adherent->date_of_membership))->addYear(),

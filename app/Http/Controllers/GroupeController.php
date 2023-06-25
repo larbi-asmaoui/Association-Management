@@ -16,15 +16,13 @@ class GroupeController extends Controller
      */
     public function index()
     {
-        $userId = auth()->id();
-        $adherents = Adherent::where('user_id', $userId)->get();
+        $adherents = Adherent::all();
         return Inertia::render('Groupes/Index', [
             // 'groupes' => $groupes,
             'adherents' => $adherents,
             'groupes' => Groupe::query()
                 ->with('adherents')
                 ->withCount('adherents')
-                ->where('user_id', $userId)
                 ->get()
             // 'filters' => Request::only(['search'])
         ]);
@@ -56,7 +54,7 @@ class GroupeController extends Controller
         $groupeData = [
             'name' => $validatedData['name'],
             'description' => $validatedData['description'],
-            'user_id' => auth()->id(),
+
         ];
 
         $newGroupe = Groupe::create($groupeData);

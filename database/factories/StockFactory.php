@@ -18,7 +18,6 @@ class StockFactory extends Factory
     public function definition(): array
     {
         return [
-            "user_id" => 1,
             "name" => $this->faker->name(),
             "stock_type_id" => StockType::all()->random()->id,
             "purchase_date" => $this->faker->date(),

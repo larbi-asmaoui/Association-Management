@@ -17,10 +17,7 @@ class StockType extends Model
         return $this->hasMany(Stock::class, 'stock_type_id');
     }
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
+
 
     public function getCreatedAtAttribute($value)
     {

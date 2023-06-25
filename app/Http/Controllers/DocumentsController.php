@@ -27,14 +27,14 @@ class DocumentsController extends Controller
         $yearParts = explode('/', $year);
         // $startYear = $yearParts[0];
         // $endYear = isset($yearParts[1]) ? $yearParts[1] : null;
-        $userId = auth()->id();
-        $rapports = Rapport::where('user_id', $userId)->get();
+
+        $rapports = Rapport::all();
 
 
         $latestReunion = null;
         $depenses = null;
         $frais_adhesions = 0;
-        $reunionsCount = Reunion::where('user_id', $userId)->count();
+        $reunionsCount = Reunion::count();
         if ($reunionsCount == 0) {
             $evenements = [];
             $depenses = null;
@@ -43,16 +43,13 @@ class DocumentsController extends Controller
             $latestReunion = Reunion::whereHas('reunion_type', function ($query) {
                 $query->where('name', 'normal');
             })->orderBy('date', 'desc')->first();
-            $evenements = Evenement::where('user_id', $userId)
-                ->where('start', '<=', $latestReunion->date)
+            $evenements = Evenement::where('start', '<=', $latestReunion->date)
                 ->with('evenement_type')
                 ->get();
-            $depenses = Depense::where('user_id', $userId)
-                ->where('depense_date', '<=', $latestReunion->date)
+            $depenses = Depense::where('depense_date', '<=', $latestReunion->date)
                 ->get();
             // ->sum('montant');
-            $frais_adhesions = Abonnement::where('user_id', $userId)
-                ->where('date_debut', '<=', $latestReunion->date)
+            $frais_adhesions = Abonnement::where('date_debut', '<=', $latestReunion->date)
                 ->sum('montant');
         } else {
             $reunions = Reunion::whereHas('reunion_type', function ($query) {
@@ -62,18 +59,15 @@ class DocumentsController extends Controller
             $newestReunion = $reunions->first();
             $previousReunion = $reunions->last();
 
-            $evenements = Evenement::where('user_id', $userId)
-                ->where('start', '<=', $newestReunion->date)
+            $evenements = Evenement::where('start', '<=', $newestReunion->date)
                 ->where('start', '>=', $previousReunion->date)
                 ->with('evenement_type')
                 ->get();
-            $depenses = Depense::where('user_id', $userId)
-                ->where('depense_date', '<=', $newestReunion->date)
+            $depenses = Depense::where('depense_date', '<=', $newestReunion->date)
                 ->where('depense_date', '>=', $previousReunion->date)
                 ->get();
             // ->sum('montant');
-            $frais_adhesions = Abonnement::where('user_id', $userId)
-                ->where('date_debut', '<=', $newestReunion->date)
+            $frais_adhesions = Abonnement::where('date_debut', '<=', $newestReunion->date)
                 ->where('date_debut', '>=', $previousReunion->date)
                 ->sum('montant');
         }
@@ -119,10 +113,9 @@ class DocumentsController extends Controller
     public function  generateRapportLitterairePdf()
     {
 
-        $userId = auth()->id();
 
-        $count = Rapport::where('user_id', $userId)->count();
 
+        $count = Rapport::count();
         if ($count == 0) {
             $newIncrementPart = 1;
         } else {
@@ -135,15 +128,14 @@ class DocumentsController extends Controller
         $newReference =  "$currentYear-$nextYear-$newIncrementPart";
 
         $latestReunion = null;
-        $reunionsCount = Reunion::where('user_id', $userId)->count();
+        $reunionsCount = Reunion::count();
         if ($reunionsCount == 0) {
             $evenements = [];
         } else if ($reunionsCount == 1) {
             $latestReunion = Reunion::whereHas('reunion_type', function ($query) {
                 $query->where('name', 'normal');
             })->orderBy('date', 'desc')->first();
-            $evenements = Evenement::where('user_id', $userId)
-                ->where('start', '<=', $latestReunion->date)
+            $evenements = Evenement::where('start', '<=', $latestReunion->date)
                 ->with('evenement_type')
                 ->get();
         } else {
@@ -154,13 +146,12 @@ class DocumentsController extends Controller
             $newestReunion = $reunions->first();
             $previousReunion = $reunions->last();
 
-            $evenements = Evenement::where('user_id', $userId)
-                ->where('start', '<=', $newestReunion->date)
+            $evenements = Evenement::where('start', '<=', $newestReunion->date)
                 ->where('start', '>=', $previousReunion->date)
                 ->with('evenement_type')
                 ->get();
         }
-        $association = Association::where('user_id', $userId)->get();
+        $association = Association::all();
 
         $data = [
             'evenements' => $evenements,
@@ -175,7 +166,6 @@ class DocumentsController extends Controller
         $fileName = 'rapport_litteraire_' . $newReference . '.pdf';
         $filePath = $directoryPath . $fileName;
         Rapport::create([
-            'user_id' => $userId,
             'file_path' => $filePath,
             'title' => "littéraire-" . $newReference,
         ]);
@@ -190,10 +180,9 @@ class DocumentsController extends Controller
 
     public function generateRapportFinancierPdf()
     {
-        $userId = auth()->id();
 
-        $count = Rapport::where('user_id', $userId)->count();
 
+        $count = Rapport::count();
         if ($count == 0) {
             $newIncrementPart = 1;
         } else {
@@ -206,7 +195,7 @@ class DocumentsController extends Controller
 
         $depenses = null;
         $revenues = null;
-        $reunionsCount = Reunion::where('user_id', $userId)->count();
+        $reunionsCount = Reunion::count();
         if ($reunionsCount == 0) {
             $evenements = [];
             $depenses = null;
@@ -215,16 +204,13 @@ class DocumentsController extends Controller
             $latestReunion = Reunion::whereHas('reunion_type', function ($query) {
                 $query->where('name', 'normal');
             })->orderBy('date', 'desc')->first();
-            $evenements = Evenement::where('user_id', $userId)
-                ->where('start', '<=', $latestReunion->date)
+            $evenements = Evenement::where('start', '<=', $latestReunion->date)
                 ->with('evenement_type')
                 ->get();
-            $depenses = Depense::where('user_id', $userId)
-                ->where('depense_date', '<=', $latestReunion->date)
+            $depenses = Depense::where('depense_date', '<=', $latestReunion->date)
                 ->get();
             // ->sum('montant');
-            $revenues = Revenue::where('user_id', $userId)
-                ->where('revenue_date', '<=', $latestReunion->date)
+            $revenues = Revenue::where('revenue_date', '<=', $latestReunion->date)
                 ->get();
         } else {
             $reunions = Reunion::whereHas('reunion_type', function ($query) {
@@ -234,18 +220,15 @@ class DocumentsController extends Controller
             $newestReunion = $reunions->first();
             $previousReunion = $reunions->last();
 
-            $evenements = Evenement::where('user_id', $userId)
-                ->where('start', '<=', $newestReunion->date)
+            $evenements = Evenement::where('start', '<=', $newestReunion->date)
                 ->where('start', '>=', $previousReunion->date)
                 ->with('evenement_type')
                 ->get();
-            $depenses = Depense::where('user_id', $userId)
-                ->where('depense_date', '<=', $newestReunion->date)
+            $depenses = Depense::where('depense_date', '<=', $newestReunion->date)
                 ->where('depense_date', '>=', $previousReunion->date)
                 ->get();
 
-            $revenues = Revenue::where('user_id', $userId)
-                ->where('revenue_date', '<=', $newestReunion->date)
+            $revenues = Revenue::where('revenue_date', '<=', $newestReunion->date)
                 ->where('revenue_date', '>=', $previousReunion->date)
                 ->get();
         }
@@ -277,7 +260,7 @@ class DocumentsController extends Controller
             'revenues' => $revenues,
             'depenses' => $depenses,
             'evenements' => $evenements,
-            'association' => Association::where('user_id', $userId)->get()
+            'association' => Association::all()
         ];
 
         $mpdf = new mPDF();
@@ -289,7 +272,6 @@ class DocumentsController extends Controller
         $fileName = 'rapport_financier_' . $newReference . '.pdf';
         $filePath = $directoryPath . $fileName;
         Rapport::create([
-            'user_id' => $userId,
             'file_path' => $filePath,
             'title' => "financier-" . $newReference,
         ]);

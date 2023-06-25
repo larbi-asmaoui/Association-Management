@@ -16,14 +16,12 @@ class EvenementController extends Controller
      */
     public function index()
     {
-        $userId = auth()->id();
-        $evenements = Evenement::paginate(10);
-        $evenementTypes = EvenementType::where('user_id', $userId)->get();
-        $adherents = Adherent::where('user_id', $userId)->get();
+
+        $evenementTypes = EvenementType::all();
+        $adherents = Adherent::all();
 
         return Inertia::render('Evenements/Index', [
             'evenements' => Evenement::query()
-                ->where('user_id', $userId)
                 ->with('adherents')
                 ->with('evenement_type')
                 ->get(),
@@ -34,9 +32,9 @@ class EvenementController extends Controller
     }
     public function calender()
     {
-        $userId = auth()->id();
+
         $evenements = Evenement::all();
-        $adherents = Adherent::where('user_id', $userId)->get();
+        $adherents = Adherent::all();
 
         return Inertia::render('Evenements/Calender', [
             'evenements' => $evenements,
@@ -101,7 +99,7 @@ class EvenementController extends Controller
             'region' => $validatedData['region'],
             'city' => $validatedData['city'],
             'evenement_type_id' => $validatedData['evenement_type_id'],
-            'user_id' => auth()->id(),
+
             'reference' => $validatedData['reference']
 
         ];
@@ -127,9 +125,9 @@ class EvenementController extends Controller
      */
     public function edit(Evenement $evenement)
     {
-        $userId = auth()->id();
+
         $evenement->load('adherents');
-        $evenementTypes = EvenementType::where('user_id', $userId)->get();
+        $evenementTypes = EvenementType::all();
         return Inertia::render('Evenements/Show', [
             'evenement' => $evenement,
             'evenementTypes' => $evenementTypes

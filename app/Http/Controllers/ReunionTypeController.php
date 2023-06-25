@@ -11,8 +11,7 @@ class ReunionTypeController extends Controller
     public function index()
     {
 
-        $userId = auth()->id();
-        $reunionTypes = ReunionType::where('user_id', $userId)->get();
+        $reunionTypes = ReunionType::all();
 
         return Inertia::render('ReunionTypes/Index', [
             'reunionTypes' => $reunionTypes
@@ -36,7 +35,6 @@ class ReunionTypeController extends Controller
         $reunionType = $request->validate([
             'name' => 'required',
         ]);
-        $reunionType['user_id'] = auth()->id();
         ReunionType::create($reunionType);
         return redirect()->back()->with('success', 'reunionType created.');
     }
