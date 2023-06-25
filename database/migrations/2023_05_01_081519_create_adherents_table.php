@@ -21,6 +21,8 @@ return new class extends Migration
             $table->boolean('is_actif')->default(true);
             $table->string('cin')->nullable();
             $table->string('sexe');
+            $table->string('profession')->nullable();
+            $table->string('situation_familiale')->nullable();
             $table->date('date_of_birth');
             $table->date('date_of_membership');
             $table->string('address');

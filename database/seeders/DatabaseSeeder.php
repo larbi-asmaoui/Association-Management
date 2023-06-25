@@ -132,13 +132,13 @@ class DatabaseSeeder extends Seeder
         // \App\Models\Association::create()
 
 
-        \App\Models\Groupe::factory(5)->create();
-        \App\Models\Adherent::factory(20)->create();
-        \App\Models\Cotisation::factory(10)->create();
+        // \App\Models\Groupe::factory(5)->create();
+        // \App\Models\Adherent::factory(20)->create();
+        // \App\Models\Cotisation::factory(10)->create();
 
 
 
-        \App\Models\Stock::factory(10)->create();
+        // \App\Models\Stock::factory(10)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

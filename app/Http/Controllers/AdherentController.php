@@ -62,6 +62,8 @@ class AdherentController extends Controller
                 'tel' => 'required',
                 'date_of_birth' => 'required',
                 'date_of_membership' => 'required',
+                'profession' => 'required',
+                'situation_familiale' => 'required',
                 'address' => 'required',
                 'city' => 'required',
                 'region' => 'required',
@@ -109,15 +111,17 @@ class AdherentController extends Controller
             [
                 'first_name' => 'required',
                 'last_name' => 'required',
-                'is_actif' => 'nullable',
                 'sexe' => 'required',
+                'cin' => 'required',
                 'tel' => 'required',
                 'date_of_birth' => 'required',
-                'date_of_membership' => 'nullable',
+                'date_of_membership' => 'required',
+                'profession' => 'required',
+                'situation_familiale' => 'required',
                 'address' => 'required',
                 'city' => 'required',
                 'region' => 'required',
-                'status_id' => 'nullable',
+                'statut_id' => 'nullable|exists:statuts,id',
             ]
         );
 

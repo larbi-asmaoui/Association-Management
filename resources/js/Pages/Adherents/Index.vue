@@ -18,7 +18,7 @@
         </svg>
     </button>
 
-    <div class="bg-white py-6 shadow-md rounded-xl relative mt-5">
+    <div class="bg-white pt-6 shadow-md rounded-xl relative mt-5">
         <!-- Start  -->
         <div
             class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
@@ -27,374 +27,348 @@
         </div>
         <!-- End -->
         <div
-            class="mt-7 px-4 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
+            class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
         >
-            <div class="w-full flex justify-between items-center mb-4 sm:mb-0">
-                <div class="w-48 mt-1 sm:w-64 xl:w-96">
-                    <input
-                        type="text"
-                        v-model="search"
-                        class="bg-slate-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :text-white :focus:ring-blue-500 :focus:border-blue-500"
-                        placeholder="rechercher adhérents..."
-                    />
-                </div>
-                <div>
-                    <button
-                        @click="
-                            printJS({
-                                printable: adherents.data,
-                                properties: [
-                                    {
-                                        field: 'first_name',
-                                        displayName: 'Prénom',
-                                    },
-                                    {
-                                        field: 'last_name',
-                                        displayName: 'Nom',
-                                    },
-                                    {
-                                        field: 'sexe',
-                                        displayName: 'Sexe',
-                                    },
-                                    {
-                                        field: 'date_of_birth',
-                                        displayName: 'Date de naissance',
-                                    },
-                                    {
-                                        field: 'date_of_membership',
-                                        displayName: 'Date d\'adhésion',
-                                    },
-                                    {
-                                        field: 'cin',
-                                        displayName: 'CIN',
-                                    },
-                                    {
-                                        field: 'tel',
-                                        displayName: 'Telephone',
-                                    },
-                                    {
-                                        field: 'address',
-                                        displayName: 'Addresse',
-                                    },
-                                    {
-                                        field: 'city',
-                                        displayName: 'Ville',
-                                    },
-                                ],
-
-                                type: 'json',
-                                header: '<h3 class=\'text-2xl font-semibold text-center\'>Liste des adhérents</h3>',
-                            })
-                        "
-                        class="text-center mr-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-2 focus:outline-none"
-                        type="button"
-                    >
-                        PDF
-                    </button>
-                    <button
-                        @click="exportToPDF"
-                        class="text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-2 focus:outline-none"
-                        type="button"
-                    >
-                        <!-- <JsonCSV :data="adherents.data" name="adherents.csv"> CSV </JsonCSV> -->
-                        click me
-                    </button>
-                </div>
-            </div>
+            <div class="px-2 flex items-center mb-4 sm:mb-0"></div>
         </div>
-        <div class="">
-            <Modal size="5xl" v-if="isModalOpen" @close="closeModal">
-                <template #header>
-                    <div class="flex items-center text-lg">
-                        Ajouter un adhérent
-                    </div>
-                </template>
-                <template #body>
-                    <form
-                        class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
-                        @submit.prevent="submit"
-                    >
-                        <div>
-                            <label
-                                for="avatar"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Profile
-                            </label>
-                            <ImageUpload
-                                v-model="form.image"
-                                :default-src="defaultImg"
-                            />
-                            <!-- <span
+        <Modal size="5xl" v-if="isModalOpen" @close="closeModal">
+            <template #header>
+                <div class="flex items-center text-lg">Ajouter un adhérent</div>
+            </template>
+            <template #body>
+                <form
+                    class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
+                    @submit.prevent="submit"
+                >
+                    <div>
+                        <label
+                            for="avatar"
+                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                            >Profile
+                        </label>
+                        <ImageUpload
+                            v-model="form.image"
+                            :default-src="defaultImg"
+                        />
+                        <!-- <span
                                 v-if="form.errors.image"
                                 class="text-xs text-red-600 mt-1"
                                 id="hs-validation-name-error-helper"
                             >
                                 {{ form.errors.image }}
                             </span> -->
-                        </div>
+                    </div>
 
-                        <div
-                            class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
-                        >
-                            <div>
-                                <label
-                                    for="last_name"
-                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                    >Nom
-                                </label>
-                                <input
-                                    v-model="form.last_name"
-                                    type="text"
-                                    name="last_name"
-                                    id="last_name"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                                />
-                                <!-- <span
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                        <div>
+                            <label
+                                for="last_name"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                >Nom
+                            </label>
+                            <input
+                                v-model="form.last_name"
+                                type="text"
+                                name="last_name"
+                                id="last_name"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                            />
+                            <!-- <span
                                     v-if="form.errors.last_name"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.last_name }}
                                 </span> -->
-                            </div>
+                        </div>
 
-                            <div>
-                                <label
-                                    for="first_name"
-                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                    >Prénom
-                                </label>
-                                <input
-                                    v-model="form.first_name"
-                                    type="text"
-                                    name="first_name"
-                                    id="first_name"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                                />
-                                <!-- <span
+                        <div>
+                            <label
+                                for="first_name"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                >Prénom
+                            </label>
+                            <input
+                                v-model="form.first_name"
+                                type="text"
+                                name="first_name"
+                                id="first_name"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                            />
+                            <!-- <span
                                     v-if="form.errors.first_name"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.first_name }}
                                 </span> -->
-                            </div>
                         </div>
+                    </div>
 
-                        <div
-                            class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
-                        >
-                            <div>
-                                <label
-                                    for="cin"
-                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                    >CIN</label
-                                >
-                                <input
-                                    v-model="form.cin"
-                                    type="text"
-                                    name="cin"
-                                    id="cin"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                                />
-                                <!-- <span
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 lg:gap-6">
+                        <div>
+                            <label
+                                for="cin"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                >CIN</label
+                            >
+                            <input
+                                v-model="form.cin"
+                                type="text"
+                                name="cin"
+                                id="cin"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                            />
+                            <!-- <span
                                     v-if="form.errors.cin"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.cin }}
                                 </span> -->
-                            </div>
-                            <div>
-                                <label
-                                    for="cin"
-                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                    >Sexe</label
-                                >
-                                <div class="flex gap-x-6">
-                                    <div class="flex">
-                                        <input
-                                            type="radio"
-                                            name="sexe"
-                                            class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 :bg-gray-800 :border-gray-700 :checked:bg-blue-500 :checked:border-blue-500 :focus:ring-offset-gray-800"
-                                            id="homme"
-                                            checked
-                                            value="homme"
-                                            v-model="form.sexe"
-                                        />
-                                        <label
-                                            for="homme"
-                                            class="text-sm text-gray-500 ml-2 :text-gray-400"
-                                            >Homme</label
-                                        >
-                                    </div>
-
-                                    <div class="flex">
-                                        <input
-                                            type="radio"
-                                            name="sexe"
-                                            class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 :bg-gray-800 :border-gray-700 :checked:bg-blue-500 :checked:border-blue-500 :focus:ring-offset-gray-800"
-                                            id="femme"
-                                            value="femme"
-                                            v-model="form.sexe"
-                                        />
-                                        <label
-                                            for="femme"
-                                            class="text-sm text-gray-500 ml-2 :text-gray-400"
-                                            >Femme</label
-                                        >
-                                    </div>
-                                </div>
-                                <!-- <span
-                                    v-if="form.errors.sexe"
+                        </div>
+                        <div>
+                            <label
+                                for="Sexe"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                >Sexe</label
+                            >
+                            <select
+                                v-model="form.sexe"
+                                id="type"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            >
+                                <option disabled value="">
+                                    Séléctionner Sexe
+                                </option>
+                                <option value="homme">homme</option>
+                                <option value="femme">femme</option>
+                            </select>
+                            <!-- <span
+                                    v-if="form.errors.region"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
-                                    {{ form.errors.sexe }}
+                                    {{ form.errors.region }}
                                 </span> -->
-                            </div>
                         </div>
 
-                        <div
-                            class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
-                        >
-                            <div>
-                                <label
-                                    for="tel"
-                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                    >Telephone</label
+                        <div>
+                            <label
+                                for="profession"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                >Profession</label
+                            >
+                            <input
+                                v-model="form.profession"
+                                type="text"
+                                name="profession"
+                                id="profession"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                            />
+                            <!-- <span
+                                    v-if="form.errors.profession"
+                                    class="text-xs text-red-600 mt-1"
+                                    id="hs-validation-name-error-helper"
                                 >
-                                <input
-                                    v-model="form.tel"
-                                    type="text"
-                                    name="tel"
-                                    id="tel"
-                                    autocomplete="text"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                                />
-                                <!-- <span
+                                    {{ form.errors.profession }}
+                                </span> -->
+                        </div>
+                        <div>
+                            <label
+                                for="situation"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                >Situation Familiale</label
+                            >
+                            <select
+                                v-model="form.situation_familiale"
+                                id="type"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            >
+                                <option disabled value="">
+                                    Séléctionner situation familiale
+                                </option>
+                                <option value="Mariee">Mariee</option>
+                                <option value="Celibataire">Celibataire</option>
+                            </select>
+                            <!-- <span
+                                    v-if="form.errors.region"
+                                    class="text-xs text-red-600 mt-1"
+                                    id="hs-validation-name-error-helper"
+                                >
+                                    {{ form.errors.region }}
+                                </span> -->
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                        <div>
+                            <label
+                                for="tel"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                >Telephone</label
+                            >
+                            <input
+                                v-model="form.tel"
+                                type="text"
+                                name="tel"
+                                id="tel"
+                                autocomplete="text"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                            />
+                            <!-- <span
                                     v-if="form.errors.tel"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.tel }}
                                 </span> -->
-                            </div>
+                        </div>
 
-                            <div>
-                                <label
-                                    for="email"
-                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                    >Email</label
-                                >
-                                <input
-                                    v-model="form.email"
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    autocomplete="text"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                                />
-                                <!-- <span
+                        <div>
+                            <label
+                                for="email"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                >Email</label
+                            >
+                            <input
+                                v-model="form.email"
+                                type="email"
+                                name="email"
+                                id="email"
+                                autocomplete="text"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                            />
+                            <!-- <span
                                     v-if="form.errors.email"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.email }}
                                 </span> -->
-                            </div>
                         </div>
+                    </div>
 
-                        <div
-                            class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
-                        >
-                            <div>
-                                <label
-                                    for="date_of_birth"
-                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                    >Date de naissance
-                                </label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                        <div>
+                            <label
+                                for="date_of_birth"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                >Date de naissance
+                            </label>
 
-                                <input
-                                    v-model="form.date_of_birth"
-                                    type="date"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                                    placeholder="Select date"
-                                    name="date_of_birth"
-                                />
-                                <!-- <span
+                            <input
+                                v-model="form.date_of_birth"
+                                type="date"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                                placeholder="Select date"
+                                name="date_of_birth"
+                            />
+                            <!-- <span
                                     v-if="form.errors.date_of_birth"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.date_of_birth }}
                                 </span> -->
-                            </div>
-                            <div>
-                                <label
-                                    for="date_of_membership"
-                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                    >Date d'adhésion
-                                </label>
+                        </div>
+                        <div>
+                            <label
+                                for="date_of_membership"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                >Date d'adhésion
+                            </label>
 
-                                <input
-                                    v-model="form.date_of_membership"
-                                    type="date"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                                    placeholder="Select date"
-                                    name="date_of_membership"
-                                />
-                                <!-- <span
+                            <input
+                                v-model="form.date_of_membership"
+                                type="date"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                                placeholder="Select date"
+                                name="date_of_membership"
+                            />
+                            <!-- <span
                                     v-if="form.errors.date_of_membership"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.date_of_membership }}
                                 </span> -->
-                            </div>
                         </div>
-                        <div>
-                            <label
-                                for="hs-about-hire-us-1"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Addresse</label
-                            >
-                            <textarea
-                                v-model="form.address"
-                                id="address"
-                                name="address"
-                                rows="1"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                            ></textarea>
-                            <!-- <span
+                    </div>
+                    <div>
+                        <label
+                            for="hs-about-hire-us-1"
+                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                            >Addresse</label
+                        >
+                        <textarea
+                            v-model="form.address"
+                            id="address"
+                            name="address"
+                            rows="1"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                        ></textarea>
+                        <!-- <span
                                 v-if="form.errors.address"
                                 class="text-xs text-red-600 mt-1"
                                 id="hs-validation-name-error-helper"
                             >
                                 {{ form.errors.address }}
                             </span> -->
-                        </div>
+                    </div>
 
+                    <div>
+                        <label
+                            for="region"
+                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                            >Statut</label
+                        >
+                        <select
+                            v-model="form.statut_id"
+                            id="type"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        >
+                            <option disabled value="">
+                                Séléctionner statut
+                            </option>
+                            <option
+                                v-for="statut in status"
+                                :key="statut.id"
+                                :value="statut.id"
+                            >
+                                {{ statut.name }}
+                            </option>
+                        </select>
+                        <!-- <span
+                                    v-if="form.errors.region"
+                                    class="text-xs text-red-600 mt-1"
+                                    id="hs-validation-name-error-helper"
+                                >
+                                    {{ form.errors.region }}
+                                </span> -->
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                         <div>
                             <label
                                 for="region"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Statut</label
+                                >Région</label
                             >
                             <select
-                                v-model="form.statut_id"
+                                v-model="form.region"
                                 id="type"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             >
                                 <option disabled value="">
-                                    Séléctionner statut
+                                    Séléctionner région
                                 </option>
                                 <option
-                                    v-for="statut in status"
-                                    :key="statut.id"
-                                    :value="statut.id"
+                                    v-for="region in regions"
+                                    @change="filterCities"
+                                    :key="region.id"
+                                    :value="region.name"
                                 >
-                                    {{ statut.name }}
+                                    {{ region.name }}
                                 </option>
                             </select>
                             <!-- <span
@@ -405,414 +379,148 @@
                                     {{ form.errors.region }}
                                 </span> -->
                         </div>
-                        <div
-                            class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
-                        >
-                            <div>
-                                <label
-                                    for="region"
-                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                    >Région</label
-                                >
-                                <select
-                                    v-model="form.region"
-                                    id="type"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                >
-                                    <option disabled value="">
-                                        Séléctionner région
-                                    </option>
-                                    <option
-                                        v-for="region in regions"
-                                        @change="filterCities"
-                                        :key="region.id"
-                                        :value="region.name"
-                                    >
-                                        {{ region.name }}
-                                    </option>
-                                </select>
-                                <!-- <span
-                                    v-if="form.errors.region"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.region }}
-                                </span> -->
-                            </div>
 
-                            <div>
-                                <label
-                                    for="city"
-                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                    >Ville</label
+                        <div>
+                            <label
+                                for="city"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                >Ville</label
+                            >
+                            <select
+                                v-model="form.city"
+                                id="type"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            >
+                                <option disabled value="">
+                                    Séléctionner ville
+                                </option>
+                                <option
+                                    v-for="city in filteredCities"
+                                    :key="city.id"
+                                    :value="city"
                                 >
-                                <select
-                                    v-model="form.city"
-                                    id="type"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                >
-                                    <option disabled value="">
-                                        Séléctionner ville
-                                    </option>
-                                    <option
-                                        v-for="city in filteredCities"
-                                        :key="city.id"
-                                        :value="city"
-                                    >
-                                        {{ city }}
-                                    </option>
-                                </select>
-                                <!-- <span
+                                    {{ city }}
+                                </option>
+                            </select>
+                            <!-- <span
                                     v-if="form.errors.city"
                                     class="text-xs text-red-600 mt-1"
                                     id="hs-validation-name-error-helper"
                                 >
                                     {{ form.errors.city }}
                                 </span> -->
-                            </div>
                         </div>
-                        <div
-                            class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
-                        >
-                            <div>
-                                <label
-                                    for="frais_adhesion"
-                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                    >Frais d'adhésion</label
-                                >
-                                <input
-                                    v-model="form.montant"
-                                    type="number"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                                    placeholder="Frais d'adhésion (en DH)"
-                                    name="frais_adhesion"
-                                    min="1"
-                                    step="0.01"
-                                />
-                                <!-- <span
-                                    v-if="form.errors.city"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.city }}
-                                </span> -->
-                            </div>
-                            <div></div>
-                        </div>
-                        <div class="flex justify-end gap-x-2 mt-4">
-                            <button
-                                @click="closeModal"
-                                type="button"
-                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
-                            >
-                                Annuler
-                            </button>
-                            <button
-                                type="submit"
-                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
-                            >
-                                Enregistrer
-                            </button>
-                        </div>
-                    </form>
-                </template>
-            </Modal>
-        </div>
-        <div class="mt-4">
-            <div class="overflow-hidden bg-white">
-                <div class="">
-                    <div class="relative overflow-x-auto mb-5">
-                        <div
-                            class="mt-3 flex justify-center items-center text-md text-gray-600 capitalize"
-                            v-if="adherents.data.length == 0"
-                        >
-                            Pas d'adhérents
-                        </div>
-                        <table
-                            id="my-doc"
-                            v-else
-                            class="w-full sm:rounded-lg text-sm text-left text-gray-500"
-                        >
-                            <thead class="bg-gray-100">
-                                <tr>
-                                    <th
-                                        scope="col"
-                                        class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
-                                    >
-                                        #
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
-                                    >
-                                        Nom
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
-                                    >
-                                        Prénom
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
-                                    >
-                                        CIN
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
-                                    >
-                                        Statut
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
-                                    >
-                                        Telephone
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
-                                    >
-                                        Date d'adhésion
-                                    </th>
-                                    <th
-                                        @click="
-                                            printJS({
-                                                printable: adherents.data,
-                                                properties: [
-                                                    {
-                                                        field: 'first_name',
-                                                        displayName: 'Prenom',
-                                                    },
-                                                    {
-                                                        field: 'last_name',
-                                                        displayName: 'Nom',
-                                                    },
-                                                    {
-                                                        field: 'sexe',
-                                                        displayName: 'Sexe',
-                                                    },
-                                                    {
-                                                        field: 'date_of_birth',
-                                                        displayName:
-                                                            'Date de naissance',
-                                                    },
-                                                    {
-                                                        field: 'date_of_membership',
-                                                        displayName:
-                                                            'Date d\'adhésion',
-                                                    },
-                                                    {
-                                                        field: 'cin',
-                                                        displayName: 'CIN',
-                                                    },
-                                                    {
-                                                        field: 'tel',
-                                                        displayName:
-                                                            'Telephone',
-                                                    },
-                                                    {
-                                                        field: 'address',
-                                                        displayName: 'Addresse',
-                                                    },
-                                                ],
-
-                                                type: 'json',
-                                                header: '<h3 class=\'text-2xl font-semibold text-center\'>Liste des adherents</h3>',
-                                            })
-                                        "
-                                        scope="col"
-                                        class="px-12 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="icon icon-tabler icon-tabler-printer"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            stroke-width="1.5"
-                                            stroke="#2c3e50"
-                                            fill="none"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        >
-                                            <path
-                                                stroke="none"
-                                                d="M0 0h24v24H0z"
-                                                fill="none"
-                                            />
-                                            <path
-                                                d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2"
-                                            />
-                                            <path
-                                                d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4"
-                                            />
-                                            <path
-                                                d="M7 13m0 2a2 2 0 0 1 2 -2h6a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2z"
-                                            />
-                                        </svg>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody
-                                class="bg-white divide-y divide-gray-200 :bg-gray-800"
-                            >
-                                <tr
-                                    v-for="adherent in adherents.data"
-                                    :key="adherent.id"
-                                >
-                                    <td
-                                        class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
-                                    >
-                                        <img
-                                            class="w-10 h-10 rounded-full"
-                                            :src="showImage() + adherent.image"
-                                        />
-                                    </td>
-                                    <td
-                                        class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
-                                    >
-                                        {{ adherent.last_name }}
-                                    </td>
-                                    <td
-                                        class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
-                                    >
-                                        {{ adherent.first_name }}
-                                    </td>
-                                    <td
-                                        class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
-                                    >
-                                        {{ adherent.cin }}
-                                    </td>
-                                    <td
-                                        class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
-                                    >
-                                        {{ "-" }}
-                                    </td>
-                                    <td
-                                        class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
-                                    >
-                                        {{ adherent.tel }}
-                                    </td>
-                                    <td
-                                        class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
-                                    >
-                                        {{ adherent.date_of_membership }}
-                                    </td>
-                                    <td
-                                        class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
-                                    >
-                                        <div v-show="false" id="#print-section">
-                                            <div>
-                                                <h2>
-                                                    {{ adherent.first_name }}
-                                                    {{ adherent.last_name }}
-                                                </h2>
-                                                <p>CIN: {{ adherent.cin }}</p>
-                                                <p>Tel: {{ adherent.tel }}</p>
-                                                <p>
-                                                    Date of Membership:
-                                                    {{
-                                                        adherent.date_of_membership
-                                                    }}
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <div
-                                            class="flex justify-center items-center"
-                                        >
-                                            <!-- Eye -->
-                                            <div
-                                                @click="show(adherent.id)"
-                                                class="cursor-pointer w-4 mr-2 transform hover:text-yellow-200 hover:scale-110"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                                    ></path>
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                                    ></path>
-                                                </svg>
-                                            </div>
-
-                                            <!-- Delete -->
-                                            <div
-                                                @click="destroy(adherent.id)"
-                                                class="cursor-pointer w-4 mr-2 transform hover:text-red-500 hover:scale-110"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                                    ></path>
-                                                </svg>
-                                            </div>
-
-                                            <!-- Print -->
-                                            <div
-                                                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    class="icon icon-tabler icon-tabler-printer"
-                                                    viewBox="0 0 24 24"
-                                                    stroke-width="1.5"
-                                                    stroke="currentColor"
-                                                    fill="none"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                >
-                                                    <path
-                                                        stroke="none"
-                                                        d="M0 0h24v24H0z"
-                                                        fill="none"
-                                                    />
-                                                    <path
-                                                        d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2"
-                                                    />
-                                                    <path
-                                                        d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4"
-                                                    />
-                                                    <rect
-                                                        x="7"
-                                                        y="13"
-                                                        width="10"
-                                                        height="8"
-                                                        rx="2"
-                                                    />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
-                    <Pagination :data="adherents" />
-                </div>
-            </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                        <div>
+                            <label
+                                for="frais_adhesion"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                >Frais d'adhésion</label
+                            >
+                            <input
+                                v-model="form.montant"
+                                type="number"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                                placeholder="Frais d'adhésion (en DH)"
+                                name="frais_adhesion"
+                                min="1"
+                                step="0.01"
+                            />
+                            <!-- <span
+                                    v-if="form.errors.city"
+                                    class="text-xs text-red-600 mt-1"
+                                    id="hs-validation-name-error-helper"
+                                >
+                                    {{ form.errors.city }}
+                                </span> -->
+                        </div>
+                        <div></div>
+                    </div>
+                    <div class="flex justify-end gap-x-2 mt-4">
+                        <button
+                            @click="closeModal"
+                            type="button"
+                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
+                        >
+                            Annuler
+                        </button>
+                        <button
+                            type="submit"
+                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
+                        >
+                            Enregistrer
+                        </button>
+                    </div>
+                </form>
+            </template>
+        </Modal>
+
+        <div class="mt-4">
+            <vue-good-table
+                :columns="columns"
+                :rows="rows"
+                :pagination-options="{
+                    enabled: true,
+                }"
+                :search-options="{
+                    enabled: true,
+                }"
+            >
+                <template v-slot:table-row="{ row, column, formattedRow }">
+                    <div v-if="column.field === 'actions'" class="flex">
+                        <div
+                            @click="show(row)"
+                            class="cursor-pointer w-4 mr-2 transform hover:text-yellow-200 hover:scale-110"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                ></path>
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                ></path>
+                            </svg>
+                        </div>
+
+                        <!-- Delete -->
+
+                        <div
+                            @click="destroy(row)"
+                            class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                ></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div v-if="column.field === 'image'" class="flex"></div>
+                    <div v-else>
+                        {{ formattedRow[column.field] }}
+                    </div>
+                </template>
+            </vue-good-table>
         </div>
     </div>
     <!-- <div class="w-5 h-5">
@@ -834,8 +542,8 @@ export default {
 </script>
 
 <script setup>
-// import "vue-easytable/libs/theme-default/index.css";
-// import VueEasytable from "vue-easytable";
+import { VueGoodTable } from "vue-good-table-next";
+import "vue-good-table-next/dist/vue-good-table-next.css";
 import { Cropper } from "vue-advanced-cropper";
 import "vue-advanced-cropper/dist/style.css";
 import defaultImg from "../../../assets/image.jpeg";
@@ -857,15 +565,49 @@ import autoTable from "jspdf-autotable";
 
 import regionsFile from "../../regions.json";
 
+const columns = ref([
+    {
+        label: "#",
+        field: "image",
+    },
+    {
+        label: "Nom Complet",
+        field: "nom_complet",
+    },
+    {
+        label: "CIN",
+        field: "cin",
+    },
+    // {
+    //     label: "Profession",
+    //     field: "profession",
+    // },
+    {
+        label: "Telephone",
+        field: "tel",
+    },
+
+    {
+        label: "Actions",
+        field: "actions",
+    },
+]);
+const rows = computed(() =>
+    Object.values(props.all_adherents).map((adherent) => ({
+        id: adherent.id,
+        image: showImage() + adherent.image,
+        nom_complet: adherent.first_name + " " + adherent.last_name,
+        cin: adherent.cin,
+        tel: adherent.tel,
+    }))
+);
+
 const props = defineProps({
     all_adherents: {
         type: Object,
         default: () => ({}),
     },
-    adherents: {
-        type: Object,
-        default: () => ({}),
-    },
+
     status: {
         type: Object,
         default: () => ({}),
@@ -977,6 +719,8 @@ const form = useForm({
     date_of_membership: null,
     sexe: null,
     cin: null,
+    profession: null,
+    situation_familiale: null,
     address: null,
     region: null,
     city: null,
@@ -990,7 +734,7 @@ const showImage = () => {
 };
 
 const show = (id) => {
-    form.get(route("adherents.show", id));
+    router.get(route("adherents.show", id));
 };
 
 const destroy = (id) => {
@@ -1030,7 +774,6 @@ const submit = () => {
             });
         },
         onError: () => {
-            console.log(form.errors());
             $toast.open({
                 message: "Erreur lors de l'ajout d'adhérent",
                 type: "error",
@@ -1048,19 +791,6 @@ const closeModal = () => {
 
     form.reset();
 };
-
-// pass filters in search
-let search = ref("");
-watch(search, (value) => {
-    router.get(
-        "/adherents",
-        { search: value },
-        {
-            preserveState: true,
-            replace: true,
-        }
-    );
-});
 </script>
 
 <style scoped>
