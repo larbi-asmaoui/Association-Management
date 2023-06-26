@@ -7,6 +7,8 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const passwordInput = ref(null);
 const currentPasswordInput = ref(null);
@@ -39,11 +41,10 @@ const updatePassword = () => {
 
 <template>
     <FormSection @submitted="updatePassword">
-        <template #title> Mettre à jour le mot de passe </template>
+        <template #title> {{ $t("profile.info_mot_de_passe") }} </template>
 
         <template #description>
-            Assurez-vous que votre compte utilise un mot de passe long et
-            aléatoire pour rester en sécurité.
+            {{ $t("profile.info_mot_de_passe_description") }}
         </template>
 
         <template #form>
@@ -97,14 +98,14 @@ const updatePassword = () => {
 
         <template #actions>
             <ActionMessage :on="form.recentlySuccessful" class="mr-3">
-                Saved.
+                {{ $t("buttons.enregistrer") }}.
             </ActionMessage>
 
             <PrimaryButton
                 :class="{ 'opacity-25': form.processing }"
                 :disabled="form.processing"
             >
-                Save
+                {{ $t("buttons.enregistrer") }}
             </PrimaryButton>
         </template>
     </FormSection>

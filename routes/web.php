@@ -39,7 +39,7 @@ Route::middleware([
     'verified',
 ])->group(
     function () {
-        Route::resource('users', UserController::class);
+        Route::resource('users', UserController::class)->middleware('role:admin');;
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/activities/calendrier', [ActivityController::class, 'calender'])->name('activities.calender');

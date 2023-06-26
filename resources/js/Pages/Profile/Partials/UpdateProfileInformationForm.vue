@@ -8,6 +8,8 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const props = defineProps({
     user: Object,
@@ -77,11 +79,12 @@ const clearPhotoFileInput = () => {
 
 <template>
     <FormSection @submitted="updateProfileInformation">
-        <template #title> Informations sur le profil </template>
+        <template #title>
+            {{ $t("profile.inforamtion_sur_profile") }}
+        </template>
 
         <template #description>
-            Mettez à jour les informations de profil et l'adresse e-mail de
-            votre compte.
+            {{ $t("profile.inforamtion_sur_profile_description") }}
         </template>
 
         <template #form>
@@ -197,14 +200,14 @@ const clearPhotoFileInput = () => {
 
         <template #actions>
             <ActionMessage :on="form.recentlySuccessful" class="mr-3">
-                Saved.
+                {{ $t("buttons.enregistrer") }}.
             </ActionMessage>
 
             <PrimaryButton
                 :class="{ 'opacity-25': form.processing }"
                 :disabled="form.processing"
             >
-                Save
+                {{ $t("buttons.enregistrer") }}
             </PrimaryButton>
         </template>
     </FormSection>

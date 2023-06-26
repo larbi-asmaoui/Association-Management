@@ -7,6 +7,8 @@ import DialogModal from "@/Components/DialogModal.vue";
 import InputError from "@/Components/InputError.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const confirmingUserDeletion = ref(false);
 const passwordInput = ref(null);
@@ -39,36 +41,31 @@ const closeModal = () => {
 
 <template>
     <ActionSection>
-        <template #title> Delete Account </template>
+        <template #title> {{ $t("profile.info_delete") }} </template>
 
         <template #description>
-            Supprimer définitivement votre compte..
+            {{ $t("profile.info_delete_description") }}
         </template>
 
         <template #content>
             <div class="max-w-xl text-sm text-gray-600">
-                Une fois votre compte supprimé, toutes ses ressources et données
-                seront être définitivement supprimé. Avant de supprimer votre
-                compte, veuillez télécharger les données ou informations que
-                vous souhaitez conserver.
+                {{ $t("profile.info_delete_long_desc") }}
             </div>
 
             <div class="mt-5">
                 <DangerButton @click="confirmUserDeletion">
-                    Supprimer le compte
+                    {{ $t("buttons.supprimer") }}
                 </DangerButton>
             </div>
 
             <!-- Delete Account Confirmation Modal -->
             <DialogModal :show="confirmingUserDeletion" @close="closeModal">
-                <template #title> Supprimer le compte</template>
+                <template #title>
+                    {{ $t("profile.info_delete_warning") }}</template
+                >
 
                 <template #content>
-                    Êtes-vous sûr de vouloir supprimer votre compte ? Une fois
-                    votre compte est supprimé, toutes ses ressources et données
-                    seront supprimé définitivement. Veuillez entrer votre mot de
-                    passe pour confirmer vous souhaitez supprimer définitivement
-                    votre compte.
+                    {{ $t("profile.info_delete_warning_desc") }}
 
                     <div class="mt-4">
                         <TextInput
@@ -90,7 +87,7 @@ const closeModal = () => {
 
                 <template #footer>
                     <SecondaryButton @click="closeModal">
-                        Annuler
+                        {{ $t("buttons.annuler") }}
                     </SecondaryButton>
 
                     <DangerButton
@@ -99,7 +96,7 @@ const closeModal = () => {
                         :disabled="form.processing"
                         @click="deleteUser"
                     >
-                        Supprimer le compte
+                        {{ $t("buttons.supprimer") }}
                     </DangerButton>
                 </template>
             </DialogModal>

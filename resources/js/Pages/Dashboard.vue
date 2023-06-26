@@ -2,11 +2,22 @@
 import MainLayout from "../Layouts/MainLayout.vue";
 
 export default {
-  layout: MainLayout,
+    layout: MainLayout,
 };
 </script>
 
+<template>
+    <h1>dashboard</h1>
+    {{ $t("dashborad.hello") }}
+</template>
+
 <script setup>
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+</script>
+
+<!-- <script setup>
 import { ref, watchEffect } from "vue";
 
 import { usePage, router } from "@inertiajs/vue3";
@@ -234,16 +245,10 @@ const dataBarEvent = ref({
     },
   ],
 });
-</script>
-<template>
+</script> -->
+<!-- <template>
   <div>
-    <!-- <div class="mb-4">
-      <h1
-        class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
-      >
-        Tableau de bord
-      </h1>
-    </div> -->
+
     <div class="mt-4">
       <div
         class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-6"
@@ -328,8 +333,6 @@ const dataBarEvent = ref({
             </div>
           </div>
         </div>
-
-        <!-- ------------------- -->
         <div class="card transition duration-500 ease-in-out transform">
           <div class="flex items-center p-5 bg-white rounded shadow-lg">
             <div class="p-3 rounded-full bg-teal-600 bg-opacity-75">
@@ -360,7 +363,6 @@ const dataBarEvent = ref({
             </div>
           </div>
         </div>
-        <!-- ----------------------- -->
         <div class="card transition duration-500 ease-in-out transform">
           <div class="flex items-center p-5 bg-white rounded shadow-lg">
             <div class="p-3 rounded-full bg-green-600 bg-opacity-75">
@@ -390,12 +392,9 @@ const dataBarEvent = ref({
             </div>
           </div>
         </div>
-        <!-- --------------------- -->
 
-        <!-- --------------------- -->
       </div>
       <div class="mt-4 flex text-right justify-start items-center">
-        <!-- ************************************** -->
         <select
           v-model="selectedYear"
           id="type"
@@ -406,13 +405,11 @@ const dataBarEvent = ref({
             {{ year }}
           </option>
         </select>
-        <!-- **********  Select  ********** -->
       </div>
 
       <div class="mt-4">
         <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           <div class="bg-white p-4 shadow-2xl rounded-md col-span-2">
-            <!-- <ChartBar :data="dataBarEvent" :options="barOptions" /> -->
             <ChartLine :data="lineData" :options="lineOptions" />
           </div>
           <div class="bg-white p-4 shadow-2xl rounded-md">
@@ -433,4 +430,4 @@ const dataBarEvent = ref({
       </div>
     </div>
   </div>
-</template>
+</template> -->

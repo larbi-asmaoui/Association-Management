@@ -1,0 +1,48 @@
+{
+    "sidebar":{
+        "dashboard": "Tableau de bord",
+        "about": "À propos",
+        "adherents": "Adhérents",
+        "groupes": "Groupes",
+        "reunions": "Réunions",
+        "revenus": "Revenus",
+        "depenses": "Dépenses",
+        "activites": "Activités",
+        "biens": "Biens",
+        "documents": "Documents"
+    },
+    "navbar":{
+        "profile": "Profil",
+        "logout": "Déconnexion",
+        "type_reunion": "Type de réunion",
+        "type_activite": "Type d'activité",
+        "type_bien": "Type de bien",
+        "type_depense": "Type de dépense",
+        "type_revenue": "Type de revenu",
+        "users": "Utilisateurs",
+        "statut": "Statut",
+        "francais": "Français",
+        "arabe": "Arabe"
+    },
+    "profile":{
+        "inforamtion_sur_profile": "Informations sur le profil",
+        "inforamtion_sur_profile_description": "Mettez à jour les informations de profil et l'adresse e-mail de votre compte.",
+        "info_mot_de_passe": "Mettre à jour le mot de passe ",
+        "info_mot_de_passe_description": "Assurez-vous que votre compte utilise un mot de passe long, aléatoire et unique pour rester en sécurité.",
+        "info_delete": "Supprimer le compte",
+        "info_delete_description": "Supprimez définitivement votre compte et toutes les données qui y sont associées.",
+        "info_delete_long_desc": "Une fois votre compte supprimé, il ne peut pas être restauré.",
+        "info_delete_warning": "Supprimer le compte",
+        "info_delete_warning_desc": "Attention: cette action ne peut pas être annulée."
+     },
+     "buttons":{
+        "ajouter": "Ajouter",
+        "modifier": "Modifier",
+        "supprimer": "Supprimer",
+        "enregistrer": "Enregistrer",
+        "annuler": "Annuler"
+     },
+    "dashborad":{
+        "hello": "Bonjour"
+    }
+}

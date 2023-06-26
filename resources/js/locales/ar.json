@@ -1,0 +1,51 @@
+{
+    "sidebar":{
+        "dashboard": "لوحة القيادة",
+        "about": "حول",
+        "adherents": "المنتسبين",
+        "groupes": "مجموعات",
+        "reunions": "اجتماعات",
+        "revenus": "إيرادات",
+        "depenses": "نفقات",
+        "activites": "أنشطة",
+        "biens": "الأملاك",
+        "documents": "وثائق"
+
+    },
+    "navbar":{
+        "profile": "الملف الشخصي",
+        "logout": "تسجيل خروج",
+        "type_reunion": "نوع الاجتماع",
+        "type_activite": "نوع النشاط",
+        "type_depense": "نوع النفقة",
+        "type_revenue": "نوع الإيراد",
+        "type_bien": "نوع العقار",
+        "users": "المستخدمين",
+        "statut": "الحالة",
+        "francais": "الفرنسية",
+        "arabe": "العربية"
+
+    },
+    "profile":{
+        "inforamtion_sur_profile": "معلومات عن الملف الشخصي",
+        "inforamtion_sur_profile_description": "تحديث معلومات الملف الشخصي وعنوان البريد الإلكتروني",
+        "info_mot_de_passe": "تحديث كلمة المرور",
+        "info_mot_de_passe_description": "تحديث كلمة المرور والتأكيد",
+        "info_delete": "حذف حسابي",
+        "info_delete_description": "حذف حسابي نهائيا",
+        "info_delete_long_desc": "سيؤدي حذف حسابك إلى إزالة جميع بياناتك الشخصية ولن تتمكن من استردادها.",
+        "info_delete_warning": "هل أنت متأكد أنك تريد حذف حسابك؟",
+        "info_delete_warning_desc": "بمجرد حذف حسابك ، لن تتمكن من تسجيل الدخول مرة أخرى باستخدام هذا الحساب."
+    },
+    "buttons":{
+        "ajouter": "إضافة",
+        "modifier": "تعديل",
+        "supprimer": "حذف",
+        "annuler": "إلغاء",
+        "enregistrer": "حفظ"
+    },
+    "dashborad":{
+        "hello": "مرحبا"
+
+    }
+}

@@ -1,8 +1,13 @@
 <template>
     <aside
         id="sidebar"
-        class="fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 hidden w-64 h-screen pt-16 font-normal duration-75 lg:flex transition-width"
+        :class="{
+            'fixed top-0 z-20 flex flex-col flex-shrink-0 hidden w-64 h-screen pt-16 font-normal duration-75 lg:flex transition-width': true,
+            'rtl:left-0': $i18n.locale === 'ar',
+            'left-0': $i18n.locale !== 'ar',
+        }"
         aria-label="Sidebar"
+        :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
     >
         <div
             class="relative no-scrollbar flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
@@ -51,7 +56,12 @@
                                         d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"
                                     ></path>
                                 </svg>
-                                <span class="ml-3">Tableau de bord</span>
+                                <span
+                                    :class="
+                                        $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
+                                    "
+                                    >{{ $t("sidebar.dashboard") }}</span
+                                >
                             </Link>
                         </li>
 
@@ -90,7 +100,12 @@
                                     ></path>
                                 </svg>
 
-                                <span class="ml-3">À propos</span>
+                                <span
+                                    :class="
+                                        $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
+                                    "
+                                    >{{ $t("sidebar.about") }}</span
+                                >
                             </Link>
                         </li>
 
@@ -116,8 +131,11 @@
                                         clip-rule="evenodd"
                                     ></path>
                                 </svg>
-                                <span class="flex-1 ml-3 whitespace-nowrap"
-                                    >Adhérents</span
+                                <span
+                                    :class="
+                                        $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
+                                    "
+                                    >{{ $t("sidebar.adherents") }}</span
                                 >
                             </Link>
                         </li>
@@ -145,8 +163,11 @@
                                         d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
                                     />
                                 </svg>
-                                <span class="flex-1 ml-3 whitespace-nowrap"
-                                    >Groupes</span
+                                <span
+                                    :class="
+                                        $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
+                                    "
+                                    >{{ $t("sidebar.groupes") }}</span
                                 >
                             </Link>
                         </li>
@@ -185,8 +206,11 @@
                                     ></path>
                                 </svg>
 
-                                <span class="flex-1 ml-3 whitespace-nowrap"
-                                    >Réunions</span
+                                <span
+                                    :class="
+                                        $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
+                                    "
+                                    >{{ $t("sidebar.reunions") }}</span
                                 >
                             </Link>
                         </li>
@@ -213,7 +237,11 @@
                   />
                   <path d="M12 6v2m0 8v2" />
                 </svg>
-                <span class="flex-1 ml-3 whitespace-nowrap">Cotisations</span>
+                <span
+                                    :class="
+                                        $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
+                                    "
+                                    >Cotisations</span>
               </Link>
             </li> -->
 
@@ -248,8 +276,11 @@
                                     <path d="M7 11l5 5l5 -5"></path>
                                     <path d="M12 4l0 12"></path>
                                 </svg>
-                                <span class="flex-1 ml-3 whitespace-nowrap"
-                                    >Revenus</span
+                                <span
+                                    :class="
+                                        $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
+                                    "
+                                    >{{ $t("sidebar.revenus") }}</span
                                 >
                             </Link>
                         </li>
@@ -285,8 +316,11 @@
                                     <path d="M7 9l5 -5l5 5"></path>
                                     <path d="M12 4l0 12"></path>
                                 </svg>
-                                <span class="flex-1 ml-3 whitespace-nowrap"
-                                    >Dépenses</span
+                                <span
+                                    :class="
+                                        $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
+                                    "
+                                    >{{ $t("sidebar.depenses") }}</span
                                 >
                             </Link>
                         </li>
@@ -326,8 +360,11 @@
                                     <path d="M8 15h2v2h-2z"></path>
                                 </svg>
 
-                                <span class="flex-1 ml-3 whitespace-nowrap"
-                                    >Activités</span
+                                <span
+                                    :class="
+                                        $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
+                                    "
+                                    >{{ $t("sidebar.activites") }}</span
                                 >
                             </Link>
                         </li>
@@ -360,8 +397,11 @@
                                         d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"
                                     />
                                 </svg>
-                                <span class="flex-1 ml-3 whitespace-nowrap"
-                                    >Stocks</span
+                                <span
+                                    :class="
+                                        $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
+                                    "
+                                    >{{ $t("sidebar.biens") }}</span
                                 >
                             </Link>
                         </li>
@@ -397,8 +437,11 @@
                                         d="M16 17v2a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h2"
                                     ></path>
                                 </svg>
-                                <span class="flex-1 ml-3 whitespace-nowrap"
-                                    >E-documents</span
+                                <span
+                                    :class="
+                                        $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
+                                    "
+                                    >{{ $t("sidebar.documents") }}</span
                                 >
                             </Link>
                         </li>
@@ -413,6 +456,9 @@
 import { Avatar } from "flowbite-vue";
 import { Link, Head, router } from "@inertiajs/vue3";
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+
 const activeClass = ref(
     "bg-blue-700 text-white flex items-center p-2  rounded-lg group dark:text-gray-200 dark:hover:bg-gray-700"
 );

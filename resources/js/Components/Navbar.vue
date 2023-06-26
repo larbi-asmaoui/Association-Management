@@ -93,58 +93,42 @@
                                         fill="none"
                                     ></path>
                                     <path
-                                        d="M9 3h-4a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2z"
-                                        stroke-width="0"
-                                        fill="currentColor"
+                                        d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"
                                     ></path>
-                                    <path
-                                        d="M9 13h-4a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2z"
-                                        stroke-width="0"
-                                        fill="currentColor"
-                                    ></path>
-                                    <path
-                                        d="M19 13h-4a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2z"
-                                        stroke-width="0"
-                                        fill="currentColor"
-                                    ></path>
-                                    <path
-                                        d="M17 3a1 1 0 0 1 .993 .883l.007 .117v2h2a1 1 0 0 1 .117 1.993l-.117 .007h-2v2a1 1 0 0 1 -1.993 .117l-.007 -.117v-2h-2a1 1 0 0 1 -.117 -1.993l.117 -.007h2v-2a1 1 0 0 1 1 -1z"
-                                        stroke-width="0"
-                                        fill="currentColor"
-                                    ></path>
+                                    <path d="M3.6 9h16.8"></path>
+                                    <path d="M3.6 15h16.8"></path>
+                                    <path d="M11.5 3a17 17 0 0 0 0 18"></path>
+                                    <path d="M12.5 3a17 17 0 0 1 0 18"></path>
                                 </svg>
                             </button>
                         </template>
                         <template #content>
-                            <DropdownLink :href="route('activity-types.index')">
-                                <div class="flex justify-start items-end">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="icon icon-tabler icon-tabler-accessible mr-1 w-6 h-6"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="2"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <path
-                                            stroke="none"
-                                            d="M0 0h24v24H0z"
-                                            fill="none"
-                                        ></path>
-                                        <path
-                                            d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"
-                                        ></path>
-                                        <path d="M16 3l0 4"></path>
-                                        <path d="M8 3l0 4"></path>
-                                        <path d="M4 11l16 0"></path>
-                                        <path d="M8 15h2v2h-2z"></path>
-                                    </svg>
-                                    Type d'activités
+                            <DropdownLink @click.native="changeLanguage('fr')">
+                                <div
+                                    class="flex"
+                                    :class="
+                                        $i18n.locale === 'ar'
+                                            ? 'justify-end'
+                                            : 'justify-start'
+                                    "
+                                >
+                                    {{ $t("navbar.francais") }}
                                 </div>
                             </DropdownLink>
+
                             <div class="border-t border-gray-200" />
+                            <DropdownLink @click.native="changeLanguage('ar')">
+                                <div
+                                    class="flex"
+                                    :class="
+                                        $i18n.locale === 'ar'
+                                            ? 'justify-end'
+                                            : 'justify-start'
+                                    "
+                                >
+                                    {{ $t("navbar.arabe") }}
+                                </div>
+                            </DropdownLink>
                         </template>
                     </Dropdown>
                     <Dropdown>
@@ -194,10 +178,17 @@
                         </template>
                         <template #content>
                             <DropdownLink :href="route('activity-types.index')">
-                                <div class="flex justify-start items-end">
+                                <div
+                                    class="flex"
+                                    :class="
+                                        $i18n.locale === 'ar'
+                                            ? 'flex-row-reverse justify-start'
+                                            : 'flex justify-start'
+                                    "
+                                >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        class="icon icon-tabler icon-tabler-accessible mr-1 w-6 h-6"
+                                        class="icon icon-tabler icon-tabler-accessible w-6 h-6"
                                         viewBox="0 0 24 24"
                                         stroke-width="2"
                                         stroke="currentColor"
@@ -218,12 +209,26 @@
                                         <path d="M4 11l16 0"></path>
                                         <path d="M8 15h2v2h-2z"></path>
                                     </svg>
-                                    Type d'activités
+                                    <span
+                                        :class="
+                                            $i18n.locale === 'ar'
+                                                ? 'mr-3'
+                                                : 'ml-3'
+                                        "
+                                        >{{ $t("navbar.type_activite") }}</span
+                                    >
                                 </div>
                             </DropdownLink>
                             <div class="border-t border-gray-200" />
                             <DropdownLink :href="route('reunion-types.index')">
-                                <div class="flex justify-start items-end">
+                                <div
+                                    class="flex"
+                                    :class="
+                                        $i18n.locale === 'ar'
+                                            ? 'flex-row-reverse justify-start'
+                                            : 'flex justify-start'
+                                    "
+                                >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="icon icon-tabler icon-tabler-accessible mr-1 w-6 h-6"
@@ -252,12 +257,27 @@
                                             d="M21 21v-2a4 4 0 0 0 -3 -3.85"
                                         ></path>
                                     </svg>
-                                    Type Réunions
+                                    <span
+                                        :class="
+                                            $i18n.locale === 'ar'
+                                                ? 'mr-3'
+                                                : 'ml-3'
+                                        "
+                                    >
+                                        {{ $t("navbar.type_reunion") }}</span
+                                    >
                                 </div>
                             </DropdownLink>
                             <div class="border-t border-gray-200" />
                             <DropdownLink :href="route('stock-types.index')">
-                                <div class="flex justify-start items-end">
+                                <div
+                                    class="flex"
+                                    :class="
+                                        $i18n.locale === 'ar'
+                                            ? 'flex-row-reverse justify-start'
+                                            : 'flex justify-start'
+                                    "
+                                >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="icon icon-tabler icon-tabler-package mr-1 w-6 h-6"
@@ -281,12 +301,27 @@
                                         <path d="M12 12l-8 -4.5"></path>
                                         <path d="M16 5.25l-8 4.5"></path>
                                     </svg>
-                                    Type de stock
+                                    <span
+                                        :class="
+                                            $i18n.locale === 'ar'
+                                                ? 'mr-3'
+                                                : 'ml-3'
+                                        "
+                                    >
+                                        {{ $t("navbar.type_bien") }}</span
+                                    >
                                 </div>
                             </DropdownLink>
                             <div class="border-t border-gray-200" />
                             <DropdownLink :href="route('status.index')">
-                                <div class="flex justify-start items-end">
+                                <div
+                                    class="flex"
+                                    :class="
+                                        $i18n.locale === 'ar'
+                                            ? 'flex-row-reverse justify-start'
+                                            : 'flex justify-start'
+                                    "
+                                >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="icon icon-tabler icon-tabler-package mr-1 w-6 h-6"
@@ -310,13 +345,27 @@
                                         ></path>
                                         <path d="M15 19l2 2l4 -4"></path>
                                     </svg>
-
-                                    Status
+                                    <span
+                                        :class="
+                                            $i18n.locale === 'ar'
+                                                ? 'mr-3'
+                                                : 'ml-3'
+                                        "
+                                    >
+                                        {{ $t("navbar.statut") }}</span
+                                    >
                                 </div>
                             </DropdownLink>
                             <div class="border-t border-gray-200" />
                             <DropdownLink :href="route('revenue-types.index')">
-                                <div class="flex justify-start items-end">
+                                <div
+                                    class="flex"
+                                    :class="
+                                        $i18n.locale === 'ar'
+                                            ? 'flex-row-reverse justify-start'
+                                            : 'flex justify-start'
+                                    "
+                                >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="icon icon-tabler icon-tabler-upload mr-1 w-6 h-6"
@@ -338,12 +387,27 @@
                                         <path d="M7 11l5 5l5 -5"></path>
                                         <path d="M12 4l0 12"></path>
                                     </svg>
-                                    Type de revenus
+                                    <span
+                                        :class="
+                                            $i18n.locale === 'ar'
+                                                ? 'mr-3'
+                                                : 'ml-3'
+                                        "
+                                    >
+                                        {{ $t("navbar.type_revenue") }}</span
+                                    >
                                 </div>
                             </DropdownLink>
                             <div class="border-t border-gray-200" />
                             <DropdownLink :href="route('depense-types.index')">
-                                <div class="flex justify-start items-end">
+                                <div
+                                    class="flex"
+                                    :class="
+                                        $i18n.locale === 'ar'
+                                            ? 'flex-row-reverse justify-start'
+                                            : 'flex justify-start'
+                                    "
+                                >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="icon icon-tabler icon-tabler-download mr-1 w-6 h-6"
@@ -365,12 +429,27 @@
                                         <path d="M7 9l5 -5l5 5"></path>
                                         <path d="M12 4l0 12"></path>
                                     </svg>
-                                    Type de dépenses
+                                    <span
+                                        :class="
+                                            $i18n.locale === 'ar'
+                                                ? 'mr-3'
+                                                : 'ml-3'
+                                        "
+                                    >
+                                        {{ $t("navbar.type_depense") }}</span
+                                    >
                                 </div>
                             </DropdownLink>
                             <div class="border-t border-gray-200" />
                             <DropdownLink :href="route('users.index')">
-                                <div class="flex justify-start items-end">
+                                <div
+                                    class="flex"
+                                    :class="
+                                        $i18n.locale === 'ar'
+                                            ? 'flex-row-reverse justify-start'
+                                            : 'flex justify-start'
+                                    "
+                                >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="icon icon-tabler icon-tabler-coin mr-1 w-6 h-6"
@@ -399,8 +478,15 @@
                                             fill="currentColor"
                                         ></circle>
                                     </svg>
-
-                                    Users
+                                    <span
+                                        :class="
+                                            $i18n.locale === 'ar'
+                                                ? 'mr-3'
+                                                : 'ml-3'
+                                        "
+                                    >
+                                        {{ $t("navbar.users") }}</span
+                                    >
                                 </div>
                             </DropdownLink>
                         </template>
@@ -454,12 +540,12 @@
                             </template>
                             <template #content>
                                 <DropdownLink :href="route('profile.show')">
-                                    Profile
+                                    {{ $t("navbar.profile") }}
                                 </DropdownLink>
                                 <div class="border-t border-gray-200" />
                                 <form @submit.prevent="logout">
                                     <DropdownLink as="button">
-                                        Déconnexion
+                                        {{ $t("navbar.logout") }}
                                     </DropdownLink>
                                 </form>
                             </template>
@@ -476,8 +562,15 @@ import { Avatar } from "flowbite-vue";
 import { Link, Head, router } from "@inertiajs/vue3";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
+import { useI18n } from "vue-i18n";
+const { t, availableLocales, locale } = useI18n();
 
 const logout = () => {
     router.post(route("logout"));
+};
+
+const changeLanguage = (lang) => {
+    locale.value = lang;
+    localStorage.setItem("language", lang);
 };
 </script>
