@@ -49,7 +49,10 @@ const updatePassword = () => {
 
         <template #form>
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="current_password" value="Current Password" />
+                <InputLabel
+                    for="current_password"
+                    :value="$t('profile.input_mot_de_passe')"
+                />
                 <TextInput
                     id="current_password"
                     ref="currentPasswordInput"
@@ -65,7 +68,10 @@ const updatePassword = () => {
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="password" value="New Password" />
+                <InputLabel
+                    for="password"
+                    :value="$t('profile.input_mot_de_passe_nouveau')"
+                />
                 <TextInput
                     id="password"
                     ref="passwordInput"
@@ -80,7 +86,7 @@ const updatePassword = () => {
             <div class="col-span-6 sm:col-span-4">
                 <InputLabel
                     for="password_confirmation"
-                    value="Confirm Password"
+                    :value="$t('profile.input_mot_de_passe_confirmation')"
                 />
                 <TextInput
                     id="password_confirmation"

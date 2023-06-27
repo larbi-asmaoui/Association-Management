@@ -1,11 +1,8 @@
 <template>
     <aside
         id="sidebar"
-        :class="{
-            'fixed top-0 z-20 flex flex-col flex-shrink-0 hidden w-64 h-screen pt-16 font-normal duration-75 lg:flex transition-width': true,
-            'rtl:left-0': $i18n.locale === 'ar',
-            'left-0': $i18n.locale !== 'ar',
-        }"
+        class="fixed top-0 z-20 flex flex-col flex-shrink-0 hidden w-64 h-screen pt-16 font-normal duration-75 lg:flex transition-width"
+        :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"
         aria-label="Sidebar"
         :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
     >

@@ -563,6 +563,7 @@ import { Link, Head, router } from "@inertiajs/vue3";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import { useI18n } from "vue-i18n";
+import { computed, onMounted } from "vue";
 const { t, availableLocales, locale } = useI18n();
 
 const logout = () => {

@@ -1,5 +1,5 @@
 {
-    "sidebar":{
+    "sidebar": {
         "dashboard": "Tableau de bord",
         "about": "À propos",
         "adherents": "Adhérents",
@@ -11,7 +11,7 @@
         "biens": "Biens",
         "documents": "Documents"
     },
-    "navbar":{
+    "navbar": {
         "profile": "Profil",
         "logout": "Déconnexion",
         "type_reunion": "Type de réunion",
@@ -24,7 +24,8 @@
         "francais": "Français",
         "arabe": "Arabe"
     },
-    "profile":{
+    "profile": {
+        "titre": "Profil",
         "inforamtion_sur_profile": "Informations sur le profil",
         "inforamtion_sur_profile_description": "Mettez à jour les informations de profil et l'adresse e-mail de votre compte.",
         "info_mot_de_passe": "Mettre à jour le mot de passe ",
@@ -33,16 +34,110 @@
         "info_delete_description": "Supprimez définitivement votre compte et toutes les données qui y sont associées.",
         "info_delete_long_desc": "Une fois votre compte supprimé, il ne peut pas être restauré.",
         "info_delete_warning": "Supprimer le compte",
-        "info_delete_warning_desc": "Attention: cette action ne peut pas être annulée."
-     },
-     "buttons":{
+        "info_delete_warning_desc": "Attention: cette action ne peut pas être annulée.",
+        "input_nom": "Nom",
+        "input_email": "Email",
+        "input_mot_de_passe": "Mot de passe",
+        "input_mot_de_passe_nouveau": "Nouveau Mot de passe",
+        "input_mot_de_passe_confirmation": "Confirmer le mot de passe"
+    },
+    "buttons": {
         "ajouter": "Ajouter",
         "modifier": "Modifier",
         "supprimer": "Supprimer",
         "enregistrer": "Enregistrer",
         "annuler": "Annuler"
-     },
-    "dashborad":{
+    },
+    "dashborad": {
         "hello": "Bonjour"
+    },
+    "a-propos": {
+        "titre": "Informations sur l'association",
+        "logo": "Logo",
+        "input_nom": "Nom de l'association",
+        "input_objectifs": "Objectifs",
+        "input_addresse": "Adresse",
+        "input_region": "Région",
+        "input_ville": "Ville",
+        "choisir_logo": "Choisir un logo"
+    },
+    "adherents": {
+        "titre": "Gestion des adhérents",
+        "modal_ajouter": "Ajouter un adhérent",
+        "table_nom_complete": "Nom complet",
+        "table_cin": "CIN",
+        "table_telephone": "Téléphone",
+        "table_profession": "Profession",
+        "table_date_naissance": "Date de naissance",
+        "table_date_d'adhesion": "Date d'adhésion",
+        "table_situation_familiale": "Situation familiale",
+        "table_search": "Rechercher"
+    },
+    "groupes": {
+        "titre": "Gestion des groupes",
+        "modal_ajouter": "Ajouter un groupe",
+        "table_nom": "Nom",
+        "table_description": "Description",
+        "table_nombre_adherents": "Nombre d'adhérents",
+        "table_search": "Rechercher",
+        "table_actions": "Actions",
+        "modal_modifier": "Modifier un groupe",
+        "input_groupe": "Groupe",
+        "input_description": "Description",
+        "input_adherents": "Adhérents"
+    },
+    "reunions": {
+        "titre": "Gestion des réunions",
+        "modal_ajouter": "Ajouter une réunion",
+        "table_nom": "Nom",
+        "table_description": "Description",
+        "table_date": "Date",
+        "table_heure": "Heure",
+        "table_type": "Type",
+        "table_search": "Rechercher",
+        "table_actions": "Actions",
+        "modal_modifier": "Modifier une réunion",
+        "input_nom": "Titre du Réunion",
+        "input_description": "Description",
+        "input_date": "Date",
+        "input_heure": "Heure",
+        "input_type": "Type",
+        "input_adherents": "Adhérents"
+    },
+    "revenues": {
+        "titre": "Gestion des revenus",
+        "modal_ajouter": "Ajouter un revenu",
+        "table_nom": "Nom",
+        "table_description": "Description",
+        "table_date": "Date",
+        "table_montant": "Montant",
+        "table_type": "Type",
+        "table_search": "Rechercher",
+        "table_actions": "Actions",
+        "modal_modifier": "Modifier un revenu",
+        "input_nom": "Nom",
+        "input_description": "Description",
+        "input_date": "Date",
+        "input_montant": "Montant",
+        "input_type": "Type",
+        "input_image": "Image"
+    },
+    "depenses": {
+        "titre": "Gestion des dépenses",
+        "modal_ajouter": "Ajouter une dépense",
+        "table_nom": "Nom",
+        "table_description": "Description",
+        "table_date": "Date",
+        "table_montant": "Montant",
+        "table_type": "Type",
+        "table_search": "Rechercher",
+        "table_actions": "Actions",
+        "modal_modifier": "Modifier une dépense",
+        "input_nom": "Nom",
+        "input_description": "Description",
+        "input_date": "Date",
+        "input_montant": "Montant",
+        "input_type": "Type",
+        "input_image": "Image"
     }
 }

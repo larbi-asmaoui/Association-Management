@@ -1,5 +1,5 @@
 {
-    "sidebar":{
+    "sidebar": {
         "dashboard": "لوحة القيادة",
         "about": "حول",
         "adherents": "المنتسبين",
@@ -10,9 +10,8 @@
         "activites": "أنشطة",
         "biens": "الأملاك",
         "documents": "وثائق"
-
     },
-    "navbar":{
+    "navbar": {
         "profile": "الملف الشخصي",
         "logout": "تسجيل خروج",
         "type_reunion": "نوع الاجتماع",
@@ -24,9 +23,9 @@
         "statut": "الحالة",
         "francais": "الفرنسية",
         "arabe": "العربية"
-
     },
-    "profile":{
+    "profile": {
+        "titre": "الملف الشخصي",
         "inforamtion_sur_profile": "معلومات عن الملف الشخصي",
         "inforamtion_sur_profile_description": "تحديث معلومات الملف الشخصي وعنوان البريد الإلكتروني",
         "info_mot_de_passe": "تحديث كلمة المرور",
@@ -35,17 +34,105 @@
         "info_delete_description": "حذف حسابي نهائيا",
         "info_delete_long_desc": "سيؤدي حذف حسابك إلى إزالة جميع بياناتك الشخصية ولن تتمكن من استردادها.",
         "info_delete_warning": "هل أنت متأكد أنك تريد حذف حسابك؟",
-        "info_delete_warning_desc": "بمجرد حذف حسابك ، لن تتمكن من تسجيل الدخول مرة أخرى باستخدام هذا الحساب."
+        "info_delete_warning_desc": "بمجرد حذف حسابك ، لن تتمكن من تسجيل الدخول مرة أخرى باستخدام هذا الحساب.",
+        "input_nom": "الاسم",
+        "input_email": "البريد الإلكتروني",
+        "input_mot_de_passe": " كلمة المرور",
+        "input_mot_de_passe_nouveau": "كلمة المرور الجديدة",
+        "input_mot_de_passe_confirmation": "تأكيد كلمة المرور"
     },
-    "buttons":{
+    "buttons": {
         "ajouter": "إضافة",
         "modifier": "تعديل",
         "supprimer": "حذف",
         "annuler": "إلغاء",
         "enregistrer": "حفظ"
     },
-    "dashborad":{
+    "dashborad": {
         "hello": "مرحبا"
-
+    },
+    "a-propos": {
+        "titre": "معلومات الجمعية",
+        "logo": "شعار الجمعية",
+        "input_nom": "الاسم",
+        "input_objectifs": "الأهداف",
+        "input_addresse": "العنوان",
+        "input_region": "الجهة",
+        "input_ville": "المدينة",
+        "choisir_logo": "اختر شعارا"
+    },
+    "adherents": {
+        "titre": "إدارة المنتسبين",
+        "modal_ajouter": "إضافة منتسب",
+        "table_nom_complete": "الاسم الكامل",
+        "table_cin": "ر.ب.و",
+        "table_telephone": "الهاتف",
+        "table_profession": "المهنة",
+        "table_date_naissance": "تاريخ الولادة",
+        "table_date_d'adhesion": "تاريخ الانخراط",
+        "table_situation_familiale": "الحالة العائلية",
+        "table_search": "بحث"
+    },
+    "groupes": {
+        "titre": "إدارة المجموعات",
+        "modal_ajouter": "إضافة مجموعة",
+        "table_nom": "الاسم",
+        "table_description": "الوصف",
+        "table_nombre_adherents": "عدد المنتسبين",
+        "table_search": "بحث",
+        "table_actions": "العمليات",
+        "modal_modifier": "تعديل مجموعة",
+        "input_groupe": "مجموعة",
+        "input_description": "الوصف",
+        "input_adherents": "المنتسبين"
+    },
+    "reunions": {
+        "titre": "إدارة الاجتماعات",
+        "modal_ajouter": "إضافة اجتماع",
+        "table_nom": "الاسم",
+        "table_date": "التاريخ",
+        "table_type": "النوع",
+        "table_search": "بحث",
+        "table_actions": "العمليات",
+        "modal_modifier": "تعديل اجتماع",
+        "input_nom": "الاسم",
+        "input_date": "التاريخ",
+        "input_type": "النوع",
+        "input_description": "الوصف",
+        "input_adherents": "المنتسبين"
+    },
+    "revenues": {
+        "titre": "إدارة الإيرادات",
+        "modal_ajouter": "إضافة إيراد",
+        "table_nom": "الاسم",
+        "table_date": "التاريخ",
+        "table_type": "النوع",
+        "table_montant": "المبلغ",
+        "table_search": "بحث",
+        "table_actions": "العمليات",
+        "modal_modifier": "تعديل إيراد",
+        "input_nom": "الاسم",
+        "input_date": "التاريخ",
+        "input_type": "النوع",
+        "input_montant": "المبلغ",
+        "input_description": "الوصف",
+        "input_image": "الصورة"
+    },
+    "depenses": {
+        "titre": "إدارة المصاريف",
+        "modal_ajouter": "إضافة مصاريف",
+        "table_nom": "الاسم",
+        "table_date": "التاريخ",
+        "table_type": "النوع",
+        "table_montant": "المبلغ",
+        "table_search": "بحث",
+        "table_actions": "العمليات",
+        "modal_modifier": "تعديل مصاريف",
+        "input_nom": "الاسم",
+        "input_date": "التاريخ",
+        "input_type": "النوع",
+        "input_montant": "المبلغ",
+        "input_description": "الوصف",
+        "input_image": "الصورة"
     }
 }

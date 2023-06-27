@@ -1,8 +1,9 @@
 <template>
     <button
         @click="isModalOpen = true"
-        class="rounded-full fixed bottom-8 right-5 z-50 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
+        class="rounded-full fixed bottom-8 z-50 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
         type="button"
+        :class="$i18n.locale === 'ar' ? 'left-5' : 'right-5'"
     >
         <svg
             class="w-5 h-5"
@@ -23,7 +24,12 @@
         <div
             class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
         >
-            <h2 class="text-xl font-semibold text-white">Gestion Adhérents</h2>
+            <h2
+                class="text-xl font-semibold text-white"
+                :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
+            >
+                {{ $t("adherents.titre") }}
+            </h2>
         </div>
         <!-- End -->
         <div
@@ -33,7 +39,14 @@
         </div>
         <Modal size="5xl" v-if="isModalOpen" @close="closeModal">
             <template #header>
-                <div class="flex items-center text-lg">Ajouter un adhérent</div>
+                <div
+                    class="flex items-center text-lg"
+                    :class="
+                        $i18n.locale === 'ar' ? 'justify-end' : 'justify-start'
+                    "
+                >
+                    {{ $t("adherents.modal_ajouter") }}
+                </div>
             </template>
             <template #body>
                 <form
@@ -443,13 +456,13 @@
                             type="button"
                             class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
                         >
-                            Annuler
+                            {{ $t("buttons.annuler") }}
                         </button>
                         <button
                             type="submit"
                             class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
                         >
-                            Enregistrer
+                            {{ $t("buttons.enregistrer") }}
                         </button>
                     </div>
                 </form>
@@ -465,7 +478,9 @@
                 }"
                 :search-options="{
                     enabled: true,
+                    placeholder: $t('adherents.table_search'),
                 }"
+                :rtl="$i18n.locale === 'ar'"
             >
                 <template v-slot:table-row="{ row, column, formattedRow }">
                     <div v-if="column.field === 'actions'" class="flex">
@@ -567,8 +582,9 @@ import AdherentInfo from "./AdherentInfo.vue";
 import JsonCSV from "vue-json-csv";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-
 import regionsFile from "../../regions.json";
+import { useI18n } from "vue-i18n";
+const { t, availableLocales, locale } = useI18n();
 
 const columns = ref([
     {
@@ -576,23 +592,23 @@ const columns = ref([
         field: "image",
     },
     {
-        label: "Nom Complet",
+        label: t("adherents.table_nom_complete"),
         field: "nom_complet",
     },
     {
-        label: "CIN",
+        label: t("adherents.table_cin"),
         field: "cin",
     },
     {
-        label: "Profession",
+        label: t("adherents.table_profession"),
         field: "profession",
     },
     {
-        label: "Situation Familiale",
+        label: t("adherents.table_situation_familiale"),
         field: "situation_familiale",
     },
     {
-        label: "Telephone",
+        label: t("adherents.table_telephone"),
         field: "tel",
     },
 
