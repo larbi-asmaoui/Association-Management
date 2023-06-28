@@ -1,8 +1,9 @@
 <template>
     <nav
+        :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
         class="fixed z-30 w-full min-h-[70px] bg-white border-b border-gray-200"
     >
-        <div class="px-3 py-3 lg:px-5 lg:pl-3">
+        <div class="pe-3 py-3 lg:pe-5">
             <div class="flex items-center justify-between">
                 <div class="flex items-center justify-start">
                     <button
@@ -38,7 +39,7 @@
                             ></path>
                         </svg>
                     </button>
-                    <Link :href="route('dashboard')" class="flex ml-2 md:mr-24">
+                    <Link :href="route('dashboard')" class="flex ms-2 md:me-24">
                         <img src="../../assets/logo.svg" alt="" class="mr-2" />
                         <span
                             class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white"
@@ -70,10 +71,11 @@
                             <path d="M12 15v3"></path>
                         </svg>
                     </Link>
-                    <Dropdown>
+                    <!-- types -->
+                    <Dropdown :align="$i18n.locale === 'ar' ? 'left' : 'right'">
                         <template #trigger>
                             <button
-                                class="flex mx-4 text-gray-600 focus:outline-none"
+                                class="flex mx-1 text-gray-600 focus:outline-none"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -104,37 +106,23 @@
                         </template>
                         <template #content>
                             <DropdownLink @click.native="changeLanguage('fr')">
-                                <div
-                                    class="flex"
-                                    :class="
-                                        $i18n.locale === 'ar'
-                                            ? 'justify-end'
-                                            : 'justify-start'
-                                    "
-                                >
+                                <div class="flex">
                                     {{ $t("navbar.francais") }}
                                 </div>
                             </DropdownLink>
 
                             <div class="border-t border-gray-200" />
                             <DropdownLink @click.native="changeLanguage('ar')">
-                                <div
-                                    class="flex"
-                                    :class="
-                                        $i18n.locale === 'ar'
-                                            ? 'justify-end'
-                                            : 'justify-start'
-                                    "
-                                >
+                                <div class="flex">
                                     {{ $t("navbar.arabe") }}
                                 </div>
                             </DropdownLink>
                         </template>
                     </Dropdown>
-                    <Dropdown>
+                    <Dropdown :align="$i18n.locale === 'ar' ? 'left' : 'right'">
                         <template #trigger>
                             <button
-                                class="flex mx-4 text-gray-600 focus:outline-none"
+                                class="flex mx-2 text-gray-600 focus:outline-none"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -178,14 +166,7 @@
                         </template>
                         <template #content>
                             <DropdownLink :href="route('activity-types.index')">
-                                <div
-                                    class="flex"
-                                    :class="
-                                        $i18n.locale === 'ar'
-                                            ? 'flex-row-reverse justify-start'
-                                            : 'flex justify-start'
-                                    "
-                                >
+                                <div class="flex">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="icon icon-tabler icon-tabler-accessible w-6 h-6"
@@ -221,14 +202,7 @@
                             </DropdownLink>
                             <div class="border-t border-gray-200" />
                             <DropdownLink :href="route('reunion-types.index')">
-                                <div
-                                    class="flex"
-                                    :class="
-                                        $i18n.locale === 'ar'
-                                            ? 'flex-row-reverse justify-start'
-                                            : 'flex justify-start'
-                                    "
-                                >
+                                <div class="flex">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="icon icon-tabler icon-tabler-accessible mr-1 w-6 h-6"
@@ -270,14 +244,7 @@
                             </DropdownLink>
                             <div class="border-t border-gray-200" />
                             <DropdownLink :href="route('stock-types.index')">
-                                <div
-                                    class="flex"
-                                    :class="
-                                        $i18n.locale === 'ar'
-                                            ? 'flex-row-reverse justify-start'
-                                            : 'flex justify-start'
-                                    "
-                                >
+                                <div class="flex">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="icon icon-tabler icon-tabler-package mr-1 w-6 h-6"
@@ -314,14 +281,7 @@
                             </DropdownLink>
                             <div class="border-t border-gray-200" />
                             <DropdownLink :href="route('status.index')">
-                                <div
-                                    class="flex"
-                                    :class="
-                                        $i18n.locale === 'ar'
-                                            ? 'flex-row-reverse justify-start'
-                                            : 'flex justify-start'
-                                    "
-                                >
+                                <div class="flex">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="icon icon-tabler icon-tabler-package mr-1 w-6 h-6"
@@ -358,14 +318,7 @@
                             </DropdownLink>
                             <div class="border-t border-gray-200" />
                             <DropdownLink :href="route('revenue-types.index')">
-                                <div
-                                    class="flex"
-                                    :class="
-                                        $i18n.locale === 'ar'
-                                            ? 'flex-row-reverse justify-start'
-                                            : 'flex justify-start'
-                                    "
-                                >
+                                <div class="flex">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="icon icon-tabler icon-tabler-upload mr-1 w-6 h-6"
@@ -400,14 +353,7 @@
                             </DropdownLink>
                             <div class="border-t border-gray-200" />
                             <DropdownLink :href="route('depense-types.index')">
-                                <div
-                                    class="flex"
-                                    :class="
-                                        $i18n.locale === 'ar'
-                                            ? 'flex-row-reverse justify-start'
-                                            : 'flex justify-start'
-                                    "
-                                >
+                                <div class="flex">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="icon icon-tabler icon-tabler-download mr-1 w-6 h-6"
@@ -442,14 +388,7 @@
                             </DropdownLink>
                             <div class="border-t border-gray-200" />
                             <DropdownLink :href="route('users.index')">
-                                <div
-                                    class="flex"
-                                    :class="
-                                        $i18n.locale === 'ar'
-                                            ? 'flex-row-reverse justify-start'
-                                            : 'flex justify-start'
-                                    "
-                                >
+                                <div class="flex">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="icon icon-tabler icon-tabler-coin mr-1 w-6 h-6"
@@ -493,7 +432,9 @@
                     </Dropdown>
 
                     <div class="flex items-center ml-3">
-                        <Dropdown>
+                        <Dropdown
+                            :align="$i18n.locale === 'ar' ? 'left' : 'right'"
+                        >
                             <template #trigger>
                                 <button
                                     v-if="
@@ -522,7 +463,7 @@
                                         {{ $page.props.auth.user.name }}
 
                                         <svg
-                                            class="ml-2 -mr-0.5 h-4 w-4"
+                                            class="ms-2 -ms-0.5 h-4 w-4"
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
                                             viewBox="0 0 24 24"
@@ -543,7 +484,10 @@
                                     {{ $t("navbar.profile") }}
                                 </DropdownLink>
                                 <div class="border-t border-gray-200" />
-                                <form @submit.prevent="logout">
+                                <form
+                                    @submit.prevent="logout"
+                                    :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+                                >
                                     <DropdownLink as="button">
                                         {{ $t("navbar.logout") }}
                                     </DropdownLink>

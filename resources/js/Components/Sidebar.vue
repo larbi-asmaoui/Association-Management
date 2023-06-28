@@ -10,7 +10,7 @@
             class="relative no-scrollbar flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
         >
             <div class="flex flex-col flex-1 pb-2 overflow-y-auto">
-                <div
+                <!-- <div
                     class="px-5 py-1 mt-2 mb-2 flex flex-col gap-2 justify-start items-center border-b border-gray-200"
                 >
                     <Avatar
@@ -24,10 +24,10 @@
                     <h2 class="text-md text-slate-400">
                         {{ $page.props.auth.user.association.name }}
                     </h2>
-                </div>
+                </div> -->
 
                 <div
-                    class="flex-1 px-3 space-y-1 bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"
+                    class="flex-1 px-3 pt-5 space-y-1 bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"
                 >
                     <ul class="pb-2 space-y-2">
                         <li>

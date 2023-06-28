@@ -17,9 +17,9 @@ export default defineConfig({
                 },
             },
         }),
-        VueI18nPlugin({
-            runtimeOnly: false, // <---
-            include: resolve(dirname(fileURLToPath(import.meta.url)), './src/i18n/locales/**'),
-          }),
+        // VueI18nPlugin({
+        //     runtimeOnly: false, // <---
+        //     include: resolve(dirname(fileURLToPath(import.meta.url)), './src/i18n/locales/**'),
+        //   }),
     ],
 });

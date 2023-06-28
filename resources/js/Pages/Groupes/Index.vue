@@ -258,7 +258,7 @@ const columns = ref([
     },
 
     {
-        label: t("groupes.table_actions"),
+        label: t("adherents.table_actions"),
         field: "actions",
     },
 ]);

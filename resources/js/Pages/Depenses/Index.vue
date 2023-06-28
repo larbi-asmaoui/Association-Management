@@ -24,7 +24,7 @@
             class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
         >
             <h2 class="text-xl font-semibold text-white">
-                Dépenses de l'association
+                {{ $t("depenses.titre") }}
             </h2>
         </div>
 
@@ -40,13 +40,14 @@
                     <div class="flex items-center text-lg">
                         {{
                             form.id
-                                ? "Mettre à jour une dépense"
-                                : "Ajouter une dépense"
+                                ? $t("depenses.modal_modifier")
+                                : $t("depenses.modal_ajouter")
                         }}
                     </div>
                 </template>
                 <template #body>
                     <form
+                        :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
                         class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
                         @submit.prevent="submit"
                         enctype="multipart/form-data"
@@ -55,7 +56,7 @@
                             <label
                                 for="titre"
                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Titre
+                                >{{ $t("depenses.input_nom") }}
                             </label>
                             <input
                                 v-model="form.titre"
@@ -76,7 +77,7 @@
                             <label
                                 for="montant"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Montant
+                                >{{ $t("depenses.input_montant") }}
                             </label>
                             <input
                                 v-model="form.montant"
@@ -100,7 +101,7 @@
                             <label
                                 for="type"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Type
+                                >{{ $t("depenses.input_type") }}
                             </label>
                             <select
                                 v-model="form.depense_type_id"
@@ -130,7 +131,7 @@
                                 <label
                                     for="depense_date"
                                     class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                    >Date d'opération
+                                    >{{ $t("depenses.input_date") }}
                                 </label>
 
                                 <input
@@ -153,7 +154,7 @@
                             <label
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                 for="file_input"
-                                >Réference
+                                >{{ $t("depenses.input_image") }}
                             </label>
                             <input
                                 @change="selectImage"
@@ -184,13 +185,13 @@
                                 type="button"
                                 class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
                             >
-                                Annuler
+                                {{ $t("buttons.annuler") }}
                             </button>
                             <button
                                 type="submit"
                                 class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
                             >
-                                Enregistrer
+                                {{ $t("buttons.enregistrer") }}
                             </button>
                         </div>
                     </form>
@@ -207,6 +208,7 @@
                 }"
                 :search-options="{
                     enabled: true,
+                    placeholder: $t('adherents.table_search'),
                 }"
             >
                 <template v-slot:table-row="{ row, column, formattedRow }">
@@ -279,30 +281,30 @@ import { Modal } from "flowbite-vue";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import { useI18n } from "vue-i18n";
-const { t, availableLocales, locale } = useI18n();
+const { t } = useI18n();
 
 const $toast = useToast();
 
 const columns = ref([
     {
-        label: "Titre",
+        label: t("depenses.table_nom"),
         field: "titre",
     },
     {
-        label: "Montant",
+        label: t("depenses.table_montant"),
         field: "montant",
     },
     {
-        label: "Type",
+        label: t("depenses.table_type"),
         field: "type",
     },
     {
-        label: "Date d'opération",
-        field: "depense_date",
+        label: t("depenses.table_date"),
+        field: "revenue_date",
     },
 
     {
-        label: "Actions",
+        label: t("depenses.table_actions"),
         field: "actions",
     },
 ]);
@@ -391,9 +393,6 @@ const destroy = (id) => {
     }
 };
 
-const show = (id) => {
-    form.get(route("depenses.show", id));
-};
 const props = defineProps({
     depenses: {
         type: Object,

@@ -208,6 +208,7 @@
                 }"
                 :search-options="{
                     enabled: true,
+                    placeholder: $t('adherents.table_search'),
                 }"
             >
                 <template v-slot:table-row="{ row, column, formattedRow }">
@@ -271,13 +272,13 @@ export default {
 <script setup>
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
-import { ref, watch, computed } from "vue";
-import { useForm, router, usePage } from "@inertiajs/vue3";
+import { ref, computed } from "vue";
+import { useForm, router } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import { useI18n } from "vue-i18n";
-const { t, availableLocales, locale } = useI18n();
+const { t } = useI18n();
 
 const $toast = useToast();
 
@@ -389,9 +390,6 @@ const destroy = (id) => {
     }
 };
 
-const show = (id) => {
-    form.get(route("revenues.show", id));
-};
 const props = defineProps({
     revenues: {
         type: Object,

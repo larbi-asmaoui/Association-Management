@@ -1,8 +1,9 @@
 <template>
     <button
         @click="isModalOpen = true"
-        class="rounded-full fixed z-50 bottom-8 right-5 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
+        class="rounded-full z-50 fixed bottom-8 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
         type="button"
+        :class="$i18n.locale === 'ar' ? 'left-5' : 'right-5'"
     >
         <svg
             class="w-5 h-5"
@@ -22,7 +23,9 @@
         <div
             class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
         >
-            <h2 class="text-xl font-semibold text-white">Gestion Activités</h2>
+            <h2 class="text-xl font-semibold text-white">
+                {{ $t("activities.titre") }}
+            </h2>
         </div>
 
         <div
@@ -33,11 +36,13 @@
             <Modal size="xl" v-if="isModalOpen" @close="closeModal">
                 <template #header>
                     <div class="flex items-center text-lg">
-                        Ajouter une Activité {{ reference.value }}
+                        {{ $t("activities.modal_ajouter") }}
+                        {{ reference.value }}
                     </div>
                 </template>
                 <template #body>
                     <form
+                        :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
                         class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
                         @submit.prevent="submit"
                     >
@@ -45,7 +50,7 @@
                             <label
                                 for="title"
                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Titre de l'Activité</label
+                                >{{ $t("activities.input_nom") }}</label
                             >
                             <input
                                 v-model="form.title"
@@ -381,6 +386,8 @@ import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 
 import regionsFile from "../../regions.json";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const $toast = useToast();
 

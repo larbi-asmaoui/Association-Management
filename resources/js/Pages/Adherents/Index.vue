@@ -613,7 +613,7 @@ const columns = ref([
     },
 
     {
-        label: "Actions",
+        label: t("adherents.table_actions"),
         field: "actions",
     },
 ]);

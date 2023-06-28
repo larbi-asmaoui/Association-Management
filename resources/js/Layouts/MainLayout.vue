@@ -9,7 +9,7 @@
 
     <div
         :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
-        class="relative pt-16 h-screen no-scrollbar lg:ms-64 bg-slate-200 dark:bg-gray-900"
+        class="relative pt-16 h-screen no-scrollbar lg:ms-64 bg-[#f4f4f4] dark:bg-gray-900"
     >
         <main>
             <div class="px-4 py-6">
@@ -20,12 +20,9 @@
 </template>
 
 <script setup>
-import { Avatar } from "flowbite-vue";
 import { ref } from "vue";
 import { useSidebar } from "../hooks/useSidebar";
-import { Link, Head, router } from "@inertiajs/vue3";
-import Dropdown from "@/Components/Dropdown.vue";
-import DropdownLink from "@/Components/DropdownLink.vue";
+import { router } from "@inertiajs/vue3";
 import Sidebar from "../Components/Sidebar.vue";
 import Navbar from "../Components/Navbar.vue";
 import { useI18n } from "vue-i18n";

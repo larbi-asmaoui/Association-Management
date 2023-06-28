@@ -39,7 +39,10 @@
         "input_email": "البريد الإلكتروني",
         "input_mot_de_passe": " كلمة المرور",
         "input_mot_de_passe_nouveau": "كلمة المرور الجديدة",
-        "input_mot_de_passe_confirmation": "تأكيد كلمة المرور"
+        "input_mot_de_passe_confirmation": "تأكيد كلمة المرور",
+        "remember_me": "تدكزني",
+        "login": "تسجيل الدخول",
+        "forgot": "نسيت كلمة المرور"
     },
     "buttons": {
         "ajouter": "إضافة",
@@ -68,6 +71,7 @@
         "table_cin": "ر.ب.و",
         "table_telephone": "الهاتف",
         "table_profession": "المهنة",
+        "table_actions": "العمليات",
         "table_date_naissance": "تاريخ الولادة",
         "table_date_d'adhesion": "تاريخ الانخراط",
         "table_situation_familiale": "الحالة العائلية",
@@ -80,7 +84,7 @@
         "table_description": "الوصف",
         "table_nombre_adherents": "عدد المنتسبين",
         "table_search": "بحث",
-        "table_actions": "العمليات",
+
         "modal_modifier": "تعديل مجموعة",
         "input_groupe": "مجموعة",
         "input_description": "الوصف",
@@ -134,5 +138,15 @@
         "input_montant": "المبلغ",
         "input_description": "الوصف",
         "input_image": "الصورة"
+    },
+    "activities": {
+        "titre": "إدارة اﻷنشطة",
+        "modal_ajouter": "إضافة نشاط",
+        "table_nom": "الاسم",
+        "table_date": "التاريخ",
+        "table_type": "النوع",
+        "input_nom": "الاسم",
+        "input_date": "التاريخ",
+        "input_type": "النوع"
     }
 }

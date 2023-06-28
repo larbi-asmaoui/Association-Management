@@ -7,6 +7,8 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 defineProps({
     canResetPassword: Boolean,
@@ -33,16 +35,20 @@ const submit = () => {
     <Head title="Login" />
 
     <AuthenticationCard>
-        <template #logo>
+        <!-- <template #logo>
             <AuthenticationCardLogo />
-        </template>
+        </template> -->
 
-        <form class="mt-8 space-y-6" @submit.prevent="submit">
+        <form
+            class="mt-8 space-y-6"
+            @submit.prevent="submit"
+            :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+        >
             <div>
                 <label
                     for="email"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Email</label
+                    >{{ $t("profile.input_email") }}</label
                 >
                 <input
                     v-model="form.email"
@@ -59,7 +65,7 @@ const submit = () => {
                 <label
                     for="password"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Mot de passe</label
+                    >{{ $t("profile.input_mot_de_passe") }}</label
                 >
                 <input
                     v-model="form.password"
@@ -75,26 +81,28 @@ const submit = () => {
             <div class="block mt-4">
                 <label class="flex items-center">
                     <Checkbox v-model:checked="form.remember" name="remember" />
-                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                    <span class="ml-2 text-sm text-gray-600">{{
+                        $t("profile.remember_me")
+                    }}</span>
                 </label>
             </div>
-            <div class="flex items-center justify-start mt-4">
+            <div class="flex items-center justify-start me-4">
                 <PrimaryButton
-                    class="mr-4"
+                    class="me-4"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    S'identifier
+                    {{ $t("profile.login") }}
                 </PrimaryButton>
                 <Link
                     v-if="canResetPassword"
                     :href="route('password.request')"
                     class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                    Mot de passe oublié ?
+                    {{ $t("profile.forgot") }}
                 </Link>
             </div>
-            <div
+            <!-- <div
                 class="text-sm text-center font-medium text-gray-500 dark:text-gray-400"
             >
                 Pas de compte ?
@@ -104,7 +112,7 @@ const submit = () => {
                 >
                     Créer un compte
                 </Link>
-            </div>
+            </div> -->
         </form>
     </AuthenticationCard>
 </template>

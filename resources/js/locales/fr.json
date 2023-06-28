@@ -39,7 +39,10 @@
         "input_email": "Email",
         "input_mot_de_passe": "Mot de passe",
         "input_mot_de_passe_nouveau": "Nouveau Mot de passe",
-        "input_mot_de_passe_confirmation": "Confirmer le mot de passe"
+        "input_mot_de_passe_confirmation": "Confirmer le mot de passe",
+        "remember_me": "Remember Me",
+        "login": "S'identifier",
+        "forgot": "Mot de passe oublié?"
     },
     "buttons": {
         "ajouter": "Ajouter",
@@ -71,7 +74,8 @@
         "table_date_naissance": "Date de naissance",
         "table_date_d'adhesion": "Date d'adhésion",
         "table_situation_familiale": "Situation familiale",
-        "table_search": "Rechercher"
+        "table_search": "Rechercher",
+        "table_actions": "Actions"
     },
     "groupes": {
         "titre": "Gestion des groupes",
@@ -139,5 +143,12 @@
         "input_montant": "Montant",
         "input_type": "Type",
         "input_image": "Image"
+    },
+    "activities": {
+        "titre": "Gestion des activités",
+        "modal_ajouter": "Ajouter une activité",
+        "table_nom": "Nom",
+        "table_date": "Date",
+        "table_type": "Type"
     }
 }
