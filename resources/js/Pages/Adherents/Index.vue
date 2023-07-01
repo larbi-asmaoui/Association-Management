@@ -625,7 +625,7 @@ const columns = ref([
         field: "tel",
     },
     {
-        label: "Statut",
+        label: t("adherents.table_statut_adhesion"),
         field: "is_actif",
     },
     {

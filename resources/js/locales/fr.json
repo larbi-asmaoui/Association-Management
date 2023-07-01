@@ -76,6 +76,7 @@
         "table_date_naissance": "Date de naissance",
         "table_date_d'adhesion": "Date d'adhésion",
         "table_situation_familiale": "Situation familiale",
+        "table_statut_adhesion": "Statut d'adhésion",
         "table_search": "Rechercher",
         "table_actions": "Actions"
     },
