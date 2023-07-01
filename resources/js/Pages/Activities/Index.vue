@@ -72,7 +72,7 @@
                             <label
                                 for="start"
                                 class="block text-sm text-gray-700 font-medium dark:text-white"
-                                >Date de début
+                                >{{ $t("activities.input_date_debut") }}
                             </label>
 
                             <input
@@ -97,7 +97,7 @@
                             <label
                                 for="end"
                                 class="block text-sm text-gray-700 font-medium dark:text-white"
-                                >Date de Fin
+                                >{{ $t("activities.input_date_fin") }}
                             </label>
 
                             <input
@@ -121,7 +121,7 @@
                             <label
                                 for="description"
                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Description</label
+                                >{{ $t("activities.input_description") }}</label
                             >
                             <textarea
                                 v-model="form.description"
@@ -142,7 +142,7 @@
                             <label
                                 for="type"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Type
+                                >{{ $t("activities.input_type") }}
                             </label>
                             <select
                                 v-model="form.activity_type_id"
@@ -171,7 +171,7 @@
                             <label
                                 for="adherents"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Participants</label
+                                >{{ $t("activities.input_adherents") }}</label
                             >
                             <Multiselect
                                 v-model="form.adherents"
@@ -188,7 +188,7 @@
                             <label
                                 for="location"
                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Lieu de l'Activité</label
+                                >{{ $t("activities.input_lieu") }}</label
                             >
                             <input
                                 v-model="form.location"
@@ -210,7 +210,7 @@
                             <label
                                 for="type"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                >Région</label
+                                >{{ $t("activities.input_region") }}</label
                             >
                             <select
                                 v-model="form.region"
@@ -241,7 +241,7 @@
                             <label
                                 for="type"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                >Ville</label
+                                >{{ $t("activities.input_ville") }}</label
                             >
                             <select
                                 v-model="form.city"
@@ -274,13 +274,13 @@
                                 type="button"
                                 class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:hover:text-white dark:focus:ring-offset-gray-800"
                             >
-                                Annuler
+                                {{ $t("buttons.annuler") }}
                             </button>
                             <button
                                 type="submit"
                                 class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                             >
-                                Enregistrer
+                                {{ $t("buttons.enregistrer") }}
                             </button>
                         </div>
                     </form>
@@ -409,20 +409,20 @@ const props = defineProps({
 
 const columns = ref([
     {
-        label: "Activité",
+        label: t("activities.table_nom"),
         field: "reference",
     },
     {
-        label: "Date de début",
+        label: t("activities.table_date_debut"),
         field: "start",
     },
     {
-        label: "Date de fin",
+        label: t("activities.table_date_fin"),
         field: "end",
     },
 
     {
-        label: "Actions",
+        label: t("activities.table_actions"),
         field: "actions",
     },
 ]);

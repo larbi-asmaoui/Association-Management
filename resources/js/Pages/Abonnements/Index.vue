@@ -21,7 +21,7 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
-    cotisations: {
+    abonnements: {
         type: Object,
         default: () => ({}),
     },
@@ -35,19 +35,19 @@ const form = useForm({
     montant: null,
     type: "",
     adherant_id: null,
-    cotisation_date: null,
+    abonnement_date: null,
 });
 
 const show = (id) => {
-    form.get(route("cotisations.show", id));
+    form.get(route("abonnements.show", id));
 };
 
 const destroy = (id) => {
     if (confirm("Are you sure to delete?")) {
-        form.delete(route("cotisations.destroy", id), {
+        form.delete(route("abonnements.destroy", id), {
             onSuccess: () => {
                 $toast.open({
-                    message: "Cotisation supprimée avec succès",
+                    message: "abonnement supprimée avec succès",
                     type: "success",
                     duration: 3000,
                     dismissible: true,
@@ -55,7 +55,7 @@ const destroy = (id) => {
             },
             onError: () => {
                 $toast.open({
-                    message: "Erreur lors de la suppression de la cotisation",
+                    message: "Erreur lors de la suppression de la abonnement",
                     type: "error",
                     duration: 3000,
                     dismissible: true,
@@ -66,13 +66,13 @@ const destroy = (id) => {
 };
 
 const submit = () => {
-    form.post(route("cotisations.store"), {
+    form.post(route("abonnements.store"), {
         forceFormData: true,
         preserveScroll: true,
         onSuccess: () => {
             closeModal();
             $toast.open({
-                message: "Cotisation ajoutée avec succès",
+                message: "abonnement ajoutée avec succès",
                 type: "success",
                 duration: 3000,
                 dismissible: true,
@@ -80,7 +80,7 @@ const submit = () => {
         },
         onError: () => {
             $toast.open({
-                message: "Erreur lors de l'ajout de la cotisation",
+                message: "Erreur lors de l'ajout de la abonnement",
                 type: "error",
                 duration: 3000,
                 dismissible: true,
@@ -124,7 +124,7 @@ const closeModal = () => {
             class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
         >
             <h2 class="text-xl font-semibold text-white">
-                Gestion Cotisations
+                Gestion abonnements
             </h2>
         </div>
 
@@ -149,7 +149,7 @@ const closeModal = () => {
             <Modal size="xl" v-if="isModalOpen" @close="closeModal">
                 <template #header>
                     <div class="flex items-center text-lg">
-                        Ajouter une cotisation
+                        Ajouter une abonnement
                     </div>
                 </template>
                 <template #body>
@@ -287,7 +287,7 @@ const closeModal = () => {
 
         <div class="mt-4">
             <div class="overflow-hidden bg-white">
-                <div class="bg-white" v-show="cotisations.length !== 0">
+                <div class="bg-white" v-show="abonnements.length !== 0">
                     <div class="relative overflow-x-auto mb-5">
                         <table class="w-full text-sm text-left text-gray-500">
                             <thead class="bg-gray-100 dark:bg-gray-700">
@@ -327,35 +327,35 @@ const closeModal = () => {
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 <tr
-                                    v-for="cotisation in cotisations.data"
-                                    :key="cotisation.id"
+                                    v-for="abonnement in abonnements.data"
+                                    :key="abonnement.id"
                                 >
                                     <td
                                         class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                                     >
                                         {{
-                                            cotisation.adherent.first_name +
+                                            abonnement.adherent.first_name +
                                             " " +
-                                            cotisation.adherent.last_name
+                                            abonnement.adherent.last_name
                                         }}
                                     </td>
 
                                     <td
                                         class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                                     >
-                                        {{ cotisation.type }}
+                                        {{ abonnement.type }}
                                     </td>
 
                                     <td
                                         class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                                     >
-                                        {{ cotisation.created_at }}
+                                        {{ abonnement.created_at }}
                                     </td>
 
                                     <td
                                         class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
                                     >
-                                        {{ cotisation.montant }}
+                                        {{ abonnement.montant }}
                                     </td>
 
                                     <td
@@ -410,7 +410,7 @@ const closeModal = () => {
 
                                             <!-- Delete -->
                                             <button
-                                                @click="destroy(cotisation.id)"
+                                                @click="destroy(abonnement.id)"
                                                 class="text-gray-400 hover:text-purple-500 transition-colors duration-200"
                                             >
                                                 <svg
@@ -466,7 +466,7 @@ const closeModal = () => {
                             </tbody>
                         </table>
                     </div>
-                    <Pagination :data="cotisations" />
+                    <Pagination :data="abonnements" />
                 </div>
             </div>
         </div>

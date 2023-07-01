@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Adherent;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Reunion;
 use App\Models\ReunionType;
+use Illuminate\Support\Facades\DB;
 
 class ReunionController extends Controller
 {
@@ -25,13 +27,18 @@ class ReunionController extends Controller
     // store
     public function store(Request $request)
     {
-        $reunion = $request->validate([
+        $formFields = $request->validate([
             'name' => 'required',
             'description' => 'nullable',
             'date' => 'required',
             'reunion_type_id' => 'required|exists:reunion_types,id',
         ]);
-        Reunion::create($reunion);
+        $reunion = Reunion::create($formFields);
+        if (strtolower($reunion->reunion_type->name) === 'normal') {
+            Adherent::query()->update([
+                'is_actif' => 0
+            ]);
+        };
         return redirect()->back()->with('success', 'reunion created.');
     }
 

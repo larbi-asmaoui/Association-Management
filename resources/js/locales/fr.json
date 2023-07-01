@@ -1,8 +1,10 @@
 {
+    "date_ajout": "Date d'ajout",
     "sidebar": {
         "dashboard": "Tableau de bord",
         "about": "À propos",
         "adherents": "Adhérents",
+        "abonnements": "Abonnements",
         "groupes": "Groupes",
         "reunions": "Réunions",
         "revenus": "Revenus",
@@ -147,8 +149,57 @@
     "activities": {
         "titre": "Gestion des activités",
         "modal_ajouter": "Ajouter une activité",
+        "table_nom": "Activité",
+        "table_date_debut": "Date de début",
+        "table_date_fin": "Date de fin",
+        "table_type": "type",
+        "input_nom": "Titre d'activité",
+        "input_date_debut": "Date de début",
+        "input_date_fin": "Date de fin",
+        "input_lieu": "Lieu de l'activité",
+        "input_type": "type",
+        "input_region": "Région",
+        "input_ville": "Ville",
+        "input_adherents": "participants",
+        "input_description": "Description",
+        "table_actions": "Actions"
+    },
+
+    "types": {
+        "activites_types": "Types d'activités",
+        "reunions_types": "Type de réunions",
+        "biens_types": "Types de biens",
+        "revenus_types": "Types de revenus",
+        "depenses_types": "Types de dépenses",
+        "type_name": "Libelle",
+        "ajouter_type": "Ajouter type",
+        "modifier_type": "Modifier type"
+    },
+    "biens": {
+        "titre": "Gestion des Biens",
+        "modal_ajouter": "Ajouter un bien",
+        "modal_modifier": "Modifier un bien",
+        "input_nom": "Nom",
+        "input_date": "Date",
+        "input_type": "Type",
+        "input_montant": "Montant",
+        "input_prix_unit": "Prix Unitaire",
+        "input_quantity": "Quantité",
         "table_nom": "Nom",
         "table_date": "Date",
-        "table_type": "Type"
+        "table_type": "Type",
+        "table_montant": "Montant",
+        "table_prix_unit": "Prix Unitaire",
+        "table_quantity": "Quantité",
+        "table_search": "Rechercher",
+        "table_actions": "Actions"
+    },
+    "users": {
+        "titre": "Utilisateurs",
+        "modal_ajouter": "Ajouter un utilisateur",
+        "modal_modifier": "Modifier un utilisateur",
+        "input_nom": "Nom",
+        "input_email": "Email",
+        "input_mot_de_passe": "Mot de passe"
     }
 }

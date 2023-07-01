@@ -48,7 +48,7 @@
                     </Link>
                 </div>
                 <div class="flex items-center">
-                    <Link :href="route('activities.calender')">
+                    <Link :href="route('activities.calender')" class="me-3">
                         <svg
                             fill="none"
                             stroke-width="2.5"
@@ -75,7 +75,7 @@
                     <Dropdown :align="$i18n.locale === 'ar' ? 'left' : 'right'">
                         <template #trigger>
                             <button
-                                class="flex mx-1 text-gray-600 focus:outline-none"
+                                class="flex mx-2 text-gray-600 focus:outline-none"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -387,7 +387,10 @@
                                 </div>
                             </DropdownLink>
                             <div class="border-t border-gray-200" />
-                            <DropdownLink :href="route('users.index')">
+                            <DropdownLink
+                                :href="route('users.index')"
+                                v-if="roles.includes('admin')"
+                            >
                                 <div class="flex">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -503,7 +506,7 @@
 
 <script setup>
 import { Avatar } from "flowbite-vue";
-import { Link, Head, router } from "@inertiajs/vue3";
+import { Link, Head, router, usePage } from "@inertiajs/vue3";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import { useI18n } from "vue-i18n";
@@ -513,6 +516,10 @@ const { t, availableLocales, locale } = useI18n();
 const logout = () => {
     router.post(route("logout"));
 };
+
+const roles = computed(() => {
+    return [...usePage().props.auth.user.roles];
+});
 
 const changeLanguage = (lang) => {
     locale.value = lang;

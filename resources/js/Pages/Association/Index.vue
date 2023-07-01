@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submit">
+    <form @submit.prevent="submit" v-if="roles.includes('admin')">
         <div
             :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
             class="grid grid-cols-1 px-3 pt-2 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900"
@@ -239,6 +239,10 @@ const selectImage = (event) => {
         form.image = file;
     }
 };
+
+const roles = computed(() => {
+    return [...usePage().props.auth.user.roles];
+});
 
 const filteredCities = computed(() => {
     if (form.region) {

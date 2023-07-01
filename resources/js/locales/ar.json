@@ -1,8 +1,10 @@
 {
+    "date_ajout": "تاريخ الإضافة",
     "sidebar": {
         "dashboard": "لوحة القيادة",
         "about": "حول",
-        "adherents": "المنتسبين",
+        "adherents": "المنخرطين",
+        "abonnements": "اشتراكات",
         "groupes": "مجموعات",
         "reunions": "اجتماعات",
         "revenus": "إيرادات",
@@ -65,8 +67,8 @@
         "choisir_logo": "اختر شعارا"
     },
     "adherents": {
-        "titre": "إدارة المنتسبين",
-        "modal_ajouter": "إضافة منتسب",
+        "titre": "إدارة المنخرطين",
+        "modal_ajouter": "إضافة منخرط",
         "table_nom_complete": "الاسم الكامل",
         "table_cin": "ر.ب.و",
         "table_telephone": "الهاتف",
@@ -82,13 +84,13 @@
         "modal_ajouter": "إضافة مجموعة",
         "table_nom": "الاسم",
         "table_description": "الوصف",
-        "table_nombre_adherents": "عدد المنتسبين",
+        "table_nombre_adherents": "عدد المنخرطين",
         "table_search": "بحث",
 
         "modal_modifier": "تعديل مجموعة",
         "input_groupe": "مجموعة",
         "input_description": "الوصف",
-        "input_adherents": "المنتسبين"
+        "input_adherents": "المنخرطين"
     },
     "reunions": {
         "titre": "إدارة الاجتماعات",
@@ -103,7 +105,7 @@
         "input_date": "التاريخ",
         "input_type": "النوع",
         "input_description": "الوصف",
-        "input_adherents": "المنتسبين"
+        "input_adherents": "المنخرطين"
     },
     "revenues": {
         "titre": "إدارة الإيرادات",
@@ -142,11 +144,56 @@
     "activities": {
         "titre": "إدارة اﻷنشطة",
         "modal_ajouter": "إضافة نشاط",
+        "table_nom": "اسم النشاط",
+        "table_date_debut": "تاريخ البدء",
+        "table_date_fin": "تاريخ النهاية",
+        "table_type": "النوع",
+        "input_nom": "اسم النشاط",
+        "input_date_debut": "تاريخ البدء",
+        "input_date_fin": "تاريخ النهاية",
+        "input_lieu": "مكان النشاط",
+        "input_type": "النوع",
+        "input_region": "الجهة",
+        "input_ville": "المدينة",
+        "input_adherents": "المنخرطين",
+        "input_description": "الوصف",
+        "table_actions": "العمليات"
+    },
+    "types": {
+        "activites_types": "أنواع الأنشطة",
+        "reunions_types": "أنواع الاجتماعات",
+        "biens_types": "أنواع الأملاك",
+        "revenus_types": "أنواع المداخيل",
+        "depenses_types": "أنواع المصاريف",
+        "type_name": "النوع",
+        "ajouter_type": "إضافة نوع",
+        "modifier_type": "تعديل النوع"
+    },
+    "biens": {
+        "titre": "ممتلكات الجمعية",
+        "modal_ajouter": "إضافة ممتلكات",
+        "modal_modifier": "تعديل ممتلكات",
+        "input_nom": "الاسم",
+        "input_date": "التاريخ",
+        "input_type": "النوع",
+        "input_montant": "المبلغ",
+        "input_prix_unit": "ثمن الوحدة",
+        "input_quantity": "العدد",
         "table_nom": "الاسم",
         "table_date": "التاريخ",
         "table_type": "النوع",
+        "table_montant": "المبلغ",
+        "table_prix_unit": "ثمن الوحدة",
+        "table_quantity": "العدد",
+        "table_search": "بحث",
+        "table_actions": "العمليات"
+    },
+    "users": {
+        "titre": "المستخدمين",
+        "modal_ajouter": "إضافة مستخدم",
+        "modal_modifier": "تعديل مستخدم",
         "input_nom": "الاسم",
-        "input_date": "التاريخ",
-        "input_type": "النوع"
+        "input_email": "البريد الإلكتروني",
+        "input_mot_de_passe": " كلمة المرور"
     }
 }

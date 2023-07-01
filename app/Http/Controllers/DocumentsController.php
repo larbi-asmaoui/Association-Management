@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Abonnement;
+use App\Models\Activity;
 use App\Models\Association;
 use App\Models\Depense;
 use App\Models\Evenement;
@@ -43,8 +44,8 @@ class DocumentsController extends Controller
             $latestReunion = Reunion::whereHas('reunion_type', function ($query) {
                 $query->where('name', 'normal');
             })->orderBy('date', 'desc')->first();
-            $evenements = Evenement::where('start', '<=', $latestReunion->date)
-                ->with('evenement_type')
+            $evenements = Activity::where('start', '<=', $latestReunion->date)
+                ->with('activity_type')
                 ->get();
             $depenses = Depense::where('depense_date', '<=', $latestReunion->date)
                 ->get();
@@ -59,9 +60,9 @@ class DocumentsController extends Controller
             $newestReunion = $reunions->first();
             $previousReunion = $reunions->last();
 
-            $evenements = Evenement::where('start', '<=', $newestReunion->date)
+            $evenements = Activity::where('start', '<=', $newestReunion->date)
                 ->where('start', '>=', $previousReunion->date)
-                ->with('evenement_type')
+                ->with('activity_type')
                 ->get();
             $depenses = Depense::where('depense_date', '<=', $newestReunion->date)
                 ->where('depense_date', '>=', $previousReunion->date)
@@ -74,7 +75,7 @@ class DocumentsController extends Controller
 
         // create a associative array that contains the total revenue and name of the event type
         if ($evenements) {
-            $evenements = $evenements->groupBy('evenement_type.name')
+            $evenements = $evenements->groupBy('activity_type.name')
                 ->map(function ($groupedEvents) {
                     return [
                         'totalRevenue' => $groupedEvents->sum('revenue'),
@@ -135,8 +136,8 @@ class DocumentsController extends Controller
             $latestReunion = Reunion::whereHas('reunion_type', function ($query) {
                 $query->where('name', 'normal');
             })->orderBy('date', 'desc')->first();
-            $evenements = Evenement::where('start', '<=', $latestReunion->date)
-                ->with('evenement_type')
+            $evenements = Activity::where('start', '<=', $latestReunion->date)
+                ->with('activity_type')
                 ->get();
         } else {
             $reunions = Reunion::whereHas('reunion_type', function ($query) {
@@ -146,9 +147,9 @@ class DocumentsController extends Controller
             $newestReunion = $reunions->first();
             $previousReunion = $reunions->last();
 
-            $evenements = Evenement::where('start', '<=', $newestReunion->date)
+            $evenements = Activity::where('start', '<=', $newestReunion->date)
                 ->where('start', '>=', $previousReunion->date)
-                ->with('evenement_type')
+                ->with('activity_type')
                 ->get();
         }
         $association = Association::all();
@@ -204,8 +205,8 @@ class DocumentsController extends Controller
             $latestReunion = Reunion::whereHas('reunion_type', function ($query) {
                 $query->where('name', 'normal');
             })->orderBy('date', 'desc')->first();
-            $evenements = Evenement::where('start', '<=', $latestReunion->date)
-                ->with('evenement_type')
+            $evenements = Activity::where('start', '<=', $latestReunion->date)
+                ->with('activity_type')
                 ->get();
             $depenses = Depense::where('depense_date', '<=', $latestReunion->date)
                 ->get();
@@ -220,9 +221,9 @@ class DocumentsController extends Controller
             $newestReunion = $reunions->first();
             $previousReunion = $reunions->last();
 
-            $evenements = Evenement::where('start', '<=', $newestReunion->date)
+            $evenements = Activity::where('start', '<=', $newestReunion->date)
                 ->where('start', '>=', $previousReunion->date)
-                ->with('evenement_type')
+                ->with('activity_type')
                 ->get();
             $depenses = Depense::where('depense_date', '<=', $newestReunion->date)
                 ->where('depense_date', '>=', $previousReunion->date)
@@ -232,7 +233,7 @@ class DocumentsController extends Controller
                 ->where('revenue_date', '>=', $previousReunion->date)
                 ->get();
         }
-        $evenements = $evenements->groupBy('evenement_type.name')
+        $evenements = $evenements->groupBy('activity_type.name')
             ->map(function ($groupedEvents) {
                 return [
                     'totalRevenue' => $groupedEvents->sum('revenue'),

@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\AdherentController;
-use App\Http\Controllers\CotisationController;
-use App\Http\Controllers\CotisationTypeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\DepenseTypeController;
@@ -19,6 +17,7 @@ use App\Http\Controllers\StatutController;
 use \App\Http\Controllers\AssociationController;
 use \App\Http\Controllers\ReunionTypeController;
 use \App\Http\Controllers\UserController;
+use \App\Http\Controllers\AbonnementController;
 
 /*
 |------------------------------------------------------------------------
@@ -39,7 +38,7 @@ Route::middleware([
     'verified',
 ])->group(
     function () {
-        Route::resource('users', UserController::class)->middleware('role:admin');;
+        Route::resource('users', UserController::class)->middleware('role:admin');
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/activities/calendrier', [ActivityController::class, 'calender'])->name('activities.calender');
@@ -47,7 +46,7 @@ Route::middleware([
 
         Route::resource('adherents', AdherentController::class);
         Route::get('adherents/{adherent}/print', [PrintController::class, 'printAdherentCard'])->name('adherents.print');
-        Route::resource('cotisations', CotisationController::class);
+        Route::resource('abonnements', AbonnementController::class);
         Route::resource('groupes', GroupeController::class);
         Route::resource('stocks', StockController::class);
         Route::resource('activities', ActivityController::class);
@@ -57,11 +56,11 @@ Route::middleware([
         Route::resource('depense-types', DepenseTypeController::class);
         Route::resource('reunion-types', ReunionTypeController::class);
         Route::resource('revenue-types', RevenueTypeController::class);
-        Route::resource('cotisation-types', CotisationTypeController::class);
+        // Route::resource('cotisation-types', CotisationTypeController::class);
         Route::resource('stock-types', StockTypeController::class);
         Route::resource('activity-types', ActivityTypeController::class);
         Route::resource('status', StatutController::class);
-        Route::resource('association', AssociationController::class);
+        Route::resource('association', AssociationController::class)->middleware('role:admin');
         Route::resource('reunions', \App\Http\Controllers\ReunionController::class);
         Route::get('/e-documents', [App\Http\Controllers\DocumentsController::class, 'index'])->name('e-documents.index');
         // Route::get('/e-document/rapport-litteraire', [App\Http\Controllers\DocumentsController::class, 'generateRapportLitterairePdf'])->name('e-documents.rapport_litteraire');

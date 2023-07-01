@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Abonnement;
 use App\Models\Activity;
 use App\Models\Groupe;
 use App\Models\Adherent;
-use App\Models\Cotisation;
+// use App\Models\Cotisation;
 use App\Models\Depense;
 use App\Models\ActivityType;
 use App\Models\Revenue;
@@ -47,13 +48,13 @@ class DashboardController extends Controller
         $calculateStockTotal = $this->calculateStockTotal();
 
         // Calculate total montant
-        $totalMontant = Cotisation::sum('montant');
-        $cotisation_count = Cotisation::all()->count();
+        $totalMontant = Abonnement::sum('montant');
+        $cotisation_count = Abonnement::all()->count();
         $stocksGroupedByType = $this->getStocksGroupedByType();
         $evenementsGroupedByType = $this->getEvenementsGroupedByType();
 
         // ------------------------------------------------ //
-        $totalCotisationValue = Cotisation::sum('montant');
+        $totalCotisationValue = Abonnement::sum('montant');
 
         // $autreDepenseQuery = Depense::all();
         // $stockQuery = Stock::all();

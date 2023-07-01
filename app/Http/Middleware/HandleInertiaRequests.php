@@ -48,6 +48,7 @@ class HandleInertiaRequests extends Middleware
                     $userArray['association'] = $user->association
                         ? $user->association->only('image', 'name') // replace with your actual attribute names
                         : null;
+                    $userArray['roles'] = $user->roles->pluck('name');
                 }
 
                 return [

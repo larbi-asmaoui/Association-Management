@@ -1,11 +1,3 @@
-<script>
-import MainLayout from "../../Layouts/MainLayout.vue";
-
-export default {
-    layout: MainLayout,
-};
-</script>
-
 <template>
     <div
         class="mb-4 bg-white px-4 py-4 rounded-md shadow-md justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
@@ -13,14 +5,14 @@ export default {
         <h1
             class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
         >
-            Utilisateurs
+            {{ $t("users.titre") }}
         </h1>
         <button
             @click="isModalOpen = true"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             type="button"
         >
-            Ajouter Utilisateur
+            {{ $t("users.modal_ajouter") }}
         </button>
     </div>
 
@@ -30,13 +22,14 @@ export default {
                 <div class="flex items-center text-lg">
                     {{
                         form.id
-                            ? "Mettre à jour Utilisateur"
-                            : "Ajouter Utilisateur"
+                            ? $t("users.modal_modifier")
+                            : $t("users.modal_ajouter")
                     }}
                 </div>
             </template>
             <template #body>
                 <form
+                    :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
                     class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2"
                     @submit.prevent="submit"
                 >
@@ -45,7 +38,7 @@ export default {
                             <label
                                 for="name"
                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >name
+                                >{{ $t("users.input_nom") }}
                             </label>
                             <input
                                 v-model="form.name"
@@ -69,7 +62,7 @@ export default {
                             <label
                                 for="Email"
                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Email
+                                >{{ $t("users.input_email") }}
                             </label>
                             <input
                                 v-model="form.email"
@@ -93,7 +86,7 @@ export default {
                             <label
                                 for="mot de passe"
                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Mot de passe
+                                >{{ $t("users.input_mot_de_passe") }}
                             </label>
                             <input
                                 v-model="form.password"
@@ -151,13 +144,17 @@ export default {
                             type="button"
                             class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                         >
-                            Annuler
+                            {{ $t("buttons.annuler") }}
                         </button>
                         <button
                             type="submit"
                             class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                         >
-                            {{ form.id ? "Mettre à jour" : "Enregistrer" }}
+                            {{
+                                form.id
+                                    ? t("buttons.modifier")
+                                    : t("buttons.enregistrer")
+                            }}
                         </button>
                     </div>
                 </form></template
@@ -227,6 +224,13 @@ export default {
         </div>
     </div>
 </template>
+<script>
+import MainLayout from "../../Layouts/MainLayout.vue";
+
+export default {
+    layout: MainLayout,
+};
+</script>
 <script setup>
 import { usePage } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
@@ -237,6 +241,8 @@ import { TheCard } from "flowbite-vue";
 import { useForm } from "@inertiajs/vue3";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
+import { useI18n } from "vue-i18n";
+const { t, availableLocales, locale } = useI18n();
 
 const $toast = useToast();
 

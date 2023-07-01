@@ -5,14 +5,14 @@
         <h1
             class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
         >
-            Types d'activités
+            {{ $t("types.activites_types") }}
         </h1>
         <button
             @click="isModalOpen = true"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             type="button"
         >
-            Ajouter un Type
+            {{ $t("types.ajouter_type") }}
         </button>
     </div>
     <Modal size="md" v-if="isModalOpen" @close="closeModal">
@@ -20,13 +20,14 @@
             <div class="flex items-center text-lg">
                 {{
                     form.id
-                        ? "Mettre à jour un type d'activité"
-                        : "Ajouter un type d'activité"
+                        ? $t("types.modifier_type")
+                        : $t("types.ajouter_type")
                 }}
             </div>
         </template>
         <template #body>
             <form
+                :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
                 class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2"
                 @submit.prevent="submit"
             >
@@ -35,7 +36,7 @@
                         <label
                             for="name"
                             class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                            >Libellé
+                            >{{ $t("types.type_name") }}
                         </label>
                         <input
                             v-model="form.name"
@@ -60,13 +61,17 @@
                         type="button"
                         class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                     >
-                        Annuler
+                        {{ $t("buttons.annuler") }}
                     </button>
                     <button
                         type="submit"
                         class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                     >
-                        {{ form.id ? "Mettre à jour" : "Enregistrer" }}
+                        {{
+                            form.id
+                                ? $t("buttons.modifier")
+                                : $t("buttons.enregistrer")
+                        }}
                     </button>
                 </div>
             </form></template
@@ -81,7 +86,7 @@
                     {{ activityType.name }}
                 </h5>
                 <p class="font-normal text-gray-700 dark:text-gray-400">
-                    Date d'ajout {{ activityType.created_at }}
+                    {{ $t("date_ajout") }} {{ activityType.created_at }}
                 </p>
                 <div class="flex justify-end mt-5 items-end">
                     <button
@@ -138,6 +143,8 @@ import { useForm } from "@inertiajs/vue3";
 import { TheCard } from "flowbite-vue";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const $toast = useToast();
 

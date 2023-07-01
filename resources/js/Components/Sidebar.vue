@@ -62,7 +62,7 @@
                             </Link>
                         </li>
 
-                        <li>
+                        <li v-if="roles.includes('admin')">
                             <Link
                                 :class="[
                                     $page.url === '/association'
@@ -133,6 +133,43 @@
                                         $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
                                     "
                                     >{{ $t("sidebar.adherents") }}</span
+                                >
+                            </Link>
+                        </li>
+
+                        <li v-if="roles.includes('admin')">
+                            <Link
+                                :class="[
+                                    $page.url === '/abonnements'
+                                        ? activeClass
+                                        : inactiveClass,
+                                ]"
+                                :href="route('abonnements.index')"
+                            >
+                                <svg
+                                    class="flex-shrink-0 w-6 h-6 transition duration-75"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="2.5"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        stroke="none"
+                                        d="M0 0h24v24H0z"
+                                        fill="none"
+                                    />
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path
+                                        d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4h-2a2 2 0 0 1 -1.8 -1"
+                                    />
+                                    <path d="M12 6v2m0 8v2" />
+                                </svg>
+                                <span
+                                    :class="
+                                        $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
+                                    "
+                                    >{{ $t("sidebar.abonnements") }}</span
                                 >
                             </Link>
                         </li>
@@ -212,37 +249,7 @@
                             </Link>
                         </li>
 
-                        <!-- <li>
-              <Link
-                :class="[
-                  $page.url === '/cotisations' ? activeClass : inactiveClass,
-                ]"
-                :href="route('cotisations.index')"
-              >
-                <svg
-                  class="flex-shrink-0 w-6 h-6 transition duration-75"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="2.5"
-                  stroke="currentColor"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <circle cx="12" cy="12" r="9" />
-                  <path
-                    d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4h-2a2 2 0 0 1 -1.8 -1"
-                  />
-                  <path d="M12 6v2m0 8v2" />
-                </svg>
-                <span
-                                    :class="
-                                        $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
-                                    "
-                                    >Cotisations</span>
-              </Link>
-            </li> -->
-
-                        <li>
+                        <li v-if="roles.includes('admin')">
                             <Link
                                 :class="[
                                     $page.url === '/revenues'
@@ -282,7 +289,7 @@
                             </Link>
                         </li>
 
-                        <li>
+                        <li v-if="roles.includes('admin')">
                             <Link
                                 :class="[
                                     $page.url === '/depenses'
@@ -451,8 +458,8 @@
 
 <script setup>
 import { Avatar } from "flowbite-vue";
-import { Link, Head, router } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { Link, Head, router, usePage } from "@inertiajs/vue3";
+import { ref, computed } from "vue";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 
@@ -462,6 +469,10 @@ const activeClass = ref(
 const inactiveClass = ref(
     " text-gray-500 hover:bg-blue-100 flex items-center p-2 text-base rounded-lg group"
 );
+
+const roles = computed(() => {
+    return [...usePage().props.auth.user.roles];
+});
 </script>
 <script>
 export default {

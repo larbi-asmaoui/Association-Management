@@ -536,6 +536,19 @@
                             :src="showImage() + row.image"
                         />
                     </div>
+                    <div
+                        v-if="column.field === 'is_actif'"
+                        class="flex items-center justify-center"
+                    >
+                        <div
+                            v-if="row.is_actif === 1"
+                            class="w-4 h-4 bg-green-700 rounded-full"
+                        ></div>
+                        <div
+                            v-else
+                            class="w-4 h-4 bg-red-700 rounded-full"
+                        ></div>
+                    </div>
                     <div v-else>
                         {{ formattedRow[column.field] }}
                     </div>
@@ -611,7 +624,10 @@ const columns = ref([
         label: t("adherents.table_telephone"),
         field: "tel",
     },
-
+    {
+        label: "Statut",
+        field: "is_actif",
+    },
     {
         label: t("adherents.table_actions"),
         field: "actions",
@@ -620,12 +636,13 @@ const columns = ref([
 const rows = computed(() =>
     Object.values(props.all_adherents).map((adherent) => ({
         id: adherent.id,
-        image: adherent.image,
+        // image: adherent.image,
         nom_complet: adherent.first_name + " " + adherent.last_name,
         profession: adherent.profession,
         situation_familiale: adherent.situation_familiale,
         cin: adherent.cin,
         tel: adherent.tel,
+        is_actif: adherent.is_actif,
     }))
 );
 
@@ -766,7 +783,7 @@ const show = (id) => {
 
 const destroy = (id) => {
     if (confirm("Are you sure to delete?")) {
-        form.delete(route("adherents.destroy", id), {
+        frouter.delete(route("adherents.destroy", id), {
             onError: () => {
                 $toast.open({
                     message: "Erreur lors de la suppression d'adhérent",
