@@ -35,7 +35,15 @@
         <div
             class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
         >
-            <div class="px-2 flex items-center mb-4 sm:mb-0"></div>
+            <div class="px-2 flex items-center mb-4 sm:mb-0">
+                <button
+                    @click="exportToPDF"
+                    class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    type="button"
+                >
+                    PDF
+                </button>
+            </div>
         </div>
         <Modal size="5xl" v-if="isModalOpen" @close="closeModal">
             <template #header>
@@ -634,7 +642,7 @@ const columns = ref([
     },
 ]);
 const rows = computed(() =>
-    Object.values(props.all_adherents).map((adherent) => ({
+    Object.values(props.adherents).map((adherent) => ({
         id: adherent.id,
         // image: adherent.image,
         nom_complet: adherent.first_name + " " + adherent.last_name,
@@ -647,7 +655,7 @@ const rows = computed(() =>
 );
 
 const props = defineProps({
-    all_adherents: {
+    adherents: {
         type: Object,
         default: () => ({}),
     },
@@ -657,10 +665,6 @@ const props = defineProps({
         default: () => ({}),
     },
 });
-
-const change = ({ coordinates, canvas }) => {
-    console.log(coordinates, canvas);
-};
 
 const page = usePage();
 const exportToPDF = () => {
@@ -698,7 +702,7 @@ const exportToPDF = () => {
         //
     ];
 
-    const data = props.all_adherents.map((adherent) => [
+    const data = props.adherents.map((adherent) => [
         adherent.id,
         adherent.last_name,
         adherent.first_name,
@@ -783,7 +787,7 @@ const show = (id) => {
 
 const destroy = (id) => {
     if (confirm("Are you sure to delete?")) {
-        frouter.delete(route("adherents.destroy", id), {
+        router.delete(route("adherents.destroy", id), {
             onError: () => {
                 $toast.open({
                     message: "Erreur lors de la suppression d'adhérent",

@@ -62,7 +62,7 @@
                         <input
                             :disabled="!isEnabled"
                             :class="{
-                                'bg-slate-300 cursor-not-allowed': !isEnabled,
+                                'bg-slate-100 cursor-not-allowed': !isEnabled,
                             }"
                             v-model="form.name"
                             type="text"
@@ -80,7 +80,7 @@
                         <textarea
                             :disabled="!isEnabled"
                             :class="{
-                                'bg-slate-300 cursor-not-allowed': !isEnabled,
+                                'bg-slate-100 cursor-not-allowed': !isEnabled,
                             }"
                             v-model="form.objectifs"
                             name="objectifs"
@@ -97,7 +97,7 @@
                         <textarea
                             :disabled="!isEnabled"
                             :class="{
-                                'bg-slate-300 cursor-not-allowed': !isEnabled,
+                                'bg-slate-100 cursor-not-allowed': !isEnabled,
                             }"
                             v-model="form.address"
                             name="Addresse"
@@ -118,7 +118,7 @@
                             <select
                                 :disabled="!isEnabled"
                                 :class="{
-                                    'bg-slate-300 cursor-not-allowed':
+                                    'bg-slate-100 cursor-not-allowed':
                                         !isEnabled,
                                 }"
                                 v-model="form.region"
@@ -148,7 +148,7 @@
                             <select
                                 :disabled="!isEnabled"
                                 :class="{
-                                    'bg-slate-300 cursor-not-allowed':
+                                    'bg-slate-100 cursor-not-allowed':
                                         !isEnabled,
                                 }"
                                 v-model="form.city"

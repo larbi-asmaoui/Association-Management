@@ -1,4 +1,15 @@
 {
+    "dashborad": {
+        "adherents": "المنخرطين",
+        "groupes": "المجموعات",
+        "activites": "اﻷنشطة",
+        "biens": "الممتلكات",
+        "revenus": "المداخيل",
+        "depenses": "المصاريف",
+        "revenus_asso": "مداخيل الجمعية",
+        "depenses_asso": "مصاريف الجمعية",
+        "depenses_revenus_asso": "مداخيل ومصاريف الجمعية"
+    },
     "date_ajout": "تاريخ الإضافة",
     "sidebar": {
         "dashboard": "لوحة القيادة",
@@ -15,7 +26,7 @@
     },
     "navbar": {
         "profile": "الملف الشخصي",
-        "logout": "تسجيل خروج",
+        "logout": "تسجيل الخروج",
         "type_reunion": "نوع الاجتماع",
         "type_activite": "نوع النشاط",
         "type_depense": "نوع النفقة",
@@ -42,7 +53,7 @@
         "input_mot_de_passe": " كلمة المرور",
         "input_mot_de_passe_nouveau": "كلمة المرور الجديدة",
         "input_mot_de_passe_confirmation": "تأكيد كلمة المرور",
-        "remember_me": "تدكزني",
+        "remember_me": "تدكرني",
         "login": "تسجيل الدخول",
         "forgot": "نسيت كلمة المرور"
     },
@@ -53,9 +64,7 @@
         "annuler": "إلغاء",
         "enregistrer": "حفظ"
     },
-    "dashborad": {
-        "hello": "مرحبا"
-    },
+
     "a-propos": {
         "titre": "معلومات الجمعية",
         "logo": "شعار الجمعية",

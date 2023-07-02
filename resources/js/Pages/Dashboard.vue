@@ -13,6 +13,8 @@ import { usePage, router } from "@inertiajs/vue3";
 import ChartBar from "../Components/ChartBar.vue";
 import ChartPie from "../Components/ChartPie.vue";
 import ChartLine from "../Components/ChartLine.vue";
+import { useI18n } from "vue-i18n";
+const { t, availableLocales, locale } = useI18n();
 
 // import { Inertia } from "@inertiajs/vue3";
 
@@ -100,7 +102,7 @@ const lineOptions = ref({
     plugins: {
         title: {
             display: true,
-            text: "Revenus et dépenses de l'association",
+            text: t("dashborad.depenses_revenus_asso"),
             font: {
                 size: 18,
             },
@@ -126,14 +128,14 @@ const lineData = ref({
     // labels: Object.keys(props.revenueGroupedByMonth),
     datasets: [
         {
-            label: "Revenus",
+            label: t("dashborad.revenus"),
             data: Object.values(props.revenueGroupedByMonth),
             borderColor: "#5A67D8",
             backgroundColor: "transparent",
             borderWidth: 2,
         },
         {
-            label: "Dépenses",
+            label: t("dashborad.depenses"),
             data: Object.values(props.depenseGroupedByMonth),
             borderColor: "#FF4560",
             backgroundColor: "transparent",
@@ -148,7 +150,7 @@ const revenueOptions = ref({
     plugins: {
         title: {
             display: true,
-            text: "Revenus de l'association",
+            text: t("dashborad.revenus_asso"),
             font: {
                 size: 18,
             },
@@ -162,7 +164,7 @@ const depenseOptions = ref({
     plugins: {
         title: {
             display: true,
-            text: "Dépenses de l'association",
+            text: t("dashborad.depenses_asso"),
             font: {
                 size: 18,
             },
@@ -279,7 +281,9 @@ const dataBarEvent = ref({
                             <h4 class="text-2xl font-semibold text-gray-700">
                                 {{ adherents_count }}
                             </h4>
-                            <div class="text-gray-500">Adhérents</div>
+                            <div class="text-gray-500">
+                                {{ $t("dashborad.adherents") }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -326,7 +330,9 @@ const dataBarEvent = ref({
                             <h4 class="text-2xl font-semibold text-gray-700">
                                 {{ groupes_count }}
                             </h4>
-                            <div class="text-gray-500">Groupes</div>
+                            <div class="text-gray-500">
+                                {{ $t("dashborad.groupes") }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -368,7 +374,9 @@ const dataBarEvent = ref({
                             <h4 class="text-2xl font-semibold text-gray-700">
                                 {{ events_count }}
                             </h4>
-                            <div class="text-gray-500">Événements</div>
+                            <div class="text-gray-500">
+                                {{ $t("dashborad.activites") }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -405,7 +413,9 @@ const dataBarEvent = ref({
                             <h4 class="text-2xl font-semibold text-gray-700">
                                 {{ stock_count }}
                             </h4>
-                            <div class="text-gray-500">Stocks</div>
+                            <div class="text-gray-500">
+                                {{ $t("dashborad.biens") }}
+                            </div>
                         </div>
                     </div>
                 </div>

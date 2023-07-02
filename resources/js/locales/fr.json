@@ -1,4 +1,15 @@
 {
+    "dashborad": {
+        "adherents": "Adhérents",
+        "groupes": "Groupes",
+        "activites": "Activités",
+        "biens": "Biens",
+        "revenus": "Revenus",
+        "depenses": "Dépenses",
+        "revenus_asso": "Revenus de l'association",
+        "depenses_asso": "Dépenses de l'association",
+        "depenses_revenus_asso": "Revenus et Dépenses de l'association"
+    },
     "date_ajout": "Date d'ajout",
     "sidebar": {
         "dashboard": "Tableau de bord",
@@ -53,9 +64,7 @@
         "enregistrer": "Enregistrer",
         "annuler": "Annuler"
     },
-    "dashborad": {
-        "hello": "Bonjour"
-    },
+
     "a-propos": {
         "titre": "Informations sur l'association",
         "logo": "Logo",

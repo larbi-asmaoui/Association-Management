@@ -10,8 +10,10 @@ import { ref, computed, reactive, watchEffect } from "vue";
 
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
-
+import Multiselect from "@vueform/multiselect";
 import regionsFile from "../../regions.json";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const $toast = useToast();
 
@@ -24,7 +26,16 @@ const props = defineProps({
     activityTypes: {
         type: Object,
     },
+    adherents: {
+        type: Object,
+    },
 });
+
+const isEnabled = ref(false);
+
+const toggleEnabled = () => {
+    isEnabled.value = !isEnabled.value;
+};
 
 const filteredCities = computed(() => {
     if (form.region) {
@@ -54,7 +65,7 @@ const form = useForm({
     depense: props.activity.depense,
     revenue: props.activity.revenue,
     activity_type_id: props.activity.activity_type_id,
-    adherants: props.activity.adherants,
+    adherents: props.activity.adherents.map((adherent) => adherent.id),
 });
 
 const submit = () => {
@@ -77,6 +88,13 @@ const submit = () => {
         },
     });
 };
+
+const formattedAdherents = computed(() =>
+    Object.values(props.adherents).map((adherent) => ({
+        value: adherent.id,
+        label: adherent.last_name + " " + adherent.first_name,
+    }))
+);
 </script>
 <template>
     <div class="inline-flex items-center mb-5">
@@ -120,6 +138,10 @@ const submit = () => {
                         >Libellé de l'Activité</label
                     >
                     <input
+                        :disabled="!isEnabled"
+                        :class="{
+                            'bg-slate-100 cursor-not-allowed': !isEnabled,
+                        }"
                         type="text"
                         name="name"
                         id="name"
@@ -143,6 +165,10 @@ const submit = () => {
                     >
 
                     <input
+                        :disabled="!isEnabled"
+                        :class="{
+                            'bg-slate-100 cursor-not-allowed': !isEnabled,
+                        }"
                         lang="fr-CA"
                         v-model="form.start"
                         type="date"
@@ -166,6 +192,10 @@ const submit = () => {
                     >
 
                     <input
+                        :disabled="!isEnabled"
+                        :class="{
+                            'bg-slate-100 cursor-not-allowed': !isEnabled,
+                        }"
                         lang="fr-CA"
                         v-model="form.end"
                         type="date"
@@ -189,6 +219,10 @@ const submit = () => {
                             >Type</label
                         >
                         <select
+                            :disabled="!isEnabled"
+                            :class="{
+                                'bg-slate-100 cursor-not-allowed': !isEnabled,
+                            }"
                             v-model="form.activity_type_id"
                             id="type"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -217,6 +251,10 @@ const submit = () => {
                             >Revenues</label
                         >
                         <input
+                            :disabled="!isEnabled"
+                            :class="{
+                                'bg-slate-100 cursor-not-allowed': !isEnabled,
+                            }"
                             step="0.01"
                             type="number"
                             name="revenue"
@@ -241,6 +279,10 @@ const submit = () => {
                             >Dépenses</label
                         >
                         <input
+                            :disabled="!isEnabled"
+                            :class="{
+                                'bg-slate-100 cursor-not-allowed': !isEnabled,
+                            }"
                             step="0.01"
                             type="number"
                             name="expenses"
@@ -268,6 +310,10 @@ const submit = () => {
                             >Lieu de l'Activité</label
                         >
                         <input
+                            :disabled="!isEnabled"
+                            :class="{
+                                'bg-slate-100 cursor-not-allowed': !isEnabled,
+                            }"
                             v-model="form.location"
                             type="text"
                             name="lieu"
@@ -290,6 +336,10 @@ const submit = () => {
                             >Région</label
                         >
                         <select
+                            :disabled="!isEnabled"
+                            :class="{
+                                'bg-slate-100 cursor-not-allowed': !isEnabled,
+                            }"
                             v-model="form.region"
                             id="type"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -321,6 +371,10 @@ const submit = () => {
                             >Ville</label
                         >
                         <select
+                            :disabled="!isEnabled"
+                            :class="{
+                                'bg-slate-100 cursor-not-allowed': !isEnabled,
+                            }"
                             v-model="form.city"
                             id="type"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -352,6 +406,10 @@ const submit = () => {
                         >Description</label
                     >
                     <textarea
+                        :disabled="!isEnabled"
+                        :class="{
+                            'bg-slate-100 cursor-not-allowed': !isEnabled,
+                        }"
                         id="description"
                         rows="8"
                         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -365,13 +423,43 @@ const submit = () => {
                         {{ form.errors.description }}
                     </span>
                 </div>
+                <div class="sm:col-span-2">
+                    <label
+                        for="adherents"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >Participants</label
+                    >
+                    <Multiselect
+                        :disabled="!isEnabled"
+                        :class="{
+                            'bg-slate-100 cursor-not-allowed': !isEnabled,
+                        }"
+                        v-model="form.adherents"
+                        mode="tags"
+                        :close-on-select="false"
+                        :searchable="true"
+                        :create-option="true"
+                        :options="formattedAdherents"
+                    />
+                </div>
             </div>
-            <button
-                type="submit"
-                class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
-            >
-                Modifier
-            </button>
+
+            <div class="col-span-6 sm:col-full mt-4">
+                <button
+                    class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    type="submit"
+                >
+                    {{ $t("buttons.enregistrer") }}
+                </button>
+                <span class="ml-4"></span>
+                <button
+                    @click="toggleEnabled"
+                    class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    type="button"
+                >
+                    {{ $t("buttons.modifier") }}
+                </button>
+            </div>
         </form>
     </div>
 </template>

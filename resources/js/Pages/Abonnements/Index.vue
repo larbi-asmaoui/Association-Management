@@ -13,8 +13,9 @@ import { Modal } from "flowbite-vue";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import Pagination from "@/Components/Pagination.vue";
+import { useI18n } from "vue-i18n";
+const { t, availableLocales, locale } = useI18n();
 const $toast = useToast();
-const currentPage = ref(1);
 
 const props = defineProps({
     adherants: {
@@ -37,10 +38,6 @@ const form = useForm({
     adherant_id: null,
     abonnement_date: null,
 });
-
-const show = (id) => {
-    form.get(route("abonnements.show", id));
-};
 
 const destroy = (id) => {
     if (confirm("Are you sure to delete?")) {
@@ -99,11 +96,11 @@ const closeModal = () => {
 </script>
 
 <template>
-    {{ last_reunion }}
     <button
         @click="isModalOpen = true"
-        class="rounded-full fixed z-50 bottom-8 right-5 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
+        class="rounded-full fixed bottom-8 z-50 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
         type="button"
+        :class="$i18n.locale === 'ar' ? 'left-5' : 'right-5'"
     >
         <svg
             class="w-5 h-5"

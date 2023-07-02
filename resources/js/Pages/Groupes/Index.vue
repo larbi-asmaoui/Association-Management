@@ -234,8 +234,6 @@ const props = defineProps({
 
 const $toast = useToast();
 
-let selectedAdherents = ref([]);
-
 const form = useForm({
     id: null,
     name: null,
@@ -274,7 +272,6 @@ const rows = computed(() =>
 
 const submit = () => {
     if (form.id) {
-        // form.adherents = selectedAdherents.value;
         form.put(route("groupes.update", form.id), {
             preserveScroll: true,
             onSuccess: () => {
@@ -288,7 +285,6 @@ const submit = () => {
             },
         });
     } else {
-        // form.adherents = selectedAdherents.value;
         form.post(route("groupes.store"), {
             preserveScroll: true,
             onSuccess: () => {
@@ -309,7 +305,6 @@ let isModalOpen = ref(false);
 const closeModal = () => {
     isModalOpen.value = false;
     form.reset();
-    selectedAdherents.value = [];
 };
 
 const dropdownOpen = ref(false);

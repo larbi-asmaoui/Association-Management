@@ -127,10 +127,12 @@ class ActivityController extends Controller
     {
 
         $activity->load('adherents');
+        $adherents = Adherent::all();
         $activityTypes = ActivityType::all();
         return Inertia::render('Activities/Show', [
             'activity' => $activity,
-            'activityTypes' => $activityTypes
+            'activityTypes' => $activityTypes,
+            'adherents' => $adherents
         ]);
     }
 
@@ -153,18 +155,17 @@ class ActivityController extends Controller
             'city' => 'required',
             'region' => 'required',
             'activity_type_id' => 'required|exists:activity_types,id',
-            // 'adherants.*' => 'exists:adherants,id',
+            'adherents.*' => 'exists:adherents,id',
         ]);
 
-        // $adherents = $formFields['adherents'];
-        // unset($formFields['adherents']);
+        $adherents = $formFields['adherents'];
+        unset($formFields['adherents']);
 
         $activity->update($formFields);
 
-        // if (isset($adherents)) {
-        //     $Activity->adherents()->sync($adherents);
-        // }
-
+        if (isset($adherents)) {
+            $activity->adherents()->sync($adherents);
+        }
         return redirect()->back()->with('success', 'Activity updated.');
     }
 

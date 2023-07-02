@@ -21,22 +21,9 @@ class AdherentController extends Controller
     {
 
         $status  = Statut::all();
-
-        // $depensesQuery = Depense::with('depense_type')
-        //     ->where('user_id', $userId);
         return Inertia::render('Adherents/Index', [
             'status' => $status,
-            'all_adherents' => Adherent::all(),
-            'adherents' => Adherent::query()
-                ->with('statut')
-                ->when(Request::input('search'), function ($query, $search) {
-                    $query->where('first_name', 'like', '%' . $search . '%')
-                        ->OrWhere('last_name', 'like', '%' . $search . '%')
-                        ->OrWhere('cin', 'like', '%' . $search . '%')
-                        ->OrWhere('tel', 'like', '%' . $search . '%')
-                        ->OrWhere('email', 'like', '%' . $search . '%');
-                })->paginate(10)
-                ->appends(Request::all()),
+            'adherents' => Adherent::all(),
         ]);
     }
 

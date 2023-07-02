@@ -384,6 +384,7 @@ import { useForm } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
+import Multiselect from "@vueform/multiselect";
 
 import regionsFile from "../../regions.json";
 import { useI18n } from "vue-i18n";
