@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('region');
             $table->string('email')->nullable();
-            $table->string('image')->nullable();
+            $table->string('image')->default('default_user.png');
             $table->timestamps();
         });
     }

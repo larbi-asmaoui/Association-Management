@@ -35,13 +35,20 @@
         <div
             class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
         >
-            <div class="px-2 flex items-center mb-4 sm:mb-0">
+            <div class="px-2 flex items-center mb-4 gap-4 sm:mb-0">
                 <button
                     @click="exportToPDF"
                     class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     type="button"
                 >
                     PDF
+                </button>
+                <button
+                    @click="generateIDCards"
+                    class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    type="button"
+                >
+                    Generate ID Cards
                 </button>
             </div>
         </div>
@@ -605,6 +612,8 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import regionsFile from "../../regions.json";
 import { useI18n } from "vue-i18n";
+import QrcodeVue from "qrcode.vue";
+import QRCode from "qrcode";
 const { t, availableLocales, locale } = useI18n();
 
 const columns = ref([
@@ -667,6 +676,44 @@ const props = defineProps({
 });
 
 const page = usePage();
+const generateIDCards = async () => {
+    const doc = new jsPDF();
+
+    for (let i = 0; i < props.adherents.length; i += 2) {
+        if (i !== 0) {
+            doc.addPage(); // Add a new page for each pair of props.adherents except the first pair
+        }
+
+        const adherent1 = props.adherents[i];
+        const adherent2 = props.adherents[i + 1];
+
+        const cardText1 = `ID: ${adherent1.id}\nName: ${adherent1.name}\nAge: ${adherent1.age}`;
+        const cardText2 = `ID: ${adherent2.id}\nName: ${adherent2.name}\nAge: ${adherent2.age}`;
+
+        const qrCode1 = await QRCode.toDataURL(cardText1);
+        const qrCode2 = await QRCode.toDataURL(cardText2);
+
+        doc.setDrawColor(0);
+        doc.setLineWidth(0.5);
+        doc.rect(10, 10, 80, 50, "S"); // Adjust the coordinates and size of the rectangle for the first ID card
+        doc.rect(110, 10, 80, 50, "S"); // Adjust the coordinates and size of the rectangle for the second ID card
+
+        doc.setFontSize(12);
+        doc.text(cardText1, 15, 20); // Adjust the coordinates as needed for the first ID card
+        doc.text(cardText2, 115, 20); // Adjust the coordinates as needed for the second ID card
+
+        const img1 = new Image();
+        img1.src = qrCode1;
+        const img2 = new Image();
+        img2.src = qrCode2;
+
+        doc.addImage(img1, "PNG", 20, 36, 20, 20); // Adjust the coordinates and size of the QR code for the first ID card
+        doc.addImage(img2, "PNG", 120, 36, 20, 20); // Adjust the coordinates and size of the QR code for the second ID card
+    }
+
+    doc.save("ID_Cards.pdf");
+};
+
 const exportToPDF = () => {
     // Create a new jsPDF instance
     const doc = new jsPDF();
@@ -845,4 +892,24 @@ const closeModal = () => {
 #my-doc {
     font: 33rem;
 }
+
+/* #id-card {
+    border: 1px solid #000;
+    padding: 10px;
+    margin-bottom: 20px;
+} */
+
+.card-info {
+    font-size: 14px;
+}
+
+.card-info strong {
+    font-weight: bold;
+}
+
+/* #qr-code {
+    width: 10px;
+    height: 10px;
+    margin-top: 10px;
+} */
 </style>
