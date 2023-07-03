@@ -59,9 +59,9 @@ class AdherentController extends Controller
         );
 
         if ($request->hasFile('image')) {
-            $formFields['image']  = $request->file('image')->store('image', 'public');
+            $formFields['image']  = $request->file('image')->store('adherents', 'public');
         } else {
-            $formFields['image']  = 'default_user.png';
+            $formFields['image']  = 'adherents/default_user.png';
         }
 
         $adherent = Adherent::create($formFields);
@@ -115,7 +115,7 @@ class AdherentController extends Controller
         );
 
         if ($request->hasFile('image')) {
-            $formFields['image']  = $request->file('image')->store('image', 'public');
+            $formFields['image']  = $request->file('image')->store('adherents', 'public');
         }
 
         $adherent->update($formFields);

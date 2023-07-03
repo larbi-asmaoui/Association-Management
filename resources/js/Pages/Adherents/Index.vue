@@ -550,6 +550,7 @@
                             class="w-10 h-10 rounded-full"
                             :src="showImage() + row.image"
                         />
+                        {{ showImage() + row.image }}
                     </div>
                     <div
                         v-if="column.field === 'is_actif'"
@@ -577,11 +578,11 @@
             @change="change"
         />
     </div> -->
+    {{ adherents[0].image }}
 </template>
 
 <script>
 import MainLayout from "../../Layouts/MainLayout.vue";
-import html2pdf from "html2pdf.js";
 
 export default {
     layout: MainLayout,
@@ -612,7 +613,6 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import regionsFile from "../../regions.json";
 import { useI18n } from "vue-i18n";
-import QrcodeVue from "qrcode.vue";
 import QRCode from "qrcode";
 const { t, availableLocales, locale } = useI18n();
 
@@ -620,6 +620,7 @@ const columns = ref([
     {
         label: "#",
         field: "image",
+        html: true,
     },
     {
         label: t("adherents.table_nom_complete"),
@@ -679,36 +680,53 @@ const page = usePage();
 const generateIDCards = async () => {
     const doc = new jsPDF();
 
-    for (let i = 0; i < props.adherents.length; i += 2) {
+    for (let i = 0; i < props.adherents.length; i += 4) {
         if (i !== 0) {
-            doc.addPage(); // Add a new page for each pair of props.adherents except the first pair
+            doc.addPage(); // Add a new page for each set of four adherents except the first set
         }
 
-        const adherent1 = props.adherents[i];
-        const adherent2 = props.adherents[i + 1];
+        const remainingAdherents = props.adherents.slice(i);
+        const cardsToPrint =
+            remainingAdherents.length >= 2
+                ? remainingAdherents.slice(0, 4)
+                : remainingAdherents;
 
-        const cardText1 = `ID: ${adherent1.id}\nName: ${adherent1.name}\nAge: ${adherent1.age}`;
-        const cardText2 = `ID: ${adherent2.id}\nName: ${adherent2.name}\nAge: ${adherent2.age}`;
+        for (let j = 0; j < cardsToPrint.length; j++) {
+            const adherent = cardsToPrint[j];
 
-        const qrCode1 = await QRCode.toDataURL(cardText1);
-        const qrCode2 = await QRCode.toDataURL(cardText2);
+            const cardText = `${adherent.id}\n${adherent.first_name} ${adherent.last_name}\n${adherent.date_of_birth}\n${adherent.date_of_membership}\n${adherent.profession}`;
 
-        doc.setDrawColor(0);
-        doc.setLineWidth(0.5);
-        doc.rect(10, 10, 80, 50, "S"); // Adjust the coordinates and size of the rectangle for the first ID card
-        doc.rect(110, 10, 80, 50, "S"); // Adjust the coordinates and size of the rectangle for the second ID card
+            const qrCode = await QRCode.toDataURL(cardText);
 
-        doc.setFontSize(12);
-        doc.text(cardText1, 15, 20); // Adjust the coordinates as needed for the first ID card
-        doc.text(cardText2, 115, 20); // Adjust the coordinates as needed for the second ID card
+            const x = j % 2 ? 110 : 10;
+            const y = Math.floor(j / 2) * 60 + 10;
 
-        const img1 = new Image();
-        img1.src = qrCode1;
-        const img2 = new Image();
-        img2.src = qrCode2;
+            doc.setDrawColor(0);
+            doc.setLineWidth(0.5);
+            doc.rect(x, y, 80, 50, "S"); // Adjust the coordinates and size of the rectangle for the ID card
 
-        doc.addImage(img1, "PNG", 20, 36, 20, 20); // Adjust the coordinates and size of the QR code for the first ID card
-        doc.addImage(img2, "PNG", 120, 36, 20, 20); // Adjust the coordinates and size of the QR code for the second ID card
+            doc.setFontSize(12);
+            doc.text(cardText, x + 3, y + 25); // Adjust the coordinates as needed for the ID card
+
+            const qrImg = new Image();
+            qrImg.src = qrCode;
+
+            doc.addImage(qrImg, "PNG", x + 64, y + 34, 15, 15); // Adjust the coordinates and size of the QR code for the ID card
+
+            const profileImg = new Image();
+            profileImg.src = "/storage/" + adherent.image; // Assuming adherent object has a property 'profile_image' with the image URL
+
+            doc.setLineWidth(0.3);
+            doc.setDrawColor(0);
+            doc.circle(x + 10, y + 10, 8, "S");
+
+            const logoImg = new Image();
+            logoImg.src = `/storage/${page.props.auth.user.association.image}`; // Assuming adherent object has a property 'profile_image' with the image URL
+
+            doc.setLineWidth(0.3);
+            doc.setDrawColor(0);
+            doc.circle(x + 70, y + 10, 8, "S");
+        }
     }
 
     doc.save("ID_Cards.pdf");
@@ -857,7 +875,7 @@ const destroy = (id) => {
 
 const submit = () => {
     form.post(route("adherents.store"), {
-        // forceFormData: true,
+        forceFormData: true,
         preserveScroll: true,
         onSuccess: () => {
             closeModal();
