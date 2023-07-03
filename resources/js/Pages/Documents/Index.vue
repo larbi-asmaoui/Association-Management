@@ -79,13 +79,9 @@
     </Modal>
 
     <div class="px-2 pt-2">
-        <div
-            class="grid grid-cols-1 px-3 pt-2 xl:grid-cols-3 xl:gap-4"
-        >
+        <div class="grid grid-cols-1 px-3 pt-2 xl:grid-cols-3 xl:gap-4">
             <div class="col-span-full xl:col-auto mb-4">
-                <ul
-                    class="rounded-lg p-4 bg-white divide-y divide-gray-200"
-                >
+                <ul class="rounded-lg p-4 bg-white divide-y divide-gray-200">
                     <li class="pb-3 sm:pb-4">
                         <div
                             class="flex items-center justify-between space-x-4"
@@ -237,8 +233,6 @@
     >
         Generer rapport financier
     </a>
-    <br />
-    {{ frais_adhesions }}
 </template>
 
 <script setup>
