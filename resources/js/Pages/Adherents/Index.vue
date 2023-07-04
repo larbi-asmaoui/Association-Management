@@ -41,14 +41,14 @@
                     class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     type="button"
                 >
-                    {{ $t("adherents.export_pdf") }}
+                    تصدير إلى PDF
                 </button>
                 <button
                     @click="generateIDCards(adherents)"
                     class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     type="button"
                 >
-                    {{ $t("adherents.print_cards_adhesion") }}
+                    طباعة بطائق الانخراط
                 </button>
             </div>
         </div>
@@ -623,16 +623,24 @@ export default {
 <script setup>
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
+import { Cropper } from "vue-advanced-cropper";
 import "vue-advanced-cropper/dist/style.css";
 import defaultImg from "../../../assets/image.jpeg";
-import { ref, computed } from "vue";
+import { ref, nextTick, computed, onMounted } from "vue";
+import { watch } from "vue";
 import { router, usePage } from "@inertiajs/vue3";
+import { Avatar } from "flowbite-vue";
+import Pagination from "../../Components/Pagination.vue";
 import ImageUpload from "../../Components/ImageUpload.vue";
 import { Modal } from "flowbite-vue";
 import { useForm } from "@inertiajs/vue3";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
+import printJS from "print-js";
+import AdherentInfo from "./AdherentInfo.vue";
+import JsonCSV from "vue-json-csv";
 import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import regionsFile from "../../regions.json";
 import { useI18n } from "vue-i18n";
 import QRCode from "qrcode";
@@ -835,29 +843,31 @@ const generateIDCards = async (adherents) => {
 
             const logoImg = new Image();
             logoImg.src = `/storage/${page.props.auth.user.association.image}`;
-            const logoImgX = x + 2;
-            const logoImgY = y + 4;
-            const logoImgSize = 15;
-            // Create a rounded clipping path for logo image
-            doc.setLineWidth(0.1);
-            doc.setDrawColor(0);
-            doc.circle(
-                logoImgX + logoImgSize / 2,
-                logoImgY + logoImgSize / 2,
-                logoImgSize / 2,
-                "S"
-            );
+            if (logoImg.src) {
+                const logoImgX = x + 2;
+                const logoImgY = y + 4;
+                const logoImgSize = 15;
+                // Create a rounded clipping path for logo image
+                doc.setLineWidth(0.1);
+                doc.setDrawColor(0);
+                doc.circle(
+                    logoImgX + logoImgSize / 2,
+                    logoImgY + logoImgSize / 2,
+                    logoImgSize / 2,
+                    "S"
+                );
 
-            doc.clip();
-            doc.addImage(
-                logoImg,
-                "PNG",
-                logoImgX,
-                logoImgY,
-                logoImgSize,
-                logoImgSize
-            );
-            doc.rect(logoImgX, logoImgY, logoImgSize, logoImgSize, "S");
+                doc.clip();
+                doc.addImage(
+                    logoImg,
+                    "PNG",
+                    logoImgX,
+                    logoImgY,
+                    logoImgSize,
+                    logoImgSize
+                );
+                doc.rect(logoImgX, logoImgY, logoImgSize, logoImgSize, "S");
+            }
             // doc.addImage(logoImg, "PNG", x + 5, y + 4, 15, 15);
         }
     }
