@@ -87,7 +87,9 @@
         "table_situation_familiale": "Situation familiale",
         "table_statut_adhesion": "Statut d'adhésion",
         "table_search": "Rechercher",
-        "table_actions": "Actions"
+        "table_actions": "Actions",
+        "print_cards_adhesion": "Imprimer les cartes d'adhésion",
+        "export_pdf": "Export PDF"
     },
     "groupes": {
         "titre": "Gestion des groupes",

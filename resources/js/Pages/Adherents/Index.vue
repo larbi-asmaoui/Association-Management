@@ -41,14 +41,14 @@
                     class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     type="button"
                 >
-                    PDF
+                    {{ $t("adherents.export_pdf") }}
                 </button>
                 <button
-                    @click="generateIDCards"
+                    @click="generateIDCards(adherents)"
                     class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     type="button"
                 >
-                    Generate ID Cards
+                    {{ $t("adherents.print_cards_adhesion") }}
                 </button>
             </div>
         </div>
@@ -609,8 +609,6 @@
             @change="change"
         />
     </div> -->
-
-    <button @click="generatePDF">clickME</button>
 </template>
 
 <script>
@@ -625,24 +623,16 @@ export default {
 <script setup>
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
-import { Cropper } from "vue-advanced-cropper";
 import "vue-advanced-cropper/dist/style.css";
 import defaultImg from "../../../assets/image.jpeg";
-import { ref, nextTick, computed, onMounted } from "vue";
-import { watch } from "vue";
+import { ref, computed } from "vue";
 import { router, usePage } from "@inertiajs/vue3";
-import { Avatar } from "flowbite-vue";
-import Pagination from "../../Components/Pagination.vue";
 import ImageUpload from "../../Components/ImageUpload.vue";
 import { Modal } from "flowbite-vue";
 import { useForm } from "@inertiajs/vue3";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
-import printJS from "print-js";
-import AdherentInfo from "./AdherentInfo.vue";
-import JsonCSV from "vue-json-csv";
 import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 import regionsFile from "../../regions.json";
 import { useI18n } from "vue-i18n";
 import QRCode from "qrcode";
@@ -767,7 +757,7 @@ const generateSingleIDCard = (id) => {
     generateIDCards(adherents);
 };
 
-const generateIDCards = async (adherents = props.adherents) => {
+const generateIDCards = async (adherents) => {
     const doc = new jsPDF();
 
     // Step 1: Load the Arabic font file
@@ -775,8 +765,6 @@ const generateIDCards = async (adherents = props.adherents) => {
     const arabicFontName = "Amiri";
 
     doc.addFont(arabicFontFile, "Amiri", "normal");
-
-    // const adherents = props.adherents;
     for (let i = 0; i < adherents.length; i += 8) {
         if (i !== 0) {
             doc.addPage(); // Add a new page for each set of four adherents except the first set
