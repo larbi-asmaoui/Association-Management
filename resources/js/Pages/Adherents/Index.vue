@@ -765,7 +765,7 @@ const generateSingleIDCard = (id) => {
     generateIDCards(adherents);
 };
 
-const generateIDCards = async (adherents) => {
+const generateIDCards = async (adherents = props.adherents) => {
     const doc = new jsPDF();
 
     // Step 1: Load the Arabic font file
@@ -773,6 +773,8 @@ const generateIDCards = async (adherents) => {
     const arabicFontName = "Amiri";
 
     doc.addFont(arabicFontFile, "Amiri", "normal");
+
+    // const adherents = props.adherents;
     for (let i = 0; i < adherents.length; i += 8) {
         if (i !== 0) {
             doc.addPage(); // Add a new page for each set of four adherents except the first set
@@ -843,31 +845,29 @@ const generateIDCards = async (adherents) => {
 
             const logoImg = new Image();
             logoImg.src = `/storage/${page.props.auth.user.association.image}`;
-            if (logoImg.src) {
-                const logoImgX = x + 2;
-                const logoImgY = y + 4;
-                const logoImgSize = 15;
-                // Create a rounded clipping path for logo image
-                doc.setLineWidth(0.1);
-                doc.setDrawColor(0);
-                doc.circle(
-                    logoImgX + logoImgSize / 2,
-                    logoImgY + logoImgSize / 2,
-                    logoImgSize / 2,
-                    "S"
-                );
+            const logoImgX = x + 2;
+            const logoImgY = y + 4;
+            const logoImgSize = 15;
+            // Create a rounded clipping path for logo image
+            doc.setLineWidth(0.1);
+            doc.setDrawColor(0);
+            doc.circle(
+                logoImgX + logoImgSize / 2,
+                logoImgY + logoImgSize / 2,
+                logoImgSize / 2,
+                "S"
+            );
 
-                doc.clip();
-                doc.addImage(
-                    logoImg,
-                    "PNG",
-                    logoImgX,
-                    logoImgY,
-                    logoImgSize,
-                    logoImgSize
-                );
-                doc.rect(logoImgX, logoImgY, logoImgSize, logoImgSize, "S");
-            }
+            doc.clip();
+            doc.addImage(
+                logoImg,
+                "PNG",
+                logoImgX,
+                logoImgY,
+                logoImgSize,
+                logoImgSize
+            );
+            doc.rect(logoImgX, logoImgY, logoImgSize, logoImgSize, "S");
             // doc.addImage(logoImg, "PNG", x + 5, y + 4, 15, 15);
         }
     }
