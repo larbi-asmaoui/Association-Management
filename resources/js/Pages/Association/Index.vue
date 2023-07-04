@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submit" v-if="roles.includes('admin')">
+    <form @submit.prevent="submit">
         <div
             :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
             class="grid grid-cols-1 px-3 pt-2 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900"
@@ -189,7 +189,12 @@
             </div>
         </div>
     </form>
-
+    <!-- ------------- -->
+    <div class="bg-white shadow-md rounded-xl mt-4 p-4">
+        <h3 class="mb-2 text-xl font-bold text-slate-800 uppercase">
+            {{ $t("a-propos.bureau") }}
+        </h3>
+    </div>
     <!-- <div ref="capture"> -->
     <!-- The content you want to convert to an image -->
     <!-- <h1>HELLO</h1>

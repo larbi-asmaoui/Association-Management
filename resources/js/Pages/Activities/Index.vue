@@ -360,13 +360,9 @@
 
 <script>
 import MainLayout from "../../Layouts/MainLayout.vue";
-import Multiselect from "@vueform/multiselect";
 
 export default {
     layout: MainLayout,
-    components: {
-        Multiselect,
-    },
     data() {
         return {
             value: null,
@@ -376,6 +372,7 @@ export default {
 </script>
 
 <script setup>
+import Multiselect from "@vueform/multiselect";
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
 import { ref, computed, reactive, watchEffect } from "vue";
@@ -384,7 +381,6 @@ import { useForm } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
-import Multiselect from "@vueform/multiselect";
 
 import regionsFile from "../../regions.json";
 import { useI18n } from "vue-i18n";

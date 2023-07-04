@@ -1,12 +1,15 @@
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
-import vue from '@vitejs/plugin-vue';
-import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
+import { defineConfig } from "vite";
+import laravel from "laravel-vite-plugin";
+import vue from "@vitejs/plugin-vue";
+import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 
 export default defineConfig({
+    define: {
+        "process.env": {},
+    },
     plugins: [
         laravel({
-            input: 'resources/js/app.js',
+            input: "resources/js/app.js",
             refresh: true,
         }),
         vue({

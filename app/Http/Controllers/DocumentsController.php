@@ -233,28 +233,28 @@ class DocumentsController extends Controller
                 ->where('revenue_date', '>=', $previousReunion->date)
                 ->get();
         }
-        $evenements = $evenements->groupBy('activity_type.name')
-            ->map(function ($groupedEvents) {
-                return [
-                    'totalRevenue' => $groupedEvents->sum('revenue'),
-                    'totalDepense' => $groupedEvents->sum('depense'),
-                ];
-            });
+        // $evenements = $evenements->groupBy('activity_type.name')
+        //     ->map(function ($groupedEvents) {
+        //         return [
+        //             'totalRevenue' => $groupedEvents->sum('revenue'),
+        //             'totalDepense' => $groupedEvents->sum('depense'),
+        //         ];
+        //     });
 
-        $depenses = $depenses->groupBy('depense_type.name')
-            ->map(function ($groupedDepenses) {
-                return [
-                    'total' => $groupedDepenses->sum('montant'),
-                ];
-            });
+        // $depenses = $depenses->groupBy('depense_type.name')
+        //     ->map(function ($groupedDepenses) {
+        //         return [
+        //             'total' => $groupedDepenses->sum('montant'),
+        //         ];
+        //     });
 
 
-        $revenues = $revenues->groupBy('revenue_type.name')
-            ->map(function ($groupedRevenues) {
-                return [
-                    'total' => $groupedRevenues->sum('montant'),
-                ];
-            });
+        // $revenues = $revenues->groupBy('revenue_type.name')
+        //     ->map(function ($groupedRevenues) {
+        //         return [
+        //             'total' => $groupedRevenues->sum('montant'),
+        //         ];
+        //     });
 
 
         $data = [
@@ -263,7 +263,7 @@ class DocumentsController extends Controller
             'evenements' => $evenements,
             'association' => Association::all()
         ];
-
+        // dd($evenements);
         $mpdf = new mPDF();
         $view = view('documents.rapport_financier', $data);
         $html = $view->render();

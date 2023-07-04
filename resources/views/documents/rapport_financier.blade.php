@@ -64,13 +64,15 @@
             <tr>
                 <th>الوصف</th>
                 <th>المبلغ</th>
+                <th>الملاحظات</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($evenements as $evenementType => $evenement)
+            @foreach ($evenements as $evenement)
                 <tr>
-                    <td>{{ $evenementType }}</td>
-                    <td>{{ $evenement['totalRevenue'] }}</td>
+                    <td>{{ $evenement['title'] }}</td>
+                    <td>{{ $evenement['revenue'] }}</td>
+                    <td>{{ $evenement['description'] }}</td>
                 </tr>
             @endforeach
 
@@ -102,13 +104,15 @@
             <tr>
                 <th>الوصف</th>
                 <th>المبلغ</th>
+                <th>الملاحظات</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($evenements as $evenementType => $evenement)
+            @foreach ($evenements as $evenement)
                 <tr>
-                    <td>{{ $evenementType }}</td>
-                    <td>{{ $evenement['totalDepense'] }}</td>
+                    <td>{{ $evenement['title'] }}</td>
+                    <td>{{ $evenement['depense'] }}</td>
+                    <td>{{ $evenement['description'] }}</td>
                 </tr>
             @endforeach
 

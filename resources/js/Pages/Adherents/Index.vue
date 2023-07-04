@@ -501,7 +501,7 @@
                     <div v-if="column.field === 'actions'" class="flex">
                         <div
                             @click="show(row)"
-                            class="cursor-pointer w-4 mr-2 transform hover:text-yellow-200 hover:scale-110"
+                            class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -544,13 +544,44 @@
                                 ></path>
                             </svg>
                         </div>
+                        <!--  -->
+                        <div
+                            @click="generateSingleIDCard(row.id)"
+                            class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-printer"
+                                viewBox="0 0 24 24"
+                                stroke-width="2"
+                                stroke="currentColor"
+                                fill="none"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path
+                                    stroke="none"
+                                    d="M0 0h24v24H0z"
+                                    fill="none"
+                                ></path>
+                                <path
+                                    d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2"
+                                ></path>
+                                <path
+                                    d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4"
+                                ></path>
+                                <path
+                                    d="M7 13m0 2a2 2 0 0 1 2 -2h6a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2z"
+                                ></path>
+                            </svg>
+                        </div>
                     </div>
                     <div v-if="column.field === 'image'" class="flex">
                         <img
                             class="w-10 h-10 rounded-full"
-                            :src="showImage() + row.image"
+                            :src="getImageUrl(row.image)"
                         />
-                        {{ showImage() + row.image }}
+                        <!-- {{ showImage() + row.image }} -->
                     </div>
                     <div
                         v-if="column.field === 'is_actif'"
@@ -578,7 +609,8 @@
             @change="change"
         />
     </div> -->
-    {{ adherents[0].image }}
+
+    <button @click="generatePDF">clickME</button>
 </template>
 
 <script>
@@ -676,25 +708,90 @@ const props = defineProps({
     },
 });
 
+const getImageUrl = (image) => {
+    // const appUrl = process.env.VUE_APP_URL;
+    const appUrl = import.meta.env.VITE_APP_URL;
+    return `${appUrl}/storage/${image}`;
+};
+
 const page = usePage();
-const generateIDCards = async () => {
+const generatePDF = () => {
     const doc = new jsPDF();
 
-    for (let i = 0; i < props.adherents.length; i += 4) {
+    const image = new Image();
+    image.src = `/storage/${page.props.auth.user.association.image}`;
+
+    image.onload = function () {
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+
+        canvas.width = image.width;
+        canvas.height = image.height;
+        context.drawImage(image, 0, 0, image.width, image.height);
+
+        const roundedCanvas = document.createElement("canvas");
+        const roundedContext = roundedCanvas.getContext("2d");
+
+        roundedCanvas.width = image.width;
+        roundedCanvas.height = image.height;
+
+        roundedContext.beginPath();
+        roundedContext.arc(
+            roundedCanvas.width / 2,
+            roundedCanvas.height / 2,
+            Math.min(roundedCanvas.width, roundedCanvas.height) / 2,
+            0,
+            2 * Math.PI
+        );
+        roundedContext.closePath();
+        roundedContext.clip();
+
+        roundedContext.drawImage(
+            canvas,
+            0,
+            0,
+            roundedCanvas.width,
+            roundedCanvas.height
+        );
+
+        const roundedImage = roundedCanvas.toDataURL("image/png");
+
+        doc.addImage(roundedImage, "PNG", 10, 10, 100, 100); // Adjust the positioning and dimensions as needed
+
+        doc.save("rounded_image.pdf");
+    };
+};
+
+const generateSingleIDCard = (id) => {
+    const adherents = props.adherents.filter((adherent) => adherent.id === id);
+    generateIDCards(adherents);
+};
+
+const generateIDCards = async (adherents = props.adherents) => {
+    const doc = new jsPDF();
+
+    // Step 1: Load the Arabic font file
+    const arabicFontFile = "/fonts/Amiri-Regular.ttf";
+    const arabicFontName = "Amiri";
+
+    doc.addFont(arabicFontFile, "Amiri", "normal");
+
+    // const adherents = props.adherents;
+    for (let i = 0; i < adherents.length; i += 8) {
         if (i !== 0) {
             doc.addPage(); // Add a new page for each set of four adherents except the first set
         }
 
-        const remainingAdherents = props.adherents.slice(i);
+        const remainingAdherents = adherents.slice(i);
         const cardsToPrint =
             remainingAdherents.length >= 2
-                ? remainingAdherents.slice(0, 4)
+                ? remainingAdherents.slice(0, 8)
                 : remainingAdherents;
 
         for (let j = 0; j < cardsToPrint.length; j++) {
             const adherent = cardsToPrint[j];
 
-            const cardText = `${adherent.id}\n${adherent.first_name} ${adherent.last_name}\n${adherent.date_of_birth}\n${adherent.date_of_membership}\n${adherent.profession}`;
+            const cardText = `${adherent.id}\nالاسم والنسب : ${adherent.first_name} ${adherent.last_name}\n${adherent.date_of_birth} :  تاريخ الميلاد\n${adherent.date_of_membership} :  تاريخ الإنخراط\n${adherent.profession} :  المهنة`;
 
             const qrCode = await QRCode.toDataURL(cardText);
 
@@ -704,31 +801,79 @@ const generateIDCards = async () => {
             doc.setDrawColor(0);
             doc.setLineWidth(0.5);
             doc.rect(x, y, 80, 50, "S"); // Adjust the coordinates and size of the rectangle for the ID card
-
-            doc.setFontSize(12);
-            doc.text(cardText, x + 3, y + 25); // Adjust the coordinates as needed for the ID card
+            doc.setFont(arabicFontName);
+            doc.setFontSize(10);
+            doc.text(cardText, x + 76, y + 28, { align: "right" });
 
             const qrImg = new Image();
             qrImg.src = qrCode;
-
-            doc.addImage(qrImg, "PNG", x + 64, y + 34, 15, 15); // Adjust the coordinates and size of the QR code for the ID card
+            doc.addImage(qrImg, "PNG", x + 2, y + 34, 14, 14);
 
             const profileImg = new Image();
-            profileImg.src = "/storage/" + adherent.image; // Assuming adherent object has a property 'profile_image' with the image URL
+            profileImg.src = "/storage/" + adherent.image;
+            const profileImgX = x + 63;
+            const profileImgY = y + 4;
+            const profileImgSize = 13;
 
-            doc.setLineWidth(0.3);
+            // Clip the image to a circle
+            doc.setLineWidth(0.2);
             doc.setDrawColor(0);
-            doc.circle(x + 10, y + 10, 8, "S");
+            doc.circle(
+                profileImgX + profileImgSize / 2,
+                profileImgY + profileImgSize / 2,
+                profileImgSize / 2,
+                "S"
+            );
+            doc.clip(); // Apply the clipping path
+
+            // Add the rounded profile image
+            doc.addImage(
+                profileImg,
+                "PNG",
+                profileImgX,
+                profileImgY,
+                profileImgSize,
+                profileImgSize
+            );
+
+            doc.rect(
+                profileImgX,
+                profileImgY,
+                profileImgSize,
+                profileImgSize,
+                "S"
+            );
+            // Reset the clipping path
 
             const logoImg = new Image();
-            logoImg.src = `/storage/${page.props.auth.user.association.image}`; // Assuming adherent object has a property 'profile_image' with the image URL
-
-            doc.setLineWidth(0.3);
+            logoImg.src = `/storage/${page.props.auth.user.association.image}`;
+            const logoImgX = x + 2;
+            const logoImgY = y + 4;
+            const logoImgSize = 15;
+            // Create a rounded clipping path for logo image
+            doc.setLineWidth(0.1);
             doc.setDrawColor(0);
-            doc.circle(x + 70, y + 10, 8, "S");
+            doc.circle(
+                logoImgX + logoImgSize / 2,
+                logoImgY + logoImgSize / 2,
+                logoImgSize / 2,
+                "S"
+            );
+
+            doc.clip();
+            doc.addImage(
+                logoImg,
+                "PNG",
+                logoImgX,
+                logoImgY,
+                logoImgSize,
+                logoImgSize
+            );
+            doc.rect(logoImgX, logoImgY, logoImgSize, logoImgSize, "S");
+            // doc.addImage(logoImg, "PNG", x + 5, y + 4, 15, 15);
         }
     }
-
+    console.log(import.meta.env.VITE_APP_URL);
     doc.save("ID_Cards.pdf");
 };
 
@@ -843,7 +988,7 @@ const form = useForm({
 });
 
 const showImage = () => {
-    return "/storage/";
+    return "http://127.0.0.1:8000/storage/";
 };
 
 const show = (id) => {
