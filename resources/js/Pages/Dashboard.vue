@@ -102,7 +102,7 @@ const lineOptions = ref({
     plugins: {
         title: {
             display: true,
-            text: t("dashborad.depenses_revenus_asso"),
+            text: t("dashboard.depenses_revenus_asso"),
             font: {
                 size: 18,
             },
@@ -128,14 +128,14 @@ const lineData = ref({
     // labels: Object.keys(props.revenueGroupedByMonth),
     datasets: [
         {
-            label: t("dashborad.revenus"),
+            label: t("dashboard.revenus"),
             data: Object.values(props.revenueGroupedByMonth),
             borderColor: "#5A67D8",
             backgroundColor: "transparent",
             borderWidth: 2,
         },
         {
-            label: t("dashborad.depenses"),
+            label: t("dashboard.depenses"),
             data: Object.values(props.depenseGroupedByMonth),
             borderColor: "#FF4560",
             backgroundColor: "transparent",
@@ -150,7 +150,7 @@ const revenueOptions = ref({
     plugins: {
         title: {
             display: true,
-            text: t("dashborad.revenus_asso"),
+            text: t("dashboard.revenus_asso"),
             font: {
                 size: 18,
             },
@@ -164,7 +164,7 @@ const depenseOptions = ref({
     plugins: {
         title: {
             display: true,
-            text: t("dashborad.depenses_asso"),
+            text: t("dashboard.depenses_asso"),
             font: {
                 size: 18,
             },
@@ -282,7 +282,7 @@ const dataBarEvent = ref({
                                 {{ adherents_count }}
                             </h4>
                             <div class="text-gray-500">
-                                {{ $t("dashborad.adherents") }}
+                                {{ $t("dashboard.adherents") }}
                             </div>
                         </div>
                     </div>
@@ -331,7 +331,7 @@ const dataBarEvent = ref({
                                 {{ groupes_count }}
                             </h4>
                             <div class="text-gray-500">
-                                {{ $t("dashborad.groupes") }}
+                                {{ $t("dashboard.groupes") }}
                             </div>
                         </div>
                     </div>
@@ -375,7 +375,7 @@ const dataBarEvent = ref({
                                 {{ events_count }}
                             </h4>
                             <div class="text-gray-500">
-                                {{ $t("dashborad.activites") }}
+                                {{ $t("dashboard.activites") }}
                             </div>
                         </div>
                     </div>
@@ -414,7 +414,7 @@ const dataBarEvent = ref({
                                 {{ stock_count }}
                             </h4>
                             <div class="text-gray-500">
-                                {{ $t("dashborad.biens") }}
+                                {{ $t("dashboard.biens") }}
                             </div>
                         </div>
                     </div>
@@ -426,7 +426,9 @@ const dataBarEvent = ref({
                     id="type"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
-                    <option disabled value="">Séléctionner année</option>
+                    <option disabled value="">
+                        {{ $t("dashboard.select_year") }}
+                    </option>
                     <option v-for="year in yearsList" :value="year" :key="year">
                         {{ year }}
                     </option>

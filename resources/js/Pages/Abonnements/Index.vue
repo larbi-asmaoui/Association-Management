@@ -18,7 +18,7 @@ const { t, availableLocales, locale } = useI18n();
 const $toast = useToast();
 
 const props = defineProps({
-    adherants: {
+    adherents: {
         type: Object,
         default: () => ({}),
     },
@@ -120,8 +120,11 @@ const closeModal = () => {
         <div
             class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
         >
-            <h2 class="text-xl font-semibold text-white">
-                Gestion abonnements
+            <h2
+                class="text-xl font-semibold text-white"
+                :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
+            >
+                {{ $t("abonnements.titre") }}
             </h2>
         </div>
 
@@ -180,27 +183,7 @@ const closeModal = () => {
                                 </span>
                             </div>
 
-                            <div>
-                                <label
-                                    for="type"
-                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                    >Type
-                                </label>
-                                <input
-                                    v-model="form.type"
-                                    type="text"
-                                    name="type"
-                                    id="type"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400"
-                                />
-                                <span
-                                    v-if="form.errors.type"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.type }}
-                                </span>
-                            </div>
+                            <!--  -->
                         </div>
 
                         <div>
@@ -229,23 +212,23 @@ const closeModal = () => {
                         <!-- Dropdown -->
                         <div>
                             <label
-                                for="adherants"
+                                for="adherents"
                                 class="block mb-2 text-sm font-medium text-gray-900"
                                 >Select an option</label
                             >
                             <select
                                 v-model="form.adherant_id"
-                                id="adherants"
+                                id="adherents"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 appearance-none select-none relative z-10"
                             >
                                 <option
-                                    v-for="adherant in adherants.data"
-                                    :key="adherant.id"
-                                    :value="adherant.id"
+                                    v-for="adherent in adherents"
+                                    :key="adherent.id"
+                                    :value="adherent.id"
                                     class="bg-white dark:bg-gray-800 py-2.5 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
                                 >
-                                    {{ adherant.first_name }}
-                                    {{ adherant.last_name }}
+                                    {{ adherent.first_name }}
+                                    {{ adherent.last_name }}
                                 </option>
                             </select>
                             <span
@@ -295,12 +278,7 @@ const closeModal = () => {
                                     >
                                         Payeur
                                     </th>
-                                    <th
-                                        scope="col"
-                                        class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
-                                    >
-                                        Type
-                                    </th>
+
                                     <th
                                         scope="col"
                                         class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
@@ -335,12 +313,6 @@ const closeModal = () => {
                                             " " +
                                             abonnement.adherent.last_name
                                         }}
-                                    </td>
-
-                                    <td
-                                        class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
-                                    >
-                                        {{ abonnement.type }}
                                     </td>
 
                                     <td

@@ -1,5 +1,5 @@
 {
-    "dashborad": {
+    "dashboard": {
         "adherents": "المنخرطين",
         "groupes": "المجموعات",
         "activites": "اﻷنشطة",
@@ -8,7 +8,8 @@
         "depenses": "المصاريف",
         "revenus_asso": "مداخيل الجمعية",
         "depenses_asso": "مصاريف الجمعية",
-        "depenses_revenus_asso": "مداخيل ومصاريف الجمعية"
+        "depenses_revenus_asso": "مداخيل ومصاريف الجمعية",
+        "select_year": "اختر سنة"
     },
     "date_ajout": "تاريخ الإضافة",
     "sidebar": {
@@ -208,5 +209,22 @@
         "input_nom": "الاسم",
         "input_email": "البريد الإلكتروني",
         "input_mot_de_passe": " كلمة المرور"
+    },
+    "abonnements": {
+        "titre": "إدارة الاشتراكات",
+        "modal_ajouter": "إضافة اشتراك",
+        "table_nom": "الاسم",
+        "table_date": "التاريخ",
+        "table_type": "النوع",
+        "table_montant": "المبلغ",
+        "table_search": "بحث",
+        "table_actions": "العمليات",
+        "modal_modifier": "تعديل اشتراك",
+        "input_nom": "الاسم",
+        "input_date": "التاريخ",
+        "input_type": "النوع",
+        "input_montant": "المبلغ",
+        "input_description": "الوصف",
+        "input_image": "الصورة"
     }
 }

@@ -18,7 +18,7 @@ class AbonnementController extends Controller
     {
         $userId = auth()->id();
         $abonnements = Abonnement::with('adherent')->paginate(5);
-        $adherents = Adherent::paginate(10);
+        $adherents = Adherent::all();
         $last_reunion = Reunion::orderBy('date', 'desc')->first();
         return Inertia::render('Abonnements/Index', [
             'abonnements' => $abonnements,
@@ -44,11 +44,11 @@ class AbonnementController extends Controller
         $formFields = $request->validate(
             [
                 'montant' => 'required',
-                'type' => 'required',
                 'adherent_id' => 'required|exists:adherents,id'
             ]
         );
-        Abonnement::create($formFields);
+        $abonnement = Abonnement::create($formFields);
+        $abonnement->date_fin = $abonnement->date_debut->addYear();
         return redirect()->back()->with('success', 'Abonnement created.');
     }
 

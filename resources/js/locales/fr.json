@@ -1,5 +1,5 @@
 {
-    "dashborad": {
+    "dashboard": {
         "adherents": "Adhérents",
         "groupes": "Groupes",
         "activites": "Activités",
@@ -8,7 +8,8 @@
         "depenses": "Dépenses",
         "revenus_asso": "Revenus de l'association",
         "depenses_asso": "Dépenses de l'association",
-        "depenses_revenus_asso": "Revenus et Dépenses de l'association"
+        "depenses_revenus_asso": "Revenus et Dépenses de l'association",
+        "select_year": "Sélectionner une année"
     },
     "date_ajout": "Date d'ajout",
     "sidebar": {
@@ -213,5 +214,22 @@
         "input_nom": "Nom",
         "input_email": "Email",
         "input_mot_de_passe": "Mot de passe"
+    },
+    "abonnements": {
+        "titre": "Gestion des abonnements",
+        "modal_ajouter": "Ajouter un abonnement",
+        "modal_modifier": "Modifier un abonnement",
+        "input_nom": "Nom",
+        "input_description": "Description",
+        "input_montant": "Montant",
+        "input_duree": "Durée",
+        "input_type": "Type",
+        "table_nom": "Nom",
+        "table_description": "Description",
+        "table_montant": "Montant",
+        "table_duree": "Durée",
+        "table_type": "Type",
+        "table_search": "Rechercher",
+        "table_actions": "Actions"
     }
 }
