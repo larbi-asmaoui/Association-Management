@@ -16,8 +16,8 @@ class AbonnementController extends Controller
      */
     public function index()
     {
-        $userId = auth()->id();
-        $abonnements = Abonnement::with('adherent')->paginate(5);
+
+        $abonnements = Abonnement::with('adherent')->get();
         $adherents = Adherent::all();
         $last_reunion = Reunion::orderBy('date', 'desc')->first();
         return Inertia::render('Abonnements/Index', [

@@ -41,14 +41,14 @@
                     class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     type="button"
                 >
-                    تصدير إلى PDF
+                    {{ $t("adherents.export_pdf") }}
                 </button>
                 <button
                     @click="generateIDCards(adherents)"
                     class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     type="button"
                 >
-                    طباعة بطائق الانخراط
+                    {{ $t("adherents.print_cards_adhesion") }}
                 </button>
             </div>
         </div>
@@ -713,52 +713,6 @@ const getImageUrl = (image) => {
 };
 
 const page = usePage();
-const generatePDF = () => {
-    const doc = new jsPDF();
-
-    const image = new Image();
-    image.src = `/storage/${page.props.auth.user.association.image}`;
-
-    image.onload = function () {
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
-
-        canvas.width = image.width;
-        canvas.height = image.height;
-        context.drawImage(image, 0, 0, image.width, image.height);
-
-        const roundedCanvas = document.createElement("canvas");
-        const roundedContext = roundedCanvas.getContext("2d");
-
-        roundedCanvas.width = image.width;
-        roundedCanvas.height = image.height;
-
-        roundedContext.beginPath();
-        roundedContext.arc(
-            roundedCanvas.width / 2,
-            roundedCanvas.height / 2,
-            Math.min(roundedCanvas.width, roundedCanvas.height) / 2,
-            0,
-            2 * Math.PI
-        );
-        roundedContext.closePath();
-        roundedContext.clip();
-
-        roundedContext.drawImage(
-            canvas,
-            0,
-            0,
-            roundedCanvas.width,
-            roundedCanvas.height
-        );
-
-        const roundedImage = roundedCanvas.toDataURL("image/png");
-
-        doc.addImage(roundedImage, "PNG", 10, 10, 100, 100); // Adjust the positioning and dimensions as needed
-
-        doc.save("rounded_image.pdf");
-    };
-};
 
 const generateSingleIDCard = (id) => {
     const adherents = props.adherents.filter((adherent) => adherent.id === id);
@@ -843,31 +797,35 @@ const generateIDCards = async (adherents = props.adherents) => {
             );
             // Reset the clipping path
 
-            const logoImg = new Image();
-            logoImg.src = `/storage/${page.props.auth.user.association.image}`;
-            const logoImgX = x + 2;
-            const logoImgY = y + 4;
-            const logoImgSize = 15;
-            // Create a rounded clipping path for logo image
-            doc.setLineWidth(0.1);
-            doc.setDrawColor(0);
-            doc.circle(
-                logoImgX + logoImgSize / 2,
-                logoImgY + logoImgSize / 2,
-                logoImgSize / 2,
-                "S"
-            );
+            const logoPath = page.props.auth.user.association.image;
+            if (logoPath !== null) {
+                const logoImg = new Image();
+                logoImg.src = "/storage/" + logoPath;
+                const logoImgX = x + 2;
+                const logoImgY = y + 4;
+                const logoImgSize = 15;
+                // Create a rounded clipping path for logo image
+                doc.setLineWidth(0.1);
+                doc.setDrawColor(0);
+                doc.circle(
+                    logoImgX + logoImgSize / 2,
+                    logoImgY + logoImgSize / 2,
+                    logoImgSize / 2,
+                    "S"
+                );
 
-            doc.clip();
-            doc.addImage(
-                logoImg,
-                "PNG",
-                logoImgX,
-                logoImgY,
-                logoImgSize,
-                logoImgSize
-            );
-            doc.rect(logoImgX, logoImgY, logoImgSize, logoImgSize, "S");
+                doc.clip();
+                doc.addImage(
+                    logoImg,
+                    "PNG",
+                    logoImgX,
+                    logoImgY,
+                    logoImgSize,
+                    logoImgSize
+                );
+                doc.rect(logoImgX, logoImgY, logoImgSize, logoImgSize, "S");
+            }
+
             // doc.addImage(logoImg, "PNG", x + 5, y + 4, 15, 15);
         }
     }

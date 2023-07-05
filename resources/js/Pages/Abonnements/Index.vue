@@ -6,13 +6,14 @@ export default {
 </script>
 
 <script setup>
-import { ref } from "vue";
+import { VueGoodTable } from "vue-good-table-next";
+import "vue-good-table-next/dist/vue-good-table-next.css";
+import { ref, computed, reactive } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
-import Pagination from "@/Components/Pagination.vue";
 import { useI18n } from "vue-i18n";
 const { t, availableLocales, locale } = useI18n();
 const $toast = useToast();
@@ -32,12 +33,83 @@ const props = defineProps({
     },
 });
 
+const showInfo = ref(false);
+const showInfoModal = () => {
+    showInfo.value = !showInfo.value;
+};
+
+const filteredItems = reactive([]);
+
+const selectedBirthDate = ref("");
+
+const applyFilters = () => {
+    const adherentsArray = props.adherents; // Convert adherents object to an array
+    filteredItems.value = adherentsArray.filter((item) => {
+        let isMatch = true;
+
+        if (
+            selectedBirthDate.value &&
+            item.date_of_birth <= selectedBirthDate.value
+        ) {
+            isMatch = false;
+        }
+
+        // if (selectedCreatedDate.value && item.createdDate !== selectedCreatedDate.value) {
+        //   isMatch = false;
+        // }
+
+        return isMatch;
+    });
+
+    console.log("Selected Birth Date:", selectedBirthDate.value);
+    console.log("Filtered Items:", filteredItems.value);
+    console.log(adherentsArray);
+};
+
+const columns = ref([
+    {
+        label: t("adherents.table_nom_complete"),
+        field: "nom_complet",
+    },
+    {
+        label: t("abonnements.table_montant"),
+        field: "cin",
+    },
+    {
+        label: t("abonnements.table_date"),
+        field: "date_of_birth",
+    },
+
+    {
+        label: t("adherents.table_actions"),
+        field: "actions",
+    },
+]);
+const rows = computed(() =>
+    Object.values(props.adherents).map((adherent) => ({
+        id: adherent.id,
+        // image: adherent.image,
+        nom_complet: adherent.first_name + " " + adherent.last_name,
+        date_of_birth: adherent.date_of_birth,
+        situation_familiale: adherent.situation_familiale,
+        cin: adherent.cin,
+        tel: adherent.tel,
+        is_actif: adherent.is_actif,
+    }))
+);
+
 const form = useForm({
     montant: null,
     type: "",
     adherant_id: null,
     abonnement_date: null,
 });
+
+const showFilterForm = ref(false);
+
+const showFilter = () => {
+    showFilterForm.value = !showFilterForm.value;
+};
 
 const destroy = (id) => {
     if (confirm("Are you sure to delete?")) {
@@ -116,7 +188,7 @@ const closeModal = () => {
         </svg>
     </button>
 
-    <div class="bg-white py-6 shadow-md rounded-xl relative mt-5">
+    <div class="bg-white pt-6 shadow-md rounded-xl relative mt-5">
         <div
             class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
         >
@@ -131,17 +203,39 @@ const closeModal = () => {
         <div
             class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
         >
-            <div
-                class="w-full px-2 flex justify-between items-center mb-4 sm:mb-0"
-            >
-                <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
-                    <input
-                        type="text"
-                        v-model="search"
-                        class="bg-slate-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :text-white :focus:ring-blue-500 :focus:border-blue-500"
-                        placeholder="rechercher..."
-                    />
-                </div>
+            <div class="px-2 w-full flex items-center mb-4 gap-4 sm:mb-0">
+                <!--  -->
+                <!-- <button
+                    class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                >
+                    button
+                </button> -->
+                <button
+                    @click="showFilter"
+                    class="ms-auto relative text-white py-2 px-2 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-all text-sm"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="icon icon-tabler icon-tabler-filter"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke="currentColor"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path
+                            stroke="none"
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                        ></path>
+                        <path
+                            d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z"
+                        ></path>
+                    </svg>
+                </button>
             </div>
         </div>
 
@@ -149,72 +243,21 @@ const closeModal = () => {
             <Modal size="xl" v-if="isModalOpen" @close="closeModal">
                 <template #header>
                     <div class="flex items-center text-lg">
-                        Ajouter une abonnement
+                        {{ $t("abonnements.modal_ajouter") }}
                     </div>
                 </template>
                 <template #body>
                     <form
+                        :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
                         class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2"
                         @submit.prevent="submit"
                     >
-                        <div
-                            class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
-                        >
-                            <div>
-                                <label
-                                    for="montant"
-                                    class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                    >Montant
-                                </label>
-                                <input
-                                    step="any"
-                                    v-model="form.montant"
-                                    type="number"
-                                    name="montant"
-                                    id="montant"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400"
-                                />
-                                <span
-                                    v-if="form.errors.montant"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.montant }}
-                                </span>
-                            </div>
-
-                            <!--  -->
-                        </div>
-
-                        <div>
-                            <label
-                                for="date"
-                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Date
-                            </label>
-
-                            <input
-                                v-model="form.date"
-                                type="date"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400"
-                                placeholder="Select date"
-                                name="date"
-                            />
-                            <span
-                                v-if="form.errors.date"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.date }}
-                            </span>
-                        </div>
-
                         <!-- Dropdown -->
                         <div>
                             <label
                                 for="adherents"
                                 class="block mb-2 text-sm font-medium text-gray-900"
-                                >Select an option</label
+                                >{{ $t("abonnements.choose_adherent") }}</label
                             >
                             <select
                                 v-model="form.adherant_id"
@@ -242,19 +285,72 @@ const closeModal = () => {
 
                         <!-- end Dropdown -->
 
-                        <div class="flex justify-end gap-x-2">
+                        <div>
+                            <label
+                                for="montant"
+                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                >{{ $t("abonnements.input_montant") }}
+                            </label>
+                            <input
+                                step="any"
+                                v-model="form.montant"
+                                type="number"
+                                name="montant"
+                                id="montant"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400"
+                            />
+                            <span
+                                v-if="form.errors.montant"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.montant }}
+                            </span>
+                        </div>
+
+                        <div>
+                            <label
+                                for="date"
+                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                                >{{ $t("abonnements.input_date") }}
+                            </label>
+
+                            <input
+                                v-model="form.date"
+                                type="date"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400"
+                                placeholder="Select date"
+                                name="date"
+                            />
+                            <span
+                                v-if="form.errors.date"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.date }}
+                            </span>
+                        </div>
+
+                        <div
+                            class="justify-end gap-2 mt-4"
+                            :class="
+                                $i18n.locale === 'ar'
+                                    ? 'flex-row-reverse'
+                                    : 'flex'
+                            "
+                        >
                             <button
                                 @click="closeModal"
                                 type="button"
                                 class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                             >
-                                Annuler
+                                {{ $t("buttons.annuler") }}
                             </button>
                             <button
                                 type="submit"
                                 class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                             >
-                                Enregistrer
+                                {{ $t("buttons.enregistrer") }}
                             </button>
                         </div>
                     </form>
@@ -265,179 +361,172 @@ const closeModal = () => {
             </Modal>
         </teleport>
 
-        <div class="mt-4">
-            <div class="overflow-hidden bg-white">
-                <div class="bg-white" v-show="abonnements.length !== 0">
-                    <div class="relative overflow-x-auto mb-5">
-                        <table class="w-full text-sm text-left text-gray-500">
-                            <thead class="bg-gray-100 dark:bg-gray-700">
-                                <tr>
-                                    <th
-                                        scope="col"
-                                        class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
-                                    >
-                                        Payeur
-                                    </th>
-
-                                    <th
-                                        scope="col"
-                                        class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
-                                    >
-                                        Date
-                                    </th>
-
-                                    <th
-                                        scope="col"
-                                        class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
-                                    >
-                                        Montant (DH)
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase :text-gray-400"
-                                    >
-                                        Actions
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <tr
-                                    v-for="abonnement in abonnements.data"
-                                    :key="abonnement.id"
-                                >
-                                    <td
-                                        class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
-                                    >
-                                        {{
-                                            abonnement.adherent.first_name +
-                                            " " +
-                                            abonnement.adherent.last_name
-                                        }}
-                                    </td>
-
-                                    <td
-                                        class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
-                                    >
-                                        {{ abonnement.created_at }}
-                                    </td>
-
-                                    <td
-                                        class="px-6 py-3 text-base font-medium text-gray-900 whitespace-nowrap :text-white"
-                                    >
-                                        {{ abonnement.montant }}
-                                    </td>
-
-                                    <td
-                                        class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium"
-                                    >
-                                        <div class="flex gap-3">
-                                            <!-- Eye -->
-                                            <!-- <button
-                                                class="text-gray-400 hover:text-purple-500 transition-colors duration-200"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    class="h-5 w-5"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                                    ></path>
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                                    ></path>
-                                                </svg>
-                                            </button> -->
-
-                                            <!-- Edit -->
-                                            <!-- <button
-                                                class="text-gray-400 hover:text-purple-500 transition-colors duration-200"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    class="h-5 w-5"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                                    ></path>
-                                                </svg>
-                                            </button> -->
-
-                                            <!-- Delete -->
-                                            <button
-                                                @click="destroy(abonnement.id)"
-                                                class="text-gray-400 hover:text-purple-500 transition-colors duration-200"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    class="h-5 w-5"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                                    ></path>
-                                                </svg>
-                                            </button>
-
-                                            <!-- Print -->
-                                            <button
-                                                class="text-gray-400 hover:text-purple-500 transition-colors duration-200"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    class="h-5 w-5"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        stroke="none"
-                                                        d="M0 0h24v24H0z"
-                                                        fill="none"
-                                                    />
-                                                    <path
-                                                        d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2"
-                                                    />
-                                                    <path
-                                                        d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4"
-                                                    />
-                                                    <rect
-                                                        x="7"
-                                                        y="13"
-                                                        width="10"
-                                                        height="8"
-                                                        rx="2"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+        <!-- Informations -->
+        <!-- <Modal size="xl" v-if="showInfo" @close="showInfoModal">
+            <template #header>
+                <div class="flex items-center text-lg">
+                    {{ $t("abonnements.info_adhesion") }}
+                </div>
+            </template>
+        </Modal> -->
+        <div
+            class="w-11/12 m-auto bg-gray-100 rounded-lg shadow-md mt-5 p-4"
+            v-if="showFilterForm"
+        >
+            <div class="flex" id="filter">
+                <div class="flex gap-5 w-full">
+                    <div class="w-full">
+                        <label
+                            for="start_date"
+                            class="text-sm font-medium text-gray-900 block mb-2"
+                            >start date
+                            <!-- {{ $t("abonnements.input_start_date") }} -->
+                        </label>
+                        <input
+                            v-model="selectedBirthDate"
+                            type="date"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder="Select date"
+                            name="start_date"
+                        />
                     </div>
-                    <Pagination :data="abonnements" />
+
+                    <div class="w-full">
+                        <label
+                            for="start_date"
+                            class="text-sm font-medium text-gray-900 block mb-2"
+                            >end date
+                            <!-- {{ $t("abonnements.input_start_date") }} -->
+                        </label>
+                        <input
+                            type="date"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder="Select date"
+                            name="start_date"
+                        />
+                    </div>
+
+                    <!-- <select
+                        data-filter="type"
+                        class="filter-type filter w-full px-4 py-2 border border-gray-300 rounded-md"
+                    >
+                        <option value="">Select Type</option>
+                        <option value="">Show All</option>
+                    </select>
+
+                    <select
+                        data-filter="price"
+                        class="filter-price filter w-full px-4 py-2 border border-gray-300 rounded-md"
+                    >
+                        <option value="">Select Price Range</option>
+                        <option value="">Show All</option>
+                    </select> -->
                 </div>
             </div>
+            <button
+                @click="applyFilters"
+                class="py-2 px-3 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+            >
+                Filter
+            </button>
+        </div>
+
+        <div class="mt-4">
+            <vue-good-table
+                :columns="columns"
+                :rows="rows"
+                :pagination-options="{
+                    enabled: true,
+                }"
+                :search-options="{
+                    enabled: true,
+                    placeholder: $t('adherents.table_search'),
+                }"
+                :rtl="$i18n.locale === 'ar'"
+                ><template v-slot:table-row="{ row, column, formattedRow }">
+                    <div v-if="column.field === 'actions'" class="flex">
+                        <div
+                            @click="showInfoModal"
+                            class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                ></path>
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                ></path>
+                            </svg>
+                        </div>
+
+                        <!-- Delete -->
+
+                        <div
+                            @click=""
+                            class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                ></path>
+                            </svg>
+                        </div>
+                        <!-- print -->
+                        <div
+                            @click=""
+                            class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-printer"
+                                viewBox="0 0 24 24"
+                                stroke-width="2"
+                                stroke="currentColor"
+                                fill="none"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path
+                                    stroke="none"
+                                    d="M0 0h24v24H0z"
+                                    fill="none"
+                                ></path>
+                                <path
+                                    d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2"
+                                ></path>
+                                <path
+                                    d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4"
+                                ></path>
+                                <path
+                                    d="M7 13m0 2a2 2 0 0 1 2 -2h6a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2z"
+                                ></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div v-else>
+                        {{ formattedRow[column.field] }}
+                    </div></template
+                >
+            </vue-good-table>
         </div>
     </div>
 </template>

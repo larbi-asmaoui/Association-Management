@@ -223,8 +223,10 @@
         "input_nom": "الاسم",
         "input_date": "التاريخ",
         "input_type": "النوع",
-        "input_montant": "المبلغ",
+        "input_montant": "مبلغ الانخراط",
         "input_description": "الوصف",
-        "input_image": "الصورة"
+        "input_image": "الصورة",
+        "choose_adherent": "اختر المنخرط",
+        "info_adhesion": "معلومات الانخراط"
     }
 }
