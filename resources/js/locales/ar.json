@@ -227,6 +227,8 @@
         "input_description": "الوصف",
         "input_image": "الصورة",
         "choose_adherent": "اختر المنخرط",
-        "info_adhesion": "معلومات الانخراط"
+        "info_adhesion": "معلومات الانخراط",
+        "date_debut": "تاريخ البدء",
+        "date_fin": "تاريخ الانتهاء"
     }
 }

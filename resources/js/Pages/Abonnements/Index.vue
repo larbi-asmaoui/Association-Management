@@ -33,6 +33,9 @@ const props = defineProps({
     },
 });
 
+// create new variable contains the adherents
+const selectedAdherents = ref(props.adherents);
+
 const showInfo = ref(false);
 const showInfoModal = () => {
     showInfo.value = !showInfo.value;
@@ -43,7 +46,9 @@ const filteredItems = reactive([]);
 const selectedBirthDate = ref("");
 
 const applyFilters = () => {
-    const adherentsArray = props.adherents; // Convert adherents object to an array
+    // filter selected adherents by birth date
+
+    const adherentsArray = props.adherents;
     filteredItems.value = adherentsArray.filter((item) => {
         let isMatch = true;
 
@@ -61,9 +66,11 @@ const applyFilters = () => {
         return isMatch;
     });
 
+    selectedAdherents.value = filteredItems.value;
+
     console.log("Selected Birth Date:", selectedBirthDate.value);
     console.log("Filtered Items:", filteredItems.value);
-    console.log(adherentsArray);
+    console.log(props.adherents);
 };
 
 const columns = ref([
@@ -85,8 +92,9 @@ const columns = ref([
         field: "actions",
     },
 ]);
+
 const rows = computed(() =>
-    Object.values(props.adherents).map((adherent) => ({
+    Object.values(selectedAdherents.value).map((adherent) => ({
         id: adherent.id,
         // image: adherent.image,
         nom_complet: adherent.first_name + " " + adherent.last_name,
@@ -369,44 +377,57 @@ const closeModal = () => {
                 </div>
             </template>
         </Modal> -->
-        <div
-            class="w-11/12 m-auto bg-gray-100 rounded-lg shadow-md mt-5 p-4"
-            v-if="showFilterForm"
-        >
-            <div class="flex" id="filter">
-                <div class="flex gap-5 w-full">
-                    <div class="w-full">
-                        <label
-                            for="start_date"
-                            class="text-sm font-medium text-gray-900 block mb-2"
-                            >start date
-                            <!-- {{ $t("abonnements.input_start_date") }} -->
-                        </label>
-                        <input
-                            v-model="selectedBirthDate"
-                            type="date"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            placeholder="Select date"
-                            name="start_date"
-                        />
-                    </div>
+        <div class="mt-1 px-4">
+            <div
+                class="w-full m-auto bg-gray-100 border border-gray-300 shadow-md p-4"
+                v-if="showFilterForm"
+            >
+                <div class="flex" id="filter">
+                    <div class="flex gap-5 w-full lg:flex-row flex-col">
+                        <div class="w-full">
+                            <label
+                                for="start_date"
+                                class="text-sm font-medium text-gray-900 block mb-2"
+                                >{{ $t("abonnements.date_debut") }}
+                            </label>
+                            <input
+                                v-model="selectedBirthDate"
+                                type="date"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                placeholder="Select date"
+                                name="start_date"
+                            />
+                        </div>
 
-                    <div class="w-full">
-                        <label
-                            for="start_date"
-                            class="text-sm font-medium text-gray-900 block mb-2"
-                            >end date
-                            <!-- {{ $t("abonnements.input_start_date") }} -->
-                        </label>
-                        <input
-                            type="date"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            placeholder="Select date"
-                            name="start_date"
-                        />
-                    </div>
+                        <div class="w-full">
+                            <label
+                                for="start_date"
+                                class="text-sm font-medium text-gray-900 block mb-2"
+                                >{{ $t("abonnements.date_fin") }}
+                            </label>
+                            <input
+                                type="date"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                placeholder="Select date"
+                                name="start_date"
+                            />
+                        </div>
 
-                    <!-- <select
+                        <div class="w-full">
+                            <label
+                                for="start_date"
+                                class="text-sm font-medium text-gray-900 block mb-2"
+                                >{{ $t("abonnements.date_fin") }}
+                            </label>
+                            <select
+                                data-filter="type"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            >
+                                <option value="">Select Type</option>
+                                <option value="">Show All</option>
+                            </select>
+                        </div>
+                        <!-- <select
                         data-filter="type"
                         class="filter-type filter w-full px-4 py-2 border border-gray-300 rounded-md"
                     >
@@ -421,16 +442,16 @@ const closeModal = () => {
                         <option value="">Select Price Range</option>
                         <option value="">Show All</option>
                     </select> -->
+                    </div>
                 </div>
+                <button
+                    @click="applyFilters"
+                    class="py-2 px-3 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                >
+                    Filter
+                </button>
             </div>
-            <button
-                @click="applyFilters"
-                class="py-2 px-3 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-            >
-                Filter
-            </button>
         </div>
-
         <div class="mt-4">
             <vue-good-table
                 :columns="columns"
