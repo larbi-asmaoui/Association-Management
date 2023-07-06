@@ -24,14 +24,14 @@
 
         .name {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             font-size: 22px;
         }
 
         .title {
             font-size: 18px;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .second_title {
@@ -111,7 +111,7 @@
 
         </tbody>
     </table>
-    <br><br>
+    <br>
     <p class="second_title">المصاريف</p>
 
     @if ($evenements)
@@ -155,12 +155,18 @@
             @endif
         </tbody>
     </table>
+    <br><br>
+    <p>مجموع المداخيل: {{ $totalRevenus }} درهم</p>
+    <p>مجموع المصـاريف: {{ $totalDepenses }} درهم</p>
+    <p>الميـــــزان: {{ $totalRevenus - $totalDepenses }} درهم (العجز او الفائض).</p>
 
-    <div class="signature">
-        <p>إمضاء الرئيس</p>
-        <p></p>
-        <p>إمضاء الأمين</p>
+    <br>
+
+    <div style="clear: both;overflow: hidden;width: 600px; margin:auto;margin-top:50px;">
+        <p align="left" style="width: 50%;float: left;margin-top:20px;">إمضاء الأمين</p>
+        <p align="right" style="width: 50%;float: left;">إمضاء الرئيس</p>
     </div>
+
 </body>
 
 </html>

@@ -256,13 +256,20 @@ class DocumentsController extends Controller
         //     });
 
 
+        $totalRevenus = $evenements->sum('revenue') + $frais_adhesions + $revenues->sum('montant');
+        $totalDepenses = $evenements->sum('depense') + $depenses->sum('montant');
+        // dd($totalRevenus);
         $data = [
             'frais_adhesions' => $frais_adhesions,
             'revenues' => $revenues,
             'depenses' => $depenses,
             'evenements' => $evenements,
-            'association' => Association::all()
+            'association' => Association::all(),
+            'totalRevenus' => $totalRevenus,
+            'totalDepenses' => $totalDepenses,
         ];
+
+
         // dd($evenements);
         $mpdf = new mPDF();
         $view = view('documents.rapport_financier', $data);
