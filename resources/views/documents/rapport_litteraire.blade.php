@@ -42,10 +42,12 @@
 
 <body style="font-family: DejaVu Sans; direction: rtl;">
     <div>
+        {{-- <img src="{{ url('/public/storage/' . $association[0]->image) }}" alt=""> --}}
+        {{-- <p>{{ url('/public/storage/' . $association[0]->image) }}</p> --}}
         <p class="name">{{ $association[0]->name }}</p>
-        <p class="title">التقرير الأدبي للجمعية</p>
-        <p>لقد قطعت {{ $association[0]->name ?? 'null' }} أشواطا مهمة خلال مدة وجيزة وقصيرة لا تتعدى
-            {{ $association[0]->created_at->diff(new DateTime())->y }} سنوات من عمر
+        <p class="title">التقرير الأدبي للجمعية : {{ $season }}</p>
+        <p>لقد قطعت {{ $association[0]->name ?? 'null' }} أشواطا مهمة خلال مدة لا تتعدى
+            {{ $association[0]->created_at->diff(new DateTime())->y + 1 }} سنوات من عمر
             هذه الجمعية، فقد تأسست جمعيتنا تحت اسم: {{ $association[0]->name ?? 'null' }} بتاريخ
             {{ date_format($association[0]->created_at, 'Y/m/d') }}،
             ومنذ ذلك التاريخ وهي

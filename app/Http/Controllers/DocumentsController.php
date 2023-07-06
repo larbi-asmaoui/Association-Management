@@ -26,8 +26,7 @@ class DocumentsController extends Controller
 
         $year = $request->get('year');
         $yearParts = explode('/', $year);
-        // $startYear = $yearParts[0];
-        // $endYear = isset($yearParts[1]) ? $yearParts[1] : null;
+
 
         $rapports = Rapport::all();
 
@@ -118,8 +117,8 @@ class DocumentsController extends Controller
 
         // Generate the new reference
         $currentYear = date('Y');
-        $nextYear = intval($currentYear) + 1;
-        $newReference =  "$currentYear-$nextYear-$newIncrementPart";
+        $prevYear = intval($currentYear) - 1;
+        $newReference =  "$prevYear/$currentYear";
 
         $latestReunion = null;
         $reunionsCount = Reunion::count();
@@ -149,7 +148,8 @@ class DocumentsController extends Controller
 
         $data = [
             'evenements' => $evenements,
-            'association' => $association
+            'association' => $association,
+            'season'   => $newReference,
         ];
         $mpdf = new mPDF();
         $view = view('documents.rapport_litteraire', $data);
@@ -184,8 +184,8 @@ class DocumentsController extends Controller
         }
 
         $currentYear = date('Y');
-        $nextYear = intval($currentYear) + 1;
-        $newReference =  "$currentYear-$nextYear-$newIncrementPart";
+        $prevYear = intval($currentYear) - 1;
+        $newReference =  "$prevYear/$currentYear";
 
         $depenses = null;
         $revenues = null;
@@ -267,6 +267,7 @@ class DocumentsController extends Controller
             'association' => Association::all(),
             'totalRevenus' => $totalRevenus,
             'totalDepenses' => $totalDepenses,
+            'season' => $newReference,
         ];
 
 

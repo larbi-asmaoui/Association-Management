@@ -55,7 +55,7 @@
 
 <body style="font-family: DejaVu Sans; direction: rtl;">
     <p class="name">{{ $association[0]->name }}</p>
-    <p class="title">التقرير المالي للجمعية لموسم</p>
+    <p class="title">التقرير المالي للجمعية لموسم : {{ $season }}</p>
     <br>
     <p class="second_title">المداخيل</p>
     @if ($evenements)
@@ -158,7 +158,9 @@
     <br><br>
     <p>مجموع المداخيل: {{ $totalRevenus }} درهم</p>
     <p>مجموع المصـاريف: {{ $totalDepenses }} درهم</p>
-    <p>الميـــــزان: {{ $totalRevenus - $totalDepenses }} درهم (العجز او الفائض).</p>
+    <p>الميـــــزان:
+        {{ $totalRevenus - $totalDepenses < 0 ? abs($totalRevenus - $totalDepenses) . '-' : abs($totalRevenus - $totalDepenses) . '+' }}
+        درهم (العجز او الفائض).</p>
 
     <br>
 

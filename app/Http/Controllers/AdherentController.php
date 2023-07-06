@@ -151,8 +151,23 @@ class AdherentController extends Controller
     // set is_active to false for all adherents
     public function deactivateAll()
     {
-        Adherent::where('is_actif', true)->update(['is_actif' => false]);
-        return redirect()->back()->with('message', 'All adherents are deactivated.');
+        // do the same in index method but update the is_actif field if the the last abonnement is expired
+
+
+        $adherents = Adherent::where('is_actif', true)->get();
+        foreach ($adherents as $adherent) {
+            $abonnement = $adherent->abonnements->last();
+            if ($abonnement) {
+                if ($abonnement->date_payement < Carbon::now()) {
+                    $adherent->is_actif = false;
+                    $adherent->save();
+                }
+            }
+        }
+
+
+        // Adherent::where('is_actif', true)->update(['is_actif' => false]);
+        // return redirect()->back()->with('message', 'All adherents are deactivated.');
     }
 
     // for one adherent
