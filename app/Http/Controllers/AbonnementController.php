@@ -57,7 +57,13 @@ class AbonnementController extends Controller
         ]);
 
         $adherent = Adherent::find($formFields['adherent_id']);
-        $adherent->subscription_expiry = Carbon::now()->addYear();
+        $last_reunion = Reunion::orderBy('date', 'desc')->first();
+        if ($last_reunion && $last_reunion->reunion_type->name == 'normal') {
+            $adherent->subscription_expiry = Carbon::parse($last_reunion->date)->addYear();
+        } else {
+            $adherent->subscription_expiry = Carbon::now()->addYear();
+        }
+        $adherent->is_actif = 1;
         $adherent->save();
 
         return redirect()->back()->with('success', 'Abonnement created.');

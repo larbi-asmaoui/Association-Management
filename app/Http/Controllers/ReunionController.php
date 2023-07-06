@@ -34,11 +34,11 @@ class ReunionController extends Controller
             'reunion_type_id' => 'required|exists:reunion_types,id',
         ]);
         $reunion = Reunion::create($formFields);
-        if (strtolower($reunion->reunion_type->name) === 'normal') {
-            Adherent::query()->update([
-                'is_actif' => 0
-            ]);
-        };
+        // if (strtolower($reunion->reunion_type->name) === 'normal') {
+        //     Adherent::query()->update([
+        //         'is_actif' => 0
+        //     ]);
+        // };
         return redirect()->back()->with('success', 'reunion created.');
     }
 

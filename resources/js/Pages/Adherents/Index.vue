@@ -675,6 +675,14 @@ const columns = ref([
     {
         label: t("adherents.table_statut_adhesion"),
         field: "is_actif",
+        filterOptions: {
+            placeholder: "الكل",
+            enabled: true,
+            filterDropdownItems: [
+                { value: 0, text: "غير نشط" },
+                { value: 1, text: "نشط" },
+            ], //only trigger on enter not on keyup
+        },
     },
     {
         label: t("adherents.table_actions"),
@@ -720,6 +728,14 @@ const generateSingleIDCard = (id) => {
 };
 
 const generateIDCards = async (adherents = props.adherents) => {
+    // filter the same array is_adherent === 1
+    adherents = adherents.filter((adherent) => adherent.is_adherent === 1);
+
+    if (adherents.length === 0) {
+        alert("لا يوجد أعضاء للطباعة");
+        return;
+    }
+
     const doc = new jsPDF();
 
     // Step 1: Load the Arabic font file

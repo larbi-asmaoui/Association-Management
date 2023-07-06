@@ -6,6 +6,7 @@ use App\Http\Requests\StoreAdherentRequest;
 use App\Http\Requests\UpdateAdherentRequest;
 use App\Models\Abonnement;
 use App\Models\Adherent;
+use App\Models\Reunion;
 use App\Models\Statut;
 use Carbon\Carbon;
 use Inertia\Inertia;
@@ -19,11 +20,25 @@ class AdherentController extends Controller
      */
     public function index()
     {
-
+        $reunionsCount = Reunion::count();
+        if ($reunionsCount > 1) {
+            $reunions = Reunion::whereHas('reunion_type', function ($query) {
+                $query->where('name', 'normal');
+            })->orderBy('date', 'desc')->take(2)->get();
+            $newestReunion = $reunions->first();
+            $previousReunion = $reunions->last();
+            $adherents = Adherent::whereDoesntHave('abonnements', function ($query) use ($newestReunion, $previousReunion) {
+                $query->whereDate('date_payement', '<=', $previousReunion->date);
+                // $query->where('date_payement', '<', $newestReunion->date)
+                //     ->where('date_payement', '>', $previousReunion->date);
+            })->with('abonnements')->get();
+        } else {
+            $adherents = Adherent::with('abonnements')->get();
+        }
         $status  = Statut::all();
         return Inertia::render('Adherents/Index', [
             'status' => $status,
-            'adherents' => Adherent::all(),
+            'adherents' => $adherents,
         ]);
     }
 
