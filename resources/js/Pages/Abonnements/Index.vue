@@ -8,7 +8,7 @@ export default {
 <script setup>
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
-import { ref, computed, reactive } from "vue";
+import { ref, computed, reactive, watchEffect, watch } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
@@ -33,46 +33,56 @@ const props = defineProps({
     },
 });
 
-// create new variable contains the adherents
-const selectedAdherents = ref(props.adherents);
+const selectedStartDate = ref("");
+const selectedEndDate = ref("");
+const selectedAbonnements = ref(props.abonnements);
 
 const showInfo = ref(false);
+const filteredItems = reactive([]);
+
+const form = useForm({
+    montant: null,
+    adherent_id: null,
+    // abonnement_date: null,
+});
+const showFilterForm = ref(false);
+let isModalOpen = ref(false);
+
 const showInfoModal = () => {
     showInfo.value = !showInfo.value;
 };
-
-const filteredItems = reactive([]);
-
-const selectedBirthDate = ref("");
+const clearFilters = () => {
+    selectedStartDate.value = "";
+    selectedEndDate.value = "";
+    selectedAbonnements.value = props.abonnements;
+};
 
 const applyFilters = () => {
     // filter selected adherents by birth date
 
-    const adherentsArray = props.adherents;
-    filteredItems.value = adherentsArray.filter((item) => {
+    const abonnementArray = props.abonnements;
+    filteredItems.value = abonnementArray.filter((item) => {
         let isMatch = true;
 
         if (
-            selectedBirthDate.value &&
-            item.date_of_birth <= selectedBirthDate.value
+            selectedStartDate.value &&
+            item.date_debut <= selectedStartDate.value
         ) {
             isMatch = false;
         }
 
-        // if (selectedCreatedDate.value && item.createdDate !== selectedCreatedDate.value) {
-        //   isMatch = false;
-        // }
+        if (selectedEndDate.value && item.date_fin >= selectedEndDate.value) {
+            isMatch = false;
+        }
 
         return isMatch;
     });
 
-    selectedAdherents.value = filteredItems.value;
-
-    console.log("Selected Birth Date:", selectedBirthDate.value);
-    console.log("Filtered Items:", filteredItems.value);
-    console.log(props.adherents);
+    selectedAbonnements.value = filteredItems.value;
 };
-
+watchEffect(() => {
+    applyFilters();
+});
 const columns = ref([
     {
         label: t("adherents.table_nom_complete"),
@@ -80,11 +90,16 @@ const columns = ref([
     },
     {
         label: t("abonnements.table_montant"),
-        field: "cin",
+        field: "montant",
     },
     {
         label: t("abonnements.table_date"),
-        field: "date_of_birth",
+        field: "date_debut",
+    },
+
+    {
+        label: t("abonnements.table_date"),
+        field: "date_fin",
     },
 
     {
@@ -94,26 +109,19 @@ const columns = ref([
 ]);
 
 const rows = computed(() =>
-    Object.values(selectedAdherents.value).map((adherent) => ({
-        id: adherent.id,
-        // image: adherent.image,
-        nom_complet: adherent.first_name + " " + adherent.last_name,
-        date_of_birth: adherent.date_of_birth,
-        situation_familiale: adherent.situation_familiale,
-        cin: adherent.cin,
-        tel: adherent.tel,
-        is_actif: adherent.is_actif,
+    Object.values(selectedAbonnements.value).map((abonnement) => ({
+        id: abonnement.id,
+        // image: abonnement.image,
+        // nom_complet: abonnement.first_name + " " + abonnement.last_name,
+        nom_complet:
+            abonnement.adherent.first_name +
+            " " +
+            abonnement.adherent.last_name,
+        date_debut: abonnement.date_debut,
+        date_fin: abonnement.date_fin,
+        montant: abonnement.montant,
     }))
 );
-
-const form = useForm({
-    montant: null,
-    type: "",
-    adherant_id: null,
-    abonnement_date: null,
-});
-
-const showFilterForm = ref(false);
 
 const showFilter = () => {
     showFilterForm.value = !showFilterForm.value;
@@ -156,6 +164,7 @@ const submit = () => {
             });
         },
         onError: () => {
+            console.log(form.errors);
             $toast.open({
                 message: "Erreur lors de l'ajout de la abonnement",
                 type: "error",
@@ -166,11 +175,8 @@ const submit = () => {
     });
 };
 
-let isModalOpen = ref(false);
-
 const closeModal = () => {
     isModalOpen.value = false;
-
     form.reset();
 };
 </script>
@@ -268,7 +274,7 @@ const closeModal = () => {
                                 >{{ $t("abonnements.choose_adherent") }}</label
                             >
                             <select
-                                v-model="form.adherant_id"
+                                v-model="form.adherent_id"
                                 id="adherents"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 appearance-none select-none relative z-10"
                             >
@@ -283,11 +289,11 @@ const closeModal = () => {
                                 </option>
                             </select>
                             <span
-                                v-if="form.errors.adherant_id"
+                                v-if="form.errors.adherent_id"
                                 class="text-xs text-red-600 mt-1"
                                 id="hs-validation-name-error-helper"
                             >
-                                {{ form.errors.adherant_id }}
+                                {{ form.errors.adherent_id }}
                             </span>
                         </div>
 
@@ -324,19 +330,18 @@ const closeModal = () => {
                             </label>
 
                             <input
-                                v-model="form.date"
                                 type="date"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400"
                                 placeholder="Select date"
                                 name="date"
                             />
-                            <span
-                                v-if="form.errors.date"
+                            <!-- <span
+                                v-if="form.errors.abonnement_date"
                                 class="text-xs text-red-600 mt-1"
                                 id="hs-validation-name-error-helper"
                             >
-                                {{ form.errors.date }}
-                            </span>
+                                {{ form.errors.abonnement_date }}
+                            </span> -->
                         </div>
 
                         <div
@@ -377,7 +382,8 @@ const closeModal = () => {
                 </div>
             </template>
         </Modal> -->
-        <div class="mt-1 px-4">
+
+        <div class="mt-1 px-4 transition-all ease-in">
             <div
                 class="w-full m-auto bg-gray-100 border border-gray-300 shadow-md p-4"
                 v-if="showFilterForm"
@@ -391,7 +397,7 @@ const closeModal = () => {
                                 >{{ $t("abonnements.date_debut") }}
                             </label>
                             <input
-                                v-model="selectedBirthDate"
+                                v-model="selectedStartDate"
                                 type="date"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 placeholder="Select date"
@@ -406,6 +412,7 @@ const closeModal = () => {
                                 >{{ $t("abonnements.date_fin") }}
                             </label>
                             <input
+                                v-model="selectedEndDate"
                                 type="date"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 placeholder="Select date"
@@ -427,29 +434,16 @@ const closeModal = () => {
                                 <option value="">Show All</option>
                             </select>
                         </div>
-                        <!-- <select
-                        data-filter="type"
-                        class="filter-type filter w-full px-4 py-2 border border-gray-300 rounded-md"
-                    >
-                        <option value="">Select Type</option>
-                        <option value="">Show All</option>
-                    </select>
-
-                    <select
-                        data-filter="price"
-                        class="filter-price filter w-full px-4 py-2 border border-gray-300 rounded-md"
-                    >
-                        <option value="">Select Price Range</option>
-                        <option value="">Show All</option>
-                    </select> -->
                     </div>
                 </div>
-                <button
-                    @click="applyFilters"
-                    class="py-2 px-3 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                >
-                    Filter
-                </button>
+                <div class="flex gap-4">
+                    <button
+                        @click="clearFilters"
+                        class="py-2 px-3 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                    >
+                        {{ $t("abonnements.clear") }}
+                    </button>
+                </div>
             </div>
         </div>
         <div class="mt-4">
@@ -494,7 +488,7 @@ const closeModal = () => {
                         <!-- Delete -->
 
                         <div
-                            @click=""
+                            @click="destroy(row.id)"
                             class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                         >
                             <svg

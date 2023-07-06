@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Adherent;
 use App\Models\Abonnement;
 use App\Models\Reunion;
+use Carbon\Carbon;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
@@ -41,14 +42,18 @@ class AbonnementController extends Controller
      */
     public function store(Request $request)
     {
-        $formFields = $request->validate(
-            [
-                'montant' => 'required',
-                'adherent_id' => 'required|exists:adherents,id'
-            ]
-        );
-        $abonnement = Abonnement::create($formFields);
-        $abonnement->date_fin = $abonnement->date_debut->addYear();
+
+        // dd($request->all());
+        // $formFields = $request->validate(
+        //     [
+        //         'montant' => 'required',
+        //         'adherent_id' => 'required|exists:adherents,id',
+        //         'date_debut' => 'nullable|date'
+        //     ]
+        // );
+        $abonnement = Abonnement::create($request->all());
+        $abonnement->date_fin = Carbon::parse($abonnement->date_debut)->addYear();
+
         return redirect()->back()->with('success', 'Abonnement created.');
     }
 
