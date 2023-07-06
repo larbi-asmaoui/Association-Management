@@ -35,7 +35,7 @@
         <div
             class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
         >
-            <div class="px-2 flex items-center mb-4 gap-4 sm:mb-0">
+            <div class="px-2 w-full flex items-center mb-4 gap-4 sm:mb-0">
                 <button
                     @click="exportToPDF"
                     class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -50,6 +50,17 @@
                 >
                     {{ $t("adherents.print_cards_adhesion") }}
                 </button>
+                <select
+                    id="type"
+                    class="bg-gray-50 border mr-auto border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                >
+                    <option value="">
+                        {{ $t("dashboard.select_year") }}
+                    </option>
+                    <!-- <option v-for="year in yearsList" :value="year" :key="year">
+                        {{ year }}
+                    </option> -->
+                </select>
             </div>
         </div>
         <Modal size="5xl" v-if="isModalOpen" @close="closeModal">
@@ -490,12 +501,14 @@
                 :rows="rows"
                 :pagination-options="{
                     enabled: true,
+                    mode: 'records',
+                    perPage: 5,
+                    perPageDropdown: [5, 10, 20],
                 }"
                 :search-options="{
                     enabled: true,
                     placeholder: $t('adherents.table_search'),
                 }"
-                :rtl="$i18n.locale === 'ar'"
             >
                 <template v-slot:table-row="{ row, column, formattedRow }">
                     <div v-if="column.field === 'actions'" class="flex">
@@ -729,7 +742,7 @@ const generateSingleIDCard = (id) => {
 
 const generateIDCards = async (adherents = props.adherents) => {
     // filter the same array is_adherent === 1
-    adherents = adherents.filter((adherent) => adherent.is_adherent === 1);
+    adherents = adherents.filter((adherent) => adherent.is_actif === 1);
 
     if (adherents.length === 0) {
         alert("لا يوجد أعضاء للطباعة");

@@ -50,7 +50,7 @@ class DocumentsController extends Controller
             $depenses = Depense::where('depense_date', '<=', $latestReunion->date)
                 ->get();
             // ->sum('montant');
-            $frais_adhesions = Abonnement::where('date_debut', '<=', $latestReunion->date)
+            $frais_adhesions = Abonnement::where('date_payement', '<=', $latestReunion->date)
                 ->sum('montant');
         } else {
             $reunions = Reunion::whereHas('reunion_type', function ($query) {
@@ -68,8 +68,8 @@ class DocumentsController extends Controller
                 ->where('depense_date', '>=', $previousReunion->date)
                 ->get();
             // ->sum('montant');
-            $frais_adhesions = Abonnement::where('date_debut', '<=', $newestReunion->date)
-                ->where('date_debut', '>=', $previousReunion->date)
+            $frais_adhesions = Abonnement::where('date_payement', '<=', $newestReunion->date)
+                ->where('date_payement', '>=', $previousReunion->date)
                 ->sum('montant');
         }
 
@@ -91,13 +91,6 @@ class DocumentsController extends Controller
             $totalBenefice = 0;
         }
 
-        // dd($evenements);
-
-
-
-
-
-        // dd($depenses);
         return Inertia::render('Documents/Index', [
             'evenements' => $evenements,
             'rapports' => $rapports,
@@ -196,6 +189,7 @@ class DocumentsController extends Controller
 
         $depenses = null;
         $revenues = null;
+        $frais_adhesions = 0;
         $reunionsCount = Reunion::count();
         if ($reunionsCount == 0) {
             $evenements = [];
@@ -213,6 +207,8 @@ class DocumentsController extends Controller
             // ->sum('montant');
             $revenues = Revenue::where('revenue_date', '<=', $latestReunion->date)
                 ->get();
+            $frais_adhesions = Abonnement::where('date_payement', '<=', $latestReunion->date)
+                ->sum('montant');
         } else {
             $reunions = Reunion::whereHas('reunion_type', function ($query) {
                 $query->where('name', 'normal');
@@ -232,6 +228,9 @@ class DocumentsController extends Controller
             $revenues = Revenue::where('revenue_date', '<=', $newestReunion->date)
                 ->where('revenue_date', '>=', $previousReunion->date)
                 ->get();
+            $frais_adhesions = Abonnement::where('date_payement', '<=', $newestReunion->date)
+                ->where('date_payement', '>=', $previousReunion->date)
+                ->sum('montant');
         }
         // $evenements = $evenements->groupBy('activity_type.name')
         //     ->map(function ($groupedEvents) {
@@ -258,6 +257,7 @@ class DocumentsController extends Controller
 
 
         $data = [
+            'frais_adhesions' => $frais_adhesions,
             'revenues' => $revenues,
             'depenses' => $depenses,
             'evenements' => $evenements,

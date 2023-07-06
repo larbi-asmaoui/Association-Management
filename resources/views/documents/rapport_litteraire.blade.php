@@ -76,6 +76,7 @@
                 @endforeach
             </tbody>
         </table>
+
         <div style="width: 80%; margin:auto;margin-top:40px;">
             <p align="left" style="width: 50%;float: left;">إمضاء الرئيس</p>
             <p align="left" style="width: 50%;float: left;">إمضاء الكاتب</p>

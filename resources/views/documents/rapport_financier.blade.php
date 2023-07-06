@@ -58,24 +58,37 @@
     <p class="title">التقرير المالي للجمعية لموسم</p>
     <br>
     <p class="second_title">المداخيل</p>
-    <table>
-        <caption>مداخيل الأنشطة</caption>
+    @if ($evenements)
+        <table>
+            <caption>مداخيل الأنشطة</caption>
+            <thead>
+                <tr>
+                    <th>الوصف</th>
+                    <th>المبلغ</th>
+                    <th>الملاحظات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($evenements as $evenement)
+                    <tr>
+                        <td>{{ $evenement['title'] }}</td>
+                        <td>{{ $evenement['revenue'] }}</td>
+                        <td>{{ $evenement['description'] }}</td>
+                    </tr>
+                @endforeach
+
+        </table>
+    @endif
+    <br>
+    <table style="width:100%">
+        <caption>الانخراطات</caption>
         <thead>
             <tr>
-                <th>الوصف</th>
-                <th>المبلغ</th>
-                <th>الملاحظات</th>
+                <th>الانخراطات</th>
+                <th>{{ $frais_adhesions }} درهم</th>
+
             </tr>
         </thead>
-        <tbody>
-            @foreach ($evenements as $evenement)
-                <tr>
-                    <td>{{ $evenement['title'] }}</td>
-                    <td>{{ $evenement['revenue'] }}</td>
-                    <td>{{ $evenement['description'] }}</td>
-                </tr>
-            @endforeach
-
     </table>
     <br>
     <table>
@@ -87,36 +100,41 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($revenues as $revenueType => $revenue)
-                <tr>
-                    <td>{{ $revenueType }}</td>
-                    <td>{{ $revenue['total'] }}</td>
-                </tr>
-            @endforeach
+            @if ($revenues)
+                @foreach ($revenues as $revenueType => $revenue)
+                    <tr>
+                        <td>{{ $revenueType }}</td>
+                        <td>{{ $revenue['total'] }}</td>
+                    </tr>
+                @endforeach
+            @endif
+
         </tbody>
     </table>
     <br><br>
     <p class="second_title">المصاريف</p>
 
-    <table>
-        <caption>مصاريف الأنشطة</caption>
-        <thead>
-            <tr>
-                <th>الوصف</th>
-                <th>المبلغ</th>
-                <th>الملاحظات</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($evenements as $evenement)
+    @if ($evenements)
+        <table>
+            <caption>مصاريف الأنشطة</caption>
+            <thead>
                 <tr>
-                    <td>{{ $evenement['title'] }}</td>
-                    <td>{{ $evenement['depense'] }}</td>
-                    <td>{{ $evenement['description'] }}</td>
+                    <th>الوصف</th>
+                    <th>المبلغ</th>
+                    <th>الملاحظات</th>
                 </tr>
-            @endforeach
+            </thead>
+            <tbody>
+                @foreach ($evenements as $evenement)
+                    <tr>
+                        <td>{{ $evenement['title'] }}</td>
+                        <td>{{ $evenement['depense'] }}</td>
+                        <td>{{ $evenement['description'] }}</td>
+                    </tr>
+                @endforeach
 
-    </table>
+        </table>
+    @endif
     <br>
     <table>
         <caption>مصاريف أخرى</caption>
@@ -127,12 +145,14 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($depenses as $depenseType => $depense)
-                <tr>
-                    <td>{{ $depenseType }}</td>
-                    <td>{{ $depense['total'] }}</td>
-                </tr>
-            @endforeach
+            @if ($depenses)
+                @foreach ($depenses as $depenseType => $depense)
+                    <tr>
+                        <td>{{ $depenseType }}</td>
+                        <td>{{ $depense['total'] }}</td>
+                    </tr>
+                @endforeach
+            @endif
         </tbody>
     </table>
 

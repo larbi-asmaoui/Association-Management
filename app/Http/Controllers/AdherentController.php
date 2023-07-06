@@ -147,4 +147,19 @@ class AdherentController extends Controller
 
         return redirect()->route('adherents.index')->with('message', 'adherent est supprimé avec succès');
     }
+
+    // set is_active to false for all adherents
+    public function deactivateAll()
+    {
+        Adherent::where('is_actif', true)->update(['is_actif' => false]);
+        return redirect()->back()->with('message', 'All adherents are deactivated.');
+    }
+
+    // for one adherent
+    public function deactivate(Adherent $adherent)
+    {
+        $adherent->is_actif = false;
+        $adherent->save();
+        return redirect()->back()->with('message', 'Adherent deactivated.');
+    }
 }
