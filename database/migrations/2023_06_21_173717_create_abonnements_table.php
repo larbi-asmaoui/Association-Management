@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             // $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('adherent_id')->constrained()->onDelete('cascade');
-            $table->double('montant')->default(10);
-            $table->date('date_debut')->default(now());
-            $table->date('date_fin');
+            $table->double('montant');
+            $table->date('date_payement')->default(now());
             $table->timestamps();
         });
     }

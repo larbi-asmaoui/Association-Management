@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('region');
             $table->string('email')->nullable();
             $table->string('image');
+            $table->date('subscription_expiry')->nullable();
             $table->timestamps();
         });
     }

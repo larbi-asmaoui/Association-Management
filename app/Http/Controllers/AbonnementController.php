@@ -44,15 +44,21 @@ class AbonnementController extends Controller
     {
 
         // dd($request->all());
-        // $formFields = $request->validate(
-        //     [
-        //         'montant' => 'required',
-        //         'adherent_id' => 'required|exists:adherents,id',
-        //         'date_debut' => 'nullable|date'
-        //     ]
-        // );
-        $abonnement = Abonnement::create($request->all());
-        $abonnement->date_fin = Carbon::parse($abonnement->date_debut)->addYear();
+        $formFields = $request->validate(
+            [
+                'montant' => 'required',
+                'adherent_id' => 'required|exists:adherents,id',
+            ]
+        );
+        Abonnement::create([
+            'montant' => $formFields['montant'],
+            'adherent_id' => $formFields['adherent_id'],
+            'date_payement' => Carbon::now(),
+        ]);
+
+        $adherent = Adherent::find($formFields['adherent_id']);
+        $adherent->subscription_expiry = Carbon::now()->addYear();
+        $adherent->save();
 
         return redirect()->back()->with('success', 'Abonnement created.');
     }

@@ -68,10 +68,11 @@ class AdherentController extends Controller
         $adherent->abonnements()->create([
 
             'adherent_id' => $adherent->id,
-            'date_debut' => $adherent->date_of_membership,
-            'date_fin' => (new Carbon($adherent->date_of_membership))->addYear(),
             'montant' => $request->montant,
         ]);
+
+        $adherent->subscription_expiry = Carbon::parse($adherent->subscription_expiry)->addYear();
+        $adherent->save();
         return redirect()->back()->with('success', 'Adherent created.');
     }
 

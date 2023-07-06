@@ -26,11 +26,11 @@ class CheckAbonnementStatus extends Command
      */
     public function handle()
     {
-        $abonnemets = Abonnement::where('date_fin', '<', now())->get();
-        foreach ($abonnemets as $abonnement) {
-            $abonnement->adherent->update(['is_actif' => false]);
-        }
+        // $abonnemets = Abonnement::where('date_fin', '<', now())->get();
+        // foreach ($abonnemets as $abonnement) {
+        //     $abonnement->adherent->update(['is_actif' => false]);
+        // }
 
-        $this->info('Abonnemets status checked and adherent status updated.');
+        // $this->info('Abonnemets status checked and adherent status updated.');
     }
 }

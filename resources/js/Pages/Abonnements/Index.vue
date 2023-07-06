@@ -33,7 +33,7 @@ const props = defineProps({
     },
 });
 
-const selectedStartDate = ref("");
+const selectedPayementDate = ref("");
 const selectedEndDate = ref("");
 const selectedAbonnements = ref(props.abonnements);
 
@@ -43,7 +43,7 @@ const filteredItems = reactive([]);
 const form = useForm({
     montant: null,
     adherent_id: null,
-    // abonnement_date: null,
+    // : null,
 });
 const showFilterForm = ref(false);
 let isModalOpen = ref(false);
@@ -52,8 +52,7 @@ const showInfoModal = () => {
     showInfo.value = !showInfo.value;
 };
 const clearFilters = () => {
-    selectedStartDate.value = "";
-    selectedEndDate.value = "";
+    selectedPayementDate.value = "";
     selectedAbonnements.value = props.abonnements;
 };
 
@@ -65,13 +64,9 @@ const applyFilters = () => {
         let isMatch = true;
 
         if (
-            selectedStartDate.value &&
-            item.date_debut <= selectedStartDate.value
+            selectedPayementDate.value &&
+            item.date_payement <= selectedPayementDate.value
         ) {
-            isMatch = false;
-        }
-
-        if (selectedEndDate.value && item.date_fin >= selectedEndDate.value) {
             isMatch = false;
         }
 
@@ -94,12 +89,7 @@ const columns = ref([
     },
     {
         label: t("abonnements.table_date"),
-        field: "date_debut",
-    },
-
-    {
-        label: t("abonnements.table_date"),
-        field: "date_fin",
+        field: "date_payement",
     },
 
     {
@@ -111,15 +101,12 @@ const columns = ref([
 const rows = computed(() =>
     Object.values(selectedAbonnements.value).map((abonnement) => ({
         id: abonnement.id,
-        // image: abonnement.image,
-        // nom_complet: abonnement.first_name + " " + abonnement.last_name,
         nom_complet:
             abonnement.adherent.first_name +
             " " +
             abonnement.adherent.last_name,
-        date_debut: abonnement.date_debut,
-        date_fin: abonnement.date_fin,
         montant: abonnement.montant,
+        date_payement: abonnement.date_payement,
     }))
 );
 
@@ -397,7 +384,7 @@ const closeModal = () => {
                                 >{{ $t("abonnements.date_debut") }}
                             </label>
                             <input
-                                v-model="selectedStartDate"
+                                v-model="selectedPayementDate"
                                 type="date"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 placeholder="Select date"
@@ -418,21 +405,6 @@ const closeModal = () => {
                                 placeholder="Select date"
                                 name="start_date"
                             />
-                        </div>
-
-                        <div class="w-full">
-                            <label
-                                for="start_date"
-                                class="text-sm font-medium text-gray-900 block mb-2"
-                                >{{ $t("abonnements.date_fin") }}
-                            </label>
-                            <select
-                                data-filter="type"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            >
-                                <option value="">Select Type</option>
-                                <option value="">Show All</option>
-                            </select>
                         </div>
                     </div>
                 </div>
