@@ -90,7 +90,7 @@
                         <label
                             for="avatar"
                             class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                            >Profile
+                            >{{ $t("adherents.input_image") }}
                         </label>
                         <ImageUpload
                             v-model="form.image"
@@ -110,7 +110,8 @@
                             <label
                                 for="last_name"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Nom
+                                >{{ $t("adherents.input_nom")
+                                }}<span class="text-red-600">*</span>
                             </label>
                             <input
                                 v-model="form.last_name"
@@ -132,7 +133,8 @@
                             <label
                                 for="first_name"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Prénom
+                                >{{ $t("adherents.input_prenom")
+                                }}<span class="text-red-600">*</span>
                             </label>
                             <input
                                 v-model="form.first_name"
@@ -156,7 +158,7 @@
                             <label
                                 for="cin"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >CIN</label
+                                >{{ $t("adherents.input_cin") }}</label
                             >
                             <input
                                 v-model="form.cin"
@@ -177,18 +179,17 @@
                             <label
                                 for="Sexe"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Sexe</label
+                                >{{ $t("adherents.input_sexe")
+                                }}<span class="text-red-600">*</span></label
                             >
                             <select
                                 v-model="form.sexe"
                                 id="type"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             >
-                                <option disabled value="">
-                                    Séléctionner Sexe
-                                </option>
-                                <option value="homme">homme</option>
-                                <option value="femme">femme</option>
+                                <option disabled value="">اختر الجنس</option>
+                                <option value="ذكر">ذكر</option>
+                                <option value="أنثى">أنثى</option>
                             </select>
                             <!-- <span
                                     v-if="form.errors.region"
@@ -203,7 +204,8 @@
                             <label
                                 for="profession"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Profession</label
+                                >{{ $t("adherents.input_profession")
+                                }}<span class="text-red-600">*</span></label
                             >
                             <input
                                 v-model="form.profession"
@@ -224,7 +226,8 @@
                             <label
                                 for="situation"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Situation Familiale</label
+                                >{{ $t("adherents.input_situation_familiale")
+                                }}<span class="text-red-600">*</span></label
                             >
                             <select
                                 v-model="form.situation_familiale"
@@ -232,10 +235,12 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             >
                                 <option disabled value="">
-                                    Séléctionner situation familiale
+                                    اختر الحالة العائلية
                                 </option>
-                                <option value="Mariee">Mariee</option>
-                                <option value="Celibataire">Celibataire</option>
+                                <option value="متزوج">متزوج</option>
+                                <option value="عازب">عازب</option>
+                                <option value="مطلق">مطلق</option>
+                                <option value="أرمل">أرمل</option>
                             </select>
                             <!-- <span
                                     v-if="form.errors.region"
@@ -252,7 +257,7 @@
                             <label
                                 for="tel"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Telephone</label
+                                >{{ $t("adherents.input_telephone") }}</label
                             >
                             <input
                                 v-model="form.tel"
@@ -275,7 +280,7 @@
                             <label
                                 for="email"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Email</label
+                                >{{ $t("adherents.input_email") }}</label
                             >
                             <input
                                 v-model="form.email"
@@ -300,7 +305,8 @@
                             <label
                                 for="date_of_birth"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Date de naissance
+                                >{{ $t("adherents.input_date_naissance")
+                                }}<span class="text-red-600">*</span>
                             </label>
 
                             <input
@@ -322,7 +328,8 @@
                             <label
                                 for="date_of_membership"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Date d'adhésion
+                                >{{ $t("adherents.input_date_adhesion")
+                                }}<span class="text-red-600">*</span>
                             </label>
 
                             <input
@@ -345,7 +352,8 @@
                         <label
                             for="hs-about-hire-us-1"
                             class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                            >Addresse</label
+                            >{{ $t("adherents.input_addresse")
+                            }}<span class="text-red-600">*</span></label
                         >
                         <textarea
                             v-model="form.address"
@@ -398,16 +406,15 @@
                             <label
                                 for="region"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Région</label
+                                >{{ $t("adherents.input_region")
+                                }}<span class="text-red-600">*</span></label
                             >
                             <select
                                 v-model="form.region"
                                 id="type"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             >
-                                <option disabled value="">
-                                    Séléctionner région
-                                </option>
+                                <option disabled value="">اختر جهة</option>
                                 <option
                                     v-for="region in regions"
                                     @change="filterCities"
@@ -430,16 +437,15 @@
                             <label
                                 for="city"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Ville</label
+                                >{{ $t("adherents.input_ville")
+                                }}<span class="text-red-600">*</span></label
                             >
                             <select
                                 v-model="form.city"
                                 id="type"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             >
-                                <option disabled value="">
-                                    Séléctionner ville
-                                </option>
+                                <option disabled value="">اختر مدينة</option>
                                 <option
                                     v-for="city in filteredCities"
                                     :key="city.id"
@@ -462,13 +468,13 @@
                             <label
                                 for="frais_adhesion"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >Frais d'adhésion</label
+                                >{{ $t("adherents.input_montant_adhesion")
+                                }}<span class="text-red-600">*</span></label
                             >
                             <input
                                 v-model="form.montant"
                                 type="number"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                                placeholder="Frais d'adhésion (en DH)"
                                 name="frais_adhesion"
                                 min="1"
                                 step="0.01"
@@ -609,11 +615,11 @@
                     >
                         <div
                             v-if="row.is_actif === 1"
-                            class="w-4 h-4 bg-green-700 rounded-full"
+                            class="h-2.5 w-2.5 rounded-full bg-green-500"
                         ></div>
                         <div
                             v-else
-                            class="w-4 h-4 bg-red-700 rounded-full"
+                            class="h-2.5 w-2.5 rounded-full bg-red-500"
                         ></div>
                     </div>
                     <div v-else>
@@ -666,6 +672,21 @@ import { useI18n } from "vue-i18n";
 import QRCode from "qrcode";
 const { t, availableLocales, locale } = useI18n();
 
+let isModalOpen = ref(false);
+const $toast = useToast();
+const page = usePage();
+const props = defineProps({
+    adherents: {
+        type: Object,
+        default: () => ({}),
+    },
+
+    status: {
+        type: Object,
+        default: () => ({}),
+    },
+});
+const regions = ref(regionsFile);
 const columns = ref([
     {
         label: "#",
@@ -722,16 +743,22 @@ const rows = computed(() =>
     }))
 );
 
-const props = defineProps({
-    adherents: {
-        type: Object,
-        default: () => ({}),
-    },
-
-    status: {
-        type: Object,
-        default: () => ({}),
-    },
+const form = useForm({
+    image: null,
+    first_name: null,
+    last_name: null,
+    date_of_birth: null,
+    date_of_membership: null,
+    sexe: null,
+    cin: null,
+    profession: null,
+    situation_familiale: null,
+    address: null,
+    region: null,
+    city: null,
+    tel: null,
+    statut_id: null,
+    montant: null,
 });
 
 const getImageUrl = (image) => {
@@ -739,8 +766,6 @@ const getImageUrl = (image) => {
     const appUrl = import.meta.env.VITE_APP_URL;
     return `${appUrl}/storage/${image}`;
 };
-
-const page = usePage();
 
 const generateSingleIDCard = (id) => {
     const adherents = props.adherents.filter((adherent) => adherent.id === id);
@@ -941,10 +966,6 @@ const csvFields = ref({
     },
 });
 
-const $toast = useToast();
-
-const regions = ref(regionsFile);
-
 const filteredCities = computed(() => {
     if (form.region) {
         const regionData = regions.value.find(
@@ -960,24 +981,6 @@ const filteredCities = computed(() => {
 const filterCities = () => {
     form.city = "";
 };
-
-const form = useForm({
-    image: null,
-    first_name: null,
-    last_name: null,
-    date_of_birth: null,
-    date_of_membership: null,
-    sexe: null,
-    cin: null,
-    profession: null,
-    situation_familiale: null,
-    address: null,
-    region: null,
-    city: null,
-    tel: null,
-    statut_id: null,
-    montant: null,
-});
 
 const showImage = () => {
     return "http://127.0.0.1:8000/storage/";
@@ -1054,8 +1057,6 @@ const submit = () => {
         },
     });
 };
-
-let isModalOpen = ref(false);
 
 const closeModal = () => {
     isModalOpen.value = false;

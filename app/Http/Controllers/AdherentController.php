@@ -98,6 +98,8 @@ class AdherentController extends Controller
      */
     public function show(Adherent $adherent)
     {
+
+        $adherent = Adherent::with('abonnements', 'activities')->find($adherent->id);
         return Inertia::render('Adherents/Show', ['adherent' => $adherent]);
     }
 
@@ -183,23 +185,17 @@ class AdherentController extends Controller
             $previousReunion = $reunions->last();
             // dd($newestReunion);
             $adherents = Adherent::whereDoesntHave('abonnements', function ($query) use ($newestReunion, $previousReunion) {
-                $query->where('date_payement', '<', $newestReunion->date)
-                    ->where('date_payement', '>', $previousReunion->date);
+                $query->whereBetween('date_payement', [$newestReunion->date, $previousReunion->date]);
             })->with('abonnements')->get();
-
+            dd($adherents);
             foreach ($adherents as $adherent) {
                 $adherent->is_actif = false;
+                $adherent->subscription_expiry = null;
                 $adherent->save();
             }
 
             return redirect()->back()->with('message', 'All adherents are deactivated.');
         }
-
-
-
-
-        // // Adherent::where('is_actif', true)->update(['is_actif' => false]);
-        // return redirect()->back()->with('message', 'All adherents are deactivated.');
     }
 
     // for one adherent
