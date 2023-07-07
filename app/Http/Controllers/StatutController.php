@@ -81,10 +81,7 @@ class StatutController extends Controller
      */
     public function destroy(Statut $statut)
     {
-        dd($statut);
         $statut->delete();
-
-
         return redirect()->back()->with('success', 'Statut deleted.');
     }
 }

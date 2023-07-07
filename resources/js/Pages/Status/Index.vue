@@ -180,7 +180,7 @@ const closeModal = () => {
 
 const destroy = (id) => {
     if (confirm("vous êtes sûr?")) {
-        form.delete(route("status.destroy", id), {
+        router.visit(route("status.destroy", id), {
             onSuccess: () => {
                 $toast.open({
                     message: "Statut supprimé avec succès",

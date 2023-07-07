@@ -707,44 +707,51 @@ const submit = () => {
     //         });
     //     },
     // });
-    router.post(`/adherents/${props.adherent.id}`, {
-        _method: "put",
-        headers: {
-            "Content-Type": "multipart/form-data",
+    router.post(
+        `/adherents/${props.adherent.id}`,
+        {
+            _method: "put",
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            id: props.adherent.id,
+            first_name: props.adherent.first_name,
+            last_name: props.adherent.last_name,
+            image: props.adherent.image,
+            email: props.adherent.email,
+            date_of_birth: props.adherent.date_of_birth,
+            date_of_membership: props.adherent.date_of_birth,
+            sexe: props.adherent.sexe,
+            cin: props.adherent.cin,
+            address: props.adherent.address,
+            tel: props.adherent.tel,
+            region: props.adherent.region,
+            city: props.adherent.city,
+            is_actif: props.adherent.is_actif,
+            situation_familiale: props.adherent.situation_familiale,
+            profession: props.adherent.profession,
+            preserveScroll: true,
         },
-        id: props.adherent.id,
-        first_name: props.adherent.first_name,
-        last_name: props.adherent.last_name,
-        image: props.adherent.last_name,
-        email: props.adherent.email,
-        date_of_birth: props.adherent.date_of_birth,
-        date_of_membership: props.adherent.date_of_birth,
-        sexe: props.adherent.sexe,
-        cin: props.adherent.cin,
-        address: props.adherent.address,
-        tel: props.adherent.tel,
-        region: props.adherent.region,
-        city: props.adherent.city,
-        is_actif: props.adherent.is_actif,
-        preserveScroll: true,
-        onSuccess: () => {
-            $toast.open({
-                message: "Adhérant est modifié avec succès",
-                type: "success",
-                duration: 3000,
-                dismissible: true,
-            });
-        },
-        onError: () => {
-            console.log(form.errors);
-            $toast.open({
-                message: "Une erreur s'est produite",
-                type: "error",
-                duration: 3000,
-                dismissible: true,
-            });
-        },
-    });
+        {
+            onSuccess: () => {
+                $toast.open({
+                    message: "Adhérant est modifié avec succès",
+                    type: "success",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+            onError: () => {
+                console.log(form.errors);
+                $toast.open({
+                    message: "Une erreur s'est produite",
+                    type: "error",
+                    duration: 3000,
+                    dismissible: true,
+                });
+            },
+        }
+    );
 };
 
 const print = () => {

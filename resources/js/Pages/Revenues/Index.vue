@@ -427,7 +427,7 @@ const submit = () => {
                 onSuccess: () => {
                     closeModal();
                     $toast.open({
-                        message: "dépense modifié avec succès",
+                        message: "Revenue modifié avec succès",
                         type: "success",
                         duration: 3000,
                         dismissible: true,

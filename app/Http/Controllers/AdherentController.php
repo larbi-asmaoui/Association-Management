@@ -9,6 +9,7 @@ use App\Models\Adherent;
 use App\Models\Reunion;
 use App\Models\Statut;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request;
 
@@ -28,12 +29,15 @@ class AdherentController extends Controller
             })->orderBy('date', 'desc')->take(2)->get();
             $newestReunion = $reunions->first();
             $previousReunion = $reunions->last();
-
-            $adherents = Adherent::whereDoesntHave('abonnements', function ($query) use ($newestReunion, $previousReunion) {
-                $query->where('date_payement', '<', $previousReunion->date);
-                // $query->where('date_payement', '<', $newestReunion->date)
-                //     ->where('date_payement', '>', $previousReunion->date);
-            })->with('abonnements')->get();
+            $adherents = DB::table('adherents')
+                ->whereExists(function ($query) use ($previousReunion) {
+                    $query->select(DB::raw(1))
+                        ->from('abonnements')
+                        ->whereRaw('adherents.id = abonnements.adherent_id')
+                        ->where('date_payement', '>=', $previousReunion->date);
+                })
+                ->join('abonnements', 'adherents.id', '=', 'abonnements.adherent_id')
+                ->get();
         } else {
             $adherents = Adherent::with('abonnements')->get();
         }
@@ -139,7 +143,7 @@ class AdherentController extends Controller
         }
 
         $adherent->update($formFields);
-        return redirect()->route('adherents.index')->with('message', 'Adherent updated.');
+        return redirect()->back()->with('message', 'Adherent updated.');
     }
 
     /**
@@ -166,10 +170,20 @@ class AdherentController extends Controller
             $reunion = Reunion::whereHas('reunion_type', function ($query) {
                 $query->where('name', 'normal');
             })->orderBy('date', 'desc')->first();
-            $adherents = Adherent::whereDoesntHave('abonnements', function ($query) use ($reunion) {
-                $query->whereDate('date_payement', '>=', $reunion->date);
-            })->with('abonnements')->get();
-            // set is_actif to false for those adherents
+            // $adherents = Adherent::whereDoesntHave('abonnements', function ($query) use ($reunion) {
+            //     $query->whereDate('date_payement', '>=', $reunion->date);
+            // })->with('abonnements')->get();
+            $adherents = DB::table('adherents')
+                ->whereExists(function ($query) use ($reunion) {
+                    $query->select(DB::raw(1))
+                        ->from('abonnements')
+                        ->whereRaw('adherents.id = abonnements.adherent_id')
+                        ->where('date_payement', '<=', $reunion->date);
+                })
+                ->join('abonnements', 'adherents.id', '=', 'abonnements.adherent_id')
+                ->get();
+
+
             foreach ($adherents as $adherent) {
                 $adherent->is_actif = false;
                 $adherent->subscription_expiry = null;
@@ -183,16 +197,19 @@ class AdherentController extends Controller
             })->orderBy('date', 'desc')->take(2)->get();
             $newestReunion = $reunions->first();
             $previousReunion = $reunions->last();
-            // dd($newestReunion);
-            $adherents = Adherent::whereDoesntHave('abonnements', function ($query) use ($newestReunion, $previousReunion) {
-                $query->whereBetween('date_payement', [$newestReunion->date, $previousReunion->date]);
-            })->with('abonnements')->get();
-            dd($adherents);
-            foreach ($adherents as $adherent) {
-                $adherent->is_actif = false;
-                $adherent->subscription_expiry = null;
-                $adherent->save();
-            }
+
+            $adherents = DB::table('adherents')
+                ->whereExists(function ($query) use ($newestReunion, $previousReunion) {
+                    $query->select(DB::raw(1))
+                        ->from('abonnements')
+                        ->whereRaw('adherents.id = abonnements.adherent_id')
+                        ->whereBetween('date_payement', [$previousReunion->date, $newestReunion->date]);
+                })
+                ->orderBy('adherents.id')
+                ->join('abonnements', 'adherents.id', '=', 'abonnements.adherent_id')
+                ->each(function ($adherent) {
+                    DB::table('adherents')->where('id', $adherent->id)->update(['is_actif' => false]);
+                });
 
             return redirect()->back()->with('message', 'All adherents are deactivated.');
         }
