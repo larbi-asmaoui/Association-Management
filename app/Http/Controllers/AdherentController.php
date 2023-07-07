@@ -122,6 +122,7 @@ class AdherentController extends Controller
     {
         $formFields = $request->validate(
             [
+
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'sexe' => 'required',
@@ -137,7 +138,7 @@ class AdherentController extends Controller
                 'statut_id' => 'nullable|exists:statuts,id',
             ]
         );
-
+        dd($formFields);
         if ($request->hasFile('image')) {
             $formFields['image']  = $request->file('image')->store('adherents', 'public');
         }
@@ -180,15 +181,11 @@ class AdherentController extends Controller
                         ->whereRaw('adherents.id = abonnements.adherent_id')
                         ->where('date_payement', '<=', $reunion->date);
                 })
+                ->orderBy('adherents.id')
                 ->join('abonnements', 'adherents.id', '=', 'abonnements.adherent_id')
-                ->get();
-
-
-            foreach ($adherents as $adherent) {
-                $adherent->is_actif = false;
-                $adherent->subscription_expiry = null;
-                $adherent->save();
-            }
+                ->each(function ($adherent) {
+                    DB::table('adherents')->where('id', $adherent->id)->update(['is_actif' => false]);
+                });
 
             return redirect()->back()->with('message', 'All adherents are deactivated.');
         } else {

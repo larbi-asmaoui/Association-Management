@@ -1,4 +1,5 @@
 <template>
+    {{ adherent.image }}
     <div class="inline-flex items-center mb-5">
         <Link
             :href="route('adherents.index')"
@@ -16,7 +17,7 @@
     </div>
 
     <div class="bg-white px-4 py-6 shadow-md">
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" enctype="multipart/form-data">
             <div class="mt-4 grid gap-4 lg:gap-6">
                 <div class="col-span-full mb-5">
                     <label
@@ -28,10 +29,10 @@
                         <img
                             v-if="adherent.image"
                             :src="showImage() + adherent.image"
-                            class="h-16 w-16 rounded-full border-2 border-gray-300 dark:border-gray-700"
+                            class="h-32 w-32 rounded-full border-2 border-gray-300 dark:border-gray-700"
                             alt=""
                         />
-                        <svg
+                        <!-- <svg
                             v-else
                             class="h-16 w-16 text-gray-300"
                             viewBox="0 0 24 24"
@@ -43,9 +44,10 @@
                                 d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
                                 clip-rule="evenodd"
                             />
-                        </svg>
+                        </svg> -->
 
                         <input
+                            @change="onFileChange"
                             v-show="!isDisabled"
                             type="file"
                             name=""
@@ -685,28 +687,15 @@ const filterCities = () => {
     form.city = "";
 };
 
+const onFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) {
+        return;
+    }
+    form.image = file;
+};
+
 const submit = () => {
-    // form.put(route("adherents.update", props.adherent.id), {
-    //     forceFormData: true,
-    //     preserveScroll: true,
-    //     onSuccess: () => {
-    //         $toast.open({
-    //             message: "Adhérant est modifié avec succès",
-    //             type: "success",
-    //             duration: 3000,
-    //             dismissible: true,
-    //         });
-    //     },
-    //     onError: () => {
-    //         console.log(form.errors);
-    //         $toast.open({
-    //             message: "Une erreur s'est produite",
-    //             type: "error",
-    //             duration: 3000,
-    //             dismissible: true,
-    //         });
-    //     },
-    // });
     router.post(
         `/adherents/${props.adherent.id}`,
         {
@@ -714,22 +703,22 @@ const submit = () => {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
-            id: props.adherent.id,
-            first_name: props.adherent.first_name,
-            last_name: props.adherent.last_name,
-            image: props.adherent.image,
-            email: props.adherent.email,
-            date_of_birth: props.adherent.date_of_birth,
-            date_of_membership: props.adherent.date_of_birth,
-            sexe: props.adherent.sexe,
-            cin: props.adherent.cin,
-            address: props.adherent.address,
-            tel: props.adherent.tel,
-            region: props.adherent.region,
-            city: props.adherent.city,
-            is_actif: props.adherent.is_actif,
-            situation_familiale: props.adherent.situation_familiale,
-            profession: props.adherent.profession,
+            id: form.id,
+            first_name: form.first_name,
+            last_name: form.last_name,
+            image: form.image,
+            email: form.email,
+            date_of_birth: form.date_of_birth,
+            date_of_membership: form.date_of_birth,
+            sexe: form.sexe,
+            cin: form.cin,
+            address: form.address,
+            tel: form.tel,
+            region: form.region,
+            city: form.city,
+            is_actif: form.is_actif,
+            situation_familiale: form.situation_familiale,
+            profession: form.profession,
             preserveScroll: true,
         },
         {

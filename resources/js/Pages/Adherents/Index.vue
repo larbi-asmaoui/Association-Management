@@ -96,13 +96,13 @@
                             v-model="form.image"
                             :default-src="defaultImg"
                         />
-                        <!-- <span
-                                v-if="form.errors.image"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.image }}
-                            </span> -->
+                        <span
+                            v-if="form.errors.image"
+                            class="text-xs text-red-600 mt-1"
+                            id="hs-validation-name-error-helper"
+                        >
+                            {{ form.errors.image }}
+                        </span>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
@@ -120,13 +120,13 @@
                                 id="last_name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                             />
-                            <!-- <span
-                                    v-if="form.errors.last_name"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.last_name }}
-                                </span> -->
+                            <span
+                                v-if="form.errors.last_name"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.last_name }}
+                            </span>
                         </div>
 
                         <div>
@@ -143,13 +143,13 @@
                                 id="first_name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                             />
-                            <!-- <span
-                                    v-if="form.errors.first_name"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.first_name }}
-                                </span> -->
+                            <span
+                                v-if="form.errors.first_name"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.first_name }}
+                            </span>
                         </div>
                     </div>
 
@@ -167,13 +167,13 @@
                                 id="cin"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                             />
-                            <!-- <span
-                                    v-if="form.errors.cin"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.cin }}
-                                </span> -->
+                            <span
+                                v-if="form.errors.cin"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.cin }}
+                            </span>
                         </div>
                         <div>
                             <label
@@ -191,13 +191,13 @@
                                 <option value="ذكر">ذكر</option>
                                 <option value="أنثى">أنثى</option>
                             </select>
-                            <!-- <span
-                                    v-if="form.errors.region"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.region }}
-                                </span> -->
+                            <span
+                                v-if="form.errors.sexe"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.sexe }}
+                            </span>
                         </div>
 
                         <div>
@@ -214,13 +214,13 @@
                                 id="profession"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                             />
-                            <!-- <span
-                                    v-if="form.errors.profession"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.profession }}
-                                </span> -->
+                            <span
+                                v-if="form.errors.profession"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.profession }}
+                            </span>
                         </div>
                         <div>
                             <label
@@ -242,13 +242,13 @@
                                 <option value="مطلق">مطلق</option>
                                 <option value="أرمل">أرمل</option>
                             </select>
-                            <!-- <span
-                                    v-if="form.errors.region"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.region }}
-                                </span> -->
+                            <span
+                                v-if="form.errors.situation_familiale"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.situation_familiale }}
+                            </span>
                         </div>
                     </div>
 
@@ -267,13 +267,13 @@
                                 autocomplete="text"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                             />
-                            <!-- <span
-                                    v-if="form.errors.tel"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.tel }}
-                                </span> -->
+                            <span
+                                v-if="form.errors.tel"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.tel }}
+                            </span>
                         </div>
 
                         <div>
@@ -290,13 +290,13 @@
                                 autocomplete="text"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                             />
-                            <!-- <span
-                                    v-if="form.errors.email"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.email }}
-                                </span> -->
+                            <span
+                                v-if="form.errors.email"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.email }}
+                            </span>
                         </div>
                     </div>
 
@@ -316,13 +316,13 @@
                                 placeholder="Select date"
                                 name="date_of_birth"
                             />
-                            <!-- <span
-                                    v-if="form.errors.date_of_birth"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.date_of_birth }}
-                                </span> -->
+                            <span
+                                v-if="form.errors.date_of_birth"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.date_of_birth }}
+                            </span>
                         </div>
                         <div>
                             <label
@@ -339,13 +339,13 @@
                                 placeholder="Select date"
                                 name="date_of_membership"
                             />
-                            <!-- <span
-                                    v-if="form.errors.date_of_membership"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.date_of_membership }}
-                                </span> -->
+                            <span
+                                v-if="form.errors.date_of_membership"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.date_of_membership }}
+                            </span>
                         </div>
                     </div>
                     <div>
@@ -362,13 +362,13 @@
                             rows="1"
                             class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
                         ></textarea>
-                        <!-- <span
-                                v-if="form.errors.address"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.address }}
-                            </span> -->
+                        <span
+                            v-if="form.errors.address"
+                            class="text-xs text-red-600 mt-1"
+                            id="hs-validation-name-error-helper"
+                        >
+                            {{ form.errors.address }}
+                        </span>
                     </div>
 
                     <div>
@@ -424,13 +424,13 @@
                                     {{ region.name }}
                                 </option>
                             </select>
-                            <!-- <span
-                                    v-if="form.errors.region"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.region }}
-                                </span> -->
+                            <span
+                                v-if="form.errors.region"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.region }}
+                            </span>
                         </div>
 
                         <div>
@@ -454,13 +454,13 @@
                                     {{ city }}
                                 </option>
                             </select>
-                            <!-- <span
-                                    v-if="form.errors.city"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.city }}
-                                </span> -->
+                            <span
+                                v-if="form.errors.city"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.city }}
+                            </span>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
@@ -479,13 +479,13 @@
                                 min="1"
                                 step="0.01"
                             />
-                            <!-- <span
-                                    v-if="form.errors.city"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.city }}
-                                </span> -->
+                            <span
+                                v-if="form.errors.montant"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.montant }}
+                            </span>
                         </div>
                         <div></div>
                     </div>
@@ -691,7 +691,6 @@ const columns = ref([
     {
         label: "#",
         field: "image",
-        html: true,
     },
     {
         label: t("adherents.table_nom_complete"),
@@ -735,9 +734,9 @@ const rows = computed(() =>
         id: adherent.id,
         // image: adherent.image,
         nom_complet: adherent.first_name + " " + adherent.last_name,
-        profession: adherent.profession,
+        profession: adherent.profession ?? "غير محدد",
         situation_familiale: adherent.situation_familiale,
-        cin: adherent.cin,
+        cin: adherent.cin ?? "-",
         tel: adherent.tel,
         is_actif: adherent.is_actif,
     }))
@@ -804,7 +803,7 @@ const generateIDCards = async (adherents = props.adherents) => {
         for (let j = 0; j < cardsToPrint.length; j++) {
             const adherent = cardsToPrint[j];
 
-            const cardText = `${adherent.id}\nالاسم والنسب : ${adherent.first_name} ${adherent.last_name}\n${adherent.date_of_birth} :  تاريخ الميلاد\n${adherent.date_of_membership} :  تاريخ الإنخراط\n${adherent.profession} :  المهنة`;
+            const cardText = `${adherent.id}\nالاسم والنسب : ${adherent.first_name} ${adherent.last_name}\n${adherent.date_of_birth} :  تاريخ الميلاد\n${adherent.date_of_membership} :  تاريخ الإنخراط\nالمهنة : ${adherent.profession}`;
 
             const qrCode = await QRCode.toDataURL(cardText);
 
