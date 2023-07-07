@@ -26,7 +26,7 @@ createInertiaApp({
                 .use(plugin)
                 .use(i18n)
                 .use(ZiggyVue, Ziggy)
-                // .use(VueApexCharts)
+                .use(VueApexCharts)
                 // .use(VueChartJs)
                 .mount(el)
         );

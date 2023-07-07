@@ -43,9 +43,10 @@ Route::middleware([
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/activities/calendrier', [ActivityController::class, 'calender'])->name('activities.calender');
 
-
+        Route::post('adherents/desactivate', [AdherentController::class, 'deactivateAll'])->name('adherents.desactivate');
         Route::resource('adherents', AdherentController::class);
         Route::get('adherents/{adherent}/print', [PrintController::class, 'printAdherentCard'])->name('adherents.print');
+
         Route::resource('abonnements', AbonnementController::class);
         Route::resource('groupes', GroupeController::class);
         Route::resource('stocks', StockController::class);

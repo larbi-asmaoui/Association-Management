@@ -20,6 +20,7 @@ class AdherentController extends Controller
      */
     public function index()
     {
+
         $reunionsCount = Reunion::count();
         if ($reunionsCount > 1) {
             $reunions = Reunion::whereHas('reunion_type', function ($query) {
@@ -27,8 +28,9 @@ class AdherentController extends Controller
             })->orderBy('date', 'desc')->take(2)->get();
             $newestReunion = $reunions->first();
             $previousReunion = $reunions->last();
+
             $adherents = Adherent::whereDoesntHave('abonnements', function ($query) use ($newestReunion, $previousReunion) {
-                $query->whereDate('date_payement', '<=', $previousReunion->date);
+                $query->where('date_payement', '<', $previousReunion->date);
                 // $query->where('date_payement', '<', $newestReunion->date)
                 //     ->where('date_payement', '>', $previousReunion->date);
             })->with('abonnements')->get();
@@ -151,22 +153,52 @@ class AdherentController extends Controller
     // set is_active to false for all adherents
     public function deactivateAll()
     {
-        // do the same in index method but update the is_actif field if the the last abonnement is expired
 
+        $reunionsCount = Reunion::count();
+        if ($reunionsCount == 0) {
+            return;
+        }
 
-        $adherents = Adherent::where('is_actif', true)->get();
-        foreach ($adherents as $adherent) {
-            $abonnement = $adherent->abonnements->last();
-            if ($abonnement) {
-                if ($abonnement->date_payement < Carbon::now()) {
-                    $adherent->is_actif = false;
-                    $adherent->save();
-                }
+        // check passed successfully
+        if ($reunionsCount == 1) {
+            $reunion = Reunion::whereHas('reunion_type', function ($query) {
+                $query->where('name', 'normal');
+            })->orderBy('date', 'desc')->first();
+            $adherents = Adherent::whereDoesntHave('abonnements', function ($query) use ($reunion) {
+                $query->whereDate('date_payement', '>=', $reunion->date);
+            })->with('abonnements')->get();
+            // set is_actif to false for those adherents
+            foreach ($adherents as $adherent) {
+                $adherent->is_actif = false;
+                $adherent->subscription_expiry = null;
+                $adherent->save();
             }
+
+            return redirect()->back()->with('message', 'All adherents are deactivated.');
+        } else {
+            $reunions = Reunion::whereHas('reunion_type', function ($query) {
+                $query->where('name', 'normal');
+            })->orderBy('date', 'desc')->take(2)->get();
+            $newestReunion = $reunions->first();
+            $previousReunion = $reunions->last();
+            // dd($newestReunion);
+            $adherents = Adherent::whereDoesntHave('abonnements', function ($query) use ($newestReunion, $previousReunion) {
+                $query->where('date_payement', '<', $newestReunion->date)
+                    ->where('date_payement', '>', $previousReunion->date);
+            })->with('abonnements')->get();
+
+            foreach ($adherents as $adherent) {
+                $adherent->is_actif = false;
+                $adherent->save();
+            }
+
+            return redirect()->back()->with('message', 'All adherents are deactivated.');
         }
 
 
-        // Adherent::where('is_actif', true)->update(['is_actif' => false]);
+
+
+        // // Adherent::where('is_actif', true)->update(['is_actif' => false]);
         // return redirect()->back()->with('message', 'All adherents are deactivated.');
     }
 
