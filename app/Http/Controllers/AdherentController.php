@@ -12,7 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request;
-
+use Illuminate\Support\Facades\Storage;
 
 class AdherentController extends Controller
 {
@@ -66,7 +66,7 @@ class AdherentController extends Controller
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'sexe' => 'required',
-                'cin' => 'required',
+                'cin' => 'nullable',
                 'tel' => 'required',
                 'date_of_birth' => 'required',
                 'date_of_membership' => 'required',
@@ -76,6 +76,7 @@ class AdherentController extends Controller
                 'city' => 'required',
                 'region' => 'required',
                 'statut_id' => 'nullable|exists:statuts,id',
+                'email' => 'nullable|email',
             ]
         );
 
@@ -120,26 +121,27 @@ class AdherentController extends Controller
      */
     public function update(UpdateAdherentRequest $request, Adherent $adherent)
     {
-        $formFields = $request->validate(
-            [
+        $formFields = $request->only([
+            'first_name',
+            'last_name',
+            'sexe',
+            'cin',
+            'tel',
+            'date_of_birth',
+            'date_of_membership',
+            'profession',
+            'situation_familiale',
+            'address',
+            'city',
+            'region',
+            'email'
+        ]);
 
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'sexe' => 'required',
-                'cin' => 'required',
-                'tel' => 'required',
-                'date_of_birth' => 'required',
-                'date_of_membership' => 'required',
-                'profession' => 'required',
-                'situation_familiale' => 'required',
-                'address' => 'required',
-                'city' => 'required',
-                'region' => 'required',
-                'statut_id' => 'nullable|exists:statuts,id',
-            ]
-        );
-        dd($formFields);
+
         if ($request->hasFile('image')) {
+            // Delete the old image
+            Storage::disk('public')->delete($adherent->image);
+
             $formFields['image']  = $request->file('image')->store('adherents', 'public');
         }
 

@@ -1,5 +1,4 @@
 <template>
-    {{ adherent.image }}
     <div class="inline-flex items-center mb-5">
         <Link
             :href="route('adherents.index')"
@@ -51,6 +50,7 @@
                             v-show="!isDisabled"
                             type="file"
                             name=""
+                            accept="image/*"
                             id="file-upload"
                             class="rounded-md bg-white text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 cursor-pointer"
                         />
@@ -719,7 +719,7 @@ const submit = () => {
             is_actif: form.is_actif,
             situation_familiale: form.situation_familiale,
             profession: form.profession,
-            preserveScroll: true,
+            // preserveScroll: true,
         },
         {
             onSuccess: () => {
@@ -729,6 +729,7 @@ const submit = () => {
                     duration: 3000,
                     dismissible: true,
                 });
+                isDisabled.value = true;
             },
             onError: () => {
                 console.log(form.errors);

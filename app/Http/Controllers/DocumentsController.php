@@ -28,7 +28,7 @@ class DocumentsController extends Controller
         $yearParts = explode('/', $year);
 
 
-        $rapports = Rapport::all();
+        $rapports = Rapport::orderBy('created_at', 'desc')->get();
 
 
         $latestReunion = null;
@@ -118,7 +118,7 @@ class DocumentsController extends Controller
         // Generate the new reference
         $currentYear = date('Y');
         $prevYear = intval($currentYear) - 1;
-        $newReference =  "$prevYear/$currentYear";
+        $newReference =  "$prevYear-$currentYear";
 
         $latestReunion = null;
         $reunionsCount = Reunion::count();
@@ -175,17 +175,9 @@ class DocumentsController extends Controller
     public function generateRapportFinancierPdf()
     {
 
-
-        $count = Rapport::count();
-        if ($count == 0) {
-            $newIncrementPart = 1;
-        } else {
-            $newIncrementPart = $count + 1;
-        }
-
         $currentYear = date('Y');
         $prevYear = intval($currentYear) - 1;
-        $newReference =  "$prevYear/$currentYear";
+        $newReference =  "$prevYear-$currentYear";
 
         $depenses = null;
         $revenues = null;
@@ -232,28 +224,7 @@ class DocumentsController extends Controller
                 ->where('date_payement', '>=', $previousReunion->date)
                 ->sum('montant');
         }
-        // $evenements = $evenements->groupBy('activity_type.name')
-        //     ->map(function ($groupedEvents) {
-        //         return [
-        //             'totalRevenue' => $groupedEvents->sum('revenue'),
-        //             'totalDepense' => $groupedEvents->sum('depense'),
-        //         ];
-        //     });
 
-        // $depenses = $depenses->groupBy('depense_type.name')
-        //     ->map(function ($groupedDepenses) {
-        //         return [
-        //             'total' => $groupedDepenses->sum('montant'),
-        //         ];
-        //     });
-
-
-        // $revenues = $revenues->groupBy('revenue_type.name')
-        //     ->map(function ($groupedRevenues) {
-        //         return [
-        //             'total' => $groupedRevenues->sum('montant'),
-        //         ];
-        //     });
 
 
         $totalRevenus = $evenements->sum('revenue') + $frais_adhesions + $revenues->sum('montant');
@@ -280,13 +251,32 @@ class DocumentsController extends Controller
         $directoryPath = 'documents/rapports/';
         $fileName = 'rapport_financier_' . $newReference . '.pdf';
         $filePath = $directoryPath . $fileName;
+
+        // // check if the fileName already exists in the database Rapport
+        $rapport = Rapport::where('title', "financier-" . $newReference)->first();
+        // if ($rapport) {
+        //     // delete the file from the storage
+        //     Storage::disk('public')->delete($rapport->file_path);
+
+        //     $rapport->file_path = $filePath;
+        //     $rapport->save();
+        //     Storage::disk('public')->put($filePath, $mpdf->output());
+        // } else {
+
+        //     // create a new Rapport
+        //     Rapport::create([
+        //         'file_path' => $filePath,
+        //         'title' => "financier-" . $newReference,
+        //     ]);
+        //     Storage::disk('public')->put($filePath, $mpdf->output());
+        // }
+
         Rapport::create([
             'file_path' => $filePath,
             'title' => "financier-" . $newReference,
         ]);
         // Save the PDF to a file
         Storage::disk('public')->put($filePath, $mpdf->output());
-        // Save the Rapport
 
         return response()->streamDownload(function () use ($mpdf) {
             echo $mpdf->output();
