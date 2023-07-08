@@ -252,34 +252,19 @@ class DocumentsController extends Controller
         $fileName = 'rapport_financier_' . $newReference . '.pdf';
         $filePath = $directoryPath . $fileName;
 
-        // // check if the fileName already exists in the database Rapport
-        $rapport = Rapport::where('title', "financier-" . $newReference)->first();
-        // if ($rapport) {
-        //     // delete the file from the storage
-        //     Storage::disk('public')->delete($rapport->file_path);
+        // Create or update the Rapport
+        $title = "financier-" . $newReference;
+        $rapport = Rapport::updateOrCreate(
+            ['title' => $title],
+            ['file_path' => $filePath]
+        );
 
-        //     $rapport->file_path = $filePath;
-        //     $rapport->save();
-        //     Storage::disk('public')->put($filePath, $mpdf->output());
-        // } else {
-
-        //     // create a new Rapport
-        //     Rapport::create([
-        //         'file_path' => $filePath,
-        //         'title' => "financier-" . $newReference,
-        //     ]);
-        //     Storage::disk('public')->put($filePath, $mpdf->output());
-        // }
-
-        Rapport::create([
-            'file_path' => $filePath,
-            'title' => "financier-" . $newReference,
-        ]);
         // Save the PDF to a file
         Storage::disk('public')->put($filePath, $mpdf->output());
 
-        return response()->streamDownload(function () use ($mpdf) {
-            echo $mpdf->output();
-        }, $fileName, ['Content-Type' => 'application/pdf']);
+        dd($rapport);
+        // return response()->streamDownload(function () use ($mpdf) {
+        //     echo $mpdf->output();
+        // }, $fileName, ['Content-Type' => 'application/pdf']);
     }
 }

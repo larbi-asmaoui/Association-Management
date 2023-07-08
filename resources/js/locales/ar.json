@@ -250,5 +250,14 @@
         "date_fin": "تاريخ الانتهاء",
         "filter": "تصفية",
         "clear": "إلغاء"
+    },
+    "documents": {
+        "titre": "إدارة المستندات",
+        "rapport_financier": "التقرير المالي",
+        "rapport_litteraire": "التقرير الأدبي",
+        "table_created_at": "تاريخ الإنشاء",
+        "table_rapport": "التقرير",
+        "table_actions": "العمليات",
+        "all_rapports": "التقارير المالية والأدبية"
     }
 }

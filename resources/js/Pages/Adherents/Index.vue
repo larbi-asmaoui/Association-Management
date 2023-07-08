@@ -663,7 +663,7 @@ import { useForm } from "@inertiajs/vue3";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import printJS from "print-js";
-import AdherentInfo from "./AdherentInfo.vue";
+
 import JsonCSV from "vue-json-csv";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";

@@ -7,7 +7,6 @@ use App\Http\Controllers\DepenseTypeController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ActivityTypeController;
 use App\Http\Controllers\GroupeController;
-use App\Http\Controllers\PrintController;
 use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\RevenueTypeController;
 use App\Http\Controllers\StockController;
@@ -46,7 +45,6 @@ Route::middleware([
 
         Route::post('adherents/desactivate', [AdherentController::class, 'deactivateAll'])->name('adherents.desactivate');
         Route::resource('adherents', AdherentController::class);
-        Route::get('adherents/{adherent}/print', [PrintController::class, 'printAdherentCard'])->name('adherents.print');
 
         Route::resource('abonnements', AbonnementController::class);
         Route::resource('groupes', GroupeController::class);
