@@ -179,14 +179,10 @@ class DocumentsController extends Controller
         $prevYear = intval($currentYear) - 1;
         $newReference =  "$prevYear-$currentYear";
 
-        $depenses = null;
-        $revenues = null;
-        $frais_adhesions = 0;
+
         $reunionsCount = Reunion::count();
         if ($reunionsCount == 0) {
-            $evenements = [];
-            $depenses = null;
-            $revenues = null;
+            return abort(403);
         } else if ($reunionsCount == 1) {
             $latestReunion = Reunion::whereHas('reunion_type', function ($query) {
                 $query->where('name', 'normal');
@@ -251,20 +247,16 @@ class DocumentsController extends Controller
         $directoryPath = 'documents/rapports/';
         $fileName = 'rapport_financier_' . $newReference . '.pdf';
         $filePath = $directoryPath . $fileName;
-
-        // Create or update the Rapport
-        $title = "financier-" . $newReference;
-        $rapport = Rapport::updateOrCreate(
-            ['title' => $title],
-            ['file_path' => $filePath]
-        );
-
+        Rapport::updateOrCreate([
+            'file_path' => $filePath,
+            'title' => $fileName,
+        ]);
         // Save the PDF to a file
         Storage::disk('public')->put($filePath, $mpdf->output());
+        // Save the Rapport
 
-        dd($rapport);
-        // return response()->streamDownload(function () use ($mpdf) {
-        //     echo $mpdf->output();
-        // }, $fileName, ['Content-Type' => 'application/pdf']);
+        return response()->streamDownload(function () use ($mpdf) {
+            echo $mpdf->output();
+        }, $fileName, ['Content-Type' => 'application/pdf']);
     }
 }
