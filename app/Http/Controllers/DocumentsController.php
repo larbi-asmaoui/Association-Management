@@ -238,7 +238,6 @@ class DocumentsController extends Controller
         ];
 
 
-        // dd($evenements);
         $mpdf = new mPDF();
         $view = view('documents.rapport_financier', $data);
         $html = $view->render();
@@ -246,13 +245,15 @@ class DocumentsController extends Controller
 
         $directoryPath = 'documents/rapports/';
         $fileName = 'rapport_financier_' . $newReference . '.pdf';
-        $filePath = $directoryPath . $fileName;
+        // $filePath = $directoryPath . $fileName;
+        $filePath =  Storage::put('documents/rapports/', $mpdf->output());
+        dd($filePath);
         Rapport::updateOrCreate([
             'file_path' => $filePath,
-            'title' => $fileName,
+            'title' => "financier-" . $newReference,
         ]);
         // Save the PDF to a file
-        Storage::disk('public')->put($filePath, $mpdf->output());
+        // Storage::put('documents/rapports/', $mpdf->output());
         // Save the Rapport
 
         return response()->streamDownload(function () use ($mpdf) {

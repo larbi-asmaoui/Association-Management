@@ -24,8 +24,6 @@
                                     :href="
                                         route('e-documents.rapport_financier')
                                     "
-                                    target="_blank"
-                                    rel="noreferrer"
                                     class="inline-flex items-center text-sm font-medium text-center text-blue-700 hover:text-blue-800"
                                 >
                                     <ArrowLeft v-if="$i18n.locale === 'ar'" />
@@ -70,28 +68,6 @@
                 >
                     {{ $t("documents.all_rapports") }}
                 </h3>
-                <!-- <Vue3EasyDataTable
-                    :headers="headers"
-                    :items="items"
-                    theme-color="#1C64F2"
-                    table-class-name="customize-table"
-                    buttons-pagination
-                    border-cell
-                >
-                    <template #item-operation="item">
-                        <div
-                            class="inline-flex items-center text-base font-semibold text-gray-900"
-                        >
-                            <a
-                                target="_blank"
-                                :href="storage() + item.file_path"
-                                class="inline-flex items-center p-2 text-sm text-center text-blue-700 focus:outline-none"
-                            >
-                                <FileDownload />
-                            </a>
-                        </div>
-                    </template>
-                </Vue3EasyDataTable> -->
 
                 <vue-good-table
                     :rtl="true"
@@ -111,6 +87,7 @@
                     <template v-slot:table-row="{ row, column, formattedRow }">
                         <div v-if="column.field === 'file_path'" class="flex">
                             <a
+                                target="_blank"
                                 :href="storage() + row.file_path"
                                 class="inline-flex items-center text-sm font-medium text-center text-blue-700 hover:text-blue-800"
                             >
