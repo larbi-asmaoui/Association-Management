@@ -243,7 +243,7 @@ class DocumentsController extends Controller
         $html = $view->render();
         $mpdf->WriteHTML($html);
 
-        $directoryPath = 'documents/rapports/';
+        // $directoryPath = 'documents/rapports/';
         $fileName = 'rapport_financier_' . $newReference . '.pdf';
         // $filePath = $directoryPath . $fileName;
         $filePath =  Storage::put('documents/rapports/', $mpdf->output());

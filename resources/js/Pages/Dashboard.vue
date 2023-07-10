@@ -105,25 +105,16 @@ export default {
             </div>
 
             <!-- APex chart -->
-            <div class="mt-4">
-                <div class="bg-white p-4 rounded-md">
+            <div class="mt-4 grid gap-4 xl:grid-cols-2">
+                <div class="bg-white py-6 rounded-md">
                     <apexchart
                         type="bar"
                         :options="columnOptions"
                         :series="columnSeries"
                     ></apexchart>
                 </div>
-            </div>
-
-            <div class="mt-4 grid gap-4 xl:grid-cols-2">
                 <div class="bg-white p-4 rounded-md">
-                    <apexchart
-                        type="pie"
-                        :options="depensesPieOptions"
-                        :series="depensesPieSeries"
-                    ></apexchart>
-                </div>
-                <div class="bg-white p-4 rounded-md">
+                    <!-- Adjusted column span and added flex classes -->
                     <apexchart
                         type="pie"
                         :options="revenuesPieOptions"
@@ -132,18 +123,22 @@ export default {
                 </div>
             </div>
 
-            <!-- <div class="mt-4">
-                <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-                    <div class="bg-white p-4 shadow-2xl rounded-md col-span-2">
-                        <ChartLine :data="lineData" :options="lineOptions" />
-                    </div>
+            <div class="mt-4 grid gap-4 xl:grid-cols-2">
+                <div class="bg-white py-6 rounded-md">
+                    <apexchart
+                        type="bar"
+                        :options="columnActivityOptions"
+                        :series="seriesActivity"
+                    ></apexchart>
+                </div>
+                <div class="bg-white p-4 rounded-md">
+                    <apexchart
+                        type="pie"
+                        :options="depensesPieOptions"
+                        :series="depensesPieSeries"
+                    ></apexchart>
                 </div>
             </div>
-            <div class="mt-4 grid gap-4 xl:grid-cols-2">
-                <div class="bg-white p-4 shadow-2xl rounded-md h-[300px]">
-                    <ChartBar :data="dataBarEvent" :options="barOptions" />
-                </div>
-            </div> -->
         </div>
     </div>
 </template>
@@ -151,9 +146,6 @@ export default {
 import { ref, watchEffect } from "vue";
 
 import { usePage, router } from "@inertiajs/vue3";
-import ChartBar from "../Components/ChartBar.vue";
-import ChartPie from "../Components/ChartPie.vue";
-import ChartLine from "../Components/ChartLine.vue";
 import { useI18n } from "vue-i18n";
 import Calendar from "vue-material-design-icons/Calendar.vue";
 import AccountGroup from "vue-material-design-icons/AccountGroup.vue";
@@ -196,7 +188,7 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
-    totalCotisationValue: {
+    totalAbonnementsSum: {
         type: Number,
     },
     autreDepense: {
@@ -205,10 +197,10 @@ const props = defineProps({
     autreRevenue: {
         type: Number,
     },
-    eventsDepense: {
+    activityDepenses: {
         type: Number,
     },
-    eventsRevenue: {
+    activityRevenue: {
         type: Number,
     },
     yearsList: {
@@ -240,13 +232,13 @@ const pageProps = usePage().props;
 const stocksGroupedByType = props.stocksGroupedByType;
 const evenementsGroupedByType = props.evenementsGroupedByType;
 
-const depensesPieSeries = ref([props.eventsDepense, props.autreDepense]);
+const depensesPieSeries = ref([props.activityDepenses, props.autreDepense]);
 const depensesPieOptions = ref({
     chart: {
         width: 380,
         type: "pie",
     },
-    labels: ["Événements (DH)", "Autres dépenses (DH)"],
+    labels: [t("dashboard.activites"), t("dashboard.autres")],
     responsive: [
         {
             breakpoint: 480,
@@ -260,11 +252,18 @@ const depensesPieOptions = ref({
             },
         },
     ],
+    title: {
+        text: t("dashboard.depenses_asso"),
+        align: "center",
+        style: {
+            fontSize: "18px",
+        },
+    },
 });
 
 const revenuesPieSeries = ref([
-    props.eventsRevenue,
-    props.totalCotisationValue,
+    props.activityRevenue,
+    props.totalAbonnementsSum,
     props.autreRevenue,
 ]);
 const revenuesPieOptions = ref({
@@ -272,13 +271,17 @@ const revenuesPieOptions = ref({
         width: 380,
         type: "pie",
     },
-    labels: ["Événements (DH)", "Cotisations (DH)", "Autres (DH)"],
+    labels: [
+        t("dashboard.activites"),
+        t("dashboard.frais_adhesion"),
+        t("dashboard.autres"),
+    ],
     responsive: [
         {
-            breakpoint: 480,
+            // breakpoint: 480,
             options: {
                 chart: {
-                    width: 200,
+                    // width: 200,
                 },
                 legend: {
                     position: "bottom",
@@ -286,6 +289,13 @@ const revenuesPieOptions = ref({
             },
         },
     ],
+    title: {
+        text: t("dashboard.revenus_asso"),
+        align: "center",
+        style: {
+            fontSize: "18px",
+        },
+    },
 });
 
 const columnSeries = ref([
@@ -302,7 +312,7 @@ const columnSeries = ref([
 const columnOptions = ref({
     chart: {
         type: "bar",
-        height: 100,
+        height: 390,
     },
     plotOptions: {
         bar: {
@@ -321,23 +331,23 @@ const columnOptions = ref({
     },
     xaxis: {
         categories: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
+            t("dashboard.months.jan"),
+            t("dashboard.months.feb"),
+            t("dashboard.months.mar"),
+            t("dashboard.months.apr"),
+            t("dashboard.months.may"),
+            t("dashboard.months.jun"),
+            t("dashboard.months.jul"),
+            t("dashboard.months.aug"),
+            t("dashboard.months.sep"),
+            t("dashboard.months.oct"),
+            t("dashboard.months.nov"),
+            t("dashboard.months.dec"),
         ],
     },
     yaxis: {
         title: {
-            text: "$ (thousands)",
+            text: "(MAD)",
         },
     },
     fill: {
@@ -350,79 +360,58 @@ const columnOptions = ref({
             },
         },
     },
-});
-
-const lineOptions = ref({
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-        title: {
-            display: true,
-            text: t("dashboard.depenses_revenus_asso"),
-            font: {
-                size: 18,
-            },
+    title: {
+        text: t("dashboard.depenses_revenus_asso"),
+        align: "center",
+        style: {
+            fontSize: "18px",
         },
     },
 });
 
-const lineData = ref({
-    labels: [
-        "janvier",
-        "février",
-        "mars",
-        "avril",
-        "mai",
-        "juin",
-        "juillet",
-        "août",
-        "septembre",
-        "octobre",
-        "novembre",
-        "décembre",
-    ],
-    // labels: Object.keys(props.revenueGroupedByMonth),
-    datasets: [
-        {
-            label: t("dashboard.revenus"),
-            data: Object.values(props.revenueGroupedByMonth),
-            borderColor: "#5A67D8",
-            backgroundColor: "transparent",
-            borderWidth: 2,
-        },
-        {
-            label: t("dashboard.depenses"),
-            data: Object.values(props.depenseGroupedByMonth),
-            borderColor: "#FF4560",
-            backgroundColor: "transparent",
-            borderWidth: 2,
-        },
-    ],
-});
+const seriesActivity = ref([
+    {
+        data: Object.values(evenementsGroupedByType).map((event) =>
+            event == null ? 0 : event.length
+        ),
+    },
+]);
 
-const revenueOptions = ref({
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-        title: {
-            display: true,
-            text: t("dashboard.revenus_asso"),
-            font: {
-                size: 18,
+const columnActivityOptions = ref({
+    chart: {
+        height: 350,
+        type: "bar",
+        events: {
+            click: function (chart, w, e) {
+                // console.log(chart, w, e)
             },
         },
     },
-});
-
-const barOptions = ref({
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-        y: {
-            ticks: {
-                stepSize: 1,
-                beginAtZero: true,
+    plotOptions: {
+        bar: {
+            columnWidth: "45%",
+            distributed: true,
+        },
+    },
+    dataLabels: {
+        enabled: false,
+    },
+    legend: {
+        show: false,
+    },
+    xaxis: {
+        categories: Object.keys(evenementsGroupedByType),
+        labels: {
+            style: {
+                fontSize: "12px",
             },
+        },
+    },
+    title: {
+        text: t("dashboard.activites_by_type"),
+        align: "center",
+        style: {
+            fontSize: "18px",
         },
     },
 });

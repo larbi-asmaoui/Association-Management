@@ -29,13 +29,7 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
 
-
-        $year = $request->get('year');
-        $yearParts = explode('/', $year);
-        $startYear = $yearParts[0];
-        $endYear = isset($yearParts[1]) ? $yearParts[1] : null;
-
-
+        $startYear = $request->get('year') ?? Carbon::now()->year;
 
         $groupes_count = Groupe::count();
         $adherents_count = Adherent::count();
@@ -47,35 +41,32 @@ class DashboardController extends Controller
         $groupesData = $this->getGroupesData();
         $calculateStockTotal = $this->calculateStockTotal();
 
-        // Calculate total montant
-        $totalMontant = Abonnement::sum('montant');
+
         $cotisation_count = Abonnement::all()->count();
         $stocksGroupedByType = $this->getStocksGroupedByType();
-        $evenementsGroupedByType = $this->getEvenementsGroupedByType();
+        $evenementsGroupedByType = $this->getEvenementsGroupedByType($startYear);
 
         // ------------------------------------------------ //
-        $totalCotisationValue = Abonnement::sum('montant');
+        $totalAbonnementsSum = Abonnement::whereBetween('created_at', [$startYear . '-01-01', $startYear . '-12-31'])
+            ->sum('montant');
 
-        if ($startYear !== null) {
-            $autreDepenseQuery = Depense::whereYear('created_at', '>=', $startYear);
-            $stockQuery = Stock::whereYear('created_at', '>=', $startYear);
-        }
 
-        if ($endYear !== null) {
-            $autreDepenseQuery = Depense::whereYear('created_at', '<', $endYear);
-            $stockQuery = Stock::whereYear('created_at', '<', $endYear);
-        }
+        $autreDepenseQuery = Depense::whereBetween('depense_date', [$startYear . '-01-01', $startYear . '-12-31']);
+        $stockQuery = Stock::whereBetween('created_at', [$startYear . '-01-01', $startYear . '-12-31']);
+
+
 
         $autreDepense = $autreDepenseQuery->sum('montant')
             + $stockQuery->sum(DB::raw('price_per_unit * quantity'));
 
-        $autreRevenue = Revenue::all()->sum('montant');
-        $eventsDepense = Activity::all()->sum('depense');
-        $eventsRevenue = Activity::all()->sum('revenue');
+        $autreRevenue = Revenue::whereBetween('revenue_date', [$startYear . '-01-01', $startYear . '-12-31'])->sum('montant');
+        $activityDepenses = Activity::whereBetween('start', [$startYear . '-01-01', $startYear . '-12-31'])
+            ->sum('depense');
+        $activityRevenue = Activity::whereBetween('start', [$startYear . '-01-01', $startYear . '-12-31'])->sum('revenue');
 
         // Group Depense by Month for the selected year
         $depenseGroupedByMonth = Depense::select(DB::raw('MONTH(depense_date) as month'), DB::raw('SUM(montant) as total'))
-            ->whereYear('depense_date', '>=', $startYear)
+            ->whereBetween('depense_date', [$startYear . '-01-01', $startYear . '-12-31'])
             ->groupBy(DB::raw('MONTH(depense_date)'))
             ->pluck('total', 'month')
             ->toArray();
@@ -88,7 +79,7 @@ class DashboardController extends Controller
 
         // Group Revenue by Month for the selected year
         $revenueGroupedByMonth = Revenue::select(DB::raw('MONTH(revenue_date) as month'), DB::raw('SUM(montant) as total'))
-            ->whereYear('revenue_date', '>=', $startYear)
+            ->whereBetween('revenue_date', [$startYear . '-01-01', $startYear . '-12-31'])
             ->groupBy(DB::raw('MONTH(revenue_date)'))
             ->pluck('total', 'month')
             ->toArray();
@@ -105,14 +96,13 @@ class DashboardController extends Controller
             'events_count' => $events_count,
             'groupesData' => $groupesData,
             'calculateStockTotal' => $calculateStockTotal,
-            'totalMontant' => $totalMontant,
             'cotisation_count' => $cotisation_count,
             'stocksGroupedByType' => $stocksGroupedByType,
-            'totalCotisationValue' => $totalCotisationValue,
+            'totalAbonnementsSum' => $totalAbonnementsSum,
             'autreDepense' => $autreDepense,
             'autreRevenue' => $autreRevenue,
-            'eventsDepense' => $eventsDepense,
-            'eventsRevenue' => $eventsRevenue,
+            'activityDepenses' => $activityDepenses,
+            'activityRevenue' => $activityRevenue,
             'evenementsGroupedByType' => $evenementsGroupedByType,
             'yearsList' => $this->getYearsList(),
             'depenseGroupedByMonth' => $depenseGroupedByMonth,
@@ -150,15 +140,19 @@ class DashboardController extends Controller
         return $stocksGroupedByType;
     }
 
-    public function getEvenementsGroupedByType()
+    public function getEvenementsGroupedByType($input_year = null)
     {
+        $year = $input_year ?? Carbon::now()->year;
+        // get evenements types and their evenements length in the current year and group them by type
+        $evenementsTypes = ActivityType::with(['activities' => function ($query) use ($year) {
 
-
-        $evenementsTypes = ActivityType::with('activities')
+            $query->whereBetween('start', [$year . '-01-01', $year . '-12-31']);
+        }])
             ->get();
 
+
         $evenementsGroupedByType = $evenementsTypes->mapWithKeys(function ($evenementType) {
-            return [$evenementType->name => $evenementType->evenements];
+            return [$evenementType->name => $evenementType->activities];
         });
 
         return $evenementsGroupedByType;
@@ -175,7 +169,7 @@ class DashboardController extends Controller
         $yearsList = [];
 
         for ($year = $startYear; $year <= $currentYear; $year++) {
-            $yearsList[] = $year . '/' . ($year + 1);
+            array_push($yearsList, $year);
         }
 
         return $yearsList;

@@ -514,7 +514,6 @@
                 :rows="rows"
                 :pagination-options="{
                     enabled: true,
-                    mode: 'records',
                     perPage: 5,
                     perPageDropdown: [5, 10, 20],
                 }"
@@ -605,9 +604,8 @@
                     <div v-if="column.field === 'image'" class="flex">
                         <img
                             class="w-10 h-10 rounded-full"
-                            :src="getImageUrl(row.image)"
+                            :src="showImage(row)"
                         />
-                        <!-- {{ showImage() + row.image }} -->
                     </div>
                     <div
                         v-if="column.field === 'is_actif'"
@@ -732,7 +730,7 @@ const columns = ref([
 const rows = computed(() =>
     Object.values(props.adherents).map((adherent) => ({
         id: adherent.id,
-        // image: adherent.image,
+        image: adherent.image,
         nom_complet: adherent.first_name + " " + adherent.last_name,
         profession: adherent.profession ?? "غير محدد",
         situation_familiale: adherent.situation_familiale,
@@ -759,12 +757,6 @@ const form = useForm({
     statut_id: null,
     montant: null,
 });
-
-const getImageUrl = (image) => {
-    // const appUrl = process.env.VUE_APP_URL;
-    const appUrl = import.meta.env.VITE_APP_URL;
-    return `${appUrl}/storage/${image}`;
-};
 
 const generateSingleIDCard = (id) => {
     const adherents = props.adherents.filter((adherent) => adherent.id === id);
@@ -981,8 +973,8 @@ const filterCities = () => {
     form.city = "";
 };
 
-const showImage = () => {
-    return "http://127.0.0.1:8000/storage/";
+const showImage = (adherent) => {
+    return "/storage/" + adherent.image;
 };
 
 const show = (id) => {

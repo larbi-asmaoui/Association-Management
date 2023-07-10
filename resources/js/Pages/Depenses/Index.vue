@@ -300,7 +300,7 @@ const columns = ref([
     },
     {
         label: t("depenses.table_date"),
-        field: "revenue_date",
+        field: "depense_date",
     },
 
     {

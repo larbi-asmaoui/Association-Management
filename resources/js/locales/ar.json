@@ -3,13 +3,30 @@
         "adherents": "المنخرطين",
         "groupes": "المجموعات",
         "activites": "اﻷنشطة",
+        "activites_by_type": "الأنشطة حسب النوع",
         "biens": "الممتلكات",
         "revenus": "المداخيل",
         "depenses": "المصاريف",
         "revenus_asso": "مداخيل الجمعية",
         "depenses_asso": "مصاريف الجمعية",
         "depenses_revenus_asso": "مداخيل ومصاريف الجمعية",
-        "select_year": "اختر سنة"
+        "select_year": "اختر سنة",
+        "autres": "أخرى",
+        "frais_adhesion": "رسوم الانخراط",
+        "months": {
+            "jan": "يناير",
+            "feb": "فبراير",
+            "mar": "مارس",
+            "apr": "أبريل",
+            "may": "مايو",
+            "jun": "يونيو",
+            "jul": "يوليوز",
+            "aug": "غشت",
+            "sep": "شتنبر",
+            "oct": "أكتوبر",
+            "nov": "نونبر",
+            "dec": "دجنبر"
+        }
     },
     "date_ajout": "تاريخ الإضافة",
     "sidebar": {

@@ -72,7 +72,7 @@
                         </svg>
                     </Link>
                     <!-- types -->
-                    <Dropdown :align="$i18n.locale === 'ar' ? 'left' : 'right'">
+                    <!-- <Dropdown :align="$i18n.locale === 'ar' ? 'left' : 'right'">
                         <template #trigger>
                             <button
                                 class="flex mx-2 text-gray-600 focus:outline-none"
@@ -118,7 +118,7 @@
                                 </div>
                             </DropdownLink>
                         </template>
-                    </Dropdown>
+                    </Dropdown> -->
                     <Dropdown :align="$i18n.locale === 'ar' ? 'left' : 'right'">
                         <template #trigger>
                             <button
@@ -495,6 +495,7 @@
                                         {{ $t("navbar.logout") }}
                                     </DropdownLink>
                                 </form>
+                                <GlobeLight />
                             </template>
                         </Dropdown>
                     </div>
@@ -511,6 +512,7 @@ import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import { useI18n } from "vue-i18n";
 import { computed, onMounted } from "vue";
+// import GlobeLight from "vue-material-design-icons/GlobeLight.vue";
 const { t, availableLocales, locale } = useI18n();
 
 const logout = () => {
