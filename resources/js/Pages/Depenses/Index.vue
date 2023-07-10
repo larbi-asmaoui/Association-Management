@@ -220,19 +220,7 @@
                             @click="openEditModal(row)"
                             class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                ></path>
-                            </svg>
+                            <Pencil :size="20" />
                         </div>
 
                         <!-- Delete -->
@@ -241,19 +229,7 @@
                             @click="destroy(row)"
                             class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                ></path>
-                            </svg>
+                            <TrashCan :size="20" />
                         </div>
                     </div>
                     <div v-else>
@@ -281,6 +257,9 @@ import { Modal } from "flowbite-vue";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import { useI18n } from "vue-i18n";
+import TrashCan from "vue-material-design-icons/TrashCan.vue";
+import Pencil from "vue-material-design-icons/Pencil.vue";
+
 const { t } = useI18n();
 
 const $toast = useToast();
@@ -314,6 +293,7 @@ const rows = computed(() =>
         titre: depense.titre,
         montant: depense.montant,
         depense_date: depense.depense_date,
+        reference_file: depense.reference_file,
         type: depense.depense_type.name,
         depense_type_id: depense.depense_type_id,
     }))
