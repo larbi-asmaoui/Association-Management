@@ -56,9 +56,6 @@ class DashboardController extends Controller
         // ------------------------------------------------ //
         $totalCotisationValue = Abonnement::sum('montant');
 
-        // $autreDepenseQuery = Depense::all();
-        // $stockQuery = Stock::all();
-
         if ($startYear !== null) {
             $autreDepenseQuery = Depense::whereYear('created_at', '>=', $startYear);
             $stockQuery = Stock::whereYear('created_at', '>=', $startYear);
@@ -77,18 +74,29 @@ class DashboardController extends Controller
         $eventsRevenue = Activity::all()->sum('revenue');
 
         // Group Depense by Month for the selected year
-        $depenseGroupedByMonth = Depense::select(DB::raw('MONTH(created_at) as month'), DB::raw('SUM(montant) as total'))
-            ->whereYear('created_at', '>=', $startYear)
-            ->groupBy(DB::raw('MONTH(created_at)'))
+        $depenseGroupedByMonth = Depense::select(DB::raw('MONTH(depense_date) as month'), DB::raw('SUM(montant) as total'))
+            ->whereYear('depense_date', '>=', $startYear)
+            ->groupBy(DB::raw('MONTH(depense_date)'))
             ->pluck('total', 'month')
             ->toArray();
 
+        for ($i = 1; $i <= 12; $i++) {
+            if (!isset($depenseGroupedByMonth[$i])) {
+                $depenseGroupedByMonth[$i] = 0;
+            }
+        }
+
         // Group Revenue by Month for the selected year
-        $revenueGroupedByMonth = Revenue::select(DB::raw('MONTH(created_at) as month'), DB::raw('SUM(montant) as total'))
-            ->whereYear('created_at', '>=', $startYear)
-            ->groupBy(DB::raw('MONTH(created_at)'))
+        $revenueGroupedByMonth = Revenue::select(DB::raw('MONTH(revenue_date) as month'), DB::raw('SUM(montant) as total'))
+            ->whereYear('revenue_date', '>=', $startYear)
+            ->groupBy(DB::raw('MONTH(revenue_date)'))
             ->pluck('total', 'month')
             ->toArray();
+        for ($i = 1; $i <= 12; $i++) {
+            if (!isset($revenueGroupedByMonth[$i])) {
+                $revenueGroupedByMonth[$i] = 0;
+            }
+        }
 
         return Inertia::render('Dashboard', [
             'groupes_count' => $groupes_count,

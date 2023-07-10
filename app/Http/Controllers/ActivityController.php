@@ -155,6 +155,7 @@ class ActivityController extends Controller
             'city' => 'required',
             'region' => 'required',
             'activity_type_id' => 'required|exists:activity_types,id',
+            'adherents' => 'nullable|array',
             'adherents.*' => 'exists:adherents,id',
         ]);
 
