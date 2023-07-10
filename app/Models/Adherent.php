@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Adherent extends Model
 {
@@ -15,9 +16,9 @@ class Adherent extends Model
 
 
 
-    public function statut(): BelongsTo
+    public function statut(): HasOne
     {
-        return $this->belongsTo(Statut::class);
+        return $this->hasOne(Statut::class);
     }
 
     public function cotisations(): HasMany

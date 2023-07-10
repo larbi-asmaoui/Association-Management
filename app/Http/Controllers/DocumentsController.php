@@ -244,20 +244,20 @@ class DocumentsController extends Controller
         $mpdf->WriteHTML($html);
 
         // $directoryPath = 'documents/rapports/';
-        $fileName = 'rapport_financier_' . $newReference . '.pdf';
+        // $fileName = 'rapport_financier_' . $newReference . '.pdf';
         // $filePath = $directoryPath . $fileName;
-        $filePath =  Storage::put('documents/rapports/', $mpdf->output());
-        dd($filePath);
+        // $filePath =  Storage::put('documents/rapports/', $mpdf->output());
+        // dd($filePath);
         Rapport::updateOrCreate([
-            'file_path' => $filePath,
+            'file_path' => Storage::put('documents/rapports/', $mpdf->output()),
             'title' => "financier-" . $newReference,
         ]);
         // Save the PDF to a file
         // Storage::put('documents/rapports/', $mpdf->output());
         // Save the Rapport
 
-        return response()->streamDownload(function () use ($mpdf) {
-            echo $mpdf->output();
-        }, $fileName, ['Content-Type' => 'application/pdf']);
+        // return response()->streamDownload(function () use ($mpdf) {
+        //     echo $mpdf->output();
+        // }, $fileName, ['Content-Type' => 'application/pdf']);
     }
 }

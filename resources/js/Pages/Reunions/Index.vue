@@ -5,18 +5,7 @@
         type="button"
         :class="$i18n.locale === 'ar' ? 'left-5' : 'right-5'"
     >
-        <svg
-            class="w-5 h-5"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <path
-                fill-rule="evenodd"
-                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                clip-rule="evenodd"
-            ></path>
-        </svg>
+        <Plus />
     </button>
 
     <div class="bg-white pt-6 shadow-md rounded-md relative mt-5">
@@ -180,42 +169,18 @@
                         <div v-if="column.field === 'actions'" class="flex">
                             <div
                                 @click="openEditModal(row)"
-                                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                                class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
                             >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                    ></path>
-                                </svg>
+                                <Pencil :size="20" />
                             </div>
 
                             <!-- Delete -->
 
                             <div
                                 @click="destroy(row)"
-                                class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                                class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
                             >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                    ></path>
-                                </svg>
+                                <TrashCan :size="20" />
                             </div>
                         </div>
                         <div v-else>
@@ -250,6 +215,10 @@ import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import { useForm } from "@inertiajs/vue3";
 import { useI18n } from "vue-i18n";
+import TrashCan from "vue-material-design-icons/TrashCan.vue";
+import Pencil from "vue-material-design-icons/Pencil.vue";
+import Plus from "vue-material-design-icons/Plus.vue";
+
 const { t, availableLocales, locale } = useI18n();
 
 const props = defineProps({

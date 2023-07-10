@@ -191,9 +191,18 @@
     </form>
     <!-- ------------- -->
     <div class="bg-white shadow-md rounded-xl mt-4 pt-4">
-        <h3 class="mb-5 px-4 text-xl font-bold text-slate-800 uppercase">
-            {{ $t("a-propos.bureau") }}
-        </h3>
+        <div class="flex px-4 mb-5">
+            <h3 class="mb-5 text-xl font-bold text-slate-800 uppercase">
+                {{ $t("a-propos.bureau") }}
+            </h3>
+            <!-- <button
+                @click="openModal"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-auto"
+            >
+                إضافة
+            </button> -->
+        </div>
+
         <!-- table -->
 
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -205,88 +214,125 @@
                     class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
                 >
                     <tr>
-                        <th scope="col" class="px-6 py-3">Product name</th>
-                        <th scope="col" class="px-6 py-3">Color</th>
-                        <th scope="col" class="px-6 py-3">Category</th>
-                        <th scope="col" class="px-6 py-3">Price</th>
-                        <th scope="col" class="px-6 py-3">
-                            <span class="sr-only">Edit</span>
+                        <th scope="col" class="px-6 py-3 text-right">المنصب</th>
+
+                        <th scope="col" class="px-6 py-3 text-right">
+                            الاسم الكامل
+                        </th>
+
+                        <th scope="col" class="px-6 py-3 text-right">
+                            العمليات
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr
+                        v-for="statut in status"
+                        :key="statut.id"
                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
-                        <th
-                            scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                            Apple MacBook Pro 17"
-                        </th>
-                        <td class="px-6 py-4">Silver</td>
-                        <td class="px-6 py-4">Laptop</td>
-                        <td class="px-6 py-4">$2999</td>
+                        <td class="px-6 py-4 text-right">{{ statut.name }}</td>
+                        <!-- <td class="px-6 py-4 text-right">الرئيس</td> -->
                         <td class="px-6 py-4 text-right">
-                            <a
-                                href="#"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                >Edit</a
-                            >
+                            {{
+                                statut.adherent
+                                    ? statut.adherent.first_name +
+                                      " " +
+                                      statut.adherent.last_name
+                                    : "-"
+                            }}
                         </td>
-                    </tr>
-                    <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                    >
-                        <th
-                            scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                            Microsoft Surface Pro
-                        </th>
-                        <td class="px-6 py-4">White</td>
-                        <td class="px-6 py-4">Laptop PC</td>
-                        <td class="px-6 py-4">$1999</td>
+
                         <td class="px-6 py-4 text-right">
-                            <a
-                                href="#"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                >Edit</a
+                            <button
+                                class="text-blue-600 hover:text-blue-900"
+                                @click="openModal(statut)"
                             >
-                        </td>
-                    </tr>
-                    <tr
-                        class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600"
-                    >
-                        <th
-                            scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                            Magic Mouse 2
-                        </th>
-                        <td class="px-6 py-4">Black</td>
-                        <td class="px-6 py-4">Accessories</td>
-                        <td class="px-6 py-4">$99</td>
-                        <td class="px-6 py-4 text-right">
-                            <a
-                                href="#"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                >Edit</a
-                            >
+                                <Pencil />
+                            </button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
+
+    <!-- ------------- -->
+    <Teleport to="body">
+        <Modal v-if="isModalOpen" @close="closeModal">
+            <template #header>
+                <div class="flex items-center text-lg">
+                    <h3 class="text-xl font-bold text-slate-800 uppercase">
+                        {{ $t("a-propos.modal_ajouter_membre") }}
+                    </h3>
+                </div>
+            </template>
+            <template #body
+                ><form
+                    :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+                    class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
+                    @submit.prevent=""
+                >
+                    <div>
+                        <label
+                            for="adherents"
+                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                            >{{ posteForm.name }}</label
+                        >
+                    </div>
+                    <div>
+                        <label
+                            for="title"
+                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                            >{{ $t("a-propos.input_membre") }}</label
+                        >
+                        <Multiselect
+                            v-model="posteForm.adherent_id"
+                            :close-on-select="false"
+                            :searchable="true"
+                            :create-option="true"
+                            :options="formattedAdherents"
+                        />
+                        <span
+                            v-if="form.errors.name"
+                            class="text-xs text-red-600 mt-1"
+                            id="hs-validation-name-error-helper"
+                        >
+                            {{ form.errors.name }}
+                        </span>
+                    </div>
+
+                    <div class="mt-5 flex justify-end gap-x-2">
+                        <button
+                            @click="isModalOpen = false"
+                            type="button"
+                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
+                        >
+                            {{ $t("buttons.annuler") }}
+                        </button>
+                        <button
+                            type="submit"
+                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
+                        >
+                            {{ $t("buttons.ajouter") }}
+                        </button>
+                    </div>
+                </form>
+            </template>
+        </Modal></Teleport
+    >
 </template>
 
 <script setup>
+import { Modal } from "flowbite-vue";
 import regionsFile from "../../regions.json";
 import { ref, nextTick, computed, onMounted } from "vue";
 import { useForm, usePage, router } from "@inertiajs/vue3";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
+import Pencil from "vue-material-design-icons/Pencil.vue";
+import Multiselect from "@vueform/multiselect";
+
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
@@ -295,8 +341,15 @@ const props = defineProps({
     association: {
         type: Object,
     },
+    adherents: {
+        type: Object,
+    },
+    status: {
+        type: Object,
+    },
 });
 
+const isModalOpen = ref(false);
 const isEnabled = ref(false);
 
 const toggleEnabled = () => {
@@ -315,6 +368,12 @@ const form = useForm({
     region: props.association.region,
     city: props.association.city,
     image: props.association.image,
+});
+
+const posteForm = useForm({
+    id: null,
+    name: null,
+    adherent_id: null,
 });
 
 const selectImage = (event) => {
@@ -385,6 +444,26 @@ const submit = (e) => {
 const showImage = () => {
     return "/storage/";
 };
+
+const closeModal = () => {
+    isModalOpen.value = false;
+
+    // form.reset();
+};
+
+const openModal = (statut) => {
+    (posteForm.id = statut.id),
+        (posteForm.name = statut.name),
+        (posteForm.adherent_id = statut.adherent.id ?? null),
+        (isModalOpen.value = true);
+};
+
+const formattedAdherents = computed(() =>
+    Object.values(props.adherents).map((adherent) => ({
+        value: adherent.id,
+        label: adherent.last_name + " " + adherent.first_name,
+    }))
+);
 </script>
 
 <script>

@@ -92,7 +92,10 @@
         "input_region": "الجهة",
         "input_ville": "المدينة",
         "choisir_logo": "اختر شعارا",
-        "bureau": "مكتب الجمعية"
+        "bureau": "مكتب الجمعية",
+        "modal_ajouter_membre": "إضافة عضو",
+        "input_membre": "العضو",
+        "input_poste": "المنصب"
     },
     "adherents": {
         "titre": "إدارة المنخرطين",

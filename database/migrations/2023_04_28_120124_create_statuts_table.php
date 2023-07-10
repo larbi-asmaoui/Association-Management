@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('statuts', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('adherent_id')->nullable();
             $table->string('name');
             $table->timestamps();
         });

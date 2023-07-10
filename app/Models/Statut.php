@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Statut extends Model
 {
@@ -17,8 +16,8 @@ class Statut extends Model
         return Carbon::parse($value)->format('d/m/Y');
     }
 
-    public function adherents(): HasMany
+    public function adherent(): BelongsTo
     {
-        return $this->HasMany(Adherent::class);
+        return $this->belongsTo(Adherent::class);
     }
 }

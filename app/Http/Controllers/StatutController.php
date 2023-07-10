@@ -17,10 +17,7 @@ class StatutController extends Controller
     {
         // $Status = Statut::where('user_id', $userId)->get();
         return Inertia::render('Status/Index', [
-            'status' => Statut::query()
-                ->with('adherents')
-                ->withCount('adherents')
-                ->get()
+            'status' => Statut::all()
             // ->appends(Request::all()),
         ]);
     }
@@ -67,7 +64,6 @@ class StatutController extends Controller
      */
     public function update(Request $request, Statut $statut)
     {
-        $statut->load('adherents');
         $statut->update(
             $request->validate([
                 'name' => 'required',
@@ -83,5 +79,16 @@ class StatutController extends Controller
     {
         $statut->delete();
         return redirect()->back()->with('success', 'Statut deleted.');
+    }
+
+    public function associatePosteWithAdherent(Request $request, Statut $statut)
+    {
+        $formFields = $request->validate([
+            'adherent_id' => 'required|exists:adherent,id',
+        ]);
+
+        $statut->update($formFields);
+
+        return redirect()->back()->with('message', 'associate poste with membre is success');
     }
 }

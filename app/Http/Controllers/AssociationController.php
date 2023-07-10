@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Adherent;
 use App\Models\Association;
+use App\Models\Statut;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -17,8 +19,12 @@ class AssociationController extends Controller
     {
 
         $association = Association::where('user_id', auth()->id())->first();
+        $adherents = Adherent::all();
+        $status = Statut::with('adherent')->get();
         return Inertia::render('Association/Index', [
-            'association' => $association
+            'association' => $association,
+            'adherents' => $adherents,
+            'status' => $status
         ]);
     }
 

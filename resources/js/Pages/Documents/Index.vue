@@ -1,4 +1,5 @@
 <template>
+    {{ rapports }}
     <div class="px-2 pt-2">
         <h3 class="mb-5 text-2xl font-bold text-slate-800 uppercase">
             {{ $t("documents.titre") }}

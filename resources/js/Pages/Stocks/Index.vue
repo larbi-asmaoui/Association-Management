@@ -260,7 +260,7 @@
                     >
                         <div
                             @click="openEditModal(row)"
-                            class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                            class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
                         >
                             <Pencil :size="20" />
                         </div>
@@ -269,7 +269,7 @@
 
                         <div
                             @click="destroy(row)"
-                            class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                            class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
                         >
                             <TrashCan :size="20" />
                         </div>
