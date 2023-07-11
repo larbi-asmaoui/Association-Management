@@ -11,10 +11,12 @@ use App\Models\Rapport;
 use App\Models\Reunion;
 use App\Models\Revenue;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
+// use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Mpdf\Mpdf;
+use PDF;
 
 class DocumentsController extends Controller
 {
@@ -233,7 +235,6 @@ class DocumentsController extends Controller
             'season' => $newReference,
         ];
 
-
         $mpdf = new mPDF();
         $view = view('documents.rapport_financier', $data);
         $html = $view->render();
@@ -243,14 +244,21 @@ class DocumentsController extends Controller
         $fileName = 'rapport_financier_' . $newReference . '.pdf';
         $filePath = $directoryPath . $fileName;
 
-        Rapport::updateOrCreate([
+        // Create the directory if it doesn't exist
+        if (!is_dir($directoryPath)) {
+            mkdir($directoryPath, 0777, true);
+        }
+
+        // Create the file if it doesn't exist
+        if (!file_exists($filePath)) {
+            touch($filePath);
+        }
+
+        $rapport = Rapport::updateOrCreate([
             'file_path' => $filePath,
             'title' => "financier-" . $newReference,
         ]);
-        Storage::disk('public')->put($filePath, $mpdf->output());
 
-        return response()->streamDownload(function () use ($mpdf) {
-            echo $mpdf->output();
-        }, $fileName, ['Content-Type' => 'application/pdf']);
+        $mpdf->Output($filePath, \Mpdf\Output\Destination::FILE);
     }
 }

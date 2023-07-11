@@ -5,6 +5,17 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Rapport Financier</title>
     <style>
+        @font-face {
+            font-family: 'Amiri';
+            font-style: normal;
+            font-weight: bold;
+            src: url({{ storage_path('fonts/Amiri-Regular.ttf') }}) format('truetype')
+        }
+
+        html {
+            font-family: 'Amiri', serif;
+        }
+
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;

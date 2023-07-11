@@ -90,7 +90,7 @@
                         <div v-if="column.field === 'file_path'" class="flex">
                             <a
                                 target="_blank"
-                                :href="storage() + row.file_path"
+                                :href="row.file_path"
                                 class="inline-flex items-center text-sm font-medium text-center text-blue-700 hover:text-blue-800"
                             >
                                 <FileDownload />
