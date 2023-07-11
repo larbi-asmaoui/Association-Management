@@ -58,7 +58,7 @@ Route::middleware([
         // Route::resource('cotisation-types', CotisationTypeController::class);
         Route::resource('stock-types', StockTypeController::class);
         Route::resource('activity-types', ActivityTypeController::class);
-        Route::resource('status', StatutController::class);
+        Route::resource('status', StatutController::class)->middleware('denyaccess');
         Route::resource('association', AssociationController::class)->middleware('role:admin');
         Route::resource('reunions', \App\Http\Controllers\ReunionController::class);
         Route::get('/e-documents', [App\Http\Controllers\DocumentsController::class, 'index'])->name('e-documents.index');

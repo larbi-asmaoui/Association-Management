@@ -279,7 +279,7 @@
                                     >
                                 </div>
                             </DropdownLink>
-                            <div class="border-t border-gray-200" />
+                            <!-- <div class="border-t border-gray-200" />
                             <DropdownLink :href="route('status.index')">
                                 <div class="flex">
                                     <svg
@@ -315,7 +315,7 @@
                                         {{ $t("navbar.statut") }}</span
                                     >
                                 </div>
-                            </DropdownLink>
+                            </DropdownLink> -->
                             <div class="border-t border-gray-200" />
                             <DropdownLink :href="route('revenue-types.index')">
                                 <div class="flex">

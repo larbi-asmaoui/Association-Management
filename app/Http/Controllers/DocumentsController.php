@@ -40,7 +40,10 @@ class DocumentsController extends Controller
 
         $reunionsCount = Reunion::count();
         if ($reunionsCount == 0) {
-            return abort(403);
+            $evenements = [];
+            $depenses = [];
+            $revenues = [];
+            $frais_adhesions = 0;
         } else if ($reunionsCount == 1) {
             $latestReunion = Reunion::whereHas('reunion_type', function ($query) {
                 $query->where('name', 'normal');
@@ -81,17 +84,13 @@ class DocumentsController extends Controller
 
 
 
-        $totalRevenus = $evenements->sum('revenue') + $frais_adhesions + $revenues->sum('montant');
-        $totalDepenses = $evenements->sum('depense') + $depenses->sum('montant');
-        // dd($totalRevenus);
+
         $data = [
             'frais_adhesions' => $frais_adhesions,
             'revenues' => $revenues,
             'depenses' => $depenses,
             'evenements' => $evenements,
             'association' => Association::all(),
-            'totalRevenus' => $totalRevenus,
-            'totalDepenses' => $totalDepenses,
             'season' => $newReference,
         ];
         return Inertia::render('Documents/Index', [
@@ -121,7 +120,8 @@ class DocumentsController extends Controller
         $latestReunion = null;
         $reunionsCount = Reunion::count();
         if ($reunionsCount == 0) {
-            $evenements = [];
+            // $evenements = [];
+            return abort(403);
         } else if ($reunionsCount == 1) {
             $latestReunion = Reunion::whereHas('reunion_type', function ($query) {
                 $query->where('name', 'normal');
@@ -157,17 +157,23 @@ class DocumentsController extends Controller
         $directoryPath = 'documents/rapports/';
         $fileName = 'rapport_litteraire_' . $newReference . '.pdf';
         $filePath = $directoryPath . $fileName;
+
+        // Create the directory if it doesn't exist
+        if (!is_dir($directoryPath)) {
+            mkdir($directoryPath, 0777, true);
+        }
+
+        // Create the file if it doesn't exist
+        if (!file_exists($filePath)) {
+            touch($filePath);
+        }
+
         Rapport::create([
             'file_path' => $filePath,
             'title' => "littéraire-" . $newReference,
         ]);
-        // Save the PDF to a file
-        Storage::disk('public')->put($filePath, $mpdf->output());
-        // Save the Rapport
 
-        return response()->streamDownload(function () use ($mpdf) {
-            echo $mpdf->output();
-        }, $fileName, ['Content-Type' => 'application/pdf']);
+        $mpdf->Output($filePath, \Mpdf\Output\Destination::FILE);
     }
 
     public function generateRapportFinancierPdf()

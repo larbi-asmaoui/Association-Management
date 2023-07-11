@@ -95,7 +95,8 @@
         "bureau": "مكتب الجمعية",
         "modal_ajouter_membre": "إضافة عضو",
         "input_membre": "العضو",
-        "input_poste": "المنصب"
+        "input_poste": "المنصب",
+        "assign_poste_member": "تعيين منصب لعضو"
     },
     "adherents": {
         "titre": "إدارة المنخرطين",
@@ -279,5 +280,9 @@
         "table_rapport": "التقرير",
         "table_actions": "العمليات",
         "all_rapports": "التقارير المالية والأدبية"
+    },
+    "status": {
+        "titre": "إدارة الحالات",
+        "modal_ajouter": "إضافة حالة"
     }
 }

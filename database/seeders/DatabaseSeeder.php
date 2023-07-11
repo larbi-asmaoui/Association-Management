@@ -86,48 +86,47 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Statut::create([
 
-            'name' => 'president',
+            'name' => 'الرئيس',
         ]);
 
         \App\Models\Statut::create([
 
-            'name' => 'vice-president',
+            'name' => 'نائب الرئيس',
         ]);
 
         \App\Models\Statut::create([
 
-            'name' => 'tresorier',
+            'name' => 'الأمين',
         ]);
 
         \App\Models\Statut::create([
 
-            'name' => 'vice-tresorier',
+            'name' => 'نائب الأمين',
         ]);
 
         \App\Models\Statut::create([
 
-            'name' => 'Secretaire',
+            'name' => 'الكاتب',
         ]);
 
         \App\Models\Statut::create([
 
-            'name' => 'vice-Secretaire',
+            'name' => 'نائب الكاتب',
         ]);
 
         \App\Models\Statut::create([
 
-            'name' => 'Membre',
+            'name' => 'المستشار 1',
         ]);
 
         \App\Models\Statut::create([
 
-            'name' => 'Consultant 1',
+            'name' => 'المستشار 2',
         ]);
 
-        \App\Models\Statut::create([
 
-            'name' => 'Consultant 2',
-        ]);
+
+
 
         // \App\Models\Association::create()
 

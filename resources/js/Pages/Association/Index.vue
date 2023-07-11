@@ -219,7 +219,9 @@
                         <th scope="col" class="px-6 py-3 text-right">
                             الاسم الكامل
                         </th>
-
+                        <th scope="col" class="px-6 py-3 text-right">الهاتف</th>
+                        <th scope="col" class="px-6 py-3 text-right">ر.ب.و</th>
+                        <th scope="col" class="px-6 py-3 text-right">المهنة</th>
                         <th scope="col" class="px-6 py-3 text-right">
                             العمليات
                         </th>
@@ -242,7 +244,19 @@
                                     : "-"
                             }}
                         </td>
-
+                        <td class="px-6 py-4 text-right">
+                            {{ statut.adherent ? statut.adherent.tel : "-" }}
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            {{ statut.adherent ? statut.adherent.cin : "-" }}
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            {{
+                                statut.adherent
+                                    ? statut.adherent.profession
+                                    : "-"
+                            }}
+                        </td>
                         <td class="px-6 py-4 text-right">
                             <button
                                 class="text-blue-600 hover:text-blue-900"
@@ -263,7 +277,7 @@
             <template #header>
                 <div class="flex items-center text-lg">
                     <h3 class="text-xl font-bold text-slate-800 uppercase">
-                        {{ $t("a-propos.modal_ajouter_membre") }}
+                        {{ $t("a-propos.assign_poste_member") }}
                     </h3>
                 </div>
             </template>
@@ -274,13 +288,18 @@
                     @submit.prevent="associatePosteWithAdherent"
                 >
                     <div>
-                        <label
-                            for="adherents"
-                            class="text-md font-medium text-gray-900 block mb-2 :text-gray-300"
-                            >{{ posteForm.name }}</label
+                        <div
+                            class="flex justify-between items-center w-1/2 mb-8"
                         >
+                            <div>{{ $t("a-propos.input_poste") }}</div>
+                            <h3
+                                class="text-lg font-bold text-slate-800 uppercase"
+                            >
+                                {{ posteForm.name }}
+                            </h3>
+                        </div>
                     </div>
-                    <div>
+                    <div class="mb-5">
                         <label
                             for="title"
                             class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
@@ -298,7 +317,7 @@
                             id="type"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
-                            <option disabled value="">اختر جهة</option>
+                            <option disabled value="">اختر عضو</option>
                             <option
                                 v-for="adherent in adherents"
                                 :key="adherent.id"

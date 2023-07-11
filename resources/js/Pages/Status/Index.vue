@@ -13,14 +13,14 @@ export default {
         <h1
             class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
         >
-            Status
+            {{ $t("status.titre") }}
         </h1>
         <button
             @click="isModalOpen = true"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             type="button"
         >
-            Ajouter statut
+            {{ $t("status.modal_ajouter") }}
         </button>
     </div>
 
@@ -88,17 +88,14 @@ export default {
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             <the-card v-for="statut in status" :key="statut">
                 <h5
-                    class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+                    class="mb-2 text-2xl font-bold tracking-tight text-center text-gray-900 dark:text-white"
                 >
                     {{ statut.name }}
                 </h5>
-                <p class="font-normal text-gray-500 dark:text-gray-400">
-                    Nombre : {{ statut.adherants_count }}
-                </p>
-                <p class="text-sm text-gray-500 dark:text-gray-400">
-                    Date d'ajout {{ statut.created_at }}
-                </p>
-                <div class="flex justify-end mt-5 items-end">
+                <!-- <p class="text-sm text-gray-500 dark:text-gray-400">
+                    {{ $t("date_ajout") }} {{ statut.created_at }}
+                </p> -->
+                <div class="flex justify-center mt-5 items-center">
                     <button
                         @click="openEditModal(statut)"
                         class="me-2 text-slate-800 hover:text-blue-600 text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-lg font-medium px-4 py-2 inline-flex space-x-1 items-center"
@@ -156,6 +153,8 @@ import { TheCard } from "flowbite-vue";
 import { useForm } from "@inertiajs/vue3";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const $toast = useToast();
 

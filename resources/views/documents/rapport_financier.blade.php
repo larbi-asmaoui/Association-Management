@@ -5,17 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Rapport Financier</title>
     <style>
-        @font-face {
-            font-family: 'Amiri';
-            font-style: normal;
-            font-weight: bold;
-            src: url({{ storage_path('fonts/Amiri-Regular.ttf') }}) format('truetype')
-        }
-
-        html {
-            font-family: 'Amiri', serif;
-        }
-
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
@@ -112,10 +101,10 @@
         </thead>
         <tbody>
             @if ($revenues)
-                @foreach ($revenues as $revenueType => $revenue)
+                @foreach ($revenues as $revenue)
                     <tr>
-                        <td>{{ $revenueType }}</td>
-                        <td>{{ $revenue['total'] }}</td>
+                        <td>{{ $revenue['titre'] }}</td>
+                        <td>{{ $revenue['montant'] }}</td>
                     </tr>
                 @endforeach
             @endif
@@ -157,10 +146,10 @@
         </thead>
         <tbody>
             @if ($depenses)
-                @foreach ($depenses as $depenseType => $depense)
+                @foreach ($depenses as $depense)
                     <tr>
-                        <td>{{ $depenseType }}</td>
-                        <td>{{ $depense['total'] }}</td>
+                        <td>{{ $depense['titre'] }}</td>
+                        <td>{{ $depense['montant'] }}</td>
                     </tr>
                 @endforeach
             @endif
