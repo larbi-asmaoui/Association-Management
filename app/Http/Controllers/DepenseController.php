@@ -48,8 +48,8 @@ class DepenseController extends Controller
             'titre' => 'required',
             'montant' => 'required',
             'depense_date' => 'required',
-            'reference_file' => 'image|mimes:jpg,jpeg,png',
-            'depense_type_id' => 'required|exists:depense_types,id',
+            'reference_file' => 'nullable|image|mimes:jpg,jpeg,png',
+            'depense_type_id' => 'nullable|exists:depense_types,id',
         ]);
 
         if ($request->hasFile('reference_file')) {

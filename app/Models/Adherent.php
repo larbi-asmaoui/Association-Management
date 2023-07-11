@@ -51,6 +51,11 @@ class Adherent extends Model
         return $this->belongsToMany(Activity::class);
     }
 
+    public function reunions(): BelongsToMany
+    {
+        return $this->belongsToMany(Reunion::class);
+    }
+
     public function abonnements(): HasMany
     {
         return $this->HasMany(Abonnement::class);

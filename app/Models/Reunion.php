@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Reunion extends Model
 {
@@ -15,5 +16,10 @@ class Reunion extends Model
     public function reunion_type(): BelongsTo
     {
         return $this->belongsTo(ReunionType::class);
+    }
+
+    public function adherents(): BelongsToMany
+    {
+        return $this->belongsToMany(Adherent::class);
     }
 }

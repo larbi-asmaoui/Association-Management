@@ -199,7 +199,7 @@
                 @click="generatePdf"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-auto"
             >
-                generated
+                <Printer :size="22" />
             </button>
         </div>
 
@@ -220,12 +220,17 @@
                         <th scope="col" class="px-6 py-3 text-right">المنصب</th>
 
                         <th scope="col" class="px-6 py-3 text-right">
-                            الاسم الكامل
+                            الاسم &nbspالكامل
                         </th>
                         <th scope="col" class="px-6 py-3 text-right">الهاتف</th>
                         <th scope="col" class="px-6 py-3 text-right">ر.ب.و</th>
                         <th scope="col" class="px-6 py-3 text-right">المهنة</th>
-                        <th scope="col" class="px-6 py-3 text-right">
+                        <th
+                            scope="col"
+                            class="px-6 py-3 text-right"
+                            id="element-to-hide"
+                            data-html2canvas-ignore="true"
+                        >
                             العمليات
                         </th>
                     </tr>
@@ -260,7 +265,11 @@
                                     : "-"
                             }}
                         </td>
-                        <td class="px-6 py-4 text-right">
+                        <td
+                            class="px-6 py-4 text-right"
+                            id="element-to-hide"
+                            data-html2canvas-ignore="true"
+                        >
                             <button
                                 class="text-blue-600 hover:text-blue-900"
                                 @click="openModal(statut)"
@@ -374,9 +383,12 @@ import "vue-toast-notification/dist/theme-sugar.css";
 import Pencil from "vue-material-design-icons/Pencil.vue";
 import { useI18n } from "vue-i18n";
 import html2pdf from "html2pdf.js";
+import Printer from "vue-material-design-icons/Printer.vue";
 
 const $toast = useToast();
 const { t } = useI18n();
+
+const isPrinting = ref(false);
 
 const props = defineProps({
     association: {
@@ -423,7 +435,7 @@ const generatePdf = () => {
         filename: "bureau_association.pdf",
         image: { type: "jpeg", quality: 0.98 },
         html2canvas: { scale: 2 },
-        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+        jsPDF: { unit: "in", format: "letter", orientation: "landscape" },
     };
     html2pdf().set(opt).from(element).save();
 };
@@ -434,10 +446,6 @@ const selectImage = (event) => {
         form.image = file;
     }
 };
-
-const roles = computed(() => {
-    return [...usePage().props.auth.user.roles];
-});
 
 const filteredCities = computed(() => {
     if (form.region) {
@@ -510,13 +518,6 @@ const openModal = (statut) => {
     posteForm.name = statut.name;
     posteForm.adherent_id = statut.adherent.id ?? null;
 };
-
-const formattedAdherents = computed(() =>
-    Object.values(props.adherents).map((adherent) => ({
-        value: adherent.id,
-        label: adherent.last_name + " " + adherent.first_name,
-    }))
-);
 
 const associatePosteWithAdherent = () => {
     posteForm.put(route("status.associate", posteForm.id), {

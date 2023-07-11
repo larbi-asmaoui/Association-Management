@@ -177,7 +177,12 @@
                                 {{ form.errors.reference_file }}
                             </span>
                         </div>
-                        <img v-if="imagePreview" :src="imagePreview" />
+                        <div
+                            class="border border-gray-300 rounded-sm"
+                            v-if="imagePreview"
+                        >
+                            <img :src="imagePreview" />
+                        </div>
 
                         <div class="mt-8 flex justify-end gap-x-2">
                             <button
