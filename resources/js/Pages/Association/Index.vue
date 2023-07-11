@@ -271,12 +271,12 @@
                 ><form
                     :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
                     class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
-                    @submit.prevent=""
+                    @submit.prevent="associatePosteWithAdherent"
                 >
                     <div>
                         <label
                             for="adherents"
-                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                            class="text-md font-medium text-gray-900 block mb-2 :text-gray-300"
                             >{{ posteForm.name }}</label
                         >
                     </div>
@@ -319,19 +319,20 @@
                     </div>
                 </form>
             </template>
-        </Modal></Teleport
-    >
+        </Modal>
+    </Teleport>
+    {{ formattedAdherents }}
 </template>
 
 <script setup>
+import Multiselect from "@vueform/multiselect";
 import { Modal } from "flowbite-vue";
 import regionsFile from "../../regions.json";
-import { ref, nextTick, computed, onMounted } from "vue";
+import { ref, computed } from "vue";
 import { useForm, usePage, router } from "@inertiajs/vue3";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import Pencil from "vue-material-design-icons/Pencil.vue";
-import Multiselect from "@vueform/multiselect";
 
 import { useI18n } from "vue-i18n";
 
@@ -343,6 +344,7 @@ const props = defineProps({
     },
     adherents: {
         type: Object,
+        default: () => ({}),
     },
     status: {
         type: Object,
@@ -452,10 +454,11 @@ const closeModal = () => {
 };
 
 const openModal = (statut) => {
-    (posteForm.id = statut.id),
-        (posteForm.name = statut.name),
-        (posteForm.adherent_id = statut.adherent.id ?? null),
-        (isModalOpen.value = true);
+    isModalOpen.value = true;
+
+    posteForm.id = statut.id;
+    posteForm.name = statut.name;
+    posteForm.adherent_id = statut.adherent.id ?? null;
 };
 
 const formattedAdherents = computed(() =>
@@ -464,6 +467,39 @@ const formattedAdherents = computed(() =>
         label: adherent.last_name + " " + adherent.first_name,
     }))
 );
+
+const associatePosteWithAdherent = () => {
+    router.visit(
+        route("statut.associate", posteForm.id),
+        {
+            _method: "put",
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            id: posteForm.id,
+            adherent_id: posteForm.adherent_id,
+        },
+        {
+            onSuccess: () => {
+                closeModal();
+                // $toast.open({
+                //     message: "dépense modifié avec succès",
+                //     type: "success",
+                //     duration: 3000,
+                //     dismissible: true,
+                // });
+            },
+            onError: () => {
+                // $toast.open({
+                //     message: "Erreur lors de la modification",
+                //     type: "error",
+                //     duration: 3000,
+                //     dismissible: true,
+                // });
+            },
+        }
+    );
+};
 </script>
 
 <script>

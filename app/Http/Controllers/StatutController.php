@@ -83,6 +83,8 @@ class StatutController extends Controller
 
     public function associatePosteWithAdherent(Request $request, Statut $statut)
     {
+
+        dd($statut);
         $formFields = $request->validate([
             'adherent_id' => 'required|exists:adherent,id',
         ]);

@@ -19,7 +19,7 @@ class AssociationController extends Controller
     {
 
         $association = Association::where('user_id', auth()->id())->first();
-        $adherents = Adherent::all();
+        $adherents = Adherent::with('statut')->get();
         $status = Statut::with('adherent')->get();
         return Inertia::render('Association/Index', [
             'association' => $association,
