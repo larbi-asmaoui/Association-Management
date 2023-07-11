@@ -238,15 +238,16 @@ class DocumentsController extends Controller
         $view = view('documents.rapport_financier', $data);
         $html = $view->render();
         $mpdf->WriteHTML($html);
-        dd($mpdf->output());
-        // $directoryPath = 'documents/rapports/';
-        $fileName = 'rapport_financier_' . $newReference . '.pdf';
 
-        $rapport = Rapport::updateOrCreate([
-            'file_path' => 'documents/rapports/' . $fileName,
+        $directoryPath = 'documents/rapports/';
+        $fileName = 'rapport_financier_' . $newReference . '.pdf';
+        $filePath = $directoryPath . $fileName;
+
+        Rapport::updateOrCreate([
+            'file_path' => $filePath,
             'title' => "financier-" . $newReference,
         ]);
-        // Storage::put('documents/rapports/', $mpdf->output());
+        Storage::disk('public')->put($filePath, $mpdf->output());
 
         return response()->streamDownload(function () use ($mpdf) {
             echo $mpdf->output();
