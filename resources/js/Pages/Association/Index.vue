@@ -286,13 +286,31 @@
                             class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                             >{{ $t("a-propos.input_membre") }}</label
                         >
-                        <Multiselect
+                        <!-- <Multiselect
                             v-model="posteForm.adherent_id"
                             :close-on-select="false"
                             :searchable="true"
                             :create-option="true"
                             :options="formattedAdherents"
-                        />
+                        /> -->
+                        <select
+                            v-model="posteForm.adherent_id"
+                            id="type"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        >
+                            <option disabled value="">اختر جهة</option>
+                            <option
+                                v-for="adherent in adherents"
+                                :key="adherent.id"
+                                :value="adherent.id"
+                            >
+                                {{
+                                    adherent.first_name +
+                                    " " +
+                                    adherent.last_name
+                                }}
+                            </option>
+                        </select>
                         <span
                             v-if="form.errors.name"
                             class="text-xs text-red-600 mt-1"
@@ -321,7 +339,6 @@
             </template>
         </Modal>
     </Teleport>
-    {{ formattedAdherents }}
 </template>
 
 <script setup>
@@ -333,9 +350,9 @@ import { useForm, usePage, router } from "@inertiajs/vue3";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import Pencil from "vue-material-design-icons/Pencil.vue";
-
 import { useI18n } from "vue-i18n";
 
+const $toast = useToast();
 const { t } = useI18n();
 
 const props = defineProps({
@@ -357,8 +374,6 @@ const isEnabled = ref(false);
 const toggleEnabled = () => {
     isEnabled.value = !isEnabled.value;
 };
-
-const $toast = useToast();
 
 const regions = ref(regionsFile);
 
@@ -450,7 +465,7 @@ const showImage = () => {
 const closeModal = () => {
     isModalOpen.value = false;
 
-    // form.reset();
+    posteForm.reset();
 };
 
 const openModal = (statut) => {
@@ -469,36 +484,25 @@ const formattedAdherents = computed(() =>
 );
 
 const associatePosteWithAdherent = () => {
-    router.visit(
-        route("statut.associate", posteForm.id),
-        {
-            _method: "put",
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-            id: posteForm.id,
-            adherent_id: posteForm.adherent_id,
+    posteForm.put(route("status.associate", posteForm.id), {
+        onSuccess: () => {
+            closeModal();
+            $toast.open({
+                message: "dépense modifié avec succès",
+                type: "success",
+                duration: 3000,
+                dismissible: true,
+            });
         },
-        {
-            onSuccess: () => {
-                closeModal();
-                // $toast.open({
-                //     message: "dépense modifié avec succès",
-                //     type: "success",
-                //     duration: 3000,
-                //     dismissible: true,
-                // });
-            },
-            onError: () => {
-                // $toast.open({
-                //     message: "Erreur lors de la modification",
-                //     type: "error",
-                //     duration: 3000,
-                //     dismissible: true,
-                // });
-            },
-        }
-    );
+        onError: () => {
+            $toast.open({
+                message: "Erreur lors de la modification",
+                type: "error",
+                duration: 3000,
+                dismissible: true,
+            });
+        },
+    });
 };
 </script>
 

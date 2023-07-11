@@ -18,6 +18,6 @@ class Statut extends Model
 
     public function adherent(): BelongsTo
     {
-        return $this->belongsTo(Adherent::class);
+        return $this->belongsTo(Adherent::class, 'adherent_id');
     }
 }

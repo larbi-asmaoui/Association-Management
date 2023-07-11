@@ -81,15 +81,16 @@ class StatutController extends Controller
         return redirect()->back()->with('success', 'Statut deleted.');
     }
 
-    public function associatePosteWithAdherent(Request $request, Statut $statut)
+    public function associatePosteWithAdherent(Request $request)
     {
-
-        dd($statut);
         $formFields = $request->validate([
-            'adherent_id' => 'required|exists:adherent,id',
+            'adherent_id' => 'nullable|exists:adherents,id',
         ]);
 
+        $statut = Statut::find($request->id);
+
         $statut->update($formFields);
+
 
         return redirect()->back()->with('message', 'associate poste with membre is success');
     }

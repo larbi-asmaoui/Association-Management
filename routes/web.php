@@ -45,13 +45,11 @@ Route::middleware([
 
         Route::post('adherents/desactivate', [AdherentController::class, 'deactivateAll'])->name('adherents.desactivate');
         Route::resource('adherents', AdherentController::class);
-
-        Route::post('status/associate/{statut}', [StatutController::class, 'associatePosteWithAdherent'])->name('statut.associate');
         Route::resource('abonnements', AbonnementController::class);
         Route::resource('groupes', GroupeController::class);
         Route::resource('stocks', StockController::class);
         Route::resource('activities', ActivityController::class);
-
+        Route::put('/status/associate/{id}', [StatutController::class, 'associatePosteWithAdherent'])->name('status.associate');
         Route::resource('revenues', RevenueController::class);
         Route::resource('depenses', DepenseController::class);
         Route::resource('depense-types', DepenseTypeController::class);

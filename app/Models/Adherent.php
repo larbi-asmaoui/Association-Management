@@ -18,7 +18,7 @@ class Adherent extends Model
 
     public function statut(): HasOne
     {
-        return $this->hasOne(Statut::class);
+        return $this->hasOne(Statut::class, 'adherent_id');
     }
 
     public function cotisations(): HasMany

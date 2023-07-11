@@ -1,5 +1,5 @@
 <template>
-    {{ rapports }}
+    {{ data.revenues }}
     <div class="px-2 pt-2">
         <h3 class="mb-5 text-2xl font-bold text-slate-800 uppercase">
             {{ $t("documents.titre") }}
@@ -22,6 +22,7 @@
                                 class="inline-flex items-center text-base font-semibold text-gray-900"
                             >
                                 <a
+                                    target="_blank"
                                     :href="
                                         route('e-documents.rapport_financier')
                                     "
@@ -95,9 +96,9 @@
                                 <FileDownload />
                             </a>
                         </div>
-                        <div v-else>
+                        <!-- <div v-else>
                             {{ formattedRow[column.field] }}
-                        </div>
+                        </div> -->
                     </template>
                 </vue-good-table>
             </div>
@@ -120,29 +121,13 @@ import { useI18n } from "vue-i18n";
 const { t, availableLocales, locale } = useI18n();
 
 const props = defineProps({
-    evenements: {
-        type: Object,
-        default: () => ({}),
-    },
     rapports: {
         type: Object,
         default: () => ({}),
     },
-    depenses: {
+    data: {
         type: Object,
         default: () => ({}),
-    },
-    totalRevenue: {
-        type: Number,
-    },
-    totalDepense: {
-        type: Number,
-    },
-    totalBenefice: {
-        type: Number,
-    },
-    frais_adhesions: {
-        type: Number,
     },
 });
 
