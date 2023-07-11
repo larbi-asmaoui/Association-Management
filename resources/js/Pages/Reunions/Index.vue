@@ -129,6 +129,21 @@
                                 {{ form.errors.reunion_type_id }}
                             </span>
                         </div>
+                        <div>
+                            <label
+                                for="adherents"
+                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                >{{ $t("activities.input_adherents") }}</label
+                            >
+                            <Multiselect
+                                v-model="form.adherents"
+                                mode="tags"
+                                :close-on-select="false"
+                                :searchable="true"
+                                :create-option="true"
+                                :options="formattedAdherents"
+                            />
+                        </div>
 
                         <div class="mt-5 flex justify-end gap-x-2">
                             <button
@@ -230,9 +245,15 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    adherents: {
+        type: Object,
+        default: () => ({}),
+    },
 });
 
 const $toast = useToast();
+
+let isModalOpen = ref(false);
 
 const form = useForm({
     id: null,
@@ -240,6 +261,7 @@ const form = useForm({
     description: null,
     reunion_type_id: null,
     date: null,
+    adherents: [],
 });
 
 const columns = ref([
@@ -268,6 +290,7 @@ const rows = computed(() =>
         type: reunion.reunion_type.name,
         date: reunion.date,
         reunion_type_id: reunion.reunion_type_id,
+        adherents: reunion.adherents,
     }))
 );
 
@@ -303,14 +326,10 @@ const submit = () => {
     }
 };
 
-let isModalOpen = ref(false);
-
 const closeModal = () => {
     isModalOpen.value = false;
     form.reset();
 };
-
-const dropdownOpen = ref(false);
 
 const show = (id) => {
     form.get(route("reunions.show", id));
@@ -346,8 +365,16 @@ const openEditModal = (reunion) => {
     form.date = reunion.date;
     form.description = reunion.description;
     form.reunion_type_id = reunion.reunion_type_id;
-    isModalOpen.value = true;
+    (form.adherents = reunion.adherents.map((adherent) => adherent.id)),
+        (isModalOpen.value = true);
 };
+
+const formattedAdherents = computed(() =>
+    Object.values(props.adherents).map((adherent) => ({
+        value: adherent.id,
+        label: adherent.last_name + " " + adherent.first_name,
+    }))
+);
 </script>
 
 <style src="@vueform/multiselect/themes/default.css"></style>

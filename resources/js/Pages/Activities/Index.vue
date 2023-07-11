@@ -414,10 +414,6 @@ const formattedAdherents = computed(() =>
     }))
 );
 
-let selectedAdherents = ref([]);
-
-const dropdownOpen = ref(false);
-
 const incrementPart = computed(() => {
     // Get the increment part of the last event's reference
     const lastIncrementPart =
@@ -488,23 +484,15 @@ const submit = () => {
                 dismissible: true,
                 duration: 3000,
             });
-            // form.reset("title", "description", "start", "end", "location");
-            // page.value.$inertia.$refresh(); // This will refresh the page
         },
     });
 };
 
 const isModalOpen = ref(false);
-const isDropdownOpen = ref(false);
-
-const toggleDropdown = () => {
-    isDropdownOpen.value = !isDropdownOpen.value;
-};
 
 const closeModal = () => {
     isModalOpen.value = false;
     form.reset();
-    selectedAdherents.value = [];
 };
 
 const destroy = (id) => {

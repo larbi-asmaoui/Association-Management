@@ -50,9 +50,17 @@ class ReunionController extends Controller
             'adherents' => 'nullable|array',
             'adherents.*' => 'exists:adherents,id',
         ]);
-        $reunion = Reunion::create($formFields);
-        if (isset($validatedData['adherents'])) {
-            $reunion->adherents()->sync($validatedData['adherents']);
+
+        $reunionData = [
+            'name' => $formFields['name'],
+            'description' => $formFields['description'],
+            'date' => $formFields['date'],
+            'reunion_type_id' => $formFields['reunion_type_id'],
+        ];
+
+        $reunion = Reunion::create($reunionData);
+        if (isset($formFields['adherents'])) {
+            $reunion->adherents()->sync($formFields['adherents']);
         }
 
 
