@@ -195,17 +195,20 @@
             <h3 class="mb-5 text-xl font-bold text-slate-800 uppercase">
                 {{ $t("a-propos.bureau") }}
             </h3>
-            <!-- <button
-                @click="openModal"
+            <button
+                @click="generatePdf"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-auto"
             >
-                إضافة
-            </button> -->
+                generated
+            </button>
         </div>
 
         <!-- table -->
 
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div
+            class="relative overflow-x-auto shadow-md sm:rounded-lg"
+            id="bureau"
+        >
             <table
                 :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
                 class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
@@ -370,6 +373,7 @@ import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import Pencil from "vue-material-design-icons/Pencil.vue";
 import { useI18n } from "vue-i18n";
+import html2pdf from "html2pdf.js";
 
 const $toast = useToast();
 const { t } = useI18n();
@@ -411,6 +415,18 @@ const posteForm = useForm({
     name: null,
     adherent_id: null,
 });
+
+const generatePdf = () => {
+    const element = document.getElementById("bureau");
+    const opt = {
+        margin: 0.5,
+        filename: "bureau_association.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+    };
+    html2pdf().set(opt).from(element).save();
+};
 
 const selectImage = (event) => {
     if (event.target.files[0]) {
