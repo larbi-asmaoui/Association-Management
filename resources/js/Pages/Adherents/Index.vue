@@ -674,7 +674,6 @@ const form = useForm({
     region: null,
     city: null,
     tel: null,
-    statut_id: null,
     montant: null,
 });
 

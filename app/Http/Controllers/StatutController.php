@@ -35,7 +35,6 @@ class StatutController extends Controller
      */
     public function store(Request $request)
     {
-
         $statut = $request->validate([
             'name' => 'required',
         ]);
@@ -64,11 +63,13 @@ class StatutController extends Controller
      */
     public function update(Request $request, Statut $statut)
     {
-        $statut->update(
-            $request->validate([
-                'name' => 'required',
-            ])
-        );
+
+        $formFields =  $request->validate([
+            'name' => 'required',
+        ]);
+
+
+        $statut->update($formFields);
         return redirect()->back()->with('success', 'Statut updated.');
     }
 

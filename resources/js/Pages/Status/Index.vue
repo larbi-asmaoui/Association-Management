@@ -86,7 +86,7 @@ export default {
 
     <div class="mt-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <the-card v-for="statut in status" :key="statut">
+            <the-card v-for="statut in status" :key="statut.id">
                 <h5
                     class="mb-2 text-2xl font-bold tracking-tight text-center text-gray-900 dark:text-white"
                 >
@@ -118,7 +118,7 @@ export default {
                         </span>
                     </button>
                     <button
-                        @click="destroy(statut.id)"
+                        @click="destroy(statut)"
                         class="text-slate-800 hover:text-white text-sm bg-white hover:bg-red-600 border border-slate-200 rounded-lg font-medium px-4 py-2 inline-flex space-x-1 items-center"
                     >
                         <span>
@@ -177,9 +177,9 @@ const closeModal = () => {
     form.reset();
 };
 
-const destroy = (id) => {
+const destroy = (statut) => {
     if (confirm("vous êtes sûr?")) {
-        router.visit(route("status.destroy", id), {
+        form.delete(route("status.destroy", statut.id), {
             onSuccess: () => {
                 $toast.open({
                     message: "Statut supprimé avec succès",
@@ -201,9 +201,9 @@ const destroy = (id) => {
 };
 
 const openEditModal = (statut) => {
+    isModalOpen.value = true;
     form.id = statut.id;
     form.name = statut.name;
-    isModalOpen.value = true;
 };
 
 const submit = () => {
