@@ -90,6 +90,25 @@
                     </div>
                     <div class="col-span-6 sm:col-span-3 mb-3">
                         <label
+                            for="date"
+                            class="block mb-2 text-sm font-medium text-gray-900"
+                            >{{ $t("a-propos.input_date_creation") }}</label
+                        >
+                        <input
+                            :disabled="!isEnabled"
+                            :class="{
+                                'bg-slate-100 cursor-not-allowed': !isEnabled,
+                            }"
+                            v-model="form.date_creation"
+                            type="date"
+                            name="date"
+                            id="date"
+                            class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-3 mb-3">
+                        <label
                             for="Addresse"
                             class="block mb-2 text-sm font-medium text-gray-900"
                             >{{ $t("a-propos.input_addresse") }}</label
@@ -370,6 +389,7 @@
             </template>
         </Modal>
     </Teleport>
+    {{ association }}
 </template>
 
 <script setup>
@@ -387,8 +407,6 @@ import Printer from "vue-material-design-icons/Printer.vue";
 
 const $toast = useToast();
 const { t } = useI18n();
-
-const isPrinting = ref(false);
 
 const props = defineProps({
     association: {
@@ -420,6 +438,7 @@ const form = useForm({
     region: props.association.region,
     city: props.association.city,
     image: props.association.image,
+    date_creation: props.association.date_creation,
 });
 
 const posteForm = useForm({
@@ -465,40 +484,77 @@ const filterCities = () => {
 
 const submit = (e) => {
     e.preventDefault();
-    router.post(
-        `/association/${form.id}`,
-        {
-            _method: "put",
-            headers: {
-                "Content-Type": "multipart/form-data",
+    if (form.id) {
+        router.post(
+            `/association/${form.id}`,
+            {
+                _method: "put",
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+                id: form.id,
+                name: form.name,
+                objectifs: form.objectifs,
+                address: form.address,
+                region: form.region,
+                city: form.city,
+                image: form.image,
+                date_creation: form.date_creation,
             },
-            id: form.id,
-            name: form.name,
-            objectifs: form.objectifs,
-            address: form.address,
-            region: form.region,
-            city: form.city,
-            image: form.image,
-        },
-        {
-            onSuccess: () => {
-                $toast.open({
-                    message: "Association modifié avec succès",
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
-                });
+            {
+                onSuccess: () => {
+                    $toast.open({
+                        message: t("toasts.modif_success"),
+                        type: "success",
+                        duration: 3000,
+                        dismissible: true,
+                    });
+                },
+                onError: () => {
+                    $toast.open({
+                        message: t("toasts.modif_error"),
+                        type: "error",
+                        duration: 3000,
+                        dismissible: true,
+                    });
+                },
+            }
+        );
+    } else {
+        router.post(
+            `/association`,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+                name: form.name,
+                objectifs: form.objectifs,
+                address: form.address,
+                region: form.region,
+                city: form.city,
+                image: form.image,
+                date_creation: form.date_creation,
             },
-            onError: () => {
-                $toast.open({
-                    message: "Erreur lors de la modification",
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-        }
-    );
+            {
+                onSuccess: () => {
+                    $toast.open({
+                        message: t("toasts.ajout_success"),
+                        type: "success",
+                        duration: 3000,
+                        dismissible: true,
+                    });
+                },
+                onError: () => {
+                    $toast.open({
+                        message: t("toasts.ajout_error"),
+                        type: "error",
+                        duration: 3000,
+                        dismissible: true,
+                    });
+                },
+            }
+        );
+    }
 };
 
 const showImage = () => {

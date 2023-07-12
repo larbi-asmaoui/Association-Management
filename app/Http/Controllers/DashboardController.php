@@ -9,6 +9,7 @@ use App\Models\Adherent;
 // use App\Models\Cotisation;
 use App\Models\Depense;
 use App\Models\ActivityType;
+use App\Models\Association;
 use App\Models\Revenue;
 use App\Models\Stock;
 use App\Models\StockType;
@@ -17,6 +18,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
@@ -28,7 +30,6 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-
         $startYear = $request->get('year') ?? Carbon::now()->year;
 
         $groupes_count = Groupe::count();
@@ -160,13 +161,17 @@ class DashboardController extends Controller
 
     public function getYearsList()
     {
-        $userId = auth()->id();
-        $user = User::find($userId);
 
-        $startYear = $user->created_at->year;
+        $association = Association::first();
+        $startYear = $association && isset($association->date_creation) ? Carbon::parse($association->date_creation)->year : Carbon::now()->year;
         $currentYear = Carbon::now()->year;
-
         $yearsList = [];
+
+        for ($year = $startYear; $year <= $currentYear; $year++) {
+            array_push($yearsList, $year);
+        }
+
+        return $yearsList;
 
         for ($year = $startYear; $year <= $currentYear; $year++) {
             array_push($yearsList, $year);

@@ -89,6 +89,7 @@
         "input_nom": "الاسم",
         "input_objectifs": "الأهداف",
         "input_addresse": "العنوان",
+        "input_date_creation": "تاريخ التأسيس",
         "input_region": "الجهة",
         "input_ville": "المدينة",
         "choisir_logo": "اختر شعارا",
@@ -160,7 +161,8 @@
         "input_description": "الوصف",
         "input_adherents": "لائحة الحضور",
         "details_reunion": "تفاصيل الاجتماع",
-        "modifier_reunion_details": "تعديل تفاصيل الاجتماع"
+        "modifier_reunion_details": "تعديل تفاصيل الاجتماع",
+        "doc_title_adherents": "لائحة الحضور للاجتماع"
     },
     "revenues": {
         "titre": "إدارة الإيرادات",

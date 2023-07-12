@@ -772,9 +772,9 @@ const generateIDCards = async (adherents = props.adherents) => {
             }
             // Reset the clipping path
 
-            const logoPath = page.props.auth.user.association.image;
-            if (logoPath !== null) {
+            if (page.props.auth.association !== null) {
                 const logoImg = new Image();
+                const logoPath = page.props.auth.association.image;
                 logoImg.src = "/storage/" + logoPath;
                 const logoImgX = x + 2;
                 const logoImgY = y + 4;
@@ -813,7 +813,7 @@ const exportToPDF = () => {
     const pageWidth = doc.internal.pageSize.getWidth();
     // Add the image to the PDF
     const img = doc.addImage(
-        `/storage/${page.props.auth.user.association.image}`,
+        `/storage/${page.props.auth.association.image}`,
         "JPEG",
         (pageWidth - 30) / 2,
         2,
@@ -822,7 +822,7 @@ const exportToPDF = () => {
     );
 
     doc.setFontSize(10);
-    const title = `${page.props.auth.user.association.name}`;
+    const title = `${page.props.auth.association.name}`;
     const titleWidth = doc.getTextWidth(title);
 
     const titleX = (pageWidth - titleWidth) / 2;

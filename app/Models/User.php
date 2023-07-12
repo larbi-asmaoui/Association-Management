@@ -29,9 +29,9 @@ class User extends Authenticatable
     protected static function booted()
     {
         static::created(function ($user) {
-            $user->association()->create();
-            ReunionType::create(['name' => 'Normal']);
-            ReunionType::create(['name' => 'Urgent']);
+            // $user->association()->create();
+            // ReunionType::create(['name' => 'Normal']);
+            // ReunionType::create(['name' => 'Urgent']);
             // Assign 'Admin' role to the new user
             $user->assignRole('Admin');
         });
@@ -78,13 +78,4 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
-
-
-
-
-
-    public function association(): HasOne
-    {
-        return $this->hasOne(Association::class);
-    }
 }

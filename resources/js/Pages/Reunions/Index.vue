@@ -189,13 +189,6 @@
                             >
                                 <Eye :size="20" />
                             </div>
-                            <!-- Edit -->
-                            <div
-                                @click="openEditModal(row)"
-                                class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
-                            >
-                                <Pencil :size="20" />
-                            </div>
 
                             <!-- Delete -->
 
@@ -204,6 +197,14 @@
                                 class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
                             >
                                 <TrashCan :size="20" />
+                            </div>
+
+                            <!-- Print -->
+                            <div
+                                @click="printAttendanceList(row)"
+                                class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
+                            >
+                                <Printer :size="20" />
                             </div>
                         </div>
                         <div v-else>
@@ -226,12 +227,14 @@ export default {
 </script>
 
 <script setup>
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
 import Multiselect from "@vueform/multiselect";
 import { ref, computed } from "vue";
 import { Modal } from "flowbite-vue";
-import { router } from "@inertiajs/vue3";
+import { router, usePage } from "@inertiajs/vue3";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import { useForm } from "@inertiajs/vue3";
@@ -240,6 +243,7 @@ import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Pencil from "vue-material-design-icons/Pencil.vue";
 import Plus from "vue-material-design-icons/Plus.vue";
 import Eye from "vue-material-design-icons/Eye.vue";
+import Printer from "vue-material-design-icons/Printer.vue";
 
 const { t, availableLocales, locale } = useI18n();
 
@@ -257,6 +261,8 @@ const props = defineProps({
         default: () => ({}),
     },
 });
+
+const page = usePage();
 
 const $toast = useToast();
 
@@ -364,6 +370,84 @@ const destroy = (id) => {
             },
         });
     }
+};
+
+const printAttendanceList = (reunion) => {
+    const doc = new jsPDF();
+
+    // Step 1: Load the Arabic font file
+    const arabicFontFile = "/fonts/Amiri-Regular.ttf";
+    const arabicFontName = "Amiri";
+
+    doc.addFont(arabicFontFile, arabicFontName, "normal");
+
+    doc.setFont(arabicFontName);
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    // Add the image to the PDF
+    doc.addImage(
+        `/storage/${page.props.auth.association.image}`,
+        "JPEG",
+        (pageWidth - 20) / 2,
+        2,
+        20,
+        20
+    );
+
+    doc.setFontSize(14);
+    const title = t("reunions.doc_title_adherents");
+    const titleWidth = doc.getTextWidth(title);
+    const titleX = (pageWidth - titleWidth) / 2;
+    doc.text(title, titleX, 30);
+
+    doc.setFontSize(25);
+    const reunionName = reunion.name;
+    const reunionNameWidth = doc.getTextWidth(reunionName);
+    const reunionNameX = (pageWidth - reunionNameWidth) / 2;
+    doc.text(reunionName, reunionNameX, 42);
+
+    doc.setFontSize(12);
+    const reunionType = reunion.reunion_type.name;
+    const reunionTypeWidth = doc.getTextWidth(reunionType);
+    const reunionTypeX = (pageWidth - reunionTypeWidth) / 2;
+    doc.text(reunionType, reunionTypeX, 50);
+
+    doc.setFontSize(12);
+    const reunionDate = reunion.date;
+    const reunionDateWidth = doc.getTextWidth(reunionDate);
+    const reunionDateX = (pageWidth - reunionDateWidth) / 2;
+    doc.text(reunionDate, reunionDateX, 58);
+    doc.line(0, 65, 400, 65);
+
+    const headers = [
+        t("adherents.table_telephone"),
+        t("adherents.table_cin"),
+        t("adherents.table_nom_complete"),
+        "#",
+    ];
+
+    const data = reunion.adherents.map((adherent, index) => [
+        adherent.tel,
+        adherent.cin,
+        adherent.first_name + " " + adherent.last_name,
+        index + 1,
+    ]);
+
+    doc.autoTable({
+        margin: { top: 70 },
+        theme: "grid",
+        head: [headers],
+        body: data,
+        styles: {
+            font: arabicFontName,
+            halign: "center",
+        },
+        headStyles: {
+            valign: "middle",
+            halign: "center",
+        },
+    });
+    doc.save("AttendanceList.pdf");
 };
 
 const openEditModal = (reunion) => {

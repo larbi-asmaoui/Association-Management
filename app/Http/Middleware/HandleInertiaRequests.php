@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Association;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -40,19 +42,19 @@ class HandleInertiaRequests extends Middleware
             'auth' => function () use ($request) {
                 $user = $request->user();
                 $userArray = null;
-
+                $association = null;
                 if ($user) {
                     $userArray = $user->only('id', 'name', 'email');
-
-                    // If the user is logged in, load their profile
-                    $userArray['association'] = $user->association
-                        ? $user->association->only('image', 'name') // replace with your actual attribute names
-                        : null;
                     $userArray['roles'] = $user->roles->pluck('name');
+                    $association = Association::first();
+                    if ($association) {
+                        $association = $association->only('image', 'name', 'date_creation');
+                    }
                 }
 
                 return [
                     'user' => $userArray,
+                    'association' => $association
                 ];
             },
             'flash' => [

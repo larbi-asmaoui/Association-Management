@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('associations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string("image")->nullable();
             $table->string("name")->nullable();
             $table->text("objectifs")->nullable();
+            $table->date("date_creation")->nullable();
             $table->string("address")->nullable();
             $table->string("city")->nullable();
             $table->string("region")->nullable();
+
             $table->timestamps();
         });
     }

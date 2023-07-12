@@ -18,7 +18,7 @@ class AssociationController extends Controller
     public function index()
     {
 
-        $association = Association::where('user_id', auth()->id())->first();
+        $association = Association::first() ?? new Association();
         $adherents = Adherent::with('statut')->get();
         $status = Statut::with('adherent')->get();
         return Inertia::render('Association/Index', [
@@ -39,37 +39,34 @@ class AssociationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    // public function store(Request $request)
-    // {
+    public function store(Request $request)
+    {
 
 
-    //     $association = Association::first();
-    //     dd($association);
-    //     if (!$association) {
-    //         Validator::make($request->all(), [
-    //             'name' => 'nullable',
-    //             'objectifs' => 'nullable',
-    //             'address' => 'nullable',
-    //             'region' => 'nullable',
-    //             'city' => 'nullable',
 
-    //         ])->validate();
+        $formData = $request->validate([
+            'name' => 'nullable',
+            'objectifs' => 'nullable',
+            'date_creation' => 'nullable',
+            'address' => 'nullable',
+            'region' => 'nullable',
+            'city' => 'nullable'
+        ]);
+        if (isset($request->image)) {
+            if ($request->file('image')) {
+                // Storage::disk('public')->delete($association->image);
+                $formData['image']  = $request->file('image')->store('uploads/logos', 'public');
+            }
+        }
 
-    //         Association::create($request->all() + ['user_id' => auth()->id()]);
+        $association = Association::first();
 
-    //         $this->processImage($request);
-
-    //         return redirect()->back()
-    //             ->with('message', 'Association created');
-    //     } else {
-    //         $association->update($request->only(['title', 'author']));
-
-    //         $this->processImage($request, $association);
-
-    //         return redirect()->back()
-    //             ->with('message', 'Association updated');
-    //     }
-    // }
+        if (!$association) {
+            Association::create($formData);
+            return redirect()->back()
+                ->with('message', 'Association created');
+        }
+    }
 
     /**
      * Display the specified resource.
@@ -95,6 +92,7 @@ class AssociationController extends Controller
         $formData = $request->validate([
             'name' => 'nullable',
             'objectifs' => 'nullable',
+            'date_creation' => 'nullable',
             'address' => 'nullable',
             'region' => 'nullable',
             'city' => 'nullable'

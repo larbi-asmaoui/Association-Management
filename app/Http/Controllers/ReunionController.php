@@ -30,8 +30,15 @@ class ReunionController extends Controller
     public function show(Reunion $reunion)
     {
 
-        $reunion->load('adherents');
-        $adherents = Adherent::all();
+        $reunion = Reunion::query()
+            ->with('reunion_type')
+            ->with('adherents')
+            ->where('id', $reunion->id)
+            ->first();
+
+
+        // $reunion->load('adherents');
+        $adherents = Adherent::where('is_actif', true)->get();
         $reunionTypes = ReunionType::all();
         return Inertia::render('Reunions/Show', [
             'reunion' => $reunion,

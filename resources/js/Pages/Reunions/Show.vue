@@ -1,4 +1,5 @@
 <template>
+    {{ page.props.auth.association }}
     <div class="inline-flex items-center mb-5">
         <Link
             :href="route('reunions.index')"
@@ -317,19 +318,42 @@ const printAttendanceList = () => {
     doc.setFont(arabicFontName);
 
     const pageWidth = doc.internal.pageSize.getWidth();
-    // Add the image to the PDF
-    doc.addImage(
-        `/storage/${page.props.auth.user.association.image}`,
-        "JPEG",
-        (pageWidth - 20) / 2,
-        2,
-        20,
-        20
-    );
+    if (page.props.auth.association !== null) {
+        // Add the image to the PDF
+        doc.addImage(
+            "/storage/" + page.props.auth.association.image,
+            "JPEG",
+            (pageWidth - 20) / 2,
+            2,
+            20,
+            20
+        );
+    }
 
-    doc.setFontSize(20);
+    doc.setFontSize(14);
+    const title = t("reunions.doc_title_adherents");
+    const titleWidth = doc.getTextWidth(title);
+    const titleX = (pageWidth - titleWidth) / 2;
+    doc.text(title, titleX, 30);
 
-    doc.text("Hello world!", 10, 10);
+    doc.setFontSize(25);
+    const reunionName = props.reunion.name;
+    const reunionNameWidth = doc.getTextWidth(reunionName);
+    const reunionNameX = (pageWidth - reunionNameWidth) / 2;
+    doc.text(reunionName, reunionNameX, 42);
+
+    doc.setFontSize(12);
+    const reunionType = props.reunion.reunion_type.name;
+    const reunionTypeWidth = doc.getTextWidth(reunionType);
+    const reunionTypeX = (pageWidth - reunionTypeWidth) / 2;
+    doc.text(reunionType, reunionTypeX, 50);
+
+    doc.setFontSize(12);
+    const reunionDate = props.reunion.date;
+    const reunionDateWidth = doc.getTextWidth(reunionDate);
+    const reunionDateX = (pageWidth - reunionDateWidth) / 2;
+    doc.text(reunionDate, reunionDateX, 58);
+    doc.line(0, 65, 400, 65);
 
     const headers = [
         t("adherents.table_telephone"),
@@ -346,7 +370,7 @@ const printAttendanceList = () => {
     ]);
 
     doc.autoTable({
-        margin: { top: 50 },
+        margin: { top: 70 },
         theme: "grid",
         head: [headers],
         body: data,
