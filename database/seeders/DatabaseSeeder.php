@@ -84,6 +84,29 @@ class DatabaseSeeder extends Seeder
             'name' => 'autres',
         ]);
 
+        // Reunion Type
+        // \App\Models\ReunionType::create([
+
+        //     'name' => 'الجمع العام',
+        // ]);
+
+        \App\Models\ReunionType::create([
+
+            'name' => 'الجمع العام العادي',
+        ]);
+
+        // \App\Models\ReunionType::create([
+
+        //     'name' => 'الجمع العام غير العادي',
+        // ]);
+
+        \App\Models\ReunionType::create([
+
+            'name' => 'الجمع العام الاستثنائي',
+        ]);
+
+
+
         \App\Models\Statut::create([
 
             'name' => 'الرئيس',

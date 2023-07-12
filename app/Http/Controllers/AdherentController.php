@@ -86,6 +86,9 @@ class AdherentController extends Controller
             $formFields['image']  = 'adherents/default_user.png';
         }
 
+        $num_adhesion = $this->generateNumAdhesion();
+
+        $formFields['num_adhesion'] = $num_adhesion;
         $adherent = Adherent::create($formFields);
         $adherent->abonnements()->create([
 
@@ -94,6 +97,7 @@ class AdherentController extends Controller
         ]);
 
         $adherent->subscription_expiry = Carbon::parse($adherent->subscription_expiry)->addYear();
+        // $adherent->num_adhesion = $this->generateNumAdhesion();
         $adherent->save();
         return redirect()->back()->with('success', 'Adherent created.');
     }
@@ -220,5 +224,21 @@ class AdherentController extends Controller
         $adherent->is_actif = false;
         $adherent->save();
         return redirect()->back()->with('message', 'Adherent deactivated.');
+    }
+
+    public function generateNumAdhesion()
+    {
+        $prefix = 'ASSO-';
+        $num_adhesion = $prefix . rand(100000, 999999);
+
+        // Check if the generated ID already exists in the database
+        $existing_num_adhesion = DB::table('adherents')->where('num_adhesion', $num_adhesion)->exists();
+
+        if ($existing_num_adhesion) {
+            // If the ID already exists, generate a new one recursively
+            return $this->generateId();
+        }
+
+        return $num_adhesion;
     }
 }

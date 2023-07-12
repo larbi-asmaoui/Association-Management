@@ -611,6 +611,10 @@ const columns = ref([
         field: "image",
     },
     {
+        label: t("adherents.table_adhesion_number"),
+        field: "num_adhesion",
+    },
+    {
         label: t("adherents.table_nom_complete"),
         field: "nom_complet",
     },
@@ -650,6 +654,7 @@ const columns = ref([
 const rows = computed(() =>
     Object.values(props.adherents).map((adherent) => ({
         id: adherent.id,
+        num_adhesion: adherent.num_adhesion,
         image: adherent.image,
         nom_complet: adherent.first_name + " " + adherent.last_name,
         profession: adherent.profession ?? "غير محدد",
@@ -714,7 +719,13 @@ const generateIDCards = async (adherents = props.adherents) => {
         for (let j = 0; j < cardsToPrint.length; j++) {
             const adherent = cardsToPrint[j];
 
-            const cardText = `${adherent.id}\nالاسم والنسب : ${adherent.first_name} ${adherent.last_name}\n${adherent.date_of_birth} :  تاريخ الميلاد\n${adherent.date_of_membership} :  تاريخ الإنخراط\nالمهنة : ${adherent.profession}`;
+            const cardText = `${adherent.num_adhesion ?? ""}\nالاسم والنسب : ${
+                adherent.first_name
+            } ${adherent.last_name}\n${
+                adherent.date_of_birth
+            } :  تاريخ الميلاد\n${
+                adherent.date_of_membership
+            } :  تاريخ الإنخراط\nالمهنة : ${adherent.profession}`;
 
             const qrCode = await QRCode.toDataURL(cardText);
 
@@ -808,59 +819,83 @@ const generateIDCards = async (adherents = props.adherents) => {
 };
 
 const exportToPDF = () => {
-    // Create a new jsPDF instance
     const doc = new jsPDF();
+
+    // Step 1: Load the Arabic font file
+    const arabicFontFile = "/fonts/Amiri-Regular.ttf";
+    const arabicFontName = "Amiri";
+
+    doc.addFont(arabicFontFile, arabicFontName, "normal");
+
+    doc.setFont(arabicFontName);
+
     const pageWidth = doc.internal.pageSize.getWidth();
-    // Add the image to the PDF
-    const img = doc.addImage(
-        `/storage/${page.props.auth.association.image}`,
-        "JPEG",
-        (pageWidth - 30) / 2,
-        2,
-        30,
-        30
-    );
+    if (page.props.auth.association !== null) {
+        // Add the image to the PDF
+        doc.addImage(
+            "/storage/" + page.props.auth.association.image,
+            "JPEG",
+            (pageWidth - 20) / 2,
+            2,
+            20,
+            20
+        );
+        doc.setFontSize(15);
+        const assoName = `${page.props.auth.association.name}` ?? "";
+        const assoNameWidth = doc.getTextWidth(assoName);
 
-    doc.setFontSize(10);
-    const title = `${page.props.auth.association.name}`;
+        const assoNameX = (pageWidth - assoNameWidth) / 2;
+        doc.text(assoName, assoNameX, 32);
+    }
+
+    doc.setFontSize(13);
+
+    const title = t("adherents.liste_adherents");
     const titleWidth = doc.getTextWidth(title);
-
     const titleX = (pageWidth - titleWidth) / 2;
-    doc.text(title, titleX, 32);
-    doc.setFontSize(9);
-    doc.text("Liste de membres", 10, 43);
-    doc.line(0, 45, 400, 45);
+    doc.text(title, titleX, 40);
+
+    doc.line(0, 50, 400, 50);
     // Define the table headers and data
     const headers = [
-        "ID",
-        "Nom",
-        "Prenom",
-        "CIN",
-        "Telephone",
-        "Date d'adhesion",
-        " ",
-        //
+        t("adherents.input_date_adhesion"),
+        t("adherents.table_date_naissance"),
+        t("adherents.table_profession"),
+        t("adherents.table_telephone"),
+        t("adherents.table_cin"),
+        t("adherents.table_nom_complete"),
+        t("adherents.table_adhesion_number"),
+        "#",
     ];
 
-    const data = props.adherents.map((adherent) => [
-        adherent.id,
-        adherent.last_name,
-        adherent.first_name,
-        adherent.cin,
-        adherent.tel,
+    const data = props.adherents.map((adherent, index) => [
         adherent.date_of_membership,
-        "  ",
+        adherent.date_of_birth,
+        adherent.profession,
+        adherent.tel,
+        adherent.cin,
+        adherent.first_name + " " + adherent.last_name,
+        adherent.num_adhesion,
+        index + 1,
     ]);
 
     // Add the table to the PDF
     doc.autoTable({
-        margin: { top: 50 },
+        margin: { top: 60 },
         head: [headers],
         body: data,
+        styles: {
+            font: arabicFontName,
+            halign: "center",
+        },
+        headStyles: {
+            valign: "middle",
+            halign: "center",
+        },
     });
 
     // Save the PDF
-    doc.save("membres_list.pdf");
+    doc.save("liste_adherents.pdf");
 };
 
 const csvFields = ref({

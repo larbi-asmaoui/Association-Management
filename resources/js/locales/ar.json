@@ -111,6 +111,7 @@
         "table_date_d'adhesion": "تاريخ الانخراط",
         "table_situation_familiale": "الحالة العائلية",
         "table_statut_adhesion": "حالة العضوية",
+        "table_adhesion_number": "رقم العضوية",
         "table_search": "بحث",
         "print_cards_adhesion": "طباعة بطاقات الانخراط",
         "export_pdf": "تصدير إلى PDF",
@@ -131,7 +132,8 @@
         "input_montant_adhesion": "مبلغ الانخراط",
         "input_sexe": "الجنس",
         "adherent_info": "معلومات المنخرط",
-        "adherent_activities": "الأنشطة التي شارك فيها"
+        "adherent_activities": "الأنشطة التي شارك فيها",
+        "liste_adherents": "قائمة المنخرطين"
     },
     "groupes": {
         "titre": "إدارة المجموعات",

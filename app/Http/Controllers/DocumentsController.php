@@ -46,8 +46,28 @@ class DocumentsController extends Controller
             $frais_adhesions = 0;
         } else if ($reunionsCount == 1) {
             $latestReunion = Reunion::whereHas('reunion_type', function ($query) {
-                $query->where('name', 'normal');
+                $query->where('id', '1');
             })->orderBy('date', 'desc')->first();
+
+            if ($latestReunion == null) {
+                $evenements = [];
+                $depenses = [];
+                $revenues = [];
+                $frais_adhesions = 0;
+                $data = [
+                    'frais_adhesions' => $frais_adhesions,
+                    'revenues' => $revenues,
+                    'depenses' => $depenses,
+                    'evenements' => $evenements,
+                    'association' => Association::all(),
+                    'season' => $newReference,
+                ];
+                return Inertia::render('Documents/Index', [
+                    'rapports' => $rapports,
+                    'data' => $data,
+                ]);
+            }
+
             $evenements = Activity::where('start', '<=', $latestReunion->date)
                 ->with('activity_type')
                 ->get();
@@ -60,7 +80,7 @@ class DocumentsController extends Controller
                 ->sum('montant');
         } else {
             $reunions = Reunion::whereHas('reunion_type', function ($query) {
-                $query->where('name', 'normal');
+                $query->where('id', '1');
             })->orderBy('date', 'desc')->take(2)->get();
 
             $newestReunion = $reunions->first();
@@ -124,14 +144,20 @@ class DocumentsController extends Controller
             return abort(403);
         } else if ($reunionsCount == 1) {
             $latestReunion = Reunion::whereHas('reunion_type', function ($query) {
-                $query->where('name', 'normal');
+                $query->where('id', '1');
             })->orderBy('date', 'desc')->first();
+
+            if ($latestReunion == null) {
+                // $evenements = [];
+                return abort(403);
+            }
+
             $evenements = Activity::where('start', '<=', $latestReunion->date)
                 ->with('activity_type')
                 ->get();
         } else {
             $reunions = Reunion::whereHas('reunion_type', function ($query) {
-                $query->where('name', 'normal');
+                $query->where('id', '1');
             })->orderBy('date', 'desc')->take(2)->get();
 
             $newestReunion = $reunions->first();
@@ -189,8 +215,12 @@ class DocumentsController extends Controller
             return abort(403);
         } else if ($reunionsCount == 1) {
             $latestReunion = Reunion::whereHas('reunion_type', function ($query) {
-                $query->where('name', 'normal');
+                $query->where('id', '1');
             })->orderBy('date', 'desc')->first();
+
+            if ($latestReunion == null) {
+                return abort(403);
+            }
             $evenements = Activity::where('start', '<=', $latestReunion->date)
                 ->with('activity_type')
                 ->get();
@@ -203,7 +233,7 @@ class DocumentsController extends Controller
                 ->sum('montant');
         } else {
             $reunions = Reunion::whereHas('reunion_type', function ($query) {
-                $query->where('name', 'normal');
+                $query->where('id', '1');
             })->orderBy('date', 'desc')->take(2)->get();
 
             $newestReunion = $reunions->first();

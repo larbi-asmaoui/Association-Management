@@ -28,7 +28,7 @@
                         <img
                             v-if="adherent.image"
                             :src="showImage() + adherent.image"
-                            class="h-32 w-32 rounded-full border-2 border-gray-300 dark:border-gray-700"
+                            class="h-32 w-32 rounded-full border-2 border-gray-300"
                             alt=""
                         />
                         <!-- <svg

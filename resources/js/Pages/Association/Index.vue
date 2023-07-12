@@ -21,7 +21,7 @@
                         <div class="flex-shrink-0">
                             <img
                                 :src="showImage() + props.association.image"
-                                class="h-24 w-24 rounded-full object-cover mb-4"
+                                class="h-24 w-24 border-2 border-gray-300 rounded-full object-cover mb-4"
                             />
 
                             <div v-show="isEnabled">

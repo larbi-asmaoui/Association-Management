@@ -58,7 +58,7 @@ class AbonnementController extends Controller
 
         $adherent = Adherent::find($formFields['adherent_id']);
         $last_reunion = Reunion::orderBy('date', 'desc')->first();
-        if ($last_reunion && $last_reunion->reunion_type->name == 'normal') {
+        if ($last_reunion && $last_reunion->reunion_type->id == '1') {
             $adherent->subscription_expiry = Carbon::parse($last_reunion->date)->addYear();
         } else {
             $adherent->subscription_expiry = Carbon::now()->addYear();

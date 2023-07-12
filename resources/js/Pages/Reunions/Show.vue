@@ -1,5 +1,4 @@
 <template>
-    {{ page.props.auth.association }}
     <div class="inline-flex items-center mb-5">
         <Link
             :href="route('reunions.index')"
