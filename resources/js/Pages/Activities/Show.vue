@@ -13,10 +13,15 @@ import "vue-toast-notification/dist/theme-sugar.css";
 import Multiselect from "@vueform/multiselect";
 import regionsFile from "../../regions.json";
 import { useI18n } from "vue-i18n";
+import ArrowRight from "vue-material-design-icons/ArrowRight.vue";
+import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
+import { VueGoodTable } from "vue-good-table-next";
+import "vue-good-table-next/dist/vue-good-table-next.css";
+
 const { t } = useI18n();
 
 const $toast = useToast();
-
+const isEnabled = ref(false);
 const regions = ref(regionsFile);
 
 const props = defineProps({
@@ -31,7 +36,32 @@ const props = defineProps({
     },
 });
 
-const isEnabled = ref(false);
+const columns = ref([
+    {
+        label: "#",
+        field: "id",
+    },
+    {
+        label: t("adherents.table_nom_complete"),
+        field: "nom_complet",
+    },
+    {
+        label: t("adherents.table_cin"),
+        field: "cin",
+    },
+
+    // {
+    //     label: t("activities.table_actions"),
+    //     field: "actions",
+    // },
+]);
+const rows = computed(() =>
+    Object.values(props.activity.adherents).map((adherent) => ({
+        id: adherent.id,
+        nom_complet: adherent.first_name + " " + adherent.last_name,
+        cin: adherent.cin ?? "-",
+    }))
+);
 
 const toggleEnabled = () => {
     isEnabled.value = !isEnabled.value;
@@ -99,33 +129,17 @@ const formattedAdherents = computed(() =>
 <template>
     <div class="inline-flex items-center mb-5">
         <Link
-            :href="route('activities.index')"
+            :href="route('adherents.index')"
             class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white"
         >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-arrow-left"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                stroke-width="2"
-                stroke="currentColor"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-            >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path d="M5 12l14 0"></path>
-                <path d="M5 12l6 6"></path>
-                <path d="M5 12l6 -6"></path>
-            </svg>
-            &nbsp; Retour
+            <ArrowRight v-if="$i18n.locale === 'ar'" />
+            <ArrowLeft v-else />
         </Link>
     </div>
 
     <div class="mb-4 bg-blue-600 px-4 py-4 shadow-md">
         <h1 class="text-xl font-semibold text-white sm:text-2xl">
-            Détails de l'Activité: {{ activity.reference }}
+            {{ $t("activities.details_activite") }}
         </h1>
     </div>
     <div class="bg-white px-4 py-6 shadow-md">
@@ -135,7 +149,7 @@ const formattedAdherents = computed(() =>
                     <label
                         for="name"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >Libellé de l'Activité</label
+                        >{{ $t("activities.input_nom") }}</label
                     >
                     <input
                         :disabled="!isEnabled"
@@ -161,7 +175,7 @@ const formattedAdherents = computed(() =>
                     <label
                         for="brand"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >Date de début</label
+                        >{{ $t("activities.input_date_debut") }}</label
                     >
 
                     <input
@@ -188,7 +202,7 @@ const formattedAdherents = computed(() =>
                     <label
                         for="brand"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >Date de fin</label
+                        >{{ $t("activities.input_date_fin") }}</label
                     >
 
                     <input
@@ -216,7 +230,7 @@ const formattedAdherents = computed(() =>
                         <label
                             for="type"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >Type</label
+                            >{{ $t("activities.input_type") }}</label
                         >
                         <select
                             :disabled="!isEnabled"
@@ -248,7 +262,9 @@ const formattedAdherents = computed(() =>
                         <label
                             for="revenue"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >Revenues</label
+                            >{{
+                                $t("activities.input_revenus_activite")
+                            }}</label
                         >
                         <input
                             :disabled="!isEnabled"
@@ -276,7 +292,9 @@ const formattedAdherents = computed(() =>
                         <label
                             for="expenses"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >Dépenses</label
+                            >{{
+                                $t("activities.input_depenses_activite")
+                            }}</label
                         >
                         <input
                             :disabled="!isEnabled"
@@ -307,7 +325,7 @@ const formattedAdherents = computed(() =>
                         <label
                             for="lieu"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >Lieu de l'Activité</label
+                            >{{ $t("activities.input_lieu") }}</label
                         >
                         <input
                             :disabled="!isEnabled"
@@ -333,7 +351,7 @@ const formattedAdherents = computed(() =>
                         <label
                             for="type"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >Région</label
+                            >{{ $t("activities.input_region") }}</label
                         >
                         <select
                             :disabled="!isEnabled"
@@ -344,9 +362,7 @@ const formattedAdherents = computed(() =>
                             id="type"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
-                            <option disabled value="">
-                                Séléctionner région
-                            </option>
+                            <option disabled value="">اختر جهة</option>
                             <option
                                 v-for="region in regions"
                                 @change="filterCities"
@@ -368,7 +384,7 @@ const formattedAdherents = computed(() =>
                         <label
                             for="type"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >Ville</label
+                            >{{ $t("activities.input_ville") }}</label
                         >
                         <select
                             :disabled="!isEnabled"
@@ -379,9 +395,7 @@ const formattedAdherents = computed(() =>
                             id="type"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
-                            <option disabled value="">
-                                Séléctionner ville
-                            </option>
+                            <option disabled value="">اختر مدينة</option>
                             <option
                                 v-for="city in filteredCities"
                                 :key="city.id"
@@ -403,7 +417,7 @@ const formattedAdherents = computed(() =>
                     <label
                         for="description"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >Description</label
+                        >{{ $t("activities.input_description") }}</label
                     >
                     <textarea
                         :disabled="!isEnabled"
@@ -427,7 +441,7 @@ const formattedAdherents = computed(() =>
                     <label
                         for="adherents"
                         class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                        >Participants</label
+                        >{{ $t("activities.input_adherents") }}</label
                     >
                     <Multiselect
                         :disabled="!isEnabled"
@@ -462,4 +476,28 @@ const formattedAdherents = computed(() =>
             </div>
         </form>
     </div>
+
+    <div class="mt-4 bg-white rounded-md pt-4">
+        <h3 class="mb-2 px-4 text-xl font-bold text-slate-800 uppercase">
+            {{ $t("activities.liste_participants") }}
+        </h3>
+        <div class="mt-4">
+            <vue-good-table
+                :columns="columns"
+                :rows="rows"
+                :pagination-options="{
+                    enabled: true,
+                    mode: 'records',
+                    perPage: 5,
+                    perPageDropdown: [5, 10, 20],
+                }"
+                :search-options="{
+                    enabled: true,
+                    placeholder: $t('adherents.table_search'),
+                }"
+            >
+            </vue-good-table>
+        </div>
+    </div>
 </template>
+<style src="@vueform/multiselect/themes/default.css"></style>

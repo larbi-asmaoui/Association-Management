@@ -158,7 +158,9 @@
         "input_date": "التاريخ",
         "input_type": "النوع",
         "input_description": "الوصف",
-        "input_adherents": "المنخرطين"
+        "input_adherents": "لائحة الحضور",
+        "details_reunion": "تفاصيل الاجتماع",
+        "modifier_reunion_details": "تعديل تفاصيل الاجتماع"
     },
     "revenues": {
         "titre": "إدارة الإيرادات",
@@ -205,12 +207,16 @@
         "input_date_debut": "تاريخ البدء",
         "input_date_fin": "تاريخ النهاية",
         "input_lieu": "مكان النشاط",
-        "input_type": "النوع",
+        "input_type": "نوع النشاط",
         "input_region": "الجهة",
         "input_ville": "المدينة",
-        "input_adherents": "المنخرطين",
-        "input_description": "الوصف",
-        "table_actions": "العمليات"
+        "input_adherents": "المشاركين",
+        "input_description": "وصف النشاط",
+        "table_actions": "العمليات",
+        "input_depenses_activite": "مصاريف النشاط",
+        "input_revenus_activite": "إيرادات النشاط",
+        "details_activite": "تفاصيل النشاط",
+        "liste_participants": "لائحة المشاركين"
     },
     "types": {
         "activites_types": "أنواع الأنشطة",
@@ -284,5 +290,13 @@
     "status": {
         "titre": "إدارة الحالات",
         "modal_ajouter": "إضافة حالة"
+    },
+    "toasts": {
+        "ajout_success": "تمت الإضافة بنجاح",
+        "ajout_error": "حدث خطأ أثناء الإضافة",
+        "modif_success": "تم التعديل بنجاح",
+        "modif_error": "حدث خطأ أثناء التعديل",
+        "supp_success": "تم الحذف بنجاح",
+        "supp_error": "حدث خطأ أثناء الحذف"
     }
 }

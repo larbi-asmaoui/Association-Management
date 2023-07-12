@@ -732,40 +732,44 @@ const generateIDCards = async (adherents = props.adherents) => {
             qrImg.src = qrCode;
             doc.addImage(qrImg, "PNG", x + 2, y + 34, 14, 14);
 
-            const profileImg = new Image();
-            profileImg.src = "/storage/" + adherent.image;
-            const profileImgX = x + 63;
-            const profileImgY = y + 4;
-            const profileImgSize = 13;
+            const profilePath = adherent.image;
 
-            // Clip the image to a circle
-            doc.setLineWidth(0.2);
-            doc.setDrawColor(0);
-            doc.circle(
-                profileImgX + profileImgSize / 2,
-                profileImgY + profileImgSize / 2,
-                profileImgSize / 2,
-                "S"
-            );
-            doc.clip(); // Apply the clipping path
+            if (profilePath !== null) {
+                const profileImg = new Image();
+                profileImg.src = "/storage/" + profilePath;
+                const profileImgX = x + 63;
+                const profileImgY = y + 4;
+                const profileImgSize = 13;
 
-            // Add the rounded profile image
-            doc.addImage(
-                profileImg,
-                "PNG",
-                profileImgX,
-                profileImgY,
-                profileImgSize,
-                profileImgSize
-            );
+                // Clip the image to a circle
+                doc.setLineWidth(0.2);
+                doc.setDrawColor(0);
+                doc.circle(
+                    profileImgX + profileImgSize / 2,
+                    profileImgY + profileImgSize / 2,
+                    profileImgSize / 2,
+                    "S"
+                );
+                doc.clip(); // Apply the clipping path
 
-            doc.rect(
-                profileImgX,
-                profileImgY,
-                profileImgSize,
-                profileImgSize,
-                "S"
-            );
+                // Add the rounded profile image
+                doc.addImage(
+                    profileImg,
+                    "PNG",
+                    profileImgX,
+                    profileImgY,
+                    profileImgSize,
+                    profileImgSize
+                );
+
+                doc.rect(
+                    profileImgX,
+                    profileImgY,
+                    profileImgSize,
+                    profileImgSize,
+                    "S"
+                );
+            }
             // Reset the clipping path
 
             const logoPath = page.props.auth.user.association.image;
@@ -800,7 +804,6 @@ const generateIDCards = async (adherents = props.adherents) => {
             // doc.addImage(logoImg, "PNG", x + 5, y + 4, 15, 15);
         }
     }
-    console.log(import.meta.env.VITE_APP_URL);
     doc.save("ID_Cards.pdf");
 };
 

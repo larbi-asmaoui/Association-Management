@@ -27,13 +27,13 @@ class ReunionController extends Controller
         ]);
     }
 
-    public function edit(Reunion $reunion)
+    public function show(Reunion $reunion)
     {
 
         $reunion->load('adherents');
         $adherents = Adherent::all();
         $reunionTypes = ReunionType::all();
-        return Inertia::render('Activities/Show', [
+        return Inertia::render('Reunions/Show', [
             'reunion' => $reunion,
             'reunionTypes' => $reunionTypes,
             'adherents' => $adherents
@@ -88,7 +88,7 @@ class ReunionController extends Controller
         if (isset($adherents)) {
             $reunion->adherents()->sync($adherents);
         }
-        return redirect()->route('reunions.index')->with('success', 'reunion updated.');
+        return redirect()->back()->with('success', 'reunion updated.');
     }
 
     // destroy

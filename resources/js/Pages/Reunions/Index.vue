@@ -182,6 +182,14 @@
                 >
                     <template v-slot:table-row="{ row, column, formattedRow }">
                         <div v-if="column.field === 'actions'" class="flex">
+                            <!-- Show -->
+                            <div
+                                @click="show(row)"
+                                class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
+                            >
+                                <Eye :size="20" />
+                            </div>
+                            <!-- Edit -->
                             <div
                                 @click="openEditModal(row)"
                                 class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
@@ -222,10 +230,8 @@ import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
 import Multiselect from "@vueform/multiselect";
 import { ref, computed } from "vue";
-import { watch } from "vue";
 import { Modal } from "flowbite-vue";
 import { router } from "@inertiajs/vue3";
-import Pagination from "../../Components/Pagination.vue";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import { useForm } from "@inertiajs/vue3";
@@ -233,6 +239,7 @@ import { useI18n } from "vue-i18n";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Pencil from "vue-material-design-icons/Pencil.vue";
 import Plus from "vue-material-design-icons/Plus.vue";
+import Eye from "vue-material-design-icons/Eye.vue";
 
 const { t, availableLocales, locale } = useI18n();
 
@@ -332,7 +339,7 @@ const closeModal = () => {
 };
 
 const show = (id) => {
-    form.get(route("reunions.show", id));
+    router.get(route("reunions.show", id));
 };
 
 const destroy = (id) => {
