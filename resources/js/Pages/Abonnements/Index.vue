@@ -18,6 +18,8 @@ import { useI18n } from "vue-i18n";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Eye from "vue-material-design-icons/Eye.vue";
 import Printer from "vue-material-design-icons/Printer.vue";
+import Plus from "vue-material-design-icons/Plus.vue";
+import Filter from "vue-material-design-icons/Filter.vue";
 
 const { t, availableLocales, locale } = useI18n();
 const $toast = useToast();
@@ -124,7 +126,7 @@ const destroy = (id) => {
         form.delete(route("abonnements.destroy", id), {
             onSuccess: () => {
                 $toast.open({
-                    message: "abonnement supprimée avec succès",
+                    message: t("toasts.supp_success"),
                     type: "success",
                     duration: 3000,
                     dismissible: true,
@@ -132,7 +134,7 @@ const destroy = (id) => {
             },
             onError: () => {
                 $toast.open({
-                    message: "Erreur lors de la suppression de la abonnement",
+                    message: t("toasts.supp_error"),
                     type: "error",
                     duration: 3000,
                     dismissible: true,
@@ -149,16 +151,15 @@ const submit = () => {
         onSuccess: () => {
             closeModal();
             $toast.open({
-                message: "abonnement ajoutée avec succès",
+                message: t("toasts.ajout_success"),
                 type: "success",
                 duration: 3000,
                 dismissible: true,
             });
         },
         onError: () => {
-            console.log(form.errors);
             $toast.open({
-                message: "Erreur lors de l'ajout de la abonnement",
+                message: t("toasts.ajout_error"),
                 type: "error",
                 duration: 3000,
                 dismissible: true,
@@ -180,18 +181,7 @@ const closeModal = () => {
         type="button"
         :class="$i18n.locale === 'ar' ? 'left-5' : 'right-5'"
     >
-        <svg
-            class="w-5 h-5"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <path
-                fill-rule="evenodd"
-                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                clip-rule="evenodd"
-            ></path>
-        </svg>
+        <Plus />
     </button>
 
     <div class="bg-white pt-6 shadow-md rounded-xl relative mt-5">
@@ -220,27 +210,7 @@ const closeModal = () => {
                     @click="showFilter"
                     class="ms-auto relative text-white py-2 px-2 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-all text-sm"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon icon-tabler icon-tabler-filter"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <path
-                            stroke="none"
-                            d="M0 0h24v24H0z"
-                            fill="none"
-                        ></path>
-                        <path
-                            d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z"
-                        ></path>
-                    </svg>
+                    <Filter />
                 </button>
             </div>
         </div>
@@ -327,27 +297,13 @@ const closeModal = () => {
                                 placeholder="Select date"
                                 name="date"
                             />
-                            <!-- <span
-                                v-if="form.errors.abonnement_date"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.abonnement_date }}
-                            </span> -->
                         </div>
 
-                        <div
-                            class="justify-end gap-2 mt-4"
-                            :class="
-                                $i18n.locale === 'ar'
-                                    ? 'flex-row-reverse'
-                                    : 'flex'
-                            "
-                        >
+                        <div class="mt-4">
                             <button
                                 @click="closeModal"
                                 type="button"
-                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                                class="py-2 px-3 ml-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                             >
                                 {{ $t("buttons.annuler") }}
                             </button>
@@ -365,15 +321,6 @@ const closeModal = () => {
                 </template> -->
             </Modal>
         </teleport>
-
-        <!-- Informations -->
-        <!-- <Modal size="xl" v-if="showInfo" @close="showInfoModal">
-            <template #header>
-                <div class="flex items-center text-lg">
-                    {{ $t("abonnements.info_adhesion") }}
-                </div>
-            </template>
-        </Modal> -->
 
         <div class="mt-1 px-4 transition-all ease-in">
             <div

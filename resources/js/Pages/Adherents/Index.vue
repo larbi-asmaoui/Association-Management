@@ -57,17 +57,6 @@
                 >
                     Check if actve or not
                 </button>
-                <select
-                    id="type"
-                    class="bg-gray-50 border mr-auto border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                >
-                    <option value="">
-                        {{ $t("dashboard.select_year") }}
-                    </option>
-                    <!-- <option v-for="year in yearsList" :value="year" :key="year">
-                        {{ year }}
-                    </option> -->
-                </select>
             </div>
         </div>
         <Modal size="5xl" v-if="isModalOpen" @close="closeModal">
@@ -943,7 +932,7 @@ const destroy = (id) => {
         router.delete(route("adherents.destroy", id), {
             onError: () => {
                 $toast.open({
-                    message: "Erreur lors de la suppression d'adhérent",
+                    message: t("toasts.supp_error"),
                     type: "error",
                     duration: 3000,
                     dismissible: true,
@@ -951,7 +940,7 @@ const destroy = (id) => {
             },
             onSuccess: () => {
                 $toast.open({
-                    message: "adhérent est supprimé avec succès",
+                    message: t("toasts.supp_success"),
                     type: "success",
                     duration: 3000,
                     dismissible: true,
@@ -989,7 +978,7 @@ const submit = () => {
         onSuccess: () => {
             closeModal();
             $toast.open({
-                message: "adhérent est ajouté avec succès",
+                message: t("toasts.ajout_success"),
                 type: "success",
                 duration: 3000,
                 dismissible: true,
@@ -997,7 +986,7 @@ const submit = () => {
         },
         onError: () => {
             $toast.open({
-                message: "Erreur lors de l'ajout d'adhérent",
+                message: t("toasts.ajout_error"),
                 type: "error",
                 duration: 3000,
                 dismissible: true,

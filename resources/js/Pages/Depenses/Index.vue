@@ -415,7 +415,7 @@ const submit = () => {
                 onSuccess: () => {
                     closeModal();
                     $toast.open({
-                        message: "dépense modifié avec succès",
+                        message: t("toasts.modif_success"),
                         type: "success",
                         duration: 3000,
                         dismissible: true,
@@ -423,7 +423,7 @@ const submit = () => {
                 },
                 onError: () => {
                     $toast.open({
-                        message: "Erreur lors de la modification",
+                        message: t("toasts.modif_error"),
                         type: "error",
                         duration: 3000,
                         dismissible: true,
@@ -438,7 +438,7 @@ const submit = () => {
             onSuccess: () => {
                 closeModal();
                 $toast.open({
-                    message: "dépense ajouté avec succès",
+                    message: t("toasts.ajout_success"),
                     type: "success",
                     duration: 3000,
                     dismissible: true,

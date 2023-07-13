@@ -708,7 +708,7 @@ const submit = () => {
         {
             onSuccess: () => {
                 $toast.open({
-                    message: "Adhérant est modifié avec succès",
+                    message: t("toasts.modif_success"),
                     type: "success",
                     duration: 3000,
                     dismissible: true,
@@ -718,7 +718,7 @@ const submit = () => {
             onError: () => {
                 console.log(form.errors);
                 $toast.open({
-                    message: "Une erreur s'est produite",
+                    message: t("toasts.modif_error"),
                     type: "error",
                     duration: 3000,
                     dismissible: true,

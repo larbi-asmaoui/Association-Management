@@ -257,7 +257,9 @@
         "modal_modifier": "تعديل مستخدم",
         "input_nom": "الاسم",
         "input_email": "البريد الإلكتروني",
-        "input_mot_de_passe": " كلمة المرور"
+        "input_mot_de_passe": " كلمة المرور",
+        "input_role": "الدور",
+        "choose_role": "اختر دور"
     },
     "abonnements": {
         "titre": "إدارة الاشتراكات",

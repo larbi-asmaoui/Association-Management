@@ -154,6 +154,8 @@ import { TheCard } from "flowbite-vue";
 import { useForm } from "@inertiajs/vue3";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const $toast = useToast();
 
@@ -169,12 +171,14 @@ const form = useForm({
     name: null,
 });
 
+let isModalOpen = ref(false);
+
 const destroy = (id) => {
     if (confirm("vous êtes sûr?")) {
         form.delete(route("stock-types.destroy", id), {
             onSuccess: () => {
                 $toast.open({
-                    message: "Type de stock supprimé avec succès",
+                    message: t("toasts.supp_success"),
                     type: "success",
                     duration: 3000,
                     dismissible: true,
@@ -182,7 +186,7 @@ const destroy = (id) => {
             },
             onError: () => {
                 $toast.open({
-                    message: "Une erreur s'est produite",
+                    message: t("toasts.supp_error"),
                     type: "error",
                     duration: 3000,
                     dismissible: true,
@@ -206,17 +210,15 @@ const submit = () => {
             onSuccess: () => {
                 closeModal();
                 $toast.open({
-                    message: "Type de stock mis à jour avec succès",
+                    message: t("toasts.modif_success"),
                     type: "success",
                     duration: 3000,
                     dismissible: true,
                 });
             },
             onError: () => {
-                console.log("name : " + form.name);
-                console.log("error" + form.id);
                 $toast.open({
-                    message: "Une erreur s'est produite lors de la mise à jour",
+                    message: t("toasts.modif_error"),
                     type: "error",
                     duration: 3000,
                     dismissible: true,
@@ -230,7 +232,7 @@ const submit = () => {
             onSuccess: () => {
                 closeModal();
                 $toast.open({
-                    message: "Type de stock ajouté avec succès",
+                    message: t("toasts.ajout_success"),
                     type: "success",
                     duration: 3000,
                     dismissible: true,
@@ -240,24 +242,9 @@ const submit = () => {
     }
 };
 
-let isModalOpen = ref(false);
-
 const closeModal = () => {
     isModalOpen.value = false;
 
     form.reset();
 };
-
-// pass filters in search
-let search = ref("");
-watch(search, (value) => {
-    router.get(
-        "/stock-types",
-        { search: value },
-        {
-            preserveState: true,
-            replace: true,
-        }
-    );
-});
 </script>

@@ -177,7 +177,7 @@ const destroy = (id) => {
         form.delete(route("activity-types.destroy", id), {
             onSuccess: () => {
                 $toast.open({
-                    message: "Type d'activité supprimé avec succès",
+                    message: t("toasts.supp_success"),
                     type: "success",
                     duration: 3000,
                     dismissible: true,
@@ -185,7 +185,7 @@ const destroy = (id) => {
             },
             onError: () => {
                 $toast.open({
-                    message: "Une erreur s'est produite",
+                    message: t("toasts.supp_error"),
                     type: "error",
                     duration: 3000,
                     dismissible: true,

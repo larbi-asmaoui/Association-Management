@@ -385,7 +385,7 @@ const destroy = (id) => {
         form.delete(route("stocks.destroy", id), {
             onSuccess: () => {
                 $toast.open({
-                    message: "Stock supprimé avec succès",
+                    message: t("toasts.supp_success"),
                     type: "success",
                     duration: 3000,
                     dismissible: true,
@@ -393,7 +393,7 @@ const destroy = (id) => {
             },
             onError: () => {
                 $toast.open({
-                    message: "Erreur lors de la suppression",
+                    message: t("toasts.supp_error"),
                     type: "error",
                     duration: 3000,
                     dismissible: true,
@@ -424,7 +424,7 @@ const submit = () => {
             onSuccess: () => {
                 closeModal();
                 $toast.open({
-                    message: "Stock modifié avec succès",
+                    message: t("toasts.modif_success"),
                     type: "success",
                     duration: 3000,
                     dismissible: true,
@@ -432,7 +432,7 @@ const submit = () => {
             },
             onError: () => {
                 $toast.open({
-                    message: "Erreur lors de la modification",
+                    message: t("toasts.modif_error"),
                     type: "error",
                     duration: 3000,
                     dismissible: true,
@@ -446,14 +446,19 @@ const submit = () => {
             onSuccess: () => {
                 closeModal();
                 $toast.open({
-                    message: "Stock ajouté avec succès",
+                    message: t("toasts.ajout_success"),
                     type: "success",
                     duration: 3000,
                     dismissible: true,
                 });
             },
             onError: () => {
-                console.log(form);
+                $toast.open({
+                    message: t("toasts.ajout_error"),
+                    type: "error",
+                    duration: 3000,
+                    dismissible: true,
+                });
             },
         });
     }

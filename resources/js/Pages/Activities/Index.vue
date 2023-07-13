@@ -466,7 +466,7 @@ const submit = () => {
         onError: () => {
             console.log(form.errors);
             $toast.open({
-                message: "Une erreur s'est produite",
+                message: t("toasts.ajout_error"),
                 type: "error",
                 dismissible: true,
                 duration: 3000,
@@ -475,7 +475,7 @@ const submit = () => {
         onSuccess: () => {
             closeModal();
             $toast.open({
-                message: "Activité ajouté avec succès",
+                message: t("toasts.ajout_success"),
                 type: "success",
                 dismissible: true,
                 duration: 3000,
@@ -496,7 +496,7 @@ const destroy = (id) => {
         form.delete(route("activities.destroy", id), {
             onError: () => {
                 $toast.open({
-                    message: "Une erreur s'est produite",
+                    message: t("toasts.supp_error"),
                     type: "error",
                     dismissible: true,
                     duration: 3000,
@@ -504,7 +504,7 @@ const destroy = (id) => {
             },
             onSuccess: () => {
                 $toast.open({
-                    message: "Activité supprimé avec succès",
+                    message: t("toasts.supp_success"),
                     type: "success",
                     dismissible: true,
                     duration: 3000,

@@ -303,93 +303,82 @@
     </div>
 
     <!-- ------------- -->
-    <Teleport to="body">
-        <Modal v-if="isModalOpen" @close="closeModal">
-            <template #header>
-                <div class="flex items-center text-lg">
-                    <h3 class="text-xl font-bold text-slate-800 uppercase">
-                        {{ $t("a-propos.assign_poste_member") }}
-                    </h3>
-                </div>
-            </template>
-            <template #body
-                ><form
-                    :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
-                    class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
-                    @submit.prevent="associatePosteWithAdherent"
-                >
-                    <div>
-                        <div
-                            class="flex justify-between items-center w-1/2 mb-8"
-                        >
-                            <div>{{ $t("a-propos.input_poste") }}</div>
-                            <h3
-                                class="text-lg font-bold text-slate-800 uppercase"
-                            >
-                                {{ posteForm.name }}
-                            </h3>
-                        </div>
+    <Modal v-if="isModalOpen" @close="closeModal">
+        <template #header>
+            <div class="flex items-center text-lg">
+                <h3 class="text-xl font-bold text-slate-800 uppercase">
+                    {{ $t("a-propos.assign_poste_member") }}
+                </h3>
+            </div>
+        </template>
+        <template #body
+            ><form
+                :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+                class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
+                @submit.prevent="associatePosteWithAdherent"
+            >
+                <div>
+                    <div class="flex justify-between items-center w-1/2 mb-8">
+                        <div>{{ $t("a-propos.input_poste") }}</div>
+                        <h3 class="text-lg font-bold text-slate-800 uppercase">
+                            {{ posteForm.name }}
+                        </h3>
                     </div>
-                    <div class="mb-5">
-                        <label
-                            for="title"
-                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                            >{{ $t("a-propos.input_membre") }}</label
-                        >
-                        <!-- <Multiselect
+                </div>
+                <div class="mb-5">
+                    <label
+                        for="title"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("a-propos.input_membre") }}</label
+                    >
+                    <!-- <Multiselect
                             v-model="posteForm.adherent_id"
                             :close-on-select="false"
                             :searchable="true"
                             :create-option="true"
                             :options="formattedAdherents"
                         /> -->
-                        <select
-                            v-model="posteForm.adherent_id"
-                            id="type"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    <select
+                        v-model="posteForm.adherent_id"
+                        id="type"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    >
+                        <option disabled value="">اختر عضو</option>
+                        <option
+                            v-for="adherent in adherents"
+                            :key="adherent.id"
+                            :value="adherent.id"
                         >
-                            <option disabled value="">اختر عضو</option>
-                            <option
-                                v-for="adherent in adherents"
-                                :key="adherent.id"
-                                :value="adherent.id"
-                            >
-                                {{
-                                    adherent.first_name +
-                                    " " +
-                                    adherent.last_name
-                                }}
-                            </option>
-                        </select>
-                        <span
-                            v-if="form.errors.name"
-                            class="text-xs text-red-600 mt-1"
-                            id="hs-validation-name-error-helper"
-                        >
-                            {{ form.errors.name }}
-                        </span>
-                    </div>
+                            {{ adherent.first_name + " " + adherent.last_name }}
+                        </option>
+                    </select>
+                    <span
+                        v-if="form.errors.name"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.name }}
+                    </span>
+                </div>
 
-                    <div class="mt-5 flex justify-end gap-x-2">
-                        <button
-                            @click="isModalOpen = false"
-                            type="button"
-                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
-                        >
-                            {{ $t("buttons.annuler") }}
-                        </button>
-                        <button
-                            type="submit"
-                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
-                        >
-                            {{ $t("buttons.ajouter") }}
-                        </button>
-                    </div>
-                </form>
-            </template>
-        </Modal>
-    </Teleport>
-    {{ association }}
+                <div class="mt-5 flex justify-end gap-x-2">
+                    <button
+                        @click="isModalOpen = false"
+                        type="button"
+                        class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
+                    >
+                        {{ $t("buttons.annuler") }}
+                    </button>
+                    <button
+                        type="submit"
+                        class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
+                    >
+                        {{ $t("buttons.ajouter") }}
+                    </button>
+                </div>
+            </form>
+        </template>
+    </Modal>
 </template>
 
 <script setup>
@@ -538,7 +527,7 @@ const submit = (e) => {
             {
                 onSuccess: () => {
                     $toast.open({
-                        message: t("toasts.ajout_success"),
+                        message: t("toasts.modif_success"),
                         type: "success",
                         duration: 3000,
                         dismissible: true,
@@ -546,7 +535,7 @@ const submit = (e) => {
                 },
                 onError: () => {
                     $toast.open({
-                        message: t("toasts.ajout_error"),
+                        message: t("toasts.modif_error"),
                         type: "error",
                         duration: 3000,
                         dismissible: true,
@@ -580,7 +569,7 @@ const associatePosteWithAdherent = () => {
         onSuccess: () => {
             closeModal();
             $toast.open({
-                message: "dépense modifié avec succès",
+                message: t("toasts.modif_success"),
                 type: "success",
                 duration: 3000,
                 dismissible: true,
@@ -588,7 +577,7 @@ const associatePosteWithAdherent = () => {
         },
         onError: () => {
             $toast.open({
-                message: "Erreur lors de la modification",
+                message: t("toasts.modif_error"),
                 type: "error",
                 duration: 3000,
                 dismissible: true,

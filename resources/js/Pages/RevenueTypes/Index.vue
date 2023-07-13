@@ -184,7 +184,7 @@ const destroy = (id) => {
         form.delete(route("revenue-types.destroy", id), {
             onSuccess: () => {
                 $toast.open({
-                    message: "Type de revenue supprimé avec succès",
+                    message: t("toasts.supp_success"),
                     type: "success",
                     duration: 3000,
                     dismissible: true,
@@ -192,7 +192,7 @@ const destroy = (id) => {
             },
             onError: () => {
                 $toast.open({
-                    message: "Une erreur s'est produite",
+                    message: t("toasts.supp_error"),
                     type: "error",
                     duration: 3000,
                     dismissible: true,
@@ -216,17 +216,15 @@ const submit = () => {
             onSuccess: () => {
                 closeModal();
                 $toast.open({
-                    message: "Type de revenue mis à jour avec succès",
+                    message: t("toasts.modif_success"),
                     type: "success",
                     duration: 3000,
                     dismissible: true,
                 });
             },
             onError: () => {
-                console.log("name : " + form.name);
-                console.log("error" + form.id);
                 $toast.open({
-                    message: "Une erreur s'est produite lors de la mise à jour",
+                    message: t("toasts.modif_error"),
                     type: "error",
                     duration: 3000,
                     dismissible: true,
@@ -240,7 +238,7 @@ const submit = () => {
             onSuccess: () => {
                 closeModal();
                 $toast.open({
-                    message: "Type de revenue ajouté avec succès",
+                    message: t("toasts.ajout_success"),
                     type: "success",
                     duration: 3000,
                     dismissible: true,

@@ -102,7 +102,7 @@ const submit = () => {
     form.put(route("activities.update", props.activity.id), {
         onError: () => {
             $toast.open({
-                message: "Une erreur s'est produite lors de la modification",
+                message: t("toasts.modif_error"),
                 type: "error",
                 dismissible: true,
                 duration: 3000,
@@ -110,7 +110,7 @@ const submit = () => {
         },
         onSuccess: () => {
             $toast.open({
-                message: "Activité modifié avec succès",
+                message: t("toasts.modif_success"),
                 type: "success",
                 dismissible: true,
                 duration: 3000,

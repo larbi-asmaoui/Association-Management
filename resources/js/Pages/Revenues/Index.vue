@@ -360,7 +360,7 @@ const destroy = (id) => {
         form.delete(route("revenues.destroy", id), {
             onSuccess: () => {
                 $toast.open({
-                    message: "revenue supprimé avec succès",
+                    message: t("toasts.supp_success"),
                     type: "success",
                     duration: 3000,
                     dismissible: true,
@@ -368,7 +368,7 @@ const destroy = (id) => {
             },
             onError: () => {
                 $toast.open({
-                    message: "Erreur lors de la suppression",
+                    message: t("toasts.supp_error"),
                     type: "error",
                     duration: 3000,
                     dismissible: true,
@@ -415,7 +415,7 @@ const submit = () => {
                 onSuccess: () => {
                     closeModal();
                     $toast.open({
-                        message: "Revenue modifié avec succès",
+                        message: t("toasts.modif_success"),
                         type: "success",
                         duration: 3000,
                         dismissible: true,
@@ -423,7 +423,7 @@ const submit = () => {
                 },
                 onError: () => {
                     $toast.open({
-                        message: "Erreur lors de la modification",
+                        message: t("toasts.modif_error"),
                         type: "error",
                         duration: 3000,
                         dismissible: true,

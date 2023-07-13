@@ -354,7 +354,7 @@ const destroy = (id) => {
             preserveScroll: true,
             onSuccess: () => {
                 $toast.open({
-                    message: "reunion supprimé avec succès",
+                    message: t("toasts.supp_success"),
                     type: "success",
                     duration: 3000,
                     dismissible: true,
@@ -362,7 +362,7 @@ const destroy = (id) => {
             },
             onError: () => {
                 $toast.open({
-                    message: "Erreur lors de la suppression",
+                    message: t("toasts.supp_error"),
                     type: "error",
                     duration: 3000,
                     dismissible: true,
