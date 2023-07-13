@@ -6,9 +6,11 @@ export default {
 </script>
 
 <script setup>
+import QRCode from "qrcode";
+import jsPDF from "jspdf";
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
-import { ref, computed, reactive, watchEffect, watch } from "vue";
+import { ref, computed, reactive, watchEffect } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
@@ -21,7 +23,106 @@ import Printer from "vue-material-design-icons/Printer.vue";
 import Plus from "vue-material-design-icons/Plus.vue";
 import Filter from "vue-material-design-icons/Filter.vue";
 
-const { t, availableLocales, locale } = useI18n();
+const printInvoice = async () => {
+    const doc = new jsPDF();
+
+    // Step 1: Load the Arabic font file
+    const arabicFontFile = "/fonts/Amiri-Regular.ttf";
+    const arabicFontName = "Amiri";
+
+    doc.addFont(arabicFontFile, "Amiri", "normal");
+    doc.setFont(arabicFontName);
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+
+    const members = [
+        { id: 1, name: "John Doe", age: 25 },
+        { id: 2, name: "Jane Smith", age: 30 },
+        { id: 3, name: "Bob Johnson", age: 28 },
+        { id: 4, name: "Alice Brown", age: 35 },
+        { id: 1, name: "John Doe", age: 25 },
+        { id: 2, name: "Jane Smith", age: 30 },
+        { id: 3, name: "Bob Johnson", age: 28 },
+        { id: 4, name: "Alice Brown", age: 35 },
+        { id: 1, name: "John Doe", age: 25 },
+        { id: 2, name: "Jane Smith", age: 30 },
+        { id: 3, name: "Bob Johnson", age: 28 },
+        { id: 4, name: "Alice Brown", age: 35 },
+        { id: 1, name: "John Doe", age: 25 },
+        { id: 2, name: "Jane Smith", age: 30 },
+        { id: 3, name: "Bob Johnson", age: 28 },
+        { id: 4, name: "Alice Brown", age: 35 },
+        { id: 1, name: "John Doe", age: 25 },
+        { id: 2, name: "Jane Smith", age: 30 },
+        { id: 3, name: "Bob Johnson", age: 28 },
+        { id: 4, name: "Alice Brown", age: 35 },
+        // Add more member objects as needed
+    ];
+
+    for (let i = 0; i < members.length; i += 2) {
+        if (i !== 0) {
+            doc.addPage(); // Add a new page for each pair of members except the first pair
+        }
+
+        doc.setFontSize(18);
+        const docTitle = t("abonnements.payement_invoice");
+        const docTitleWidth = doc.getTextWidth(docTitle);
+        const docTitleX = (pageWidth - docTitleWidth) / 2;
+        doc.text(docTitle, docTitleX, 10);
+
+        const remainingAbonnements = selectedAbonnements.value.slice(i);
+        const invoiceToPrint =
+            remainingAbonnements.length >= 2
+                ? remainingAbonnements.slice(0, 4)
+                : remainingAbonnements;
+
+        for (let j = 0; j < invoiceToPrint.length; j++) {
+            const invoice = invoiceToPrint[j];
+
+            const invoiceText = `${
+                invoice.adherent.num_adhesion
+            } : رقم الانخراط\n${
+                invoice.adherent.first_name + " " + invoice.adherent.last_name
+            } : الاسم الكامل\nالمبلغ: ${invoice.montant} درهم\nتاريخ العملية: ${
+                invoice.date_payement
+            }`;
+
+            const x = j % 2 ? 110 : 10;
+            const y = Math.floor(j / 2) * 70 + 40;
+
+            doc.setDrawColor(0);
+            doc.setLineWidth(0.5);
+            doc.rect(x, y, 90, 60, "S");
+            doc.setFontSize(18);
+
+            const invoiceTitle = " : وصل الدفع";
+            // const invoiceTitle = `${invoice.date_payement}`;
+
+            const invoiceTitleWidth = doc.getTextWidth(invoiceTitle);
+            const invoiceTitleX = x + (40 + invoiceTitleWidth) / 2;
+            const invoiceTitleY = y + 10;
+            doc.text(invoiceTitle, invoiceTitleX, invoiceTitleY, {
+                align: "center",
+            });
+
+            doc.setFontSize(14);
+
+            doc.text(invoiceText, x + 85, y + 28, {
+                align: "right",
+                textDirection: "rtl",
+            });
+
+            const qrCode = await QRCode.toDataURL(invoiceText);
+            const qrImg = new Image();
+            qrImg.src = qrCode;
+            doc.addImage(qrImg, "PNG", x + 2, y + 45, 14, 14);
+        }
+    }
+
+    doc.save(`payement_invoice_${new Date().toISOString()}.pdf`);
+};
+
+const { t } = useI18n();
 const $toast = useToast();
 
 const props = defineProps({
@@ -39,7 +140,8 @@ const props = defineProps({
     },
 });
 
-const selectedPayementDate = ref("");
+const selectedPayementStartDate = ref("");
+const selectedPayementEndDate = ref("");
 const selectedEndDate = ref("");
 const selectedAbonnements = ref(props.abonnements);
 
@@ -54,24 +156,26 @@ const form = useForm({
 const showFilterForm = ref(false);
 let isModalOpen = ref(false);
 
-const showInfoModal = () => {
-    showInfo.value = !showInfo.value;
-};
 const clearFilters = () => {
-    selectedPayementDate.value = "";
+    selectedPayementStartDate.value = "";
     selectedAbonnements.value = props.abonnements;
 };
 
 const applyFilters = () => {
-    // filter selected adherents by birth date
-
     const abonnementArray = props.abonnements;
     filteredItems.value = abonnementArray.filter((item) => {
         let isMatch = true;
 
         if (
-            selectedPayementDate.value &&
-            item.date_payement <= selectedPayementDate.value
+            selectedPayementStartDate.value &&
+            item.date_payement <= selectedPayementStartDate.value
+        ) {
+            isMatch = false;
+        }
+
+        if (
+            selectedPayementEndDate.value &&
+            item.date_payement >= selectedPayementEndDate.value
         ) {
             isMatch = false;
         }
@@ -114,7 +218,7 @@ const rows = computed(() =>
         montant: abonnement.montant,
         adherent_id: abonnement.adherent_id,
         date_payement: abonnement.date_payement,
-    }))
+    })),
 );
 
 const showFilter = () => {
@@ -199,16 +303,19 @@ const closeModal = () => {
         <div
             class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
         >
-            <div class="px-2 w-full flex items-center mb-4 gap-4 sm:mb-0">
+            <div
+                class="px-2 w-full flex items-center justify-end mb-4 gap-4 sm:mb-0"
+            >
                 <!--  -->
-                <!-- <button
-                    class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                <button
+                    @click="printInvoice"
+                    class="relative text-white py-2 px-2 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-all text-sm"
                 >
-                    button
-                </button> -->
+                    <Printer />
+                </button>
                 <button
                     @click="showFilter"
-                    class="ms-auto relative text-white py-2 px-2 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-all text-sm"
+                    class="relative text-white py-2 px-2 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-all text-sm"
                 >
                     <Filter />
                 </button>
@@ -322,9 +429,9 @@ const closeModal = () => {
             </Modal>
         </teleport>
 
-        <div class="mt-1 px-4 transition-all ease-in">
+        <div class="mt-1 px-4">
             <div
-                class="w-full m-auto bg-gray-100 border border-gray-300 shadow-md p-4"
+                class="transition-all ease-in-out delay-950 w-full m-auto bg-gray-100 border border-gray-300 shadow-md p-4"
                 v-if="showFilterForm"
             >
                 <div class="flex" id="filter">
@@ -336,7 +443,7 @@ const closeModal = () => {
                                 >{{ $t("abonnements.date_debut") }}
                             </label>
                             <input
-                                v-model="selectedPayementDate"
+                                v-model="selectedPayementStartDate"
                                 type="date"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 placeholder="Select date"
@@ -351,7 +458,7 @@ const closeModal = () => {
                                 >{{ $t("abonnements.date_fin") }}
                             </label>
                             <input
-                                v-model="selectedEndDate"
+                                v-model="selectedPayementEndDate"
                                 type="date"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 placeholder="Select date"

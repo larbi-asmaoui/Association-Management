@@ -1,0 +1,451 @@
+Date : 2023-07-13 13:06:27
+Directory : /home/asmaoui/Documents/coding/Association-Management
+Total : 332 files,  52707 codes, 2966 comments, 3132 blanks, all 58805 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JSON       |         53 |     31,355 |          0 |         12 |     31,367 |
+| Vue        |         77 |     12,924 |        314 |      1,094 |     14,332 |
+| PHP        |        185 |      6,642 |      2,618 |      1,762 |     11,022 |
+| YAML       |          1 |      1,371 |          0 |        199 |      1,570 |
+| JavaScript |         10 |        149 |         30 |         27 |        206 |
+| CSS        |          3 |        143 |          2 |         14 |        159 |
+| XML        |          2 |         78 |          2 |          2 |         82 |
+| Markdown   |          1 |         45 |          0 |         22 |         67 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                                  | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                                     |        332 |     52,707 |      2,966 |      3,132 |     58,805 |
+| . (Files)                                                                                                                             |         11 |     28,107 |          8 |        234 |     28,349 |
+| app                                                                                                                                   |         83 |      2,765 |        941 |        812 |      4,518 |
+| app/Actions                                                                                                                           |          6 |        128 |         33 |         34 |        195 |
+| app/Actions/Fortify                                                                                                                   |          5 |        115 |         30 |         30 |        175 |
+| app/Actions/Jetstream                                                                                                                 |          1 |         13 |          3 |          4 |         20 |
+| app/Console                                                                                                                           |          3 |         42 |         43 |         20 |        105 |
+| app/Console (Files)                                                                                                                   |          1 |         19 |         11 |          7 |         37 |
+| app/Console/Commands                                                                                                                  |          2 |         23 |         32 |         13 |         68 |
+| app/Exceptions                                                                                                                        |          1 |         17 |          9 |          5 |         31 |
+| app/Http                                                                                                                              |         45 |      1,995 |        673 |        543 |      3,211 |
+| app/Http (Files)                                                                                                                      |          1 |         46 |         21 |          7 |         74 |
+| app/Http/Controllers                                                                                                                  |         22 |      1,633 |        471 |        431 |      2,535 |
+| app/Http/Middleware                                                                                                                   |         11 |        151 |         82 |         50 |        283 |
+| app/Http/Requests                                                                                                                     |         11 |        165 |         99 |         55 |        319 |
+| app/Models                                                                                                                            |         18 |        357 |         39 |        136 |        532 |
+| app/Policies                                                                                                                          |          3 |         87 |         84 |         30 |        201 |
+| app/Providers                                                                                                                         |          7 |        139 |         60 |         44 |        243 |
+| bootstrap                                                                                                                             |          3 |        444 |         32 |         11 |        487 |
+| bootstrap (Files)                                                                                                                     |          1 |         17 |         32 |         11 |         60 |
+| bootstrap/cache                                                                                                                       |          2 |        427 |          0 |          0 |        427 |
+| config                                                                                                                                |         19 |        631 |      1,221 |        346 |      2,198 |
+| database                                                                                                                              |         38 |        945 |        309 |        256 |      1,510 |
+| database/factories                                                                                                                    |          5 |        120 |         49 |         25 |        194 |
+| database/migrations                                                                                                                   |         26 |        673 |        173 |        132 |        978 |
+| database/seeders                                                                                                                      |          7 |        152 |         87 |         99 |        338 |
+| lang                                                                                                                                  |         18 |      1,524 |          0 |         45 |      1,569 |
+| lang (Files)                                                                                                                          |          3 |        570 |          0 |          0 |        570 |
+| lang/ar                                                                                                                               |          5 |        318 |          0 |         15 |        333 |
+| lang/en                                                                                                                               |          5 |        318 |          0 |         15 |        333 |
+| lang/fr                                                                                                                               |          5 |        318 |          0 |         15 |        333 |
+| public                                                                                                                                |          1 |         14 |         30 |         12 |         56 |
+| resources                                                                                                                             |         94 |     17,652 |        338 |      1,187 |     19,177 |
+| resources/assets                                                                                                                      |          1 |         49 |          0 |          1 |         50 |
+| resources/css                                                                                                                         |          2 |        142 |          0 |         14 |        156 |
+| resources/js                                                                                                                          |         86 |     17,148 |        338 |      1,120 |     18,606 |
+| resources/js (Files)                                                                                                                  |          4 |      3,658 |         24 |         13 |      3,695 |
+| resources/js/Components                                                                                                               |         34 |      2,166 |        113 |        191 |      2,470 |
+| resources/js/Layouts                                                                                                                  |          2 |        396 |         23 |         50 |        469 |
+| resources/js/Pages                                                                                                                    |         41 |     10,362 |        178 |        853 |     11,393 |
+| resources/js/Pages (Files)                                                                                                            |          2 |        542 |          3 |         27 |        572 |
+| resources/js/Pages/API                                                                                                                |          2 |        238 |          8 |         41 |        287 |
+| resources/js/Pages/API (Files)                                                                                                        |          1 |         27 |          0 |          4 |         31 |
+| resources/js/Pages/API/Partials                                                                                                       |          1 |        211 |          8 |         37 |        256 |
+| resources/js/Pages/Abonnements                                                                                                        |          1 |        449 |          8 |         47 |        504 |
+| resources/js/Pages/Activities                                                                                                         |          3 |      1,068 |         16 |         72 |      1,156 |
+| resources/js/Pages/ActivityTypes                                                                                                      |          1 |        238 |          0 |          9 |        247 |
+| resources/js/Pages/Adherents                                                                                                          |          2 |      1,644 |         33 |        108 |      1,785 |
+| resources/js/Pages/Association                                                                                                        |          1 |        598 |         12 |         35 |        645 |
+| resources/js/Pages/Auth                                                                                                               |          7 |        543 |         17 |         78 |        638 |
+| resources/js/Pages/DepenseTypes                                                                                                       |          1 |        237 |          0 |         14 |        251 |
+| resources/js/Pages/Depenses                                                                                                           |          1 |        428 |          1 |         30 |        459 |
+| resources/js/Pages/Documents                                                                                                          |          1 |        161 |          3 |         11 |        175 |
+| resources/js/Pages/Groupes                                                                                                            |          3 |        487 |          9 |         49 |        545 |
+| resources/js/Pages/Profile                                                                                                            |          6 |        745 |         10 |        130 |        885 |
+| resources/js/Pages/Profile (Files)                                                                                                    |          1 |         41 |          1 |          8 |         50 |
+| resources/js/Pages/Profile/Partials                                                                                                   |          5 |        704 |          9 |        122 |        835 |
+| resources/js/Pages/ReunionTypes                                                                                                       |          1 |        237 |          0 |         14 |        251 |
+| resources/js/Pages/Reunions                                                                                                           |          2 |        799 |          5 |         65 |        869 |
+| resources/js/Pages/RevenueTypes                                                                                                       |          1 |        237 |          0 |         14 |        251 |
+| resources/js/Pages/Revenues                                                                                                           |          1 |        425 |          4 |         30 |        459 |
+| resources/js/Pages/Status                                                                                                             |          1 |        231 |          3 |         15 |        249 |
+| resources/js/Pages/StockTypes                                                                                                         |          1 |        237 |          0 |         14 |        251 |
+| resources/js/Pages/Stocks                                                                                                             |          2 |        486 |         46 |         33 |        565 |
+| resources/js/Pages/Users                                                                                                              |          1 |        332 |          0 |         17 |        349 |
+| resources/js/hooks                                                                                                                    |          1 |          7 |          0 |          3 |         10 |
+| resources/js/i18n                                                                                                                     |          1 |         10 |          0 |          2 |         12 |
+| resources/js/locales                                                                                                                  |          2 |        540 |          0 |          6 |        546 |
+| resources/js/stores                                                                                                                   |          1 |          9 |          0 |          2 |         11 |
+| resources/views                                                                                                                       |          5 |        313 |          0 |         52 |        365 |
+| resources/views (Files)                                                                                                               |          1 |         20 |          0 |          7 |         27 |
+| resources/views/adherants                                                                                                             |          1 |         42 |          0 |          5 |         47 |
+| resources/views/documents                                                                                                             |          2 |        235 |          0 |         32 |        267 |
+| resources/views/emails                                                                                                                |          1 |         16 |          0 |          8 |         24 |
+| routes                                                                                                                                |          4 |         66 |         43 |         20 |        129 |
+| tests                                                                                                                                 |         17 |        510 |         42 |        208 |        760 |
+| tests (Files)                                                                                                                         |          3 |         30 |         35 |         17 |         82 |
+| tests/Feature                                                                                                                         |         13 |        470 |          4 |        187 |        661 |
+| tests/Unit                                                                                                                            |          1 |         10 |          3 |          4 |         17 |
+| vendor                                                                                                                                |         44 |         49 |          2 |          1 |         52 |
+| vendor/mpdf                                                                                                                           |         42 |         42 |          0 |          0 |         42 |
+| vendor/mpdf/mpdf                                                                                                                      |         42 |         42 |          0 |          0 |         42 |
+| vendor/mpdf/mpdf/tmp                                                                                                                  |         42 |         42 |          0 |          0 |         42 |
+| vendor/mpdf/mpdf/tmp/mpdf                                                                                                             |         42 |         42 |          0 |          0 |         42 |
+| vendor/mpdf/mpdf/tmp/mpdf/ttfontdata                                                                                                  |         42 |         42 |          0 |          0 |         42 |
+| vendor/spatie                                                                                                                         |          2 |          7 |          2 |          1 |         10 |
+| vendor/spatie/ignition                                                                                                                |          2 |          7 |          2 |          1 |         10 |
+| vendor/spatie/ignition/resources                                                                                                      |          2 |          7 |          2 |          1 |         10 |
+| vendor/spatie/ignition/resources/compiled                                                                                             |          2 |          7 |          2 |          1 |         10 |
++---------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                                              | language   | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| /home/asmaoui/Documents/coding/Association-Management/.eslintrc.js                                                                    | JavaScript |         27 |          0 |          1 |         28 |
+| /home/asmaoui/Documents/coding/Association-Management/README.md                                                                       | Markdown   |         45 |          0 |         22 |         67 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Actions/Fortify/CreateNewUser.php                                           | PHP        |         25 |          5 |          6 |         36 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Actions/Fortify/PasswordValidationRules.php                                 | PHP        |         10 |          5 |          4 |         19 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Actions/Fortify/ResetUserPassword.php                                       | PHP        |         19 |          5 |          6 |         30 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Actions/Fortify/UpdateUserPassword.php                                      | PHP        |         22 |          5 |          6 |         33 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Actions/Fortify/UpdateUserProfileInformation.php                            | PHP        |         39 |         10 |          8 |         57 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Actions/Jetstream/DeleteUser.php                                            | PHP        |         13 |          3 |          4 |         20 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Console/Commands/CheckAbonnementStatus.php                                  | PHP        |         12 |         18 |          7 |         37 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Console/Commands/MigrateInOrder.php                                         | PHP        |         11 |         14 |          6 |         31 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Console/Kernel.php                                                          | PHP        |         19 |         11 |          7 |         37 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Exceptions/Handler.php                                                      | PHP        |         17 |          9 |          5 |         31 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/AbonnementController.php                                   | PHP        |         73 |         23 |         15 |        111 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/ActivityController.php                                     | PHP        |        122 |         31 |         29 |        182 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/ActivityTypeController.php                                 | PHP        |         51 |         26 |         16 |         93 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/AdherentController.php                                     | PHP        |        180 |         32 |         33 |        245 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/AssociationController.php                                  | PHP        |         76 |         28 |         16 |        120 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/ChartController.php                                        | PHP        |         29 |          3 |          5 |         37 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/Controller.php                                             | PHP        |          9 |          0 |          4 |         13 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/DashboardController.php                                    | PHP        |        142 |         10 |         47 |        199 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/DepenseController.php                                      | PHP        |         67 |         26 |         23 |        116 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/DepenseTypeController.php                                  | PHP        |         46 |         25 |         13 |         84 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/DocumentsController.php                                    | PHP        |        233 |         14 |         54 |        301 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/GroupeController.php                                       | PHP        |         84 |         23 |         23 |        130 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/RapportController.php                                      | PHP        |         28 |         28 |         10 |         66 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/ReunionController.php                                      | PHP        |         86 |          4 |         18 |        108 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/ReunionTypeController.php                                  | PHP        |         40 |         14 |         13 |         67 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/RevenueController.php                                      | PHP        |         64 |         25 |         19 |        108 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/RevenueTypeController.php                                  | PHP        |         46 |         24 |         12 |         82 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/RoleController.php                                         | PHP        |         28 |         28 |         10 |         66 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/StatutController.php                                       | PHP        |         53 |         27 |         19 |         99 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/StockController.php                                        | PHP        |         66 |         24 |         18 |        108 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/StockTypeController.php                                    | PHP        |         46 |         24 |         13 |         83 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Controllers/UserController.php                                         | PHP        |         64 |         32 |         21 |        117 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Kernel.php                                                             | PHP        |         46 |         21 |          7 |         74 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Middleware/Authenticate.php                                            | PHP        |         11 |          3 |          4 |         18 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Middleware/DenyAccessMiddleware.php                                    | PHP        |         12 |          5 |          4 |         21 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Middleware/EncryptCookies.php                                          | PHP        |          8 |          6 |          4 |         18 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Middleware/HandleInertiaRequests.php                                   | PHP        |         39 |         20 |          7 |         66 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Middleware/PreventRequestsDuringMaintenance.php                        | PHP        |          8 |          6 |          4 |         18 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Middleware/RedirectIfAuthenticated.php                                 | PHP        |         20 |          5 |          6 |         31 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Middleware/TrimStrings.php                                             | PHP        |         11 |          5 |          4 |         20 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Middleware/TrustHosts.php                                              | PHP        |         12 |          5 |          4 |         21 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Middleware/TrustProxies.php                                            | PHP        |         14 |         10 |          5 |         29 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Middleware/ValidateSignature.php                                       | PHP        |          8 |         11 |          4 |         23 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Middleware/VerifyCsrfToken.php                                         | PHP        |          8 |          6 |          4 |         18 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Requests/StoreAdherentRequest.php                                      | PHP        |         15 |          9 |          5 |         29 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Requests/StoreCotisationRequest.php                                    | PHP        |         15 |          9 |          5 |         29 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Requests/StoreEvenementRequest.php                                     | PHP        |         15 |          9 |          5 |         29 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Requests/StoreGroupeRequest.php                                        | PHP        |         15 |          9 |          5 |         29 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Requests/UpdateAdherentRequest.php                                     | PHP        |         15 |          9 |          5 |         29 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Requests/UpdateCotisationRequest.php                                   | PHP        |         15 |          9 |          5 |         29 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Requests/UpdateDepenseRequest.php                                      | PHP        |         15 |          9 |          5 |         29 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Requests/UpdateEvenementRequest.php                                    | PHP        |         15 |          9 |          5 |         29 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Requests/UpdateEvenementTypeRequest.php                                | PHP        |         15 |          9 |          5 |         29 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Requests/UpdateGroupeRequest.php                                       | PHP        |         15 |          9 |          5 |         29 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Http/Requests/UpdateRevenueRequest.php                                      | PHP        |         15 |          9 |          5 |         29 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/Abonnement.php                                                       | PHP        |         13 |          0 |          7 |         20 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/Activity.php                                                         | PHP        |         23 |          8 |         11 |         42 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/ActivityType.php                                                     | PHP        |         19 |          0 |          8 |         27 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/Adherent.php                                                         | PHP        |         49 |          0 |         15 |         64 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/Association.php                                                      | PHP        |         10 |          0 |          4 |         14 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/Depense.php                                                          | PHP        |         18 |          0 |          8 |         26 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/DepenseType.php                                                      | PHP        |         19 |          0 |          6 |         25 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/Groupe.php                                                           | PHP        |         15 |          4 |          6 |         25 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/Rapport.php                                                          | PHP        |         14 |          0 |          5 |         19 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/Reunion.php                                                          | PHP        |         18 |          0 |          8 |         26 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/ReunionType.php                                                      | PHP        |         19 |          0 |          8 |         27 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/Revenue.php                                                          | PHP        |         18 |          0 |          7 |         25 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/RevenueType.php                                                      | PHP        |         19 |          0 |          7 |         26 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/Role.php                                                             | PHP        |          6 |          2 |          4 |         12 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/Statut.php                                                           | PHP        |         18 |          0 |          6 |         24 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/Stock.php                                                            | PHP        |         14 |          0 |          7 |         21 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/StockType.php                                                        | PHP        |         19 |          0 |          8 |         27 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Models/User.php                                                             | PHP        |         46 |         25 |         11 |         82 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Policies/AdherantPolicy.php                                                 | PHP        |         29 |         28 |         10 |         67 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Policies/EvenementPolicy.php                                                | PHP        |         29 |         28 |         10 |         67 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Policies/GroupePolicy.php                                                   | PHP        |         29 |         28 |         10 |         67 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Providers/AppServiceProvider.php                                            | PHP        |         14 |          7 |          5 |         26 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Providers/AuthServiceProvider.php                                           | PHP        |         11 |         11 |          5 |         27 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Providers/BroadcastServiceProvider.php                                      | PHP        |         12 |          3 |          5 |         20 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Providers/EventServiceProvider.php                                          | PHP        |         21 |         12 |          6 |         39 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Providers/FortifyServiceProvider.php                                        | PHP        |         31 |          7 |          8 |         46 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Providers/JetstreamServiceProvider.php                                      | PHP        |         26 |         10 |          8 |         44 |
+| /home/asmaoui/Documents/coding/Association-Management/app/Providers/RouteServiceProvider.php                                          | PHP        |         24 |         10 |          7 |         41 |
+| /home/asmaoui/Documents/coding/Association-Management/bootstrap/app.php                                                               | PHP        |         17 |         32 |         11 |         60 |
+| /home/asmaoui/Documents/coding/Association-Management/bootstrap/cache/packages.php                                                    | PHP        |        152 |          0 |          0 |        152 |
+| /home/asmaoui/Documents/coding/Association-Management/bootstrap/cache/services.php                                                    | PHP        |        275 |          0 |          0 |        275 |
+| /home/asmaoui/Documents/coding/Association-Management/composer.json                                                                   | JSON       |         80 |          0 |          1 |         81 |
+| /home/asmaoui/Documents/coding/Association-Management/composer.lock                                                                   | JSON       |     11,089 |          0 |          1 |     11,090 |
+| /home/asmaoui/Documents/coding/Association-Management/config/app.php                                                                  | PHP        |         31 |        133 |         33 |        197 |
+| /home/asmaoui/Documents/coding/Association-Management/config/auth.php                                                                 | PHP        |         28 |         74 |         14 |        116 |
+| /home/asmaoui/Documents/coding/Association-Management/config/broadcasting.php                                                         | PHP        |         35 |         23 |         13 |         71 |
+| /home/asmaoui/Documents/coding/Association-Management/config/cache.php                                                                | PHP        |         58 |         34 |         19 |        111 |
+| /home/asmaoui/Documents/coding/Association-Management/config/cors.php                                                                 | PHP        |          3 |         29 |          3 |         35 |
+| /home/asmaoui/Documents/coding/Association-Management/config/database.php                                                             | PHP        |         83 |         47 |         22 |        152 |
+| /home/asmaoui/Documents/coding/Association-Management/config/dompdf.php                                                               | PHP        |         30 |        229 |         26 |        285 |
+| /home/asmaoui/Documents/coding/Association-Management/config/filesystems.php                                                          | PHP        |         32 |         32 |         13 |         77 |
+| /home/asmaoui/Documents/coding/Association-Management/config/fortify.php                                                              | PHP        |         28 |         96 |         24 |        148 |
+| /home/asmaoui/Documents/coding/Association-Management/config/hashing.php                                                              | PHP        |         12 |         32 |          9 |         53 |
+| /home/asmaoui/Documents/coding/Association-Management/config/jetstream.php                                                            | PHP        |         14 |         53 |         15 |         82 |
+| /home/asmaoui/Documents/coding/Association-Management/config/logging.php                                                              | PHP        |         79 |         34 |         19 |        132 |
+| /home/asmaoui/Documents/coding/Association-Management/config/mail.php                                                                 | PHP        |         53 |         53 |         19 |        125 |
+| /home/asmaoui/Documents/coding/Association-Management/config/permission.php                                                           | PHP        |         30 |         91 |         41 |        162 |
+| /home/asmaoui/Documents/coding/Association-Management/config/queue.php                                                                | PHP        |         51 |         42 |         17 |        110 |
+| /home/asmaoui/Documents/coding/Association-Management/config/sanctum.php                                                              | PHP        |         15 |         41 |         12 |         68 |
+| /home/asmaoui/Documents/coding/Association-Management/config/services.php                                                             | PHP        |         17 |         11 |          7 |         35 |
+| /home/asmaoui/Documents/coding/Association-Management/config/session.php                                                              | PHP        |         22 |        147 |         33 |        202 |
+| /home/asmaoui/Documents/coding/Association-Management/config/view.php                                                                 | PHP        |         10 |         20 |          7 |         37 |
+| /home/asmaoui/Documents/coding/Association-Management/database/factories/AdherentFactory.php                                          | PHP        |         25 |          9 |          4 |         38 |
+| /home/asmaoui/Documents/coding/Association-Management/database/factories/CotisationFactory.php                                        | PHP        |         16 |          8 |          4 |         28 |
+| /home/asmaoui/Documents/coding/Association-Management/database/factories/GroupeFactory.php                                            | PHP        |         13 |          8 |          4 |         25 |
+| /home/asmaoui/Documents/coding/Association-Management/database/factories/StockFactory.php                                             | PHP        |         17 |          8 |          5 |         30 |
+| /home/asmaoui/Documents/coding/Association-Management/database/factories/UserFactory.php                                              | PHP        |         49 |         16 |          8 |         73 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2014_10_12_000000_create_users_table.php                    | PHP        |         25 |          6 |          4 |         35 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2014_10_12_100000_create_password_reset_tokens_table.php    | PHP        |         19 |          6 |          4 |         29 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2014_10_12_200000_add_two_factor_columns_to_users_table.php | PHP        |         35 |          6 |          6 |         47 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2019_08_19_000000_create_failed_jobs_table.php              | PHP        |         23 |          6 |          4 |         33 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2019_12_14_000001_create_personal_access_tokens_table.php   | PHP        |         24 |          6 |          4 |         34 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_04_20_123742_create_sessions_table.php                 | PHP        |         22 |          6 |          4 |         32 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_04_28_120124_create_statuts_table.php                  | PHP        |         20 |          6 |          4 |         30 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_05_01_081519_create_adherents_table.php                | PHP        |         36 |          7 |          5 |         48 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_05_01_081553_create_groupes_table.php                  | PHP        |         20 |          7 |          4 |         31 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_05_01_104449_create_activity_types_table.php           | PHP        |         19 |          7 |          4 |         30 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_05_01_172445_create_stock_types_table.php              | PHP        |         19 |          7 |          4 |         30 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_05_01_172538_create_revenue_types_table.php            | PHP        |         19 |          7 |          4 |         30 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_05_01_172548_create_depense_types_table.php            | PHP        |         19 |          7 |          4 |         30 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_05_03_163644_create_depenses_table.php                 | PHP        |         23 |          7 |          4 |         34 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_05_03_163653_create_revenues_table.php                 | PHP        |         23 |          7 |          4 |         34 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_05_11_100748_create_activities_table.php               | PHP        |         29 |          7 |          4 |         40 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_05_11_101212_create_stocks_table.php                   | PHP        |         23 |          7 |          6 |         36 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_05_27_113824_create_adherent_groupe_table.php          | PHP        |         20 |          6 |          5 |         31 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_06_07_073611_create_activity_adherent_table.php        | PHP        |         20 |          6 |          4 |         30 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_06_12_121105_create_permission_tables.php              | PHP        |        108 |         10 |         24 |        142 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_06_13_100505_create_associations_table.php             | PHP        |         25 |          6 |          5 |         36 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_06_16_105404_create_reunion_types_table.php            | PHP        |         19 |          7 |          4 |         30 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_06_16_214156_create_rapports_table.php                 | PHP        |         20 |          6 |          5 |         31 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_06_17_160734_create_reunions_table.php                 | PHP        |         22 |          7 |          4 |         33 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_06_21_173717_create_abonnements_table.php              | PHP        |         21 |          7 |          4 |         32 |
+| /home/asmaoui/Documents/coding/Association-Management/database/migrations/2023_07_07_073611_create_adherent_reunion_table.php         | PHP        |         20 |          6 |          4 |         30 |
+| /home/asmaoui/Documents/coding/Association-Management/database/seeders/AdherantSeeder.php                                             | PHP        |         10 |          4 |          4 |         18 |
+| /home/asmaoui/Documents/coding/Association-Management/database/seeders/CotisationSeeder.php                                           | PHP        |         10 |          4 |          4 |         18 |
+| /home/asmaoui/Documents/coding/Association-Management/database/seeders/DatabaseSeeder.php                                             | PHP        |         88 |         21 |         64 |        173 |
+| /home/asmaoui/Documents/coding/Association-Management/database/seeders/EvenementSeeder.php                                            | PHP        |         10 |          4 |          4 |         18 |
+| /home/asmaoui/Documents/coding/Association-Management/database/seeders/GroupeSeeder.php                                               | PHP        |         10 |          4 |          4 |         18 |
+| /home/asmaoui/Documents/coding/Association-Management/database/seeders/RolesTableSeeder.php                                           | PHP        |         14 |         46 |         15 |         75 |
+| /home/asmaoui/Documents/coding/Association-Management/database/seeders/StockSeeder.php                                                | PHP        |         10 |          4 |          4 |         18 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/ar.json                                                                    | JSON       |        190 |          0 |          0 |        190 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/ar/auth.php                                                                | PHP        |          7 |          0 |          3 |         10 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/ar/http-statuses.php                                                       | PHP        |         82 |          0 |          3 |         85 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/ar/pagination.php                                                          | PHP        |          6 |          0 |          3 |          9 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/ar/passwords.php                                                           | PHP        |          9 |          0 |          3 |         12 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/ar/validation.php                                                          | PHP        |        214 |          0 |          3 |        217 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/en.json                                                                    | JSON       |        190 |          0 |          0 |        190 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/en/auth.php                                                                | PHP        |          7 |          0 |          3 |         10 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/en/http-statuses.php                                                       | PHP        |         82 |          0 |          3 |         85 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/en/pagination.php                                                          | PHP        |          6 |          0 |          3 |          9 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/en/passwords.php                                                           | PHP        |          9 |          0 |          3 |         12 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/en/validation.php                                                          | PHP        |        214 |          0 |          3 |        217 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/fr.json                                                                    | JSON       |        190 |          0 |          0 |        190 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/fr/auth.php                                                                | PHP        |          7 |          0 |          3 |         10 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/fr/http-statuses.php                                                       | PHP        |         82 |          0 |          3 |         85 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/fr/pagination.php                                                          | PHP        |          6 |          0 |          3 |          9 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/fr/passwords.php                                                           | PHP        |          9 |          0 |          3 |         12 |
+| /home/asmaoui/Documents/coding/Association-Management/lang/fr/validation.php                                                          | PHP        |        214 |          0 |          3 |        217 |
+| /home/asmaoui/Documents/coding/Association-Management/package-lock.json                                                               | JSON       |     15,337 |          0 |          1 |     15,338 |
+| /home/asmaoui/Documents/coding/Association-Management/package.json                                                                    | JSON       |         75 |          0 |          1 |         76 |
+| /home/asmaoui/Documents/coding/Association-Management/phpunit.xml                                                                     | XML        |         29 |          2 |          1 |         32 |
+| /home/asmaoui/Documents/coding/Association-Management/pnpm-lock.yaml                                                                  | YAML       |      1,371 |          0 |        199 |      1,570 |
+| /home/asmaoui/Documents/coding/Association-Management/postcss.config.js                                                               | JavaScript |          6 |          0 |          1 |          7 |
+| /home/asmaoui/Documents/coding/Association-Management/public/index.php                                                                | PHP        |         14 |         30 |         12 |         56 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/assets/logo.svg                                                       | XML        |         49 |          0 |          1 |         50 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/css/app.css                                                           | CSS        |         14 |          0 |          4 |         18 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/css/printing.css                                                      | CSS        |        128 |          0 |         10 |        138 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/ActionMessage.vue                                       | Vue        |         14 |          0 |          2 |         16 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/ActionSection.vue                                       | Vue        |         20 |          0 |          3 |         23 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/ApplicationLogo.vue                                     | Vue        |          7 |          0 |          1 |          8 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/ApplicationMark.vue                                     | Vue        |          6 |          0 |          1 |          7 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/AuthenticationCard.vue                                  | Vue        |         10 |          0 |          2 |         12 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/AuthenticationCardLogo.vue                              | Vue        |          8 |          0 |          2 |         10 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/Banner.vue                                              | Vue        |         46 |          0 |          7 |         53 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/Checkbox.vue                                            | Vue        |         30 |          0 |          6 |         36 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/ConfirmationModal.vue                                   | Vue        |         50 |          0 |          8 |         58 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/ConfirmsPassword.vue                                    | Vue        |         99 |          0 |         20 |        119 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/DangerButton.vue                                        | Vue        |         13 |          0 |          2 |         15 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/DialogModal.vue                                         | Vue        |         41 |          0 |          7 |         48 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/Dropdown.vue                                            | Vue        |         70 |          1 |         12 |         83 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/DropdownLink.vue                                        | Vue        |         20 |          0 |          5 |         25 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/Footer.vue                                              | Vue        |         17 |          0 |          1 |         18 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/FormSection.vue                                         | Vue        |         33 |          0 |          6 |         39 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/Header.vue                                              | Vue        |        276 |          9 |          6 |        291 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/ImageUpload.vue                                         | Vue        |        110 |          0 |          9 |        119 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/InputError.vue                                          | Vue        |         12 |          0 |          2 |         14 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/InputLabel.vue                                          | Vue        |         11 |          0 |          2 |         13 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/LanguageSwitcher.vue                                    | Vue        |          1 |          0 |          1 |          2 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/Modal.vue                                               | Vue        |         81 |          0 |         11 |         92 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/NavLink.vue                                             | Vue        |         18 |          0 |          4 |         22 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/Navbar.vue                                              | Vue        |        438 |         85 |          8 |        531 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/Pagination.vue                                          | Vue        |         27 |          0 |          3 |         30 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/PrimaryButton.vue                                       | Vue        |         16 |          0 |          2 |         18 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/ResponsiveNavLink.vue                                   | Vue        |         24 |          0 |          5 |         29 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/SecondaryButton.vue                                     | Vue        |         13 |          0 |          2 |         15 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/SectionBorder.vue                                       | Vue        |          7 |          0 |          1 |          8 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/SectionTitle.vue                                        | Vue        |         15 |          0 |          3 |         18 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/Sidebar.vue                                             | Vue        |        454 |         18 |         19 |        491 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/TextInput.vue                                           | Vue        |         22 |          0 |          7 |         29 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/Tooltip.vue                                             | Vue        |         68 |          0 |          5 |         73 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Components/Welcome.vue                                             | Vue        |         89 |          0 |         16 |        105 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Layouts/AppLayout.vue                                              | Vue        |        364 |         19 |         42 |        425 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Layouts/MainLayout.vue                                             | Vue        |         32 |          4 |          8 |         44 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/API/Index.vue                                                | Vue        |         27 |          0 |          4 |         31 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/API/Partials/ApiTokenManager.vue                             | Vue        |        211 |          8 |         37 |        256 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Abonnements/Index.vue                                        | Vue        |        449 |          8 |         47 |        504 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Activities/Calender.vue                                      | Vue        |         98 |         11 |         21 |        130 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Activities/Index.vue                                         | Vue        |        485 |          4 |         33 |        522 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Activities/Show.vue                                          | Vue        |        485 |          1 |         18 |        504 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/ActivityTypes/Index.vue                                      | Vue        |        238 |          0 |          9 |        247 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Adherents/Index.vue                                          | Vue        |        939 |         13 |         72 |      1,024 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Adherents/Show.vue                                           | Vue        |        705 |         20 |         36 |        761 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Association/Index.vue                                        | Vue        |        598 |         12 |         35 |        645 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Auth/ConfirmPassword.vue                                     | Vue        |         54 |          0 |         10 |         64 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Auth/ForgotPassword.vue                                      | Vue        |         52 |          0 |         10 |         62 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Auth/Login.vue                                               | Vue        |         98 |         14 |          7 |        119 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Auth/Register.vue                                            | Vue        |        118 |          0 |         12 |        130 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Auth/ResetPassword.vue                                       | Vue        |         82 |          3 |         10 |         95 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Auth/TwoFactorChallenge.vue                                  | Vue        |         88 |          0 |         17 |        105 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Auth/VerifyEmail.vue                                         | Vue        |         51 |          0 |         12 |         63 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Dashboard.vue                                                | Vue        |        426 |          2 |         22 |        450 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/DepenseTypes/Index.vue                                       | Vue        |        237 |          0 |         14 |        251 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Depenses/Index.vue                                           | Vue        |        428 |          1 |         30 |        459 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Documents/Index.vue                                          | Vue        |        161 |          3 |         11 |        175 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Groupes/Edit.vue                                             | Vue        |         65 |          0 |         12 |         77 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Groupes/Index.vue                                            | Vue        |        294 |          3 |         26 |        323 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Groupes/Show.vue                                             | Vue        |        128 |          6 |         11 |        145 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Profile/Partials/DeleteUserForm.vue                          | Vue        |         87 |          1 |         18 |        106 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Profile/Partials/LogoutOtherBrowserSessionsForm.vue          | Vue        |        115 |          2 |         25 |        142 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Profile/Partials/TwoFactorAuthenticationForm.vue             | Vue        |        217 |          0 |         36 |        253 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Profile/Partials/UpdatePasswordForm.vue                      | Vue        |        107 |          0 |         12 |        119 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.vue            | Vue        |        178 |          6 |         31 |        215 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Profile/Show.vue                                             | Vue        |         41 |          1 |          8 |         50 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/ReunionTypes/Index.vue                                       | Vue        |        237 |          0 |         14 |        251 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Reunions/Index.vue                                           | Vue        |        427 |          5 |         40 |        472 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Reunions/Show.vue                                            | Vue        |        372 |          0 |         25 |        397 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/RevenueTypes/Index.vue                                       | Vue        |        237 |          0 |         14 |        251 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Revenues/Index.vue                                           | Vue        |        425 |          4 |         30 |        459 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Status/Index.vue                                             | Vue        |        231 |          3 |         15 |        249 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/StockTypes/Index.vue                                         | Vue        |        237 |          0 |         14 |        251 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Stocks/Index.vue                                             | Vue        |        396 |         46 |         25 |        467 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Stocks/Show.vue                                              | Vue        |         90 |          0 |          8 |         98 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Users/Index.vue                                              | Vue        |        332 |          0 |         17 |        349 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/Pages/Welcome.vue                                                  | Vue        |        116 |          1 |          5 |        122 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/app.js                                                             | JavaScript |         33 |          1 |          4 |         38 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/bootstrap.js                                                       | JavaScript |          3 |         23 |          7 |         33 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/data.json                                                          | JSON       |      3,146 |          0 |          1 |      3,147 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/hooks/useSidebar.js                                                | JavaScript |          7 |          0 |          3 |         10 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/i18n/index.js                                                      | JavaScript |         10 |          0 |          2 |         12 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/locales/ar.json                                                    | JSON       |        307 |          0 |          3 |        310 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/locales/fr.json                                                    | JSON       |        233 |          0 |          3 |        236 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/regions.json                                                       | JSON       |        476 |          0 |          1 |        477 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/js/stores/general.js                                                  | JavaScript |          9 |          0 |          2 |         11 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/views/adherants/card.blade.php                                        | PHP        |         42 |          0 |          5 |         47 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/views/app.blade.php                                                   | PHP        |         20 |          0 |          7 |         27 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/views/documents/rapport_financier.blade.php                           | PHP        |        156 |          0 |         19 |        175 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/views/documents/rapport_litteraire.blade.php                          | PHP        |         79 |          0 |         13 |         92 |
+| /home/asmaoui/Documents/coding/Association-Management/resources/views/emails/team-invitation.blade.php                                | PHP        |         16 |          0 |          8 |         24 |
+| /home/asmaoui/Documents/coding/Association-Management/routes/api.php                                                                  | PHP        |          6 |         10 |          4 |         20 |
+| /home/asmaoui/Documents/coding/Association-Management/routes/channels.php                                                             | PHP        |          5 |         10 |          4 |         19 |
+| /home/asmaoui/Documents/coding/Association-Management/routes/console.php                                                              | PHP        |          6 |         10 |          4 |         20 |
+| /home/asmaoui/Documents/coding/Association-Management/routes/web.php                                                                  | PHP        |         49 |         13 |          8 |         70 |
+| /home/asmaoui/Documents/coding/Association-Management/tailwind.config.js                                                              | JavaScript |         25 |          2 |          4 |         31 |
+| /home/asmaoui/Documents/coding/Association-Management/tests/CreatesApplication.php                                                    | PHP        |         13 |          3 |          6 |         22 |
+| /home/asmaoui/Documents/coding/Association-Management/tests/Feature/AuthenticationTest.php                                            | PHP        |         34 |          0 |         12 |         46 |
+| /home/asmaoui/Documents/coding/Association-Management/tests/Feature/BrowserSessionsTest.php                                           | PHP        |         17 |          0 |          7 |         24 |
+| /home/asmaoui/Documents/coding/Association-Management/tests/Feature/CreateApiTokenTest.php                                            | PHP        |         29 |          0 |          9 |         38 |
+| /home/asmaoui/Documents/coding/Association-Management/tests/Feature/DeleteAccountTest.php                                             | PHP        |         34 |          0 |         14 |         48 |
+| /home/asmaoui/Documents/coding/Association-Management/tests/Feature/DeleteApiTokenTest.php                                            | PHP        |         26 |          0 |         10 |         36 |
+| /home/asmaoui/Documents/coding/Association-Management/tests/Feature/EmailVerificationTest.php                                         | PHP        |         57 |          0 |         23 |         80 |
+| /home/asmaoui/Documents/coding/Association-Management/tests/Feature/ExampleTest.php                                                   | PHP        |         11 |          4 |          5 |         20 |
+| /home/asmaoui/Documents/coding/Association-Management/tests/Feature/PasswordConfirmationTest.php                                      | PHP        |         33 |          0 |         13 |         46 |
+| /home/asmaoui/Documents/coding/Association-Management/tests/Feature/PasswordResetTest.php                                             | PHP        |         73 |          0 |         30 |        103 |
+| /home/asmaoui/Documents/coding/Association-Management/tests/Feature/ProfileInformationTest.php                                        | PHP        |         19 |          0 |          7 |         26 |
+| /home/asmaoui/Documents/coding/Association-Management/tests/Feature/RegistrationTest.php                                              | PHP        |         45 |          0 |         16 |         61 |
+| /home/asmaoui/Documents/coding/Association-Management/tests/Feature/TwoFactorAuthenticationSettingsTest.php                           | PHP        |         50 |          0 |         26 |         76 |
+| /home/asmaoui/Documents/coding/Association-Management/tests/Feature/UpdatePasswordTest.php                                            | PHP        |         42 |          0 |         15 |         57 |
+| /home/asmaoui/Documents/coding/Association-Management/tests/Pest.php                                                                  | PHP        |         10 |         32 |          7 |         49 |
+| /home/asmaoui/Documents/coding/Association-Management/tests/TestCase.php                                                              | PHP        |          7 |          0 |          4 |         11 |
+| /home/asmaoui/Documents/coding/Association-Management/tests/Unit/ExampleTest.php                                                      | PHP        |         10 |          3 |          4 |         17 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusans.GDEFdata.json                   | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusans.GPOSdata.json                   | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusans.GSUB.arab.DFLT.json             | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusans.GSUB.arab.KUR .json             | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusans.GSUB.arab.SND .json             | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusans.GSUB.arab.URD .json             | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusans.GSUB.nko .DFLT.json             | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusans.GSUBdata.json                   | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusans.cw127.json                      | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusans.mtx.json                        | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusansB.GDEFdata.json                  | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusansB.GPOSdata.json                  | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusansB.GSUB.arab.DFLT.json            | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusansB.GSUB.arab.KUR .json            | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusansB.GSUB.arab.SND .json            | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusansB.GSUB.arab.URD .json            | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusansB.GSUB.nko .DFLT.json            | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusansB.GSUBdata.json                  | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusansB.cw127.json                     | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusansB.mtx.json                       | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensed.GDEFdata.json          | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensed.GPOSdata.json          | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensed.GSUB.arab.DFLT.json    | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensed.GSUB.arab.KUR .json    | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensed.GSUB.arab.SND .json    | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensed.GSUB.arab.URD .json    | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensed.GSUB.nko .DFLT.json    | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensed.GSUBdata.json          | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensed.cw127.json             | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensed.mtx.json               | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensedB.GDEFdata.json         | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensedB.GPOSdata.json         | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensedB.GSUB.arab.DFLT.json   | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensedB.GSUB.arab.KUR .json   | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensedB.GSUB.arab.SND .json   | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensedB.GSUB.arab.URD .json   | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensedB.GSUB.nko .DFLT.json   | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensedB.GSUBdata.json         | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensedB.cw127.json            | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavusanscondensedB.mtx.json              | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavuserifcondensed.mtx.json              | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/mpdf/mpdf/tmp/mpdf/ttfontdata/dejavuserifcondensedB.mtx.json             | JSON       |          1 |          0 |          0 |          1 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/spatie/ignition/resources/compiled/ignition.css                          | CSS        |          1 |          2 |          0 |          3 |
+| /home/asmaoui/Documents/coding/Association-Management/vendor/spatie/ignition/resources/compiled/ignition.js                           | JavaScript |          6 |          0 |          1 |          7 |
+| /home/asmaoui/Documents/coding/Association-Management/vite.config.js                                                                  | JavaScript |         23 |          4 |          2 |         29 |
+| Total                                                                                                                                 |            |     52,707 |      2,966 |      3,132 |     58,805 |
++---------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

@@ -282,7 +282,8 @@
         "date_debut": "تاريخ البدء",
         "date_fin": "تاريخ الانتهاء",
         "filter": "تصفية",
-        "clear": "إلغاء"
+        "clear": "إلغاء",
+        "payement_invoice": "فاتورة الدفع"
     },
     "documents": {
         "titre": "إدارة المستندات",
