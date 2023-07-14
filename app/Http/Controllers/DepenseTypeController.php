@@ -14,7 +14,7 @@ class DepenseTypeController extends Controller
     public function index()
     {
 
-        $depenseTypes = DepenseType::all();
+        $depenseTypes = DepenseType::with('depenses')->get();
 
         return Inertia::render('DepenseTypes/Index', [
             'depenseTypes' => $depenseTypes

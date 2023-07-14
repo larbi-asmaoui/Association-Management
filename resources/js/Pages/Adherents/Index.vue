@@ -532,12 +532,6 @@
             </vue-good-table>
         </div>
     </div>
-    <!-- <div class="w-5 h-5">
-        <Cropper
-            src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80"
-            @change="change"
-        />
-    </div> -->
 </template>
 
 <script>
@@ -550,37 +544,30 @@ export default {
 </script>
 
 <script setup>
+import Swal from "sweetalert2";
+
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
-import { Cropper } from "vue-advanced-cropper";
 import "vue-advanced-cropper/dist/style.css";
 import defaultImg from "../../../assets/image.jpeg";
-import { ref, nextTick, computed, onMounted } from "vue";
-import { watch } from "vue";
+import { ref, computed } from "vue";
 import { router, usePage } from "@inertiajs/vue3";
-import { Avatar } from "flowbite-vue";
-import Pagination from "../../Components/Pagination.vue";
 import ImageUpload from "../../Components/ImageUpload.vue";
 import { Modal } from "flowbite-vue";
 import { useForm } from "@inertiajs/vue3";
-import { useToast } from "vue-toast-notification";
-import "vue-toast-notification/dist/theme-sugar.css";
-import printJS from "print-js";
 
-import JsonCSV from "vue-json-csv";
 import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 import regionsFile from "../../regions.json";
 import { useI18n } from "vue-i18n";
 import QRCode from "qrcode";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Eye from "vue-material-design-icons/Eye.vue";
 import Printer from "vue-material-design-icons/Printer.vue";
+import Toast from "../../utils.js";
 
 const { t, availableLocales, locale } = useI18n();
 
 let isModalOpen = ref(false);
-const $toast = useToast();
 const page = usePage();
 const props = defineProps({
     adherents: {
@@ -651,7 +638,7 @@ const rows = computed(() =>
         cin: adherent.cin ?? "-",
         tel: adherent.tel,
         is_actif: adherent.is_actif,
-    }))
+    })),
 );
 
 const form = useForm({
@@ -748,7 +735,7 @@ const generateIDCards = async (adherents = props.adherents) => {
                     profileImgX + profileImgSize / 2,
                     profileImgY + profileImgSize / 2,
                     profileImgSize / 2,
-                    "S"
+                    "S",
                 );
                 doc.clip(); // Apply the clipping path
 
@@ -759,7 +746,7 @@ const generateIDCards = async (adherents = props.adherents) => {
                     profileImgX,
                     profileImgY,
                     profileImgSize,
-                    profileImgSize
+                    profileImgSize,
                 );
 
                 doc.rect(
@@ -767,7 +754,7 @@ const generateIDCards = async (adherents = props.adherents) => {
                     profileImgY,
                     profileImgSize,
                     profileImgSize,
-                    "S"
+                    "S",
                 );
             }
             // Reset the clipping path
@@ -786,7 +773,7 @@ const generateIDCards = async (adherents = props.adherents) => {
                     logoImgX + logoImgSize / 2,
                     logoImgY + logoImgSize / 2,
                     logoImgSize / 2,
-                    "S"
+                    "S",
                 );
 
                 doc.clip();
@@ -796,7 +783,7 @@ const generateIDCards = async (adherents = props.adherents) => {
                     logoImgX,
                     logoImgY,
                     logoImgSize,
-                    logoImgSize
+                    logoImgSize,
                 );
                 doc.rect(logoImgX, logoImgY, logoImgSize, logoImgSize, "S");
             }
@@ -827,7 +814,7 @@ const exportToPDF = () => {
             (pageWidth - 20) / 2,
             2,
             20,
-            20
+            20,
         );
         doc.setFontSize(15);
         const assoName = `${page.props.auth.association.name}` ?? "";
@@ -906,7 +893,7 @@ const csvFields = ref({
 const filteredCities = computed(() => {
     if (form.region) {
         const regionData = regions.value.find(
-            (region) => region.name === form.region
+            (region) => region.name === form.region,
         );
         if (regionData) {
             return regionData.cities_list;
@@ -928,26 +915,31 @@ const show = (id) => {
 };
 
 const destroy = (id) => {
-    if (confirm("Are you sure to delete?")) {
-        router.delete(route("adherents.destroy", id), {
-            onError: () => {
-                $toast.open({
-                    message: t("toasts.supp_error"),
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-            onSuccess: () => {
-                $toast.open({
-                    message: t("toasts.supp_success"),
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-        });
-    }
+    Swal.fire({
+        text: t("modals_questions.supprimer"),
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: t("buttons.supprimer"),
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.delete(route("adherents.destroy", id), {
+                onError: () => {
+                    Toast.fire({
+                        icon: "error",
+                        title: t("toasts.supp_error"),
+                    });
+                },
+                onSuccess: () => {
+                    Toast.fire({
+                        icon: "success",
+                        title: t("toasts.supp_success"),
+                    });
+                },
+            });
+        }
+    });
 };
 
 const checkActive = () => {
@@ -977,19 +969,15 @@ const submit = () => {
         preserveScroll: true,
         onSuccess: () => {
             closeModal();
-            $toast.open({
-                message: t("toasts.ajout_success"),
-                type: "success",
-                duration: 3000,
-                dismissible: true,
+            Toast.fire({
+                icon: "success",
+                title: t("toasts.ajout_success"),
             });
         },
         onError: () => {
-            $toast.open({
-                message: t("toasts.ajout_error"),
-                type: "error",
-                duration: 3000,
-                dismissible: true,
+            Toast.fire({
+                icon: "error",
+                title: t("toasts.ajout_error"),
             });
         },
     });

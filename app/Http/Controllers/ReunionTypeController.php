@@ -11,7 +11,7 @@ class ReunionTypeController extends Controller
     public function index()
     {
 
-        $reunionTypes = ReunionType::all();
+        $reunionTypes = ReunionType::with('reunions')->get();
 
         return Inertia::render('ReunionTypes/Index', [
             'reunionTypes' => $reunionTypes

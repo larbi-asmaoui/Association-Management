@@ -6,8 +6,11 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
 import VueApexCharts from "vue3-apexcharts";
 import i18n from "./i18n";
+import VueSweetalert2 from "vue-sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 import "../../node_modules/flag-icons/css/flag-icons.min.css";
 import "../css/app.css";
+
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText ||
     "MaAssociation";
@@ -17,19 +20,17 @@ createInertiaApp({
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.vue`,
-            import.meta.glob("./Pages/**/*.vue")
+            import.meta.glob("./Pages/**/*.vue"),
         ),
 
     setup({ el, App, props, plugin }) {
-        return (
-            createApp({ render: () => h(App, props) })
-                .use(plugin)
-                .use(i18n)
-                .use(ZiggyVue, Ziggy)
-                .use(VueApexCharts)
-                // .use(VueChartJs)
-                .mount(el)
-        );
+        return createApp({ render: () => h(App, props) })
+            .use(plugin)
+            .use(i18n)
+            .use(ZiggyVue, Ziggy)
+            .use(VueApexCharts)
+            .use(VueSweetalert2)
+            .mount(el);
     },
     progress: {
         color: "#4B5563",

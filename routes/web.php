@@ -38,8 +38,6 @@ Route::middleware([
 ])->group(
     function () {
         Route::resource('users', UserController::class)->middleware('role:admin');
-        // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/activities/calendrier', [ActivityController::class, 'calender'])->name('activities.calender');
 
@@ -48,21 +46,20 @@ Route::middleware([
         Route::resource('abonnements', AbonnementController::class);
         Route::resource('groupes', GroupeController::class);
         Route::resource('stocks', StockController::class);
+        Route::resource('statuts', StatutController::class);
         Route::resource('activities', ActivityController::class);
-        Route::put('/status/associate/{id}', [StatutController::class, 'associatePosteWithAdherent'])->name('status.associate');
+        Route::put('/statut/associate/{id}', [StatutController::class, 'associatePosteWithAdherent'])->name('status.associate');
         Route::resource('revenues', RevenueController::class);
         Route::resource('depenses', DepenseController::class);
         Route::resource('depense-types', DepenseTypeController::class);
         Route::resource('reunion-types', ReunionTypeController::class);
         Route::resource('revenue-types', RevenueTypeController::class);
-        // Route::resource('cotisation-types', CotisationTypeController::class);
         Route::resource('stock-types', StockTypeController::class);
         Route::resource('activity-types', ActivityTypeController::class);
-        Route::resource('status', StatutController::class);
+
         Route::resource('association', AssociationController::class)->middleware('role:admin');
         Route::resource('reunions', \App\Http\Controllers\ReunionController::class);
         Route::get('/e-documents', [App\Http\Controllers\DocumentsController::class, 'index'])->name('e-documents.index');
-        // Route::get('/e-document/rapport-litteraire', [App\Http\Controllers\DocumentsController::class, 'generateRapportLitterairePdf'])->name('e-documents.rapport_litteraire');
         Route::get('/e-document/rapport-litteraire', [App\Http\Controllers\DocumentsController::class, 'generateRapportLitterairePdf'])->name('e-documents.rapport_litteraire');
         Route::get('/e-document/rapport-financier', [App\Http\Controllers\DocumentsController::class, 'generateRapportFinancierPdf'])->name('e-documents.rapport_financier');
     }

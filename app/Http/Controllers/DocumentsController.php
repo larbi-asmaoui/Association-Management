@@ -168,13 +168,15 @@ class DocumentsController extends Controller
                 ->with('activity_type')
                 ->get();
         }
-        $association = Association::all();
+        $association = Association::first();
 
         $data = [
             'evenements' => $evenements,
             'association' => $association,
             'season'   => $newReference,
         ];
+
+
         $mpdf = new mPDF();
         $view = view('documents.rapport_litteraire', $data);
         $html = $view->render();
@@ -194,9 +196,9 @@ class DocumentsController extends Controller
             touch($filePath);
         }
 
-        Rapport::create([
+        $rapport = Rapport::updateOrCreate([
             'file_path' => $filePath,
-            'title' => "littéraire-" . $newReference,
+            'title' => "litteraire-" . $newReference,
         ]);
 
         $mpdf->Output($filePath, \Mpdf\Output\Destination::FILE);

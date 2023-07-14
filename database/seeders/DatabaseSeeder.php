@@ -107,45 +107,45 @@ class DatabaseSeeder extends Seeder
 
 
 
-        \App\Models\Statut::create([
+        // \App\Models\Statut::create([
 
-            'name' => 'الرئيس',
-        ]);
+        //     'name' => 'الرئيس',
+        // ]);
 
-        \App\Models\Statut::create([
+        // \App\Models\Statut::create([
 
-            'name' => 'نائب الرئيس',
-        ]);
+        //     'name' => 'نائب الرئيس',
+        // ]);
 
-        \App\Models\Statut::create([
+        // \App\Models\Statut::create([
 
-            'name' => 'الأمين',
-        ]);
+        //     'name' => 'الأمين',
+        // ]);
 
-        \App\Models\Statut::create([
+        // \App\Models\Statut::create([
 
-            'name' => 'نائب الأمين',
-        ]);
+        //     'name' => 'نائب الأمين',
+        // ]);
 
-        \App\Models\Statut::create([
+        // \App\Models\Statut::create([
 
-            'name' => 'الكاتب',
-        ]);
+        //     'name' => 'الكاتب',
+        // ]);
 
-        \App\Models\Statut::create([
+        // \App\Models\Statut::create([
 
-            'name' => 'نائب الكاتب',
-        ]);
+        //     'name' => 'نائب الكاتب',
+        // ]);
 
-        \App\Models\Statut::create([
+        // \App\Models\Statut::create([
 
-            'name' => 'المستشار 1',
-        ]);
+        //     'name' => 'المستشار 1',
+        // ]);
 
-        \App\Models\Statut::create([
+        // \App\Models\Statut::create([
 
-            'name' => 'المستشار 2',
-        ]);
+        //     'name' => 'المستشار 2',
+        // ]);
 
 
 

@@ -15,7 +15,7 @@ class activityTypeController extends Controller
     {
 
 
-        $activityTypes = ActivityType::all();
+        $activityTypes = ActivityType::with('activities')->get();
         return Inertia::render('ActivityTypes/Index', [
             'activityTypes' => $activityTypes
         ]);
@@ -65,10 +65,6 @@ class activityTypeController extends Controller
      */
     public function update(Request $request, ActivityType $activityType)
     {
-        // Ensure the user is authorized to update this ActivityType
-        if ($activityType->user_id != auth()->id()) {
-            return abort(403, 'Unauthorized action.');
-        }
 
         // Validate the request
         $formFields = $request->validate([

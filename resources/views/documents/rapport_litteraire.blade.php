@@ -41,15 +41,30 @@
 </head>
 
 <body style="font-family: DejaVu Sans; direction: rtl;">
+    @php
+        $yearPlural = $association->date_creation ? (new DateTime($association->date_creation))->diff(new DateTime())->y + 1 : 0;
+        $yearPhrase = '';
+        
+        if ($yearPlural <= 1) {
+            $yearPhrase = 'سنة';
+        } elseif ($yearPlural == 2) {
+            $yearPhrase = 'سنتين';
+        } elseif ($yearPlural > 2 && $yearPlural <= 10) {
+            $yearPhrase = $yearPlural . ' سنوات';
+        } elseif ($yearPlural > 10) {
+            $yearPhrase = $yearPlural . ' سنة';
+        }
+        
+    @endphp
+
     <div>
-        {{-- <img src="{{ url('/public/storage/' . $association[0]->image) }}" alt=""> --}}
-        {{-- <p>{{ url('/public/storage/' . $association[0]->image) }}</p> --}}
-        <p class="name">{{ $association[0]->name }}</p>
+
+        <p class="name">{{ $association->name }}</p>
         <p class="title">التقرير الأدبي للجمعية : {{ $season }}</p>
-        <p>لقد قطعت {{ $association[0]->name ?? 'null' }} أشواطا مهمة خلال مدة لا تتعدى
-            {{ $association[0]->created_at->diff(new DateTime())->y + 1 }} سنوات من عمر
-            هذه الجمعية، فقد تأسست جمعيتنا تحت اسم: {{ $association[0]->name ?? 'null' }} بتاريخ
-            {{ date_format($association[0]->created_at, 'Y/m/d') }}،
+        <p>لقد قطعت {{ $association->name ?? 'null' }} أشواطا مهمة خلال مدة لا تتعدى
+            {{ $yearPhrase }} من عمر
+            هذه الجمعية، فقد تأسست جمعيتنا تحت اسم: {{ $association->name ?? 'null' }} بتاريخ
+            {{ date_format(new DateTime($association->date_creation), 'Y/m/d') }}،
             ومنذ ذلك التاريخ وهي
             تحاول تحقيق الأهداف المتوخاة والمسطرة في القانون الأساسي للجمعية، فطبقا للمادة السابعة من القانون الأساسي
             للجمعية فإنها تعقد جمعا سنويا لتقييم نشاطها ووضع برنامج للسنة التالية، وهكذا قامت الجمعية بمجموعة من الأنشطة

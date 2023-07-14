@@ -13,7 +13,7 @@ class StockTypeController extends Controller
      */
     public function index()
     {
-        $stockTypes = StockType::all();
+        $stockTypes = StockType::with('stocks')->get();
         return Inertia::render('StockTypes/Index', [
             'stockTypes' => $stockTypes
         ]);

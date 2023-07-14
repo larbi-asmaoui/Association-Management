@@ -13,14 +13,14 @@ export default {
         <h1
             class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
         >
-            {{ $t("status.titre") }}
+            {{ $t("statuts.titre") }}
         </h1>
         <button
             @click="isModalOpen = true"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             type="button"
         >
-            {{ $t("status.modal_ajouter") }}
+            {{ $t("statuts.modal_ajouter") }}
         </button>
     </div>
 
@@ -30,8 +30,8 @@ export default {
                 <div class="flex items-center text-lg">
                     {{
                         form.id
-                            ? "Mettre à jour statut"
-                            : "Ajouter un nouveau statut"
+                            ? t("statuts.modal_modifier")
+                            : t("statuts.modal_ajouter")
                     }}
                 </div>
             </template>
@@ -45,7 +45,7 @@ export default {
                             <label
                                 for="name"
                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >Libellé
+                                >{{ $t("statuts.input_nom") }}
                             </label>
                             <input
                                 v-model="form.name"
@@ -70,13 +70,17 @@ export default {
                             type="button"
                             class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                         >
-                            Annuler
+                            {{ $t("buttons.annuler") }}
                         </button>
                         <button
                             type="submit"
                             class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                         >
-                            {{ form.id ? "Mettre à jour" : "Enregistrer" }}
+                            {{
+                                form.id
+                                    ? $t("buttons.modifier")
+                                    : $t("buttons.enregistrer")
+                            }}
                         </button>
                     </div>
                 </form></template
@@ -86,15 +90,12 @@ export default {
 
     <div class="mt-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <the-card v-for="statut in status" :key="statut.id">
+            <the-card v-for="statut in statuts" :key="statut.id">
                 <h5
                     class="mb-2 text-2xl font-bold tracking-tight text-center text-gray-900 dark:text-white"
                 >
                     {{ statut.name }}
                 </h5>
-                <!-- <p class="text-sm text-gray-500 dark:text-gray-400">
-                    {{ $t("date_ajout") }} {{ statut.created_at }}
-                </p> -->
                 <div class="flex justify-center mt-5 items-center">
                     <button
                         @click="openEditModal(statut)"
@@ -118,6 +119,7 @@ export default {
                         </span>
                     </button>
                     <button
+                        v-show="statut.adherent == null"
                         @click="destroy(statut)"
                         class="text-slate-800 hover:text-white text-sm bg-white hover:bg-red-600 border border-slate-200 rounded-lg font-medium px-4 py-2 inline-flex space-x-1 items-center"
                     >
@@ -159,7 +161,7 @@ const { t } = useI18n();
 const $toast = useToast();
 
 const props = defineProps({
-    status: {
+    statuts: {
         type: Object,
         default: () => ({}),
     },
@@ -179,7 +181,7 @@ const closeModal = () => {
 
 const destroy = (statut) => {
     if (confirm("vous êtes sûr?")) {
-        form.delete(route("status.destroy", statut.id), {
+        form.delete(route("statuts.destroy", statut.id), {
             onSuccess: () => {
                 $toast.open({
                     message: t("toasts.supp_success"),
@@ -201,36 +203,41 @@ const destroy = (statut) => {
 };
 
 const openEditModal = (statut) => {
-    isModalOpen.value = true;
     form.id = statut.id;
     form.name = statut.name;
+    isModalOpen.value = true;
 };
 
 const submit = () => {
     if (form.id) {
-        form.put(route("status.update", form.id), {
-            // forceFormData: true,
-            preserveScroll: true,
-            onSuccess: () => {
-                closeModal();
-                $toast.open({
-                    message: t("toasts.modif_success"),
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
-                });
+        router.post(
+            route("statuts.update", form.id),
+            {
+                _method: "put",
+                name: form.name,
             },
-            onError: () => {
-                $toast.open({
-                    message: t("toasts.modif_error"),
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
-                });
+            {
+                onSuccess: () => {
+                    closeModal();
+                    $toast.open({
+                        message: t("toasts.modif_success"),
+                        type: "success",
+                        duration: 3000,
+                        dismissible: true,
+                    });
+                },
+                onError: () => {
+                    $toast.open({
+                        message: t("toasts.modif_error"),
+                        type: "error",
+                        duration: 3000,
+                        dismissible: true,
+                    });
+                },
             },
-        });
+        );
     } else {
-        form.post(route("status.store"), {
+        form.post(route("statuts.store"), {
             forceFormData: true,
             preserveScroll: true,
             onSuccess: () => {

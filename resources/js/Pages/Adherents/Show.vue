@@ -585,6 +585,7 @@ import ArrowRight from "vue-material-design-icons/ArrowRight.vue";
 import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
 import Pencil from "vue-material-design-icons/Pencil.vue";
 import ContentSave from "vue-material-design-icons/ContentSave.vue";
+import Toast from "../../utils.js";
 
 const { t, availableLocales, locale } = useI18n();
 
@@ -648,7 +649,7 @@ const rows = computed(() =>
         start: activity.start,
         end: activity.end,
         location: activity.location,
-    }))
+    })),
 );
 
 const toggleDisabled = () => {
@@ -658,7 +659,7 @@ const toggleDisabled = () => {
 const filteredCities = computed(() => {
     if (form.region) {
         const regionData = regions.value.find(
-            (region) => region.name === form.region
+            (region) => region.name === form.region,
         );
         if (regionData) {
             return regionData.cities_list;
@@ -707,37 +708,20 @@ const submit = () => {
         },
         {
             onSuccess: () => {
-                $toast.open({
-                    message: t("toasts.modif_success"),
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
+                Toast.fire({
+                    icon: "success",
+                    title: t("toasts.modif_success"),
                 });
                 isDisabled.value = true;
             },
             onError: () => {
-                console.log(form.errors);
-                $toast.open({
-                    message: t("toasts.modif_error"),
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
+                Toast.fire({
+                    icon: "error",
+                    title: t("toasts.modif_error"),
                 });
             },
-        }
+        },
     );
-};
-
-const print = () => {
-    printJS({
-        maxWidth: 500,
-        maxHeight: 310,
-        printable: "card",
-        type: "html",
-        targetStyles: ["*"],
-        // targetStyles: ["height,width,position, font-size"],
-        // css: "../../../css/printing.css",
-    });
 };
 
 const showImage = () => {

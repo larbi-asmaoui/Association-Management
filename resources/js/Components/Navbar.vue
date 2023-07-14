@@ -279,8 +279,8 @@
                                     >
                                 </div>
                             </DropdownLink>
-                            <!-- <div class="border-t border-gray-200" />
-                            <DropdownLink :href="route('status.index')">
+                            <div class="border-t border-gray-200" />
+                            <DropdownLink :href="route('statuts.index')">
                                 <div class="flex">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -315,7 +315,7 @@
                                         {{ $t("navbar.statut") }}</span
                                     >
                                 </div>
-                            </DropdownLink> -->
+                            </DropdownLink>
                             <div class="border-t border-gray-200" />
                             <DropdownLink :href="route('revenue-types.index')">
                                 <div class="flex">
@@ -491,7 +491,10 @@
                                     @submit.prevent="logout"
                                     :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
                                 >
-                                    <DropdownLink as="button">
+                                    <DropdownLink
+                                        as="button"
+                                        class="bg-blue-300 text-left"
+                                    >
                                         {{ $t("navbar.logout") }}
                                     </DropdownLink>
                                 </form>

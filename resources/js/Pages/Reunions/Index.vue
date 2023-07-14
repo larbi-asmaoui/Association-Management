@@ -227,6 +227,7 @@ export default {
 </script>
 
 <script setup>
+import Swal from "sweetalert2";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { VueGoodTable } from "vue-good-table-next";
@@ -235,8 +236,6 @@ import Multiselect from "@vueform/multiselect";
 import { ref, computed } from "vue";
 import { Modal } from "flowbite-vue";
 import { router, usePage } from "@inertiajs/vue3";
-import { useToast } from "vue-toast-notification";
-import "vue-toast-notification/dist/theme-sugar.css";
 import { useForm } from "@inertiajs/vue3";
 import { useI18n } from "vue-i18n";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
@@ -244,6 +243,7 @@ import Pencil from "vue-material-design-icons/Pencil.vue";
 import Plus from "vue-material-design-icons/Plus.vue";
 import Eye from "vue-material-design-icons/Eye.vue";
 import Printer from "vue-material-design-icons/Printer.vue";
+import Toast from "../../utils.js";
 
 const { t, availableLocales, locale } = useI18n();
 
@@ -263,8 +263,6 @@ const props = defineProps({
 });
 
 const page = usePage();
-
-const $toast = useToast();
 
 let isModalOpen = ref(false);
 
@@ -304,7 +302,7 @@ const rows = computed(() =>
         date: reunion.date,
         reunion_type_id: reunion.reunion_type_id,
         adherents: reunion.adherents,
-    }))
+    })),
 );
 
 const submit = () => {
@@ -314,11 +312,10 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                $toast.open({
-                    message: "reunion modifié avec succès",
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
+
+                Toast.fire({
+                    icon: "success",
+                    title: t("toasts.modif_success"),
                 });
             },
         });
@@ -328,11 +325,10 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                $toast.open({
-                    message: "reunion ajouté avec succès",
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
+
+                Toast.fire({
+                    icon: "success",
+                    title: t("toasts.ajout_success"),
                 });
             },
         });
@@ -349,27 +345,31 @@ const show = (id) => {
 };
 
 const destroy = (id) => {
-    if (confirm("Are you sure?")) {
-        form.delete(route("reunions.destroy", id), {
-            preserveScroll: true,
-            onSuccess: () => {
-                $toast.open({
-                    message: t("toasts.supp_success"),
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-            onError: () => {
-                $toast.open({
-                    message: t("toasts.supp_error"),
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-        });
-    }
+    Swal.fire({
+        text: t("modals_questions.supprimer"),
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: t("buttons.supprimer"),
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.delete(route("reunions.destroy", id), {
+                onError: () => {
+                    Toast.fire({
+                        icon: "error",
+                        title: t("toasts.supp_error"),
+                    });
+                },
+                onSuccess: () => {
+                    Toast.fire({
+                        icon: "success",
+                        title: t("toasts.supp_success"),
+                    });
+                },
+            });
+        }
+    });
 };
 
 const printAttendanceList = (reunion) => {
@@ -391,7 +391,7 @@ const printAttendanceList = (reunion) => {
         (pageWidth - 20) / 2,
         2,
         20,
-        20
+        20,
     );
 
     doc.setFontSize(14);
@@ -464,7 +464,7 @@ const formattedAdherents = computed(() =>
     Object.values(props.adherents).map((adherent) => ({
         value: adherent.id,
         label: adherent.last_name + " " + adherent.first_name,
-    }))
+    })),
 );
 </script>
 

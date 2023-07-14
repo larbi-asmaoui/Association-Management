@@ -14,7 +14,7 @@ class RevenueTypeController extends Controller
     public function index()
     {
 
-        $revenueTypes = RevenueType::all();
+        $revenueTypes = RevenueType::with('revenues')->get();
         return Inertia::render('RevenueTypes/Index', [
             'revenueTypes' => $revenueTypes
         ]);

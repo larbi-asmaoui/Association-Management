@@ -5,7 +5,10 @@ export default {
 };
 </script>
 
+<style src="@vueform/multiselect/themes/default.css"></style>
 <script setup>
+import Multiselect from "@vueform/multiselect";
+import Swal from "sweetalert2";
 import QRCode from "qrcode";
 import jsPDF from "jspdf";
 import { VueGoodTable } from "vue-good-table-next";
@@ -22,6 +25,7 @@ import Eye from "vue-material-design-icons/Eye.vue";
 import Printer from "vue-material-design-icons/Printer.vue";
 import Plus from "vue-material-design-icons/Plus.vue";
 import Filter from "vue-material-design-icons/Filter.vue";
+import Toast from "../../utils.js";
 
 const printInvoice = async () => {
     const doc = new jsPDF();
@@ -142,7 +146,6 @@ const props = defineProps({
 
 const selectedPayementStartDate = ref("");
 const selectedPayementEndDate = ref("");
-const selectedEndDate = ref("");
 const selectedAbonnements = ref(props.abonnements);
 
 const showInfo = ref(false);
@@ -226,26 +229,31 @@ const showFilter = () => {
 };
 
 const destroy = (id) => {
-    if (confirm("Are you sure to delete?")) {
-        form.delete(route("abonnements.destroy", id), {
-            onSuccess: () => {
-                $toast.open({
-                    message: t("toasts.supp_success"),
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-            onError: () => {
-                $toast.open({
-                    message: t("toasts.supp_error"),
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-        });
-    }
+    Swal.fire({
+        text: t("modals_questions.supprimer"),
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: t("buttons.supprimer"),
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.delete(route("abonnements.destroy", id), {
+                onError: () => {
+                    Toast.fire({
+                        icon: "success",
+                        title: t("toasts.supp_error"),
+                    });
+                },
+                onSuccess: () => {
+                    Toast.fire({
+                        icon: "success",
+                        title: t("toasts.supp_success"),
+                    });
+                },
+            });
+        }
+    });
 };
 
 const submit = () => {
@@ -254,19 +262,15 @@ const submit = () => {
         preserveScroll: true,
         onSuccess: () => {
             closeModal();
-            $toast.open({
-                message: t("toasts.ajout_success"),
-                type: "success",
-                duration: 3000,
-                dismissible: true,
+            Toast.fire({
+                icon: "success",
+                title: t("toasts.ajout_success"),
             });
         },
         onError: () => {
-            $toast.open({
-                message: t("toasts.ajout_error"),
-                type: "error",
-                duration: 3000,
-                dismissible: true,
+            Toast.fire({
+                icon: "error",
+                title: t("toasts.ajout_error"),
             });
         },
     });
@@ -276,6 +280,13 @@ const closeModal = () => {
     isModalOpen.value = false;
     form.reset();
 };
+
+const formattedAdherents = computed(() =>
+    Object.values(props.adherents).map((adherent) => ({
+        value: adherent.id,
+        label: adherent.last_name + " " + adherent.first_name,
+    })),
+);
 </script>
 
 <template>
@@ -309,13 +320,13 @@ const closeModal = () => {
                 <!--  -->
                 <button
                     @click="printInvoice"
-                    class="relative text-white py-2 px-2 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-all text-sm"
+                    class="relative text-white py-2 px-2 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 hover:bg-blue-600 transition-all text-sm"
                 >
                     <Printer />
                 </button>
                 <button
                     @click="showFilter"
-                    class="relative text-white py-2 px-2 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-all text-sm"
+                    class="relative text-white py-2 px-2 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 hover:bg-blue-600 transition-all text-sm"
                 >
                     <Filter />
                 </button>
@@ -342,21 +353,14 @@ const closeModal = () => {
                                 class="block mb-2 text-sm font-medium text-gray-900"
                                 >{{ $t("abonnements.choose_adherent") }}</label
                             >
-                            <select
+
+                            <Multiselect
                                 v-model="form.adherent_id"
-                                id="adherents"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 appearance-none select-none relative z-10"
-                            >
-                                <option
-                                    v-for="adherent in adherents"
-                                    :key="adherent.id"
-                                    :value="adherent.id"
-                                    class="bg-white dark:bg-gray-800 py-2.5 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
-                                >
-                                    {{ adherent.first_name }}
-                                    {{ adherent.last_name }}
-                                </option>
-                            </select>
+                                :close-on-select="false"
+                                :searchable="true"
+                                :create-option="true"
+                                :options="formattedAdherents"
+                            />
                             <span
                                 v-if="form.errors.adherent_id"
                                 class="text-xs text-red-600 mt-1"

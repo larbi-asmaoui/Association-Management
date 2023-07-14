@@ -188,20 +188,22 @@
                         </div>
                     </div>
 
-                    <div class="col-span-6 sm:col-full">
+                    <div
+                        class="col-span-6 sm:col-full flex gap-2 justify-start"
+                    >
                         <button
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            v-show="isEnabled"
+                            class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             type="submit"
                         >
                             {{ $t("buttons.enregistrer") }}
                         </button>
-                        <span class="ml-4"></span>
                         <button
                             @click="toggleEnabled"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             type="button"
                         >
-                            {{ $t("buttons.modifier") }}
+                            <Pencil :size="20" />
                         </button>
                     </div>
                 </div>
@@ -382,19 +384,19 @@
 </template>
 
 <script setup>
+import Swal from "sweetalert2";
 import Multiselect from "@vueform/multiselect";
 import { Modal } from "flowbite-vue";
 import regionsFile from "../../regions.json";
 import { ref, computed } from "vue";
 import { useForm, usePage, router } from "@inertiajs/vue3";
-import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import Pencil from "vue-material-design-icons/Pencil.vue";
 import { useI18n } from "vue-i18n";
 import html2pdf from "html2pdf.js";
 import Printer from "vue-material-design-icons/Printer.vue";
+import Toast from "../../utils.js";
 
-const $toast = useToast();
 const { t } = useI18n();
 
 const props = defineProps({
@@ -458,7 +460,7 @@ const selectImage = (event) => {
 const filteredCities = computed(() => {
     if (form.region) {
         const regionData = regions.value.find(
-            (region) => region.name === form.region
+            (region) => region.name === form.region,
         );
         if (regionData) {
             return regionData.cities_list;
@@ -492,22 +494,18 @@ const submit = (e) => {
             },
             {
                 onSuccess: () => {
-                    $toast.open({
-                        message: t("toasts.modif_success"),
-                        type: "success",
-                        duration: 3000,
-                        dismissible: true,
+                    Toast.fire({
+                        icon: "success",
+                        title: t("toasts.modif_success"),
                     });
                 },
                 onError: () => {
-                    $toast.open({
-                        message: t("toasts.modif_error"),
-                        type: "error",
-                        duration: 3000,
-                        dismissible: true,
+                    Toast.fire({
+                        icon: "error",
+                        title: t("toasts.modif_error"),
                     });
                 },
-            }
+            },
         );
     } else {
         router.post(
@@ -526,22 +524,18 @@ const submit = (e) => {
             },
             {
                 onSuccess: () => {
-                    $toast.open({
-                        message: t("toasts.modif_success"),
-                        type: "success",
-                        duration: 3000,
-                        dismissible: true,
+                    Toast.fire({
+                        icon: "success",
+                        title: t("toasts.modif_success"),
                     });
                 },
                 onError: () => {
-                    $toast.open({
-                        message: t("toasts.modif_error"),
-                        type: "error",
-                        duration: 3000,
-                        dismissible: true,
+                    Toast.fire({
+                        icon: "error",
+                        title: t("toasts.modif_error"),
                     });
                 },
-            }
+            },
         );
     }
 };
@@ -568,19 +562,15 @@ const associatePosteWithAdherent = () => {
     posteForm.put(route("status.associate", posteForm.id), {
         onSuccess: () => {
             closeModal();
-            $toast.open({
-                message: t("toasts.modif_success"),
-                type: "success",
-                duration: 3000,
-                dismissible: true,
+            Toast.fire({
+                icon: "success",
+                title: t("toasts.modif_success"),
             });
         },
         onError: () => {
-            $toast.open({
-                message: t("toasts.modif_error"),
-                type: "error",
-                duration: 3000,
-                dismissible: true,
+            Toast.fire({
+                icon: "error",
+                title: t("toasts.modif_error"),
             });
         },
     });

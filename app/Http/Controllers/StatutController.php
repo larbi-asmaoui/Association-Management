@@ -3,22 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Statut;
-use Inertia\Inertia;
-
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Request;
+use Inertia\Inertia;
 
 class StatutController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        // $Status = Statut::where('user_id', $userId)->get();
+
+        $statuts = Statut::with('adherent')->get();
+
         return Inertia::render('Status/Index', [
-            'status' => Statut::all()
-            // ->appends(Request::all()),
+            'statuts' => $statuts
         ]);
     }
 
@@ -35,6 +31,7 @@ class StatutController extends Controller
      */
     public function store(Request $request)
     {
+        //
         $statut = $request->validate([
             'name' => 'required',
         ]);
@@ -42,34 +39,18 @@ class StatutController extends Controller
         return redirect()->back()->with('success', 'Statut created.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Statut $statut)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Statut $statut)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Statut $statut)
     {
-
-        $formFields =  $request->validate([
-            'name' => 'required',
-        ]);
-
-
-        $statut->update($formFields);
+        $statut->update(
+            $request->validate([
+                'name' => 'required',
+            ])
+        );
         return redirect()->back()->with('success', 'Statut updated.');
     }
 

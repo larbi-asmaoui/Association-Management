@@ -80,7 +80,8 @@
         "modifier": "تعديل",
         "supprimer": "حذف",
         "annuler": "إلغاء",
-        "enregistrer": "حفظ"
+        "enregistrer": "حفظ",
+        "ok": "حسنا"
     },
 
     "a-propos": {
@@ -294,9 +295,11 @@
         "table_actions": "العمليات",
         "all_rapports": "التقارير المالية والأدبية"
     },
-    "status": {
+    "statuts": {
         "titre": "إدارة الحالات",
-        "modal_ajouter": "إضافة حالة"
+        "modal_ajouter": "إضافة حالة",
+        "modal_modifier": "تعديل حالة",
+        "input_nom": "الاسم"
     },
     "toasts": {
         "ajout_success": "تمت الإضافة بنجاح",
@@ -305,5 +308,10 @@
         "modif_error": "حدث خطأ أثناء التعديل",
         "supp_success": "تم الحذف بنجاح",
         "supp_error": "حدث خطأ أثناء الحذف"
+    },
+    "modals_questions": {
+        "supprimer": "هل أنت متأكد من حذف هذا العنصر؟",
+        "modifier": "هل أنت متأكد من تعديل هذا العنصر؟",
+        "ajouter": "هل أنت متأكد من إضافة هذا العنصر؟"
     }
 }

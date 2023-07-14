@@ -88,10 +88,10 @@
                 <p class="font-normal text-gray-700 dark:text-gray-400">
                     {{ $t("date_ajout") }} {{ activityType.created_at }}
                 </p>
-                <div class="flex justify-end mt-5 items-end">
+                <div class="flex justify-center mt-5 items-center">
                     <button
                         @click="openEditModal(activityType)"
-                        class="text-slate-800 hover:text-blue-600 text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-l-lg font-medium px-4 py-2 inline-flex space-x-1 items-center"
+                        class="me-2 text-slate-800 hover:text-blue-600 text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-lg font-medium px-4 py-2 inline-flex space-x-1 items-center"
                     >
                         <span
                             ><svg
@@ -111,8 +111,9 @@
                         </span>
                     </button>
                     <button
-                        @click="destroy(activityType.id)"
-                        class="text-slate-800 hover:text-white text-sm bg-white hover:bg-red-600 border border-slate-200 rounded-r-lg font-medium px-4 py-2 inline-flex space-x-1 items-center"
+                        v-show="activityType.activities.length === 0"
+                        @click="destroy(activityType)"
+                        class="text-slate-800 hover:text-white text-sm bg-white hover:bg-red-600 border border-slate-200 rounded-lg font-medium px-4 py-2 inline-flex space-x-1 items-center"
                     >
                         <span>
                             <svg
