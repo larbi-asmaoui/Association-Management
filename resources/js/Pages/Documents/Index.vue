@@ -108,8 +108,6 @@
 <script setup>
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
-// import Vue3EasyDataTable from "vue3-easy-data-table";
-// import "vue3-easy-data-table/dist/style.css";
 import { usePage, router } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
 import { Modal } from "flowbite-vue";
@@ -155,7 +153,7 @@ const rows = computed(() =>
         title: rapport.title,
         created_at: rapport.created_at,
         file_path: rapport.file_path,
-    }))
+    })),
 );
 
 const storage = () => {

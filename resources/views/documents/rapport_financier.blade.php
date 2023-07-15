@@ -158,7 +158,7 @@
     <br><br>
     <p>مجموع المداخيل: {{ $totalRevenus }} درهم</p>
     <p>مجموع المصـاريف: {{ $totalDepenses }} درهم</p>
-    <p>الميـــــزان:
+    <p>الميزانية:
         {{ $totalRevenus - $totalDepenses < 0 ? abs($totalRevenus - $totalDepenses) . '-' : abs($totalRevenus - $totalDepenses) . '+' }}
         درهم (العجز او الفائض).</p>
 

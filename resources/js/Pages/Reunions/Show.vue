@@ -196,12 +196,11 @@
     </div>
 </template>
 <script setup>
+import Swal from "sweetalert2";
 import autoTable from "jspdf-autotable";
 import { useForm, Link, usePage } from "@inertiajs/vue3";
 import { ref, computed, reactive, watchEffect } from "vue";
 import jsPDF from "jspdf";
-import { useToast } from "vue-toast-notification";
-import "vue-toast-notification/dist/theme-sugar.css";
 import Multiselect from "@vueform/multiselect";
 import { useI18n } from "vue-i18n";
 import { VueGoodTable } from "vue-good-table-next";
@@ -210,8 +209,8 @@ import ArrowRight from "vue-material-design-icons/ArrowRight.vue";
 import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
 import Printer from "vue-material-design-icons/Printer.vue";
 import Pencil from "vue-material-design-icons/Pencil.vue";
+import Toast from "../../utils.js";
 
-const $toast = useToast();
 const { t } = useI18n();
 const isEnabled = ref(false);
 const props = defineProps({
@@ -269,7 +268,7 @@ const rows = computed(() =>
         nom_complet: adherent.first_name + " " + adherent.last_name,
         cin: adherent.cin ?? "-",
         tel: adherent.tel ?? "-",
-    }))
+    })),
 );
 
 const toggleEnabled = () => {
@@ -280,25 +279,21 @@ const formattedAdherents = computed(() =>
     Object.values(props.adherents).map((adherent) => ({
         value: adherent.id,
         label: adherent.last_name + " " + adherent.first_name,
-    }))
+    })),
 );
 
 const submit = () => {
     form.put(route("reunions.update", props.reunion.id), {
         onError: () => {
-            $toast.open({
-                message: t("toasts.modif_error"),
-                type: "error",
-                dismissible: true,
-                duration: 3000,
+            Toast.fire({
+                icon: "error",
+                title: t("toasts.modif_error"),
             });
         },
         onSuccess: () => {
-            $toast.open({
-                message: t("toasts.modif_success"),
-                type: "success",
-                dismissible: true,
-                duration: 3000,
+            Toast.fire({
+                icon: "success",
+                title: t("toasts.modif_success"),
             });
             isEnabled.value = false;
         },
@@ -307,6 +302,16 @@ const submit = () => {
 
 const printAttendanceList = () => {
     const doc = new jsPDF();
+
+    if (props.reunion.adherents.length === 0) {
+        Swal.fire({
+            icon: "error",
+            text: "لا يوجد أعضاء في هذا الاجتماع",
+            showConfirmButton: false,
+            timer: 1500,
+        });
+        return;
+    }
 
     // Step 1: Load the Arabic font file
     const arabicFontFile = "/fonts/Amiri-Regular.ttf";
@@ -325,7 +330,7 @@ const printAttendanceList = () => {
             (pageWidth - 20) / 2,
             2,
             20,
-            20
+            20,
         );
     }
 

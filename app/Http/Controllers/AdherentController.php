@@ -37,9 +37,10 @@ class AdherentController extends Controller
                         ->where('date_payement', '>=', $previousReunion->date);
                 })
                 ->join('abonnements', 'adherents.id', '=', 'abonnements.adherent_id')
+                ->with('statut')
                 ->get();
         } else {
-            $adherents = Adherent::with('abonnements')->get();
+            $adherents = Adherent::with('abonnements')->with('statut')->get();
         }
         $status  = Statut::all();
         return Inertia::render('Adherents/Index', [
@@ -175,17 +176,14 @@ class AdherentController extends Controller
         // check passed successfully
         if ($reunionsCount == 1) {
             $reunion = Reunion::whereHas('reunion_type', function ($query) {
-                $query->where('name', 'normal');
+                $query->where('id', '1');
             })->orderBy('date', 'desc')->first();
-            // $adherents = Adherent::whereDoesntHave('abonnements', function ($query) use ($reunion) {
-            //     $query->whereDate('date_payement', '>=', $reunion->date);
-            // })->with('abonnements')->get();
             $adherents = DB::table('adherents')
                 ->whereExists(function ($query) use ($reunion) {
                     $query->select(DB::raw(1))
                         ->from('abonnements')
                         ->whereRaw('adherents.id = abonnements.adherent_id')
-                        ->where('date_payement', '<=', $reunion->date);
+                        ->whereDate('date_payement', '<', $reunion->date);
                 })
                 ->orderBy('adherents.id')
                 ->join('abonnements', 'adherents.id', '=', 'abonnements.adherent_id')
@@ -196,7 +194,7 @@ class AdherentController extends Controller
             return redirect()->back()->with('message', 'All adherents are deactivated.');
         } else {
             $reunions = Reunion::whereHas('reunion_type', function ($query) {
-                $query->where('name', 'normal');
+                $query->where('id', '1');
             })->orderBy('date', 'desc')->take(2)->get();
             $newestReunion = $reunions->first();
             $previousReunion = $reunions->last();

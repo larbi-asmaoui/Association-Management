@@ -55,7 +55,7 @@
                     class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     type="button"
                 >
-                    Check if actve or not
+                    تفعيل الاشتراك
                 </button>
             </div>
         </div>
@@ -509,7 +509,7 @@
                     <div v-if="column.field === 'image'" class="flex">
                         <div class="w-14 h-14">
                             <img
-                                class="rounded-full object-cover"
+                                class="rounded-full object-cover border border-gray-400"
                                 :src="showImage(row)"
                                 alt="Circular Image"
                             />
@@ -703,7 +703,13 @@ const generateIDCards = async (adherents = props.adherents) => {
         for (let j = 0; j < cardsToPrint.length; j++) {
             const adherent = cardsToPrint[j];
 
-            const cardText = `\nالاسم والنسب : ${adherent.first_name} ${adherent.last_name}\n${adherent.date_of_birth} :  تاريخ الميلاد\n${adherent.date_of_membership} :  تاريخ الإنخراط\nالمهنة : ${adherent.profession}`;
+            const cardText = `المنصب : ${
+                adherent.statut.name ?? "منخرط"
+            }\nالاسم والنسب : ${adherent.first_name} ${adherent.last_name}\n${
+                adherent.date_of_birth
+            } :  تاريخ الميلاد\n${
+                adherent.date_of_membership
+            } :  تاريخ الإنخراط\nالمهنة : ${adherent.profession}`;
 
             const qrCode = await QRCode.toDataURL(cardText);
 
@@ -725,7 +731,7 @@ const generateIDCards = async (adherents = props.adherents) => {
             doc.setFontSize(12);
             doc.setFont(arabicFontName, "bold");
             // in the center of the card
-            doc.text(numAdhesion, x + 40, y + 20, { align: "center" });
+            doc.text(numAdhesion, x + 40, y + 18, { align: "center" });
             doc.setFont(arabicFontName, "normal");
             doc.setFontSize(10);
             const qrImg = new Image();
@@ -739,18 +745,18 @@ const generateIDCards = async (adherents = props.adherents) => {
                 profileImg.src = "/storage/" + profilePath;
                 const profileImgX = x + 63;
                 const profileImgY = y + 4;
-                const profileImgSize = 13;
+                const profileImgSize = 15;
 
                 // Clip the image to a circle
                 doc.setLineWidth(0.1);
                 doc.setDrawColor(0);
-                doc.circle(
-                    profileImgX + profileImgSize / 2,
-                    profileImgY + profileImgSize / 2,
-                    profileImgSize / 2,
-                    "S",
-                );
-                doc.clip(); // Apply the clipping path
+                // doc.circle(
+                //     profileImgX + profileImgSize / 2,
+                //     profileImgY + profileImgSize / 2,
+                //     profileImgSize / 2,
+                //     "S",
+                // );
+                // doc.clip(); // Apply the clipping path
 
                 // Add the rounded profile image
                 doc.addImage(
@@ -780,18 +786,18 @@ const generateIDCards = async (adherents = props.adherents) => {
                 logoImg.src = "/storage/" + logoPath;
                 const logoImgX = x + 2;
                 const logoImgY = y + 4;
-                const logoImgSize = 15;
+                const logoImgSize = 13;
                 // Create a rounded clipping path for logo image
                 doc.setLineWidth(0.1);
                 doc.setDrawColor(0);
-                doc.circle(
-                    logoImgX + logoImgSize / 2,
-                    logoImgY + logoImgSize / 2,
-                    logoImgSize / 2,
-                    "S",
-                );
+                // doc.circle(
+                //     logoImgX + logoImgSize / 2,
+                //     logoImgY + logoImgSize / 2,
+                //     logoImgSize / 2,
+                //     "S",
+                // );
 
-                doc.clip();
+                // doc.clip();
                 doc.addImage(
                     logoImg,
                     "PNG",
