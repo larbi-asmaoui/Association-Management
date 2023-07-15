@@ -704,7 +704,7 @@ const generateIDCards = async (adherents = props.adherents) => {
             const adherent = cardsToPrint[j];
 
             const cardText = `المنصب : ${
-                adherent.statut.name ?? "منخرط"
+                adherent.statut !== null ? adherent.statut.name : "منخرط"
             }\nالاسم والنسب : ${adherent.first_name} ${adherent.last_name}\n${
                 adherent.date_of_birth
             } :  تاريخ الميلاد\n${
@@ -780,7 +780,10 @@ const generateIDCards = async (adherents = props.adherents) => {
             }
             // Reset the clipping path
 
-            if (page.props.auth.association !== null) {
+            if (
+                page.props.auth.association !== null &&
+                page.props.auth.association.image !== null
+            ) {
                 const logoImg = new Image();
                 const logoPath = page.props.auth.association.image;
                 logoImg.src = "/storage/" + logoPath;
