@@ -340,6 +340,7 @@ export default {
 </script>
 
 <script setup>
+import Swal from "sweetalert2";
 import Multiselect from "@vueform/multiselect";
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
@@ -347,16 +348,13 @@ import { ref, computed, reactive, watchEffect } from "vue";
 import { Modal } from "flowbite-vue";
 import { useForm } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
-import { useToast } from "vue-toast-notification";
-import "vue-toast-notification/dist/theme-sugar.css";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Pencil from "vue-material-design-icons/Pencil.vue";
-
+import Toast from "../../utils.js";
 import regionsFile from "../../regions.json";
 import { useI18n } from "vue-i18n";
-const { t } = useI18n();
 
-const $toast = useToast();
+const { t } = useI18n();
 
 const props = defineProps({
     activities: {
@@ -400,14 +398,14 @@ const rows = computed(() =>
         start: activity.start,
         end: activity.end,
         adherents: activity.adherents,
-    }))
+    })),
 );
 
 const formattedAdherents = computed(() =>
     Object.values(props.adherents).map((adherent) => ({
         value: adherent.id,
         label: adherent.last_name + " " + adherent.first_name,
-    }))
+    })),
 );
 
 const incrementPart = computed(() => {
@@ -434,7 +432,7 @@ const regions = ref(regionsFile);
 const filteredCities = computed(() => {
     if (form.region) {
         const regionData = regions.value.find(
-            (region) => region.name === form.region
+            (region) => region.name === form.region,
         );
         if (regionData) {
             return regionData.cities_list;
@@ -464,21 +462,16 @@ const submit = () => {
     //   form.adherents = selectedAdherents.value;
     form.post(route("activities.store"), {
         onError: () => {
-            console.log(form.errors);
-            $toast.open({
-                message: t("toasts.ajout_error"),
-                type: "error",
-                dismissible: true,
-                duration: 3000,
+            Toast.fire({
+                icon: "error",
+                title: t("toasts.ajout_error"),
             });
         },
         onSuccess: () => {
             closeModal();
-            $toast.open({
-                message: t("toasts.ajout_success"),
-                type: "success",
-                dismissible: true,
-                duration: 3000,
+            Toast.fire({
+                icon: "success",
+                title: t("toasts.ajout_success"),
             });
         },
     });
@@ -492,27 +485,31 @@ const closeModal = () => {
 };
 
 const destroy = (id) => {
-    if (confirm("Êtes-vous sûr de vouloir supprimer cet Activité ?")) {
-        form.delete(route("activities.destroy", id), {
-            onError: () => {
-                $toast.open({
-                    message: t("toasts.supp_error"),
-                    type: "error",
-                    dismissible: true,
-                    duration: 3000,
-                });
-            },
-            onSuccess: () => {
-                $toast.open({
-                    message: t("toasts.supp_success"),
-                    type: "success",
-                    dismissible: true,
-                    duration: 3000,
-                });
-                // page.value.$inertia.$refresh(); // This will refresh the page
-            },
-        });
-    }
+    Swal.fire({
+        text: t("modals_questions.supprimer"),
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: t("buttons.supprimer"),
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.delete(route("activities.destroy", id), {
+                onError: () => {
+                    Toast.fire({
+                        icon: "error",
+                        title: t("toasts.supp_error"),
+                    });
+                },
+                onSuccess: () => {
+                    Toast.fire({
+                        icon: "success",
+                        title: t("toasts.supp_success"),
+                    });
+                },
+            });
+        }
+    });
 };
 
 const show = (id) => {

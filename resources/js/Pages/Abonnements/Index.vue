@@ -17,8 +17,6 @@ import { ref, computed, reactive, watchEffect } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
-import { useToast } from "vue-toast-notification";
-import "vue-toast-notification/dist/theme-sugar.css";
 import { useI18n } from "vue-i18n";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Eye from "vue-material-design-icons/Eye.vue";
@@ -27,8 +25,31 @@ import Plus from "vue-material-design-icons/Plus.vue";
 import Filter from "vue-material-design-icons/Filter.vue";
 import Toast from "../../utils.js";
 
-const printInvoice = async () => {
+const selectedPayementStartDate = ref("");
+const selectedPayementEndDate = ref("");
+const selectedAbonnements = ref(props.abonnements);
+
+const filteredItems = reactive([]);
+
+const printSingleInvoice = (id) => {
+    const abonnement = selectedAbonnements.value.find(
+        (abonnement) => abonnement.id === id,
+    );
+    printInvoice([abonnement]);
+};
+
+const printInvoice = async (abonnements) => {
     const doc = new jsPDF();
+
+    if (abonnements.length === 0) {
+        Swal.fire({
+            icon: "error",
+            text: "  لا يوجد أي وصل للطباعة",
+            showConfirmButton: false,
+            timer: 2000,
+        });
+        return;
+    }
 
     // Step 1: Load the Arabic font file
     const arabicFontFile = "/fonts/Amiri-Regular.ttf";
@@ -39,31 +60,7 @@ const printInvoice = async () => {
 
     const pageWidth = doc.internal.pageSize.getWidth();
 
-    const members = [
-        { id: 1, name: "John Doe", age: 25 },
-        { id: 2, name: "Jane Smith", age: 30 },
-        { id: 3, name: "Bob Johnson", age: 28 },
-        { id: 4, name: "Alice Brown", age: 35 },
-        { id: 1, name: "John Doe", age: 25 },
-        { id: 2, name: "Jane Smith", age: 30 },
-        { id: 3, name: "Bob Johnson", age: 28 },
-        { id: 4, name: "Alice Brown", age: 35 },
-        { id: 1, name: "John Doe", age: 25 },
-        { id: 2, name: "Jane Smith", age: 30 },
-        { id: 3, name: "Bob Johnson", age: 28 },
-        { id: 4, name: "Alice Brown", age: 35 },
-        { id: 1, name: "John Doe", age: 25 },
-        { id: 2, name: "Jane Smith", age: 30 },
-        { id: 3, name: "Bob Johnson", age: 28 },
-        { id: 4, name: "Alice Brown", age: 35 },
-        { id: 1, name: "John Doe", age: 25 },
-        { id: 2, name: "Jane Smith", age: 30 },
-        { id: 3, name: "Bob Johnson", age: 28 },
-        { id: 4, name: "Alice Brown", age: 35 },
-        // Add more member objects as needed
-    ];
-
-    for (let i = 0; i < members.length; i += 2) {
+    for (let i = 0; i < abonnements.length; i += 2) {
         if (i !== 0) {
             doc.addPage(); // Add a new page for each pair of members except the first pair
         }
@@ -74,7 +71,7 @@ const printInvoice = async () => {
         const docTitleX = (pageWidth - docTitleWidth) / 2;
         doc.text(docTitle, docTitleX, 10);
 
-        const remainingAbonnements = selectedAbonnements.value.slice(i);
+        const remainingAbonnements = abonnements.slice(i);
         const invoiceToPrint =
             remainingAbonnements.length >= 2
                 ? remainingAbonnements.slice(0, 4)
@@ -127,7 +124,6 @@ const printInvoice = async () => {
 };
 
 const { t } = useI18n();
-const $toast = useToast();
 
 const props = defineProps({
     adherents: {
@@ -143,13 +139,6 @@ const props = defineProps({
         default: () => ({}),
     },
 });
-
-const selectedPayementStartDate = ref("");
-const selectedPayementEndDate = ref("");
-const selectedAbonnements = ref(props.abonnements);
-
-const showInfo = ref(false);
-const filteredItems = reactive([]);
 
 const form = useForm({
     montant: null,
@@ -319,7 +308,7 @@ const formattedAdherents = computed(() =>
             >
                 <!--  -->
                 <button
-                    @click="printInvoice"
+                    @click="printInvoice(selectedAbonnements)"
                     class="relative text-white py-2 px-2 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 hover:bg-blue-600 transition-all text-sm"
                 >
                     <Printer />
@@ -512,7 +501,7 @@ const formattedAdherents = computed(() =>
                         </div>
                         <!-- print -->
                         <div
-                            @click=""
+                            @click="printSingleInvoice(row.id)"
                             class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
                         >
                             <Printer :size="20" />

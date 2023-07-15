@@ -507,10 +507,13 @@
                         </div>
                     </div>
                     <div v-if="column.field === 'image'" class="flex">
-                        <img
-                            class="w-10 h-10 rounded-full"
-                            :src="showImage(row)"
-                        />
+                        <div class="w-14 h-14">
+                            <img
+                                class="rounded-full object-cover"
+                                :src="showImage(row)"
+                                alt="Circular Image"
+                            />
+                        </div>
                     </div>
                     <div
                         v-if="column.field === 'is_actif'"
@@ -555,7 +558,7 @@ import { router, usePage } from "@inertiajs/vue3";
 import ImageUpload from "../../Components/ImageUpload.vue";
 import { Modal } from "flowbite-vue";
 import { useForm } from "@inertiajs/vue3";
-
+import autoTable from "jspdf-autotable";
 import jsPDF from "jspdf";
 import regionsFile from "../../regions.json";
 import { useI18n } from "vue-i18n";
@@ -668,7 +671,12 @@ const generateIDCards = async (adherents = props.adherents) => {
     adherents = adherents.filter((adherent) => adherent.is_actif === 1);
 
     if (adherents.length === 0) {
-        alert("لا يوجد أعضاء للطباعة");
+        Swal.fire({
+            icon: "error",
+            text: "لا يوجد أعضاء نشطين للطباعة",
+            showConfirmButton: false,
+            timer: 1500,
+        });
         return;
     }
 
@@ -695,13 +703,7 @@ const generateIDCards = async (adherents = props.adherents) => {
         for (let j = 0; j < cardsToPrint.length; j++) {
             const adherent = cardsToPrint[j];
 
-            const cardText = `${adherent.num_adhesion ?? ""}\nالاسم والنسب : ${
-                adherent.first_name
-            } ${adherent.last_name}\n${
-                adherent.date_of_birth
-            } :  تاريخ الميلاد\n${
-                adherent.date_of_membership
-            } :  تاريخ الإنخراط\nالمهنة : ${adherent.profession}`;
+            const cardText = `\nالاسم والنسب : ${adherent.first_name} ${adherent.last_name}\n${adherent.date_of_birth} :  تاريخ الميلاد\n${adherent.date_of_membership} :  تاريخ الإنخراط\nالمهنة : ${adherent.profession}`;
 
             const qrCode = await QRCode.toDataURL(cardText);
 
@@ -709,12 +711,23 @@ const generateIDCards = async (adherents = props.adherents) => {
             const y = Math.floor(j / 2) * 60 + 10;
 
             doc.setDrawColor(0);
-            doc.setLineWidth(0.5);
+            doc.setLineWidth(0.1);
             doc.rect(x, y, 80, 50, "S"); // Adjust the coordinates and size of the rectangle for the ID card
             doc.setFont(arabicFontName);
             doc.setFontSize(10);
-            doc.text(cardText, x + 76, y + 28, { align: "right" });
+            doc.text(cardText, x + 76, y + 28, {
+                align: "right",
+                fontWeight: "bold",
+            });
 
+            const numAdhesion = `${adherent.num_adhesion ?? ""}`;
+
+            doc.setFontSize(12);
+            doc.setFont(arabicFontName, "bold");
+            // in the center of the card
+            doc.text(numAdhesion, x + 40, y + 20, { align: "center" });
+            doc.setFont(arabicFontName, "normal");
+            doc.setFontSize(10);
             const qrImg = new Image();
             qrImg.src = qrCode;
             doc.addImage(qrImg, "PNG", x + 2, y + 34, 14, 14);
@@ -729,7 +742,7 @@ const generateIDCards = async (adherents = props.adherents) => {
                 const profileImgSize = 13;
 
                 // Clip the image to a circle
-                doc.setLineWidth(0.2);
+                doc.setLineWidth(0.1);
                 doc.setDrawColor(0);
                 doc.circle(
                     profileImgX + profileImgSize / 2,
@@ -756,6 +769,8 @@ const generateIDCards = async (adherents = props.adherents) => {
                     profileImgSize,
                     "S",
                 );
+
+                // doc.clip("evenodd");
             }
             // Reset the clipping path
 
@@ -796,6 +811,15 @@ const generateIDCards = async (adherents = props.adherents) => {
 
 const exportToPDF = () => {
     const doc = new jsPDF();
+    if (props.adherents.length === 0) {
+        Swal.fire({
+            icon: "error",
+            text: "لا يوجد أعضاء للطباعة",
+            showConfirmButton: false,
+            timer: 1500,
+        });
+        return;
+    }
 
     // Step 1: Load the Arabic font file
     const arabicFontFile = "/fonts/Amiri-Regular.ttf";

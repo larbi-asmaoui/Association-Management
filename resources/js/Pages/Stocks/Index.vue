@@ -293,22 +293,18 @@ export default {
 </script>
 
 <script setup>
+import Swal from "sweetalert2";
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
 import { ref, watch, computed } from "vue";
 import { useForm, router } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
-import Pagination from "../../Components/Pagination.vue";
-import { useToast } from "vue-toast-notification";
-import "vue-toast-notification/dist/theme-sugar.css";
-import printJS from "print-js";
 import { useI18n } from "vue-i18n";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Pencil from "vue-material-design-icons/Pencil.vue";
+import Toast from "../../utils.js";
 
 const { t, availableLocales, locale } = useI18n();
-
-const $toast = useToast();
 
 const form = useForm({
     id: null,
@@ -359,7 +355,7 @@ const rows = computed(() =>
         total_price: stock.price_per_unit * stock.quantity,
         purchase_date: stock.purchase_date,
         stock_type_id: stock.stock_type_id,
-    }))
+    })),
 );
 
 let isModalOpen = ref(false);
@@ -381,26 +377,31 @@ const openEditModal = (stock) => {
 };
 
 const destroy = (id) => {
-    if (confirm("Are you sure?")) {
-        form.delete(route("stocks.destroy", id), {
-            onSuccess: () => {
-                $toast.open({
-                    message: t("toasts.supp_success"),
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-            onError: () => {
-                $toast.open({
-                    message: t("toasts.supp_error"),
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-        });
-    }
+    Swal.fire({
+        text: t("modals_questions.supprimer"),
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: t("buttons.supprimer"),
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.delete(route("stocks.destroy", id), {
+                onError: () => {
+                    Toast.fire({
+                        icon: "error",
+                        title: t("toasts.supp_error"),
+                    });
+                },
+                onSuccess: () => {
+                    Toast.fire({
+                        icon: "success",
+                        title: t("toasts.supp_success"),
+                    });
+                },
+            });
+        }
+    });
 };
 
 const show = (id) => {
@@ -423,19 +424,15 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                $toast.open({
-                    message: t("toasts.modif_success"),
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
+                Toast.fire({
+                    icon: "success",
+                    title: t("toasts.modif_success"),
                 });
             },
             onError: () => {
-                $toast.open({
-                    message: t("toasts.modif_error"),
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
+                Toast.fire({
+                    icon: "error",
+                    title: t("toasts.modif_error"),
                 });
             },
         });
@@ -445,19 +442,15 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                $toast.open({
-                    message: t("toasts.ajout_success"),
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
+                Toast.fire({
+                    icon: "success",
+                    title: t("toasts.ajout_success"),
                 });
             },
             onError: () => {
-                $toast.open({
-                    message: t("toasts.ajout_error"),
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
+                Toast.fire({
+                    icon: "error",
+                    title: t("toasts.ajout_error"),
                 });
             },
         });

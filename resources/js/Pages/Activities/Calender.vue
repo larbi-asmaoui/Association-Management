@@ -8,7 +8,7 @@ export default {
 
 <script setup>
 import { reactive, ref, toRaw, onMounted, watchEffect } from "vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, router } from "@inertiajs/vue3";
 import { usePage } from "@inertiajs/vue3";
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -42,13 +42,13 @@ const calendarOptions = reactive({
     navLinks: true,
     editable: false,
     selectable: false,
-    locale: "fr",
+    locale: "ar",
+    numberLocale: "fr",
 
     events: toRaw(props.activities),
 
     eventClick(info) {
-        // handleEventClick();
-        alert(info);
+        router.get(route("activities.edit", info.event.id));
     },
 });
 
@@ -114,16 +114,5 @@ const handleEventClick = ({ el, event }) => {
 <template>
     <div class="bg-white p-6 shadow-sm">
         <FullCalendar v-bind:options="calendarOptions" :key="eventRefreshKey" />
-        <!-- <div
-            class="popover fade show bs-popover-right"
-            :class="{ 'd-none': !isPopoverVisible }"
-            :style="{ top: `${popoverY}px`, left: `${popoverX}px` }"
-        >
-            <div class="popover-arrow"></div>
-            <h3 class="popover-header">Event Details</h3>
-            <div class="popover-body">
-                {{ popoverContent }}
-            </div>
-        </div> -->
     </div>
 </template>
