@@ -487,14 +487,8 @@
                                     {{ $t("navbar.profile") }}
                                 </DropdownLink>
                                 <div class="border-t border-gray-200" />
-                                <form
-                                    @submit.prevent="logout"
-                                    :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
-                                >
-                                    <DropdownLink
-                                        as="button"
-                                        class="bg-blue-300 text-left"
-                                    >
+                                <form @submit.prevent="logout">
+                                    <DropdownLink as="button">
                                         {{ $t("navbar.logout") }}
                                     </DropdownLink>
                                 </form>

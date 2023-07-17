@@ -99,6 +99,7 @@ export default {
                 </p>
                 <div class="flex justify-center mt-5 items-center">
                     <button
+                        v-show="reunionType.id !== 1 && reunionType.id !== 2"
                         @click="openEditModal(reunionType)"
                         class="me-2 text-slate-800 hover:text-blue-600 text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-lg font-medium px-4 py-2 inline-flex space-x-1 items-center"
                     >
@@ -152,18 +153,16 @@ export default {
 </template>
 
 <script setup>
+import Swal from "sweetalert2";
 import { Modal } from "flowbite-vue";
 import { ref } from "vue";
 import { watch } from "vue";
 import { router } from "@inertiajs/vue3";
 import { TheCard } from "flowbite-vue";
 import { useForm } from "@inertiajs/vue3";
-import { useToast } from "vue-toast-notification";
-import "vue-toast-notification/dist/theme-sugar.css";
 import { useI18n } from "vue-i18n";
+import Toast from "../../utils.js";
 const { t } = useI18n();
-
-const $toast = useToast();
 
 const props = defineProps({
     reunionTypes: {
@@ -185,26 +184,31 @@ const closeModal = () => {
 };
 
 const destroy = (id) => {
-    if (confirm("vous êtes sûr?")) {
-        form.delete(route("reunion-types.destroy", id), {
-            onSuccess: () => {
-                $toast.open({
-                    message: t("toasts.supp_success"),
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-            onError: () => {
-                $toast.open({
-                    message: t("toasts.supp_error"),
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-        });
-    }
+    Swal.fire({
+        text: t("modals_questions.supprimer"),
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: t("buttons.supprimer"),
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.delete(route("reunion-types.destroy", id), {
+                onError: () => {
+                    Toast.fire({
+                        icon: "success",
+                        title: t("toasts.supp_error"),
+                    });
+                },
+                onSuccess: () => {
+                    Toast.fire({
+                        icon: "success",
+                        title: t("toasts.supp_success"),
+                    });
+                },
+            });
+        }
+    });
 };
 
 const openEditModal = (reunionType) => {
@@ -220,19 +224,15 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                $toast.open({
-                    message: t("toasts.modif_success"),
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
+                Toast.fire({
+                    icon: "success",
+                    title: t("toasts.modif_success"),
                 });
             },
             onError: () => {
-                $toast.open({
-                    message: t("toasts.modif_error"),
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
+                Toast.fire({
+                    icon: "success",
+                    title: t("toasts.modif_error"),
                 });
             },
         });
@@ -242,11 +242,9 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                $toast.open({
-                    message: t("toasts.ajout_success"),
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
+                Toast.fire({
+                    icon: "success",
+                    title: t("toasts.ajout_success"),
                 });
             },
         });
