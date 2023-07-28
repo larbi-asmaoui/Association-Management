@@ -16,10 +16,8 @@ class UserController extends Controller
     public function index()
     {
 
-        // Get all users for this association except the current user
         $users = User::where('id', '!=', auth()->user()->id)->get();
 
-        // Append role to each user
         $users->map(function ($user) {
             $role = DB::table('model_has_roles')->where('model_id', $user->id)->first();
             if ($role != null) {
@@ -29,7 +27,6 @@ class UserController extends Controller
             return $user;
         });
 
-        // Render the user index view
         return Inertia::render('Users/Index', [
             'users' => $users,
             'roles' => Role::all(),
@@ -61,15 +58,12 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            // 'password' => bcrypt('password'),
             'password' => bcrypt('password'),
         ]);
 
-        // assign role to user
         $user->assignRole($request->role);
 
 
-        // return back with success message
         return back()->with('success', 'User added successfully.');
     }
 
@@ -79,7 +73,6 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        // Validate request
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
@@ -87,18 +80,14 @@ class UserController extends Controller
             'role' => 'required|exists:roles,name'
         ]);
 
-        // Remove all assigned roles from the user
         foreach ($user->roles as $role) {
             $user->removeRole($role->name);
         }
 
-        // Assign the new role to the user
         $user->assignRole($request->role);
 
-        // Update user with request data
         $user->update($request->only('name', 'email'));
 
-        // Return back with success message
         return back()->with('success', 'User updated successfully.');
     }
 
@@ -107,10 +96,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        // Delete user
         $user->delete();
-
-        // Return back with success message
         return back()->with('success', 'User deleted successfully.');
     }
 }
