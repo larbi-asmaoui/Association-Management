@@ -84,7 +84,7 @@ class AdherentController extends Controller
         if ($request->hasFile('image')) {
             $formFields['image']  = $request->file('image')->store('adherents', 'public');
         } else {
-            $formFields['image']  = 'adherents/default_user.png';
+            $formFields['image']  = 'adherents/default_user.jpg';
         }
 
         $num_adhesion = $this->generateNumAdhesion();

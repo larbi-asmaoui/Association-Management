@@ -81,7 +81,7 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 gap-4 lg:gap-6">
+                    <div class="grid grid-cols-1 gap-4 lg:gap-6" v-show="!form.id">
                         <div>
                             <label
                                 for="mot de passe"

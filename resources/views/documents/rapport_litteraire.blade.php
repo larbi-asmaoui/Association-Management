@@ -76,7 +76,6 @@
                 <tr>
                     <th>النشاط</th>
                     <th>الوصف</th>
-                    {{-- <th>الصنف</th> --}}
                     <th>تاريخ البدء</th>
                     <th>تاريخ النهاية</th>
                 </tr>
@@ -85,7 +84,7 @@
                 @foreach ($evenements as $evenement)
                     <tr>
                         <td>{{ $evenement['title'] }}</td>
-                        <td>{{ $evenement['description'] }}</td>
+                        <td>{{ $evenement['description'] ?? '-' }}</td>
                         {{-- <td>{{ $evenement['evenement_type']['name'] }}</td> --}}
                         <td>{{ $evenement['start'] }}</td>
                         <td>{{ $evenement['end'] }}</td>
