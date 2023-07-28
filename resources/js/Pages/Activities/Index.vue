@@ -423,8 +423,8 @@ const reference = reactive({
 
 watchEffect(() => {
     const currentYear = new Date().getFullYear();
-    const nextYear = currentYear + 1;
-    reference.value = `${currentYear}/${nextYear}-${incrementPart.value}`;
+    const prevYear = currentYear - 1;
+    reference.value = `${prevYear}/${currentYear}-${incrementPart.value}`;
 });
 
 const regions = ref(regionsFile);

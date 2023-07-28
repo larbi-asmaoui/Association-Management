@@ -84,8 +84,8 @@ class ActivityController extends Controller
 
         // Generate the new reference
         $currentYear = date('Y');
-        $nextYear = intval($currentYear) + 1;
-        $newReference = "$currentYear/$nextYear-$newIncrementPart";
+        $prevYear = intval($currentYear) - 1;
+        $newReference = "$prevYear/$currentYear-$newIncrementPart";
 
         // Add the reference to the data
         $validatedData['reference'] = $newReference;

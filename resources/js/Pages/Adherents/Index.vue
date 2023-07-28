@@ -542,7 +542,6 @@ export default {
 
 <script setup>
 import Swal from "sweetalert2";
-
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
 import "vue-advanced-cropper/dist/style.css";

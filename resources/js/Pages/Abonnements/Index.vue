@@ -82,9 +82,9 @@ const printInvoice = async (abonnements) => {
 
             const invoiceText = `${
                 invoice.adherent.num_adhesion
-            } : رقم الانخراط\n${
+            } : رقم الانخراط\nالاسم الكامل : ${
                 invoice.adherent.first_name + " " + invoice.adherent.last_name
-            } : الاسم الكامل\nالمبلغ: ${invoice.montant} درهم\nتاريخ العملية: ${
+            }\nالمبلغ: ${invoice.montant} درهم\nتاريخ العملية: ${
                 invoice.date_payement
             }`;
 
