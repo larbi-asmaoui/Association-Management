@@ -14,7 +14,7 @@
         class="absolute top-0 h-full w-full rounded-full bg-black bg-opacity-25 flex items-center justify-center"
       >
         <button
-          @click="browse()"
+          @click.prevent="browse()"
           class="rounded-full hover:bg-white hover:bg-opacity-25 p-2 focus:outline-none text-white transition duration-200"
         >
           <div class="h-6 w-6">
@@ -40,7 +40,7 @@
         </button>
         <button
           v-if="file"
-          @click="remove()"
+          @click.prevent="remove()"
           class="rounded-full hover:bg-white hover:bg-opacity-25 p-2 focus:outline-none text-white transition duration-200"
         >
           <div class="h-6 w-6">
@@ -85,6 +85,7 @@ export default {
     };
 
     const change = (e) => {
+      e.preventDefault();
       file.value = e.target.files[0];
       emit("update:modelValue", file.value);
       let reader = new FileReader();

@@ -50,13 +50,7 @@
                 >
                     {{ $t("adherents.print_cards_adhesion") }}
                 </button>
-                <button
-                    @click="checkActive"
-                    class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    type="button"
-                >
-                    تفعيل الاشتراك
-                </button>
+                
             </div>
         </div>
         <Modal size="5xl" v-if="isModalOpen" @close="closeModal">
@@ -246,7 +240,7 @@
                             <label
                                 for="tel"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("adherents.input_telephone") }}</label
+                                >{{ $t("adherents.input_telephone") }} </label
                             >
                             <input
                                 v-model="form.tel"
@@ -481,7 +475,7 @@
                     placeholder: $t('adherents.table_search'),
                 }"
             >
-                <template v-slot:table-row="{ row, column, formattedRow }">
+                <template v-slot:table-row="{ row, column }">
                     <div v-if="column.field === 'actions'" class="flex">
                         <div
                             @click="show(row)"
@@ -975,26 +969,7 @@ const destroy = (id) => {
     });
 };
 
-const checkActive = () => {
-    router.post(route("adherents.desactivate"), {
-        onSuccess: () => {
-            $toast.open({
-                message: "تم تعطيل العضو بنجاح",
-                type: "success",
-                duration: 3000,
-                dismissible: true,
-            });
-        },
-        onError: () => {
-            $toast.open({
-                message: "حدث  خطأ أثناء تعطيل العضو",
-                type: "error",
-                duration: 3000,
-                dismissible: true,
-            });
-        },
-    });
-};
+
 
 const submit = () => {
     form.post(route("adherents.store"), {
@@ -1017,9 +992,9 @@ const submit = () => {
 };
 
 const closeModal = () => {
-    isModalOpen.value = false;
-
     form.reset();
+    form.clearErrors();
+    isModalOpen.value = false;
 };
 </script>
 
