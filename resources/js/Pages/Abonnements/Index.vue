@@ -51,7 +51,6 @@ const printInvoice = async (abonnements) => {
         return;
     }
 
-    // Step 1: Load the Arabic font file
     const arabicFontFile = "/fonts/Amiri-Regular.ttf";
     const arabicFontName = "Amiri";
 

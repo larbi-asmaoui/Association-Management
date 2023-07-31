@@ -21,29 +21,51 @@ class AdherentController extends Controller
      */
     public function index()
     {
-
         $reunionsCount = Reunion::count();
-        $this->checkAdherentsAbonnements();
-        if ($reunionsCount > 1) {
-            $reunions = Reunion::whereHas('reunion_type', function ($query) {
-                $query->where('name', 'normal');
-            })->orderBy('date', 'desc')->take(2)->get();
-            $newestReunion = $reunions->first();
-            $previousReunion = $reunions->last();
+        if ($reunionsCount == 0) {
+            return;
+        }
+
+        // check passed successfully
+        if ($reunionsCount == 1) {
+            $reunion = Reunion::whereHas('reunion_type', function ($query) {
+                $query->where('id', '1');
+            })->orderBy('date', 'desc')->first();
             $adherents = DB::table('adherents')
-                ->whereExists(function ($query) use ($previousReunion) {
+                ->whereExists(function ($query) use ($reunion) {
                     $query->select(DB::raw(1))
                         ->from('abonnements')
                         ->whereRaw('adherents.id = abonnements.adherent_id')
-                        ->where('date_payement', '>=', $previousReunion->date);
+                        ->whereDate('date_payement', '<', $reunion->date);
                 })
+                ->orderBy('adherents.id')
                 ->join('abonnements', 'adherents.id', '=', 'abonnements.adherent_id')
-                ->with('statut')
-                ->get();
+                ->each(function ($adherent) {
+                    DB::table('adherents')->where('id', $adherent->id)->update(['is_actif' => false]);
+                });
         } else {
-            $adherents = Adherent::with('abonnements')->with('statut')->get();
+            $reunions = Reunion::whereHas('reunion_type', function ($query) {
+                $query->where('id', '1');
+            })->orderBy('date', 'desc')->take(2)->get();
+            $newestReunion = $reunions->first();
+            $previousReunion = $reunions->last();
+
+            $adherents = DB::table('adherents')
+                ->whereExists(function ($query) use ($newestReunion, $previousReunion) {
+                    $query->select(DB::raw(1))
+                        ->from('abonnements')
+                        ->whereRaw('adherents.id = abonnements.adherent_id')
+                        ->whereBetween('date_payement', [$previousReunion->date, $newestReunion->date]);
+                })
+                ->orderBy('adherents.id')
+                ->join('abonnements', 'adherents.id', '=', 'abonnements.adherent_id')
+                ->each(function ($adherent) {
+                    DB::table('adherents')->where('id', $adherent->id)->update(['is_actif' => false]);
+                });
         }
+
         $status  = Statut::all();
+
         return Inertia::render('Adherents/Index', [
             'status' => $status,
             'adherents' => $adherents,
@@ -239,51 +261,5 @@ class AdherentController extends Controller
         }
 
         return $num_adhesion;
-    }
-
-    private function checkAdherentsAbonnements()
-    {
-        $reunionsCount = Reunion::count();
-        if ($reunionsCount == 0) {
-            return;
-        }
-
-        // check passed successfully
-        if ($reunionsCount == 1) {
-            $reunion = Reunion::whereHas('reunion_type', function ($query) {
-                $query->where('id', '1');
-            })->orderBy('date', 'desc')->first();
-            $adherents = DB::table('adherents')
-                ->whereExists(function ($query) use ($reunion) {
-                    $query->select(DB::raw(1))
-                        ->from('abonnements')
-                        ->whereRaw('adherents.id = abonnements.adherent_id')
-                        ->whereDate('date_payement', '<', $reunion->date);
-                })
-                ->orderBy('adherents.id')
-                ->join('abonnements', 'adherents.id', '=', 'abonnements.adherent_id')
-                ->each(function ($adherent) {
-                    DB::table('adherents')->where('id', $adherent->id)->update(['is_actif' => false]);
-                });
-        } else {
-            $reunions = Reunion::whereHas('reunion_type', function ($query) {
-                $query->where('id', '1');
-            })->orderBy('date', 'desc')->take(2)->get();
-            $newestReunion = $reunions->first();
-            $previousReunion = $reunions->last();
-
-            $adherents = DB::table('adherents')
-                ->whereExists(function ($query) use ($newestReunion, $previousReunion) {
-                    $query->select(DB::raw(1))
-                        ->from('abonnements')
-                        ->whereRaw('adherents.id = abonnements.adherent_id')
-                        ->whereBetween('date_payement', [$previousReunion->date, $newestReunion->date]);
-                })
-                ->orderBy('adherents.id')
-                ->join('abonnements', 'adherents.id', '=', 'abonnements.adherent_id')
-                ->each(function ($adherent) {
-                    DB::table('adherents')->where('id', $adherent->id)->update(['is_actif' => false]);
-                });
-        }
     }
 }

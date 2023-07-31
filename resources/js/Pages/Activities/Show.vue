@@ -5,7 +5,8 @@ export default {
 };
 </script>
 <script setup>
-import { useForm, Link } from "@inertiajs/vue3";
+import Swal from "sweetalert2";
+import { useForm, Link, usePage } from "@inertiajs/vue3";
 import { ref, computed, reactive, watchEffect, onMounted } from "vue";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
@@ -16,13 +17,16 @@ import regionsFile from "../../regions.json";
 import { useI18n } from "vue-i18n";
 import ArrowRight from "vue-material-design-icons/ArrowRight.vue";
 import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
+import Printer from "vue-material-design-icons/Printer.vue";
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
 import Quill from "quill";
-// import "quill/dist/quill.core.css";
+import autoTable from "jspdf-autotable";
 import "quill/dist/quill.snow.css";
 
 const { t } = useI18n();
+
+const page = usePage();
 
 const $toast = useToast();
 const isEnabled = ref(false);
@@ -79,6 +83,98 @@ function disableEditor() {
         "",
     );
 }
+
+const printAttendanceList = () => {
+    const doc = new jsPDF();
+
+    if (props.activity.adherents.length === 0) {
+        Swal.fire({
+            icon: "error",
+            text: "لا يوجد مشاركين في هذا النشاط",
+            showConfirmButton: false,
+            timer: 1500,
+        });
+        return;
+    }
+
+    // Step 1: Load the Arabic font file
+    const arabicFontFile = "/fonts/Amiri-Regular.ttf";
+    const arabicFontName = "Amiri";
+
+    doc.addFont(arabicFontFile, arabicFontName, "normal");
+
+    doc.setFont(arabicFontName);
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    if (page.props.auth.association !== null) {
+        // Add the image to the PDF
+        doc.addImage(
+            "/storage/" + page.props.auth.association.image,
+            "JPEG",
+            (pageWidth - 20) / 2,
+            2,
+            20,
+            20,
+        );
+    }
+
+    doc.setFontSize(14);
+    const title = t("activities.liste_participants");
+    const titleWidth = doc.getTextWidth(title);
+    const titleX = (pageWidth - titleWidth) / 2;
+    doc.text(title, titleX, 30);
+
+    doc.setFontSize(25);
+    const activityName = props.activity.title;
+    const activityNameWidth = doc.getTextWidth(activityName);
+    const activityNameX = (pageWidth - activityNameWidth) / 2;
+    doc.text(activityName, activityNameX, 42);
+
+    doc.setFontSize(12);
+    const activityType = props.activity.activity_type.name;
+    const activityTypeWidth = doc.getTextWidth(activityType);
+    const activityTypeX = (pageWidth - activityTypeWidth) / 2;
+    doc.text(activityType, activityTypeX, 50);
+
+    doc.setFontSize(12);
+    // const activityDate = props.activity.start_date;
+    // const activityDateWidth = doc.getTextWidth(activityDate);
+    // const activityDateX = (pageWidth - activityDateWidth) / 2;
+    // doc.text(activityDate, activityDateX, 58);
+    doc.line(0, 65, 400, 65);
+
+    const headers = [
+        t("adherents.table_telephone"),
+        t("adherents.table_cin"),
+        t("adherents.table_nom_complete"),
+        "#",
+    ];
+
+    const data = props.activity.adherents.map((adherent, index) => [
+        adherent.tel,
+        adherent.cin,
+        adherent.first_name + " " + adherent.last_name,
+        index + 1,
+    ]);
+
+    doc.autoTable({
+        margin: { top: 70 },
+        theme: "grid",
+        head: [headers],
+        body: data,
+        styles: {
+            font: arabicFontName,
+            halign: "center",
+        },
+        headStyles: {
+            valign: "middle",
+            halign: "center",
+        },
+    });
+    const docTitle = "participants_list_" + props.activity.title + ".pdf";
+
+    doc.save(docTitle);
+};
 
 const props = defineProps({
     activity: {
@@ -191,7 +287,7 @@ const generatePDF = async () => {
     let pdfWidth = pdf.internal.pageSize.getWidth();
     let pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
     pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("download.pdf");
+    pdf.save("activite_description.pdf");
 };
 </script>
 
@@ -562,9 +658,17 @@ const generatePDF = async () => {
     </div>
 
     <div class="mt-4 bg-white rounded-md pt-4">
-        <h3 class="mb-2 px-4 text-xl font-bold text-slate-800 uppercase">
-            {{ $t("activities.liste_participants") }}
-        </h3>
+        <div class="flex mb-2 p-2">
+            <h3 class="text-xl font-semibold uppercase text-slate-800">
+                {{ $t("activities.liste_participants") }}
+            </h3>
+            <button
+                @click="printAttendanceList"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-auto"
+            >
+                <Printer :size="22" />
+            </button>
+        </div>
         <div class="mt-4">
             <vue-good-table
                 :columns="columns"

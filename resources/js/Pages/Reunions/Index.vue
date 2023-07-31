@@ -298,7 +298,7 @@ const rows = computed(() =>
     Object.values(props.reunions).map((reunion) => ({
         id: reunion.id,
         name: reunion.name,
-        type: reunion.reunion_type.name,
+        type: reunion.reunion_type ? reunion.reunion_type.name : "--",
         date: reunion.date,
         reunion_type_id: reunion.reunion_type_id,
         adherents: reunion.adherents,

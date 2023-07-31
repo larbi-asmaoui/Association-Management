@@ -67,72 +67,56 @@
                                 {{ form.errors.title }}
                             </span>
                         </div>
-                        <div>
-                            <label
-                                for="start"
-                                class="block text-sm text-gray-700 font-medium dark:text-white"
-                                >{{ $t("activities.input_date_debut") }}
-                            </label>
 
-                            <input
-                                v-model="form.start"
-                                type="date"
-                                class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700"
-                                placeholder="Select date"
-                                name="start"
-                            />
-                            <span
-                                v-if="form.errors.start"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.start }}
-                            </span>
-                        </div>
-                        <!--  -->
-                        <div>
-                            <label
-                                for="end"
-                                class="block text-sm text-gray-700 font-medium dark:text-white"
-                                >{{ $t("activities.input_date_fin") }}
-                            </label>
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
+                        >
+                            <div>
+                                <label
+                                    for="start"
+                                    class="block text-sm text-gray-700 font-medium dark:text-white"
+                                    >{{ $t("activities.input_date_debut") }}
+                                </label>
 
-                            <input
-                                v-model="form.end"
-                                type="date"
-                                class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700"
-                                placeholder="Select date"
-                                name="end"
-                            />
-                            <span
-                                v-if="form.errors.end"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.end }}
-                            </span>
+                                <input
+                                    v-model="form.start"
+                                    type="date"
+                                    class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700"
+                                    placeholder="Select date"
+                                    name="start"
+                                />
+                                <span
+                                    v-if="form.errors.start"
+                                    class="text-xs text-red-600 mt-1"
+                                    id="hs-validation-name-error-helper"
+                                >
+                                    {{ form.errors.start }}
+                                </span>
+                            </div>
+                            <!--  -->
+                            <div>
+                                <label
+                                    for="end"
+                                    class="block text-sm text-gray-700 font-medium dark:text-white"
+                                    >{{ $t("activities.input_date_fin") }}
+                                </label>
+
+                                <input
+                                    v-model="form.end"
+                                    type="date"
+                                    class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700"
+                                    placeholder="Select date"
+                                    name="end"
+                                />
+                                <span
+                                    v-if="form.errors.end"
+                                    class="text-xs text-red-600 mt-1"
+                                    id="hs-validation-name-error-helper"
+                                >
+                                    {{ form.errors.end }}
+                                </span>
+                            </div>
                         </div>
-                        <!-- <div>
-                            <label
-                                for="description"
-                                class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                                >{{ $t("activities.input_description") }}</label
-                            >
-                            <textarea
-                                v-model="form.description"
-                                rows="3"
-                                name="description"
-                                id="description"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            ></textarea>
-                            <span
-                                v-if="form.errors.description"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.description }}
-                            </span>
-                        </div> -->
                         <div>
                             <label
                                 for="type"
@@ -304,8 +288,19 @@
                         >
                             <Eye :size="20" />
                         </div>
+                        <div
+                            @click="generatePDF(row.id)"
+                            class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                        >
+                            <Printer :size="20" />
+                        </div>
 
-                        <!-- Delete -->
+                        <!-- <div
+                            @click="generateFiche(row.id)"
+                            class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                        >
+                            <Printer :size="20" />
+                        </div> -->
 
                         <div
                             @click="destroy(row)"
@@ -339,7 +334,9 @@ export default {
 </script>
 
 <script setup>
+import html2pdf from "html2pdf.js";
 import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import Swal from "sweetalert2";
 import Multiselect from "@vueform/multiselect";
 import { VueGoodTable } from "vue-good-table-next";
@@ -350,6 +347,7 @@ import { useForm } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Eye from "vue-material-design-icons/Eye.vue";
+import Printer from "vue-material-design-icons/Printer.vue";
 import Toast from "../../utils.js";
 import regionsFile from "../../regions.json";
 import { useI18n } from "vue-i18n";
@@ -497,7 +495,127 @@ const show = (id) => {
     router.get(route("activities.edit", id));
 };
 
+const generatePDF = (id) => {
+    const activity = props.activities.find((activity) => activity.id === id);
+    // alert(activity.revenue);
+    const doc = new jsPDF();
+    const arabicFontFile = "/fonts/Amiri-Regular.ttf";
+    const arabicFontName = "Amiri";
+
+    doc.addFont(arabicFontFile, "Amiri", "normal");
+    doc.setFont(arabicFontName);
+
+    const title = t("activities.fiche_activite");
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const titleWidth =
+        (doc.getStringUnitWidth(title) * doc.internal.getFontSize()) /
+        doc.internal.scaleFactor;
+
+    const titleX = (pageWidth - titleWidth) / 2;
+    doc.setFontSize(16);
+    doc.text(title, titleX, 10);
+
+    doc.setFontSize(20);
+    const activityTitleWidth =
+        (doc.getStringUnitWidth(activity.title) * doc.internal.getFontSize()) /
+        doc.internal.scaleFactor;
+    const activityTitleX = (pageWidth - activityTitleWidth) / 2;
+    doc.text(activity.title, activityTitleX, 25);
+
+    doc.setFontSize(12);
+    const dateDebut = t("activities.input_date_debut") + " : " + activity.start;
+    const dateFin = t("activities.input_date_fin") + " : " + activity.end;
+
+    const dateDebutWidth =
+        (doc.getStringUnitWidth(dateDebut) * doc.internal.getFontSize()) /
+        doc.internal.scaleFactor;
+
+    const dateFinWidth =
+        (doc.getStringUnitWidth(dateFin) * doc.internal.getFontSize()) /
+        doc.internal.scaleFactor;
+
+    const dateDebutX = (pageWidth - dateDebutWidth) / 2;
+    const dateFinX = (pageWidth - dateFinWidth) / 2;
+
+    doc.text(dateDebut, dateDebutX, 35);
+    doc.text(dateFin, dateFinX, 40);
+
+    const headers = [
+        t("activities.input_depenses_activite"),
+        t("activities.input_revenus_activite"),
+    ];
+
+    const data = [[activity.depense, activity.revenue]];
+
+    doc.autoTable({
+        margin: { top: 45, bottom: 200 },
+        theme: "grid",
+        head: [headers],
+        body: data,
+        styles: {
+            font: arabicFontName,
+            halign: "center",
+        },
+        headStyles: {
+            valign: "middle",
+            halign: "center",
+        },
+    });
+
+    const participants = t("activities.liste_participants");
+    const participantsWidth =
+        (doc.getStringUnitWidth(participants) * doc.internal.getFontSize()) /
+        doc.internal.scaleFactor;
+    const participantsX = (pageWidth - participantsWidth) / 2;
+    doc.text(participants, participantsX, 65);
+
+    const headers2 = [
+        t("adherents.table_telephone"),
+        t("adherents.table_cin"),
+        t("adherents.table_nom_complete"),
+        "#",
+    ];
+
+    const data2 = activity.adherents.map((adherent, index) => [
+        adherent.tel,
+        adherent.cin,
+        adherent.first_name + " " + adherent.last_name,
+        index + 1,
+    ]);
+
+    doc.autoTable({
+        margin: { top: 100 },
+        theme: "grid",
+        head: [headers2],
+        body: data2,
+        styles: {
+            font: arabicFontName,
+            halign: "center",
+        },
+        headStyles: {
+            valign: "middle",
+            halign: "center",
+        },
+    });
+    const docTitle = `activite_${activity.title}.pdf`;
+    doc.save(docTitle);
+};
+
 const generateFiche = (id) => {
     const activity = props.activities.find((activity) => activity.id === id);
+    const element = document.createElement("div");
+    element.innerHTML = activity.description;
+
+    const opt = {
+        margin: 0,
+        filename: "myfile.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+    };
+
+    // New Promise-based usage:
+    html2pdf().set(opt).from(element).save();
 };
 </script>

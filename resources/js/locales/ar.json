@@ -245,10 +245,14 @@
         "input_description": "وصف النشاط",
         "table_actions": "العمليات",
         "input_depenses_activite": "مصاريف النشاط",
-        "input_revenus_activite": "مدخولات النشاط",
+        "input_revenus_activite": "مداخيل النشاط",
         "details_activite": "تفاصيل النشاط",
-        "liste_participants": "لائحة المشاركين"
+        "liste_participants": "لائحة المشاركين",
+        "fiche_activite": "ملخص النشاط"
     },
+
+    "------------------------------------": "--------------------------------------------------------------------------------------------------------",
+
     "types": {
         "activites_types": "أنواع الأنشطة",
         "reunions_types": "أنواع الاجتماعات",
