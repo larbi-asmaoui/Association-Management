@@ -41,10 +41,10 @@
                     </button>
                     <Link :href="route('dashboard')" class="flex ms-2 md:me-24">
                         <img src="../../assets/logo.svg" alt="" class="mr-2" />
-                        <span
+                        <!-- <span
                             class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white"
                             >MaAssociation</span
-                        >
+                        > -->
                     </Link>
                 </div>
                 <div class="flex items-center">

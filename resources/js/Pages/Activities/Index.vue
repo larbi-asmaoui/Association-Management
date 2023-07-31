@@ -37,7 +37,6 @@
                 <template #header>
                     <div class="flex items-center text-lg">
                         {{ $t("activities.modal_ajouter") }}
-                        {{ reference.value }}
                     </div>
                 </template>
                 <template #body>
@@ -113,7 +112,7 @@
                                 {{ form.errors.end }}
                             </span>
                         </div>
-                        <div>
+                        <!-- <div>
                             <label
                                 for="description"
                                 class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
@@ -133,7 +132,7 @@
                             >
                                 {{ form.errors.description }}
                             </span>
-                        </div>
+                        </div> -->
                         <div>
                             <label
                                 for="type"
@@ -163,7 +162,7 @@
                             </span>
                         </div>
                         <!-- ************************************** -->
-                        <div>
+                        <!-- <div>
                             <label
                                 for="adherents"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
@@ -177,7 +176,7 @@
                                 :create-option="true"
                                 :options="formattedAdherents"
                             />
-                        </div>
+                        </div> -->
                         <!-- **********  Select  ********** -->
 
                         <div>
@@ -303,7 +302,7 @@
                             @click="show(row)"
                             class="cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                         >
-                            <Pencil :size="20" />
+                            <Eye :size="20" />
                         </div>
 
                         <!-- Delete -->
@@ -340,16 +339,17 @@ export default {
 </script>
 
 <script setup>
+import jsPDF from "jspdf";
 import Swal from "sweetalert2";
 import Multiselect from "@vueform/multiselect";
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
-import { ref, computed, reactive, watchEffect } from "vue";
+import { ref, computed } from "vue";
 import { Modal } from "flowbite-vue";
 import { useForm } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
-import Pencil from "vue-material-design-icons/Pencil.vue";
+import Eye from "vue-material-design-icons/Eye.vue";
 import Toast from "../../utils.js";
 import regionsFile from "../../regions.json";
 import { useI18n } from "vue-i18n";
@@ -375,7 +375,7 @@ const props = defineProps({
 const columns = ref([
     {
         label: t("activities.table_nom"),
-        field: "reference",
+        field: "title",
     },
     {
         label: t("activities.table_date_debut"),
@@ -394,7 +394,7 @@ const columns = ref([
 const rows = computed(() =>
     Object.values(props.activities).map((activity) => ({
         id: activity.id,
-        reference: activity.reference,
+        title: activity.title,
         start: activity.start,
         end: activity.end,
         adherents: activity.adherents,
@@ -407,25 +407,6 @@ const formattedAdherents = computed(() =>
         label: adherent.last_name + " " + adherent.first_name,
     })),
 );
-
-const incrementPart = computed(() => {
-    // Get the increment part of the last event's reference
-    const lastIncrementPart =
-        props.lastactivity && props.lastactivity.reference
-            ? parseInt(props.lastactivity.reference.split("-")[1])
-            : 0;
-    return lastIncrementPart + 1;
-});
-
-const reference = reactive({
-    value: null,
-});
-
-watchEffect(() => {
-    const currentYear = new Date().getFullYear();
-    const prevYear = currentYear - 1;
-    reference.value = `${prevYear}/${currentYear}-${incrementPart.value}`;
-});
 
 const regions = ref(regionsFile);
 
@@ -514,5 +495,9 @@ const destroy = (id) => {
 
 const show = (id) => {
     router.get(route("activities.edit", id));
+};
+
+const generateFiche = (id) => {
+    const activity = props.activities.find((activity) => activity.id === id);
 };
 </script>

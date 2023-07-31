@@ -137,6 +137,71 @@
                             </Link>
                         </li>
 
+                        <!-- Supervisor -->
+                        <li>
+                            <Link
+                                :class="[
+                                    $page.url === '/supervisors'
+                                        ? activeClass
+                                        : inactiveClass,
+                                ]"
+                                :href="route('supervisors.index')"
+                            >
+                                <svg
+                                    aria-hidden="true"
+                                    class="flex-shrink-0 w-6 h-6 transition duration-75"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                        clip-rule="evenodd"
+                                    ></path>
+                                </svg>
+                                <span
+                                    :class="
+                                        $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
+                                    "
+                                    >{{ $t("sidebar.encadrants") }}</span
+                                >
+                            </Link>
+                        </li>
+
+                        <!-- Classes -->
+
+                        <li>
+                            <Link
+                                :class="[
+                                    $page.url === '/classes'
+                                        ? activeClass
+                                        : inactiveClass,
+                                ]"
+                                :href="route('classes.index')"
+                            >
+                                <svg
+                                    fill="currentColor"
+                                    aria-hidden="true"
+                                    class="flex-shrink-0 w-6 h-6 transition duration-75"
+                                    viewBox="0 0 20 20"
+                                >
+                                    <path
+                                        clip-rule="evenodd"
+                                        fill-rule="evenodd"
+                                        d="M 22,5L 22,7L 17.0089,7L 13.5326,12L 16,12L 16,14L 14.4632,14L 18.1691,22L 15.965,22L 15.0385,20L 6.38418,20L 5.35074,22L 3.09952,22L 7.23328,14L 7,14C 6.55086,14 6.17087,13.7039 6.04461,13.2962L 2.86808,3.83882L 3.81604,3.52042C 4.33958,3.34458 4.90655,3.62644 5.08239,4.14998L 7.71903,12L 12.0967,12L 15.573,7L 12,7L 12,5L 22,5 Z M 9.4845,14L 7.41762,18L 14.112,18L 12.2591,14L 9.4845,14 Z "
+                                    ></path>
+                                </svg>
+                                <span
+                                    :class="
+                                        $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
+                                    "
+                                    >{{ $t("sidebar.categories") }}</span
+                                >
+                            </Link>
+                        </li>
+                        <!--  -->
+
                         <li v-if="roles.includes('admin')">
                             <Link
                                 :class="[
@@ -464,10 +529,10 @@ import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 
 const activeClass = ref(
-    "bg-blue-700 text-white flex items-center p-2  rounded-lg group dark:text-gray-200 dark:hover:bg-gray-700"
+    "bg-blue-700 text-white flex items-center p-2  rounded-lg group dark:text-gray-200 dark:hover:bg-gray-700",
 );
 const inactiveClass = ref(
-    " text-gray-500 hover:bg-blue-100 flex items-center p-2 text-base rounded-lg group"
+    " text-gray-500 hover:bg-blue-100 flex items-center p-2 text-base rounded-lg group",
 );
 
 const roles = computed(() => {

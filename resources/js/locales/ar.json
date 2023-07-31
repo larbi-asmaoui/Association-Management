@@ -40,7 +40,9 @@
         "depenses": "المصاريف",
         "activites": "الأنشطة",
         "biens": "الأملاك",
-        "documents": "الوثائق"
+        "documents": "الوثائق",
+        "encadrants": "المؤطرين",
+        "categories": "الفئات"
     },
     "navbar": {
         "profile": "الملف الشخصي",
@@ -149,6 +151,30 @@
         "input_description": "الوصف",
         "input_adherents": "المنخرطين"
     },
+
+    "classes": {
+        "titre": "إدارة الفئات",
+        "modal_ajouter": "إضافة فئة",
+        "table_nom": "الفئة",
+        "table_description": "الوصف",
+        "table_nombre_adherents": "عدد المنخرطين",
+        "table_search": "بحث",
+
+        "modal_modifier": "تعديل فئة",
+        "input_classe": "فئة",
+        "input_description": "الوصف",
+        "input_adherents": "المنخرطين",
+        "supervisor": "المؤطر",
+        "adherent_count": "عدد المنخرطين"
+    },
+
+    "supervisors": {
+        "titre": "إدارة المؤطرين",
+        "first_name": "الاسم الشخصي",
+        "last_name": "الاسم العائلي",
+        "modal_ajouter": "إضافة مؤطر"
+    },
+
     "reunions": {
         "titre": "إدارة الاجتماعات",
         "modal_ajouter": "إضافة اجتماع",
@@ -168,15 +194,15 @@
         "doc_title_adherents": "لائحة الحضور للاجتماع"
     },
     "revenues": {
-        "titre": "إدارة الإيرادات",
-        "modal_ajouter": "إضافة إيراد",
+        "titre": "إدارة المداخيل",
+        "modal_ajouter": "إضافة مدخول",
         "table_nom": "الاسم",
         "table_date": "التاريخ",
         "table_type": "النوع",
         "table_montant": "المبلغ",
         "table_search": "بحث",
         "table_actions": "العمليات",
-        "modal_modifier": "تعديل إيراد",
+        "modal_modifier": "تعديل مدخول",
         "input_nom": "الاسم",
         "input_date": "التاريخ",
         "input_type": "النوع",
@@ -219,7 +245,7 @@
         "input_description": "وصف النشاط",
         "table_actions": "العمليات",
         "input_depenses_activite": "مصاريف النشاط",
-        "input_revenus_activite": "إيرادات النشاط",
+        "input_revenus_activite": "مدخولات النشاط",
         "details_activite": "تفاصيل النشاط",
         "liste_participants": "لائحة المشاركين"
     },

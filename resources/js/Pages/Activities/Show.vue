@@ -6,8 +6,9 @@ export default {
 </script>
 <script setup>
 import { useForm, Link } from "@inertiajs/vue3";
-import { ref, computed, reactive, watchEffect } from "vue";
-
+import { ref, computed, reactive, watchEffect, onMounted } from "vue";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import Multiselect from "@vueform/multiselect";
@@ -17,12 +18,67 @@ import ArrowRight from "vue-material-design-icons/ArrowRight.vue";
 import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
+import Quill from "quill";
+// import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
 
 const { t } = useI18n();
 
 const $toast = useToast();
 const isEnabled = ref(false);
 const regions = ref(regionsFile);
+
+const editor = ref(null);
+const editorClass = ref(
+    "block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500",
+);
+let quill;
+
+onMounted(() => {
+    quill = new Quill(editor.value, {
+        theme: "snow",
+        direction: {
+            // this will apply the RTL layout
+            default: "rtl",
+            // handler that switches between rtl and ltr text directions
+            buttonHTML: '<i class="icon name"></i>',
+            tooltip: "Change text direction",
+        },
+
+        modules: {
+            toolbar: [
+                ["bold", "italic", "underline", "strike"],
+                ["blockquote"],
+                [{ header: 1 }, { header: 2 }],
+                [{ list: "ordered" }, { list: "bullet" }],
+                [{ indent: "-1" }, { indent: "+1" }],
+                [{ size: ["small", false, "large", "huge"] }],
+                [{ header: [1, 2, 3, 4, false] }],
+                [{ align: [] }],
+                ["direction"],
+            ],
+        },
+    });
+
+    quill.clipboard.dangerouslyPasteHTML(form.description);
+
+    quill.on("text-change", () => {
+        form.description = quill.root.innerHTML;
+    });
+});
+
+function enableEditor() {
+    // isEnabled.value = true;
+    editorClass.value += " bg-slate-100 cursor-not-allowed";
+}
+
+function disableEditor() {
+    // isEnabled.value = false;
+    editorClass.value = editorClass.value.replace(
+        " bg-slate-100 cursor-not-allowed",
+        "",
+    );
+}
 
 const props = defineProps({
     activity: {
@@ -60,7 +116,7 @@ const rows = computed(() =>
         id: adherent.id,
         nom_complet: adherent.first_name + " " + adherent.last_name,
         cin: adherent.cin ?? "-",
-    }))
+    })),
 );
 
 const toggleEnabled = () => {
@@ -70,7 +126,7 @@ const toggleEnabled = () => {
 const filteredCities = computed(() => {
     if (form.region) {
         const regionData = regions.value.find(
-            (region) => region.name === form.region
+            (region) => region.name === form.region,
         );
         if (regionData) {
             return regionData.cities_list;
@@ -123,9 +179,27 @@ const formattedAdherents = computed(() =>
     Object.values(props.adherents).map((adherent) => ({
         value: adherent.id,
         label: adherent.last_name + " " + adherent.first_name,
-    }))
+    })),
 );
+
+const generatePDF = async () => {
+    const element = document.getElementById("editor");
+    const canvas = await html2canvas(element);
+    const imgData = canvas.toDataURL("image/png");
+    let pdf = new jsPDF();
+    let imgProps = pdf.getImageProperties(imgData);
+    let pdfWidth = pdf.internal.pageSize.getWidth();
+    let pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save("download.pdf");
+};
 </script>
+
+<style scoped>
+#editor {
+    height: 200px;
+}
+</style>
 <template>
     <div class="inline-flex items-center mb-5">
         <Link
@@ -419,7 +493,9 @@ const formattedAdherents = computed(() =>
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                         >{{ $t("activities.input_description") }}</label
                     >
-                    <textarea
+                    <div ref="editor" id="editor"></div>
+
+                    <!-- <textarea
                         :disabled="!isEnabled"
                         :class="{
                             'bg-slate-100 cursor-not-allowed': !isEnabled,
@@ -428,7 +504,7 @@ const formattedAdherents = computed(() =>
                         rows="8"
                         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         v-model="form.description"
-                    ></textarea>
+                    ></textarea> -->
                     <span
                         v-if="form.errors.description"
                         class="text-xs text-red-600 mt-1"
@@ -472,6 +548,14 @@ const formattedAdherents = computed(() =>
                     type="button"
                 >
                     {{ $t("buttons.modifier") }}
+                </button>
+                <span class="ml-4"></span>
+                <button
+                    @click="generatePDF"
+                    class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    type="button"
+                >
+                    طباعة الوصف
                 </button>
             </div>
         </form>

@@ -25,7 +25,7 @@ class GroupeController extends Controller
                 ->withCount('adherents')
                 ->get()
             // 'filters' => Request::only(['search'])
-        ]);
+        ],);
     }
 
     /**
