@@ -50,7 +50,6 @@
                 >
                     {{ $t("adherents.print_cards_adhesion") }}
                 </button>
-                
             </div>
         </div>
         <Modal size="5xl" v-if="isModalOpen" @close="closeModal">
@@ -240,8 +239,8 @@
                             <label
                                 for="tel"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("adherents.input_telephone") }} </label
-                            >
+                                >{{ $t("adherents.input_telephone") }}
+                            </label>
                             <input
                                 v-model="form.tel"
                                 type="text"
@@ -684,7 +683,7 @@ const generateIDCards = async (adherents = props.adherents) => {
     // const adherents = props.adherents;
     for (let i = 0; i < adherents.length; i += 8) {
         if (i !== 0) {
-            doc.addPage(); // Add a new page for each set of four adherents except the first set
+            doc.addPage();
         }
 
         const remainingAdherents = adherents.slice(i);
@@ -967,8 +966,6 @@ const destroy = (id) => {
         }
     });
 };
-
-
 
 const submit = () => {
     form.post(route("adherents.store"), {

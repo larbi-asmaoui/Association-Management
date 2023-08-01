@@ -38,45 +38,168 @@
                     >
                         <div>
                             <label
-                                for="title"
+                                for="avatar"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("supervisors.first_name") }}</label
-                            >
-                            <input
-                                v-model="form.first_name"
-                                type="text"
-                                name="title"
-                                id="title"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
+                                >{{ $t("adherents.input_image") }}
+                            </label>
+                            <ImageUpload
+                                v-model="form.image"
+                                :default-src="defaultImg"
                             />
                             <span
-                                v-if="form.errors.first_name"
+                                v-if="form.errors.image"
                                 class="text-xs text-red-600 mt-1"
                                 id="hs-validation-name-error-helper"
                             >
-                                {{ form.errors.first_name }}
+                                {{ form.errors.image }}
                             </span>
+                        </div>
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 gap-2 lg:gap-2"
+                        >
+                            <div>
+                                <label
+                                    for="title"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                    >{{ $t("supervisors.first_name")
+                                    }}<span class="text-red-600">*</span></label
+                                >
+                                <input
+                                    v-model="form.first_name"
+                                    type="text"
+                                    name="title"
+                                    id="title"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
+                                />
+                                <span
+                                    v-if="form.errors.first_name"
+                                    class="text-xs text-red-600 mt-1"
+                                    id="hs-validation-name-error-helper"
+                                >
+                                    {{ form.errors.first_name }}
+                                </span>
+                            </div>
+                            <div>
+                                <label
+                                    for="title"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                    >{{ $t("supervisors.last_name")
+                                    }}<span class="text-red-600">*</span></label
+                                >
+                                <input
+                                    v-model="form.last_name"
+                                    type="text"
+                                    name="title"
+                                    id="title"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
+                                />
+                                <span
+                                    v-if="form.errors.last_name"
+                                    class="text-xs text-red-600 mt-1"
+                                    id="hs-validation-name-error-helper"
+                                >
+                                    {{ form.errors.last_name }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 gap-2 lg:gap-2"
+                        >
+                            <div>
+                                <label
+                                    for="cin"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                    >{{ $t("adherents.input_cin")
+                                    }}<span class="text-red-600">*</span></label
+                                >
+                                <input
+                                    v-model="form.cin"
+                                    type="text"
+                                    name="cin"
+                                    id="cin"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                                />
+                                <span
+                                    v-if="form.errors.cin"
+                                    class="text-xs text-red-600 mt-1"
+                                    id="hs-validation-name-error-helper"
+                                >
+                                    {{ form.errors.cin }}
+                                </span>
+                            </div>
+                            <div>
+                                <label
+                                    for="date_of_birth"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                    >{{ $t("adherents.input_date_naissance")
+                                    }}<span class="text-red-600">*</span>
+                                </label>
+
+                                <input
+                                    v-model="form.date_of_birth"
+                                    type="date"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                                    placeholder="Select date"
+                                    name="date_of_birth"
+                                />
+                                <span
+                                    v-if="form.errors.date_of_birth"
+                                    class="text-xs text-red-600 mt-1"
+                                    id="hs-validation-name-error-helper"
+                                >
+                                    {{ form.errors.date_of_birth }}
+                                </span>
+                            </div>
                         </div>
                         <div>
                             <label
-                                for="title"
+                                for="hs-about-hire-us-1"
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("supervisors.last_name") }}</label
+                                >{{ $t("adherents.input_addresse")
+                                }}<span class="text-red-600">*</span></label
                             >
-                            <input
-                                v-model="form.last_name"
-                                type="text"
-                                name="title"
-                                id="title"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
-                            />
+                            <textarea
+                                v-model="form.address"
+                                id="address"
+                                name="address"
+                                rows="2"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                            ></textarea>
                             <span
-                                v-if="form.errors.last_name"
+                                v-if="form.errors.address"
                                 class="text-xs text-red-600 mt-1"
                                 id="hs-validation-name-error-helper"
                             >
-                                {{ form.errors.last_name }}
+                                {{ form.errors.address }}
                             </span>
+                        </div>
+
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 gap-2 lg:gap-2"
+                        >
+                            <div>
+                                <label
+                                    for="tel"
+                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                                    >{{ $t("adherents.input_telephone") }}
+                                </label>
+                                <input
+                                    v-model="form.tel"
+                                    type="text"
+                                    name="tel"
+                                    id="tel"
+                                    autocomplete="text"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                                />
+                                <span
+                                    v-if="form.errors.tel"
+                                    class="text-xs text-red-600 mt-1"
+                                    id="hs-validation-name-error-helper"
+                                >
+                                    {{ form.errors.tel }}
+                                </span>
+                            </div>
                         </div>
 
                         <div class="mt-5 flex justify-end gap-x-2">
@@ -115,7 +238,7 @@
                     :rtl="$i18n.locale === 'ar'"
                 >
                     <template v-slot:table-row="{ row, column, formattedRow }">
-                        <!-- <div
+                        <div
                             v-if="column.field === 'actions'"
                             class="flex justify-center items-center"
                         >
@@ -126,15 +249,13 @@
                                 <Pencil :size="20" />
                             </div>
 
-
                             <div
-                                v-if="row.nombre_de_membres == 0"
                                 @click="destroy(row)"
                                 class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
                             >
                                 <TrashCan :size="20" />
                             </div>
-                        </div> -->
+                        </div>
                     </template>
                 </vue-good-table>
                 <!-- vue table -->
@@ -165,6 +286,7 @@ import Plus from "vue-material-design-icons/Plus.vue";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Pencil from "vue-material-design-icons/Pencil.vue";
 import Toast from "../../utils.js";
+import ImageUpload from "../../Components/ImageUpload.vue";
 
 const { t, availableLocales, locale } = useI18n();
 
@@ -179,6 +301,11 @@ const form = useForm({
     id: null,
     first_name: null,
     last_name: null,
+    cin: null,
+    tel: null,
+    address: null,
+    date_of_birth: null,
+    image: null,
 });
 
 const columns = ref([
@@ -247,9 +374,9 @@ const closeModal = () => {
 
 // const dropdownOpen = ref(false);
 
-// const show = (id) => {
-//     form.get(route("supervisors.show", id));
-// };
+const show = (id) => {
+    form.get(route("supervisors.show", id));
+};
 
 const destroy = (id) => {
     Swal.fire({
@@ -278,13 +405,10 @@ const destroy = (id) => {
         }
     });
 };
-// const openEditModal = (supervisor) => {
-//     form.id = supervisor.id;
-//     form.name = supervisor.name;
-//     form.description = supervisor.description;
-//     form.adherents = supervisor.adherents.map((adherent) => adherent.id);
-//     isModalOpen.value = true;
-// };
+const openEditModal = (supervisor) => {
+    form.fill(supervisor);
+    isModalOpen.value = true;
+};
 
 // const formattedAdherents = computed(() =>
 //     Object.values(props.adherents).map((adherent) => ({

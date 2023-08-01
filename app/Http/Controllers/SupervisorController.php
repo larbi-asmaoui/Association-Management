@@ -35,12 +35,20 @@ class SupervisorController extends Controller
             [
                 'first_name' => 'required',
                 'last_name' => 'required',
+                'cin' => 'required',
+                'address' => 'required',
+                'date_of_birth' => 'required',
+                'tel' => 'required',
             ]
         );
 
         $supervisorData = [
             'first_name' => $validatedData['first_name'],
             'last_name' => $validatedData['last_name'],
+            'cin' => $validatedData['cin'],
+            'address' => $validatedData['address'],
+            'date_of_birth' => $validatedData['date_of_birth'],
+            'tel' => $validatedData['tel'],
         ];
 
         $newSupervisor = Supervisor::create($supervisorData);

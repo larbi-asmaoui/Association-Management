@@ -22,11 +22,6 @@ class AdherentController extends Controller
     public function index()
     {
         $reunionsCount = Reunion::count();
-        if ($reunionsCount == 0) {
-            return;
-        }
-
-        // check passed successfully
         if ($reunionsCount == 1) {
             $reunion = Reunion::whereHas('reunion_type', function ($query) {
                 $query->where('id', '1');
@@ -43,7 +38,7 @@ class AdherentController extends Controller
                 ->each(function ($adherent) {
                     DB::table('adherents')->where('id', $adherent->id)->update(['is_actif' => false]);
                 });
-        } else {
+        } else if ($reunionsCount > 1) {
             $reunions = Reunion::whereHas('reunion_type', function ($query) {
                 $query->where('id', '1');
             })->orderBy('date', 'desc')->take(2)->get();
@@ -62,6 +57,8 @@ class AdherentController extends Controller
                 ->each(function ($adherent) {
                     DB::table('adherents')->where('id', $adherent->id)->update(['is_actif' => false]);
                 });
+        } else {
+            $adherents = Adherent::all();
         }
 
         $status  = Statut::all();
