@@ -314,7 +314,8 @@
         "date_fin": "تاريخ الانتهاء",
         "filter": "تصفية",
         "clear": "إلغاء",
-        "payement_invoice": "فاتورة الدفع"
+        "payement_invoice": "فاتورة الدفع",
+        "invoice": "فاتورة"
     },
     "documents": {
         "titre": "إدارة المستندات",

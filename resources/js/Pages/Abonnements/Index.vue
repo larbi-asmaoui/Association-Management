@@ -14,7 +14,7 @@ import jsPDF from "jspdf";
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
 import { ref, computed, reactive, watchEffect } from "vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
 import { useI18n } from "vue-i18n";
@@ -24,6 +24,7 @@ import Printer from "vue-material-design-icons/Printer.vue";
 import Plus from "vue-material-design-icons/Plus.vue";
 import Filter from "vue-material-design-icons/Filter.vue";
 import Toast from "../../utils.js";
+import html2pdf from "html2pdf.js";
 
 const selectedPayementStartDate = ref("");
 const selectedPayementEndDate = ref("");
@@ -137,7 +138,17 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    associaton: {
+        type: Object,
+        default: () => ({}),
+    },
 });
+
+const page = usePage();
+
+const showImage = () => {
+    return "/storage/";
+};
 
 const form = useForm({
     montant: null,
@@ -275,9 +286,76 @@ const formattedAdherents = computed(() =>
         label: adherent.last_name + " " + adherent.first_name,
     })),
 );
+
+const printPdf = () => {
+    const element = document.getElementById("invoice");
+    // element.style.display = "block";
+
+    let opt = {
+        filename: "invoice.pdf",
+        image: { type: "jpeg", quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+    };
+
+    html2pdf().from(element).set(opt).save();
+};
 </script>
 
 <template>
+    <button @click="printPdf">generated pdf</button>
+    <div id="invoice" class="p-10">
+        <div class="flex justify-between">
+            <div>
+                <h2 class="text-3xl font-bold mb-6">
+                    {{ $t("abonnements.invoice") }}
+                </h2>
+                <p>{{ props.associaton.name ?? "--" }}</p>
+                <p>
+                    {{ props.associaton.address }}<br />{{
+                        props.associaton.city
+                    }},
+                    {{ props.associaton.region }}
+                </p>
+            </div>
+            <div>
+                <img
+                    alt="Logo"
+                    class="h-16 w-auto"
+                    :src="showImage() + props.associaton.image"
+                />
+            </div>
+        </div>
+
+        <div class="mt-10">
+            <p><strong>Date:</strong> July 26, 2023</p>
+            <p><strong>Invoice Number:</strong> 123456</p>
+        </div>
+
+        <div class="mt-10">
+            <table class="table-auto w-full">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2">Item</th>
+                        <th class="px-4 py-2">Quantity</th>
+                        <th class="px-4 py-2">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border px-4 py-2">Item 1</td>
+                        <td class="border px-4 py-2">x1</td>
+                        <td class="border px-4 py-2">$100</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-10 text-right">
+            <p><strong>Total: </strong> $400</p>
+        </div>
+    </div>
+
     <button
         @click="isModalOpen = true"
         class="rounded-full fixed bottom-8 z-50 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
@@ -514,3 +592,10 @@ const formattedAdherents = computed(() =>
         </div>
     </div>
 </template>
+<style scoped>
+/* @media print {
+    #invoice {
+        display: none !important;
+    }
+} */
+</style>

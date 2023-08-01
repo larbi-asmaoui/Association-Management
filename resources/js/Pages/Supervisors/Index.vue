@@ -406,7 +406,14 @@ const destroy = (id) => {
     });
 };
 const openEditModal = (supervisor) => {
-    form.fill(supervisor);
+    form.id = supervisor.id;
+    form.first_name = supervisor.first_name;
+    form.last_name = supervisor.last_name;
+    form.cin = supervisor.cin;
+    form.tel = supervisor.tel;
+    form.address = supervisor.address;
+    form.date_of_birth = supervisor.date_of_birth;
+    form.image = supervisor.image;
     isModalOpen.value = true;
 };
 

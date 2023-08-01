@@ -65,7 +65,7 @@ class AdherentController extends Controller
 
         return Inertia::render('Adherents/Index', [
             'status' => $status,
-            'adherents' => $adherents,
+            'adherents' => $adherents->load('statut', 'abonnements'),
         ]);
     }
 
