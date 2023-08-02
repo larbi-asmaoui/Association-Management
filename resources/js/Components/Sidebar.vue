@@ -196,7 +196,7 @@
                                     :class="
                                         $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
                                     "
-                                    >{{ $t("sidebar.categories") }}</span
+                                    >{{ $t("sidebar.classes") }}</span
                                 >
                             </Link>
                         </li>
@@ -522,7 +522,6 @@
 </template>
 
 <script setup>
-import { Avatar } from "flowbite-vue";
 import { Link, Head, router, usePage } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
 import { useI18n } from "vue-i18n";

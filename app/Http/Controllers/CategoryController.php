@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
@@ -12,7 +13,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Categories/Index', [
+            'categories' => Category::all(),
+            // 'filters' => Request::only(['search'])
+        ]);
     }
 
     /**
@@ -29,6 +33,11 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
+        $category = $request->validate([
+            'name' => 'required',
+        ]);
+        Category::create($category);
+        return redirect()->back()->with('success', 'Category created.');
     }
 
     /**
@@ -52,7 +61,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $category->update(
+            $request->validate([
+                'name' => 'required',
+            ])
+        );
+
+        return redirect()->back()->with('success', 'Category updated.');
     }
 
     /**
@@ -60,6 +75,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->back()->with('success', 'Category deleted.');
     }
 }

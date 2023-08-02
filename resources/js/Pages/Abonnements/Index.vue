@@ -7,13 +7,14 @@ export default {
 
 <style src="@vueform/multiselect/themes/default.css"></style>
 <script setup>
+import moment from "moment";
 import Multiselect from "@vueform/multiselect";
 import Swal from "sweetalert2";
 import QRCode from "qrcode";
 import jsPDF from "jspdf";
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
-import { ref, computed, reactive, watchEffect } from "vue";
+import { ref, computed, reactive, watchEffect, nextTick } from "vue";
 import { useForm, usePage } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
@@ -29,6 +30,7 @@ import html2pdf from "html2pdf.js";
 const selectedPayementStartDate = ref("");
 const selectedPayementEndDate = ref("");
 const selectedAbonnements = ref(props.abonnements);
+const selectedAbonnement = ref(null);
 
 const filteredItems = reactive([]);
 
@@ -218,6 +220,7 @@ const rows = computed(() =>
             " " +
             abonnement.adherent.last_name,
         montant: abonnement.montant,
+        adherent: abonnement.adherent,
         adherent_id: abonnement.adherent_id,
         date_payement: abonnement.date_payement,
     })),
@@ -287,75 +290,25 @@ const formattedAdherents = computed(() =>
     })),
 );
 
-const printPdf = () => {
+const printPdf = (abonnement) => {
+    selectedAbonnement.value = abonnement;
     const element = document.getElementById("invoice");
     // element.style.display = "block";
-
-    let opt = {
-        filename: "invoice.pdf",
-        image: { type: "jpeg", quality: 1 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-    };
-
-    html2pdf().from(element).set(opt).save();
+    nextTick(() => {
+        const element = document.getElementById("invoice");
+        const opt = {
+            margin: 0,
+            filename: "Invoice.pdf",
+            image: { type: "jpeg", quality: 1 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: "mm", format: [280, 350], orientation: "portrait" },
+        };
+        html2pdf().set(opt).from(element).save();
+    });
 };
 </script>
 
 <template>
-    <button @click="printPdf">generated pdf</button>
-    <div id="invoice" class="p-10">
-        <div class="flex justify-between">
-            <div>
-                <h2 class="text-3xl font-bold mb-6">
-                    {{ $t("abonnements.invoice") }}
-                </h2>
-                <p>{{ props.associaton.name ?? "--" }}</p>
-                <p>
-                    {{ props.associaton.address }}<br />{{
-                        props.associaton.city
-                    }},
-                    {{ props.associaton.region }}
-                </p>
-            </div>
-            <div>
-                <img
-                    alt="Logo"
-                    class="h-16 w-auto"
-                    :src="showImage() + props.associaton.image"
-                />
-            </div>
-        </div>
-
-        <div class="mt-10">
-            <p><strong>Date:</strong> July 26, 2023</p>
-            <p><strong>Invoice Number:</strong> 123456</p>
-        </div>
-
-        <div class="mt-10">
-            <table class="table-auto w-full">
-                <thead>
-                    <tr>
-                        <th class="px-4 py-2">Item</th>
-                        <th class="px-4 py-2">Quantity</th>
-                        <th class="px-4 py-2">Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="border px-4 py-2">Item 1</td>
-                        <td class="border px-4 py-2">x1</td>
-                        <td class="border px-4 py-2">$100</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="mt-10 text-right">
-            <p><strong>Total: </strong> $400</p>
-        </div>
-    </div>
-
     <button
         @click="isModalOpen = true"
         class="rounded-full fixed bottom-8 z-50 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
@@ -578,7 +531,7 @@ const printPdf = () => {
                         </div>
                         <!-- print -->
                         <div
-                            @click="printSingleInvoice(row.id)"
+                            @click="printPdf(row)"
                             class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
                         >
                             <Printer :size="20" />
@@ -589,6 +542,124 @@ const printPdf = () => {
                     </div></template
                 >
             </vue-good-table>
+        </div>
+    </div>
+    <div id="invoice" class="p-10" style="clip-path: inset(0 100% 0 0)">
+        <div class="text-right mb-3">
+            {{
+                selectedAbonnement
+                    ? moment(selectedAbonnement.date_payement).format(
+                          "DD/MM/YYYY",
+                      )
+                    : ""
+            }}
+        </div>
+        <div class="flex justify-between">
+            <div>
+                <h2 class="text-3xl font-bold mb-6">
+                    {{ $t("abonnements.invoice") }}
+                </h2>
+                <p>{{ props.associaton.name ?? "--" }}</p>
+                <p>
+                    {{ props.associaton.address }}<br />{{
+                        props.associaton.city
+                    }},
+                    {{ props.associaton.region }}
+                </p>
+            </div>
+            <div>
+                <img
+                    alt="Logo"
+                    class="h-16 w-auto"
+                    :src="showImage() + props.associaton.image"
+                />
+            </div>
+        </div>
+        <div class="flex justify-between mt-6">
+            <div>
+                <!-- <h3 class="text-2xl font-bold mb-6">
+                    {{ $t("abonnements.invoice_to") }}
+                </h3> -->
+                <p>
+                    {{
+                        selectedAbonnement
+                            ? selectedAbonnement.adherent.first_name +
+                              " " +
+                              selectedAbonnement.adherent.last_name
+                            : ""
+                    }}
+                </p>
+                <p>
+                    {{
+                        selectedAbonnement
+                            ? selectedAbonnement.adherent.address +
+                              "," +
+                              selectedAbonnement.adherent.city +
+                              "," +
+                              selectedAbonnement.adherent.region
+                            : ""
+                    }}
+                </p>
+                <p>
+                    {{ selectedAbonnement ? selectedAbonnement.montant : 0 }}
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-10">
+            <p>
+                <strong>Date:</strong>
+                {{
+                    selectedAbonnement
+                        ? moment(selectedAbonnement.date_payement).format(
+                              "DD/MM/YYYY",
+                          )
+                        : ""
+                }}
+            </p>
+            <p>
+                <strong>Invoice Number:</strong>
+                {{ selectedAbonnement ? selectedAbonnement.id : "" }}
+            </p>
+        </div>
+
+        <div class="mt-10">
+            <table class="table-auto w-full">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2 text-center">Item</th>
+                        <th class="px-4 py-2 text-center">Quantity</th>
+                        <th class="px-4 py-2 text-center">Prix</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border px-4 py-2 text-center">Item 1</td>
+                        <td class="border px-4 py-2 text-center">x1</td>
+                        <td class="border px-4 py-2 text-center">
+                            DH
+                            {{
+                                selectedAbonnement
+                                    ? selectedAbonnement.montant
+                                    : 0
+                            }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-10 text-right">
+            <p>
+                <strong>Total: </strong>
+                {{ selectedAbonnement ? selectedAbonnement.montant : 0 }} DH
+            </p>
+        </div>
+        <div class="mt-10 text-right">
+            <p>
+                <strong>Signature: </strong>
+                {{ $page.props.auth.user.name }}
+            </p>
         </div>
     </div>
 </template>

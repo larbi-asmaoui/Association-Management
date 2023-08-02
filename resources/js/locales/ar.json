@@ -42,7 +42,7 @@
         "biens": "الأملاك",
         "documents": "الوثائق",
         "encadrants": "المؤطرين",
-        "categories": "الفئات"
+        "classes": "المستويات"
     },
     "navbar": {
         "profile": "الملف الشخصي",
@@ -52,6 +52,7 @@
         "type_depense": "نوع المصاريف",
         "type_revenue": "نوع المداخيل",
         "type_bien": "نوع الممتلكات",
+        "type_category": "نوع الفئة",
         "users": "المستخدمين",
         "statut": "الحالة",
         "francais": "الفرنسية",
@@ -261,7 +262,8 @@
         "depenses_types": "أنواع المصاريف",
         "type_name": "النوع",
         "ajouter_type": "إضافة نوع",
-        "modifier_type": "تعديل النوع"
+        "modifier_type": "تعديل النوع",
+        "categories_types": "أنواع الفئات"
     },
     "biens": {
         "titre": "ممتلكات الجمعية",
@@ -315,7 +317,8 @@
         "filter": "تصفية",
         "clear": "إلغاء",
         "payement_invoice": "فاتورة الدفع",
-        "invoice": "فاتورة"
+        "invoice": "فاتورة",
+        "invoice_to": "السيد"
     },
     "documents": {
         "titre": "إدارة المستندات",

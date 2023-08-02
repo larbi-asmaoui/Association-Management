@@ -58,6 +58,7 @@ Route::middleware([
         Route::resource('activity-types', ActivityTypeController::class);
         Route::resource('classes', \App\Http\Controllers\ClasseController::class);
         Route::resource('supervisors', \App\Http\Controllers\SupervisorController::class);
+        Route::resource('categories', \App\Http\Controllers\CategoryController::class);
 
         Route::resource('association', AssociationController::class)->middleware('role:admin');
         Route::resource('reunions', \App\Http\Controllers\ReunionController::class);
