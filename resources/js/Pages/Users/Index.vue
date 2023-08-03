@@ -1,12 +1,19 @@
 <template>
     <div
-        class="mb-4 bg-white px-4 py-4 rounded-md shadow-md justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
+        class="gap-2 pb-4 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
     >
         <h1
             class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
         >
             {{ $t("users.titre") }}
         </h1>
+        <!-- <button
+            @click="isModalOpen = true"
+            class="ms-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            type="button"
+        >
+            {{ $t("users.modal_ajouter_role") }}
+        </button> -->
         <button
             @click="isModalOpen = true"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
@@ -81,7 +88,10 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 gap-4 lg:gap-6" v-show="!form.id">
+                    <div
+                        class="grid grid-cols-1 gap-4 lg:gap-6"
+                        v-show="!form.id"
+                    >
                         <div>
                             <label
                                 for="mot de passe"
@@ -105,7 +115,7 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 gap-4 lg:gap-6">
+                    <!-- <div class="grid grid-cols-1 gap-4 lg:gap-6">
                         <div>
                             <label
                                 for="role"
@@ -137,6 +147,24 @@
                                 {{ form.errors.role }}
                             </span>
                         </div>
+                    </div> -->
+
+                    <div class="grid grid-cols-1 gap lg:gap-6">
+                        <div>
+                            <label
+                                for="permissions"
+                                class="text-sm font-medium text-gray-900 block dark:text-gray-300"
+                                >{{ $t("users.permissions") }}
+                            </label>
+                            <Multiselect
+                                v-model="form.permissions"
+                                mode="tags"
+                                :close-on-select="false"
+                                :searchable="true"
+                                :create-option="true"
+                                :options="formattedPermissions"
+                            />
+                        </div>
                     </div>
 
                     <div class="mt-5 flex justify-end gap-x-2">
@@ -163,67 +191,48 @@
         >
     </teleport>
 
-    <div class="mt-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <the-card v-for="user in users" :key="user.id">
-                <h5
-                    class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-                >
-                    {{ user.name }}
-                </h5>
-                <p class="font-normal text-gray-700 mb-3 dark:text-gray-400">
-                    {{ $t("users.input_email") }} {{ user.email }}
-                </p>
-                <p class="font-normal text-gray-700 dark:text-gray-400">
-                    {{ $t("users.input_role") }}: {{ user.role }}
-                </p>
-                <div class="flex justify-end mt-5 items-end">
-                    <button
-                        @click="openEditModal(user)"
-                        class="text-slate-800 hover:text-blue-600 text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-lg me-2 font-medium px-4 py-2 inline-flex space-x-1 items-center"
-                    >
-                        <span
-                            ><svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                class="w-4 h-4"
+    <div class="bg-white w-auto rounded-md h-full">
+        <tabs variant="underline" v-model="activeTab" class="pt-5">
+            <tab name="first" :title="$t('users.titre')">
+                <vue-good-table
+                    :columns="columns"
+                    :rows="rows"
+                    :pagination-options="{
+                        enabled: true,
+                    }"
+                    :search-options="{
+                        enabled: true,
+                        placeholder: $t('adherents.table_search'),
+                    }"
+                    :rtl="$i18n.locale === 'ar'"
+                    ><template v-slot:table-row="{ row, column, formattedRow }">
+                        <div v-if="column.field === 'actions'" class="flex">
+                            <div
+                                @click="openEditModal(row)"
+                                class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
                             >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                                />
-                            </svg>
-                        </span>
-                    </button>
-                    <button
-                        @click="destroy(user.id)"
-                        class="text-slate-800 hover:text-white text-sm bg-white hover:bg-red-600 border border-slate-200 rounded-lg font-medium px-4 py-2 inline-flex space-x-1 items-center"
-                    >
-                        <span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                class="w-4 h-4"
+                                <Pencil :size="20" />
+                            </div>
+
+                            <!-- Delete -->
+
+                            <div
+                                @click="destroy(row.id)"
+                                class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
                             >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-                                />
-                            </svg>
-                        </span>
-                    </button>
-                </div>
-            </the-card>
-        </div>
+                                <TrashCan :size="20" />
+                            </div>
+                        </div>
+                        <div v-else>
+                            {{ formattedRow[column.field] }}
+                        </div>
+                    </template>
+                </vue-good-table>
+            </tab>
+        </tabs>
     </div>
+
+    {{ userPermissions }}
 </template>
 <script>
 import MainLayout from "../../Layouts/MainLayout.vue";
@@ -232,10 +241,18 @@ export default {
     layout: MainLayout,
 };
 </script>
+<style src="@vueform/multiselect/themes/default.css"></style>
 <script setup>
+import Multiselect from "@vueform/multiselect";
+import TrashCan from "vue-material-design-icons/TrashCan.vue";
+import Pencil from "vue-material-design-icons/Pencil.vue";
+import { VueGoodTable } from "vue-good-table-next";
+import "vue-good-table-next/dist/vue-good-table-next.css";
+import { Tabs, Tab } from "flowbite-vue";
+import Swal from "sweetalert2";
 import { usePage } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { watch } from "vue";
 import { router } from "@inertiajs/vue3";
 import { TheCard } from "flowbite-vue";
@@ -243,6 +260,7 @@ import { useForm } from "@inertiajs/vue3";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import { useI18n } from "vue-i18n";
+import Toast from "../../utils.js";
 const { t, availableLocales, locale } = useI18n();
 
 const $toast = useToast();
@@ -256,14 +274,54 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    permissions: {
+        type: Object,
+        default: () => ({}),
+    },
 });
+
+const userPermissions = computed(() => {
+    return usePage().props.auth.user.permissions;
+});
+
+const columns = ref([
+    {
+        label: t("users.table_username"),
+        field: "name",
+    },
+    {
+        label: t("users.table_email"),
+        field: "email",
+    },
+    // {
+    //     label: t("users.table_role"),
+    //     field: "role",
+    // },
+
+    {
+        label: t("adherents.table_actions"),
+        field: "actions",
+    },
+]);
+
+const rows = computed(() =>
+    Object.values(props.users).map((user) => ({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        // role: user.role,
+        permissions: user.permissions,
+    })),
+);
+
+const activeTab = ref("first");
 
 const form = useForm({
     id: null,
     name: null,
     email: null,
     password: null,
-    role: null,
+    permissions: [],
 });
 
 let isModalOpen = ref(false);
@@ -279,31 +337,38 @@ const openEditModal = (user) => {
     form.name = user.name;
     form.email = user.email;
     form.password = user.password;
-    form.role = user.role;
+    form.permissions = user.permissions
+        ? user.permissions.map((permission) => permission.id)
+        : [];
     isModalOpen.value = true;
 };
 
 const destroy = (id) => {
-    if (confirm("vous êtes sûr?")) {
-        form.delete(route("users.destroy", id), {
-            onSuccess: () => {
-                $toast.open({
-                    message: t("toasts.supp_success"),
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-            onError: () => {
-                $toast.open({
-                    message: t("toasts.supp_error"),
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
-                });
-            },
-        });
-    }
+    Swal.fire({
+        text: t("modals_questions.supprimer"),
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: t("buttons.supprimer"),
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.delete(route("users.destroy", id), {
+                onError: () => {
+                    Toast.fire({
+                        icon: "success",
+                        title: t("toasts.supp_error"),
+                    });
+                },
+                onSuccess: () => {
+                    Toast.fire({
+                        icon: "success",
+                        title: t("toasts.supp_success"),
+                    });
+                },
+            });
+        }
+    });
 };
 
 const submit = () => {
@@ -313,19 +378,15 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                $toast.open({
-                    message: "Utilisateur mis à jour avec succès",
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
+                Toast.fire({
+                    icon: "success",
+                    title: t("toasts.modif_success"),
                 });
             },
             onError: () => {
-                $toast.open({
-                    message: "Une erreur s'est produite lors de la mise à jour",
-                    type: "error",
-                    duration: 3000,
-                    dismissible: true,
+                Toast.fire({
+                    icon: "success",
+                    title: t("toasts.modif_error"),
                 });
             },
         });
@@ -335,14 +396,19 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                $toast.open({
-                    message: "Utilisateur ajouté avec succès",
-                    type: "success",
-                    duration: 3000,
-                    dismissible: true,
+                Toast.fire({
+                    icon: "success",
+                    title: t("toasts.ajout_success"),
                 });
             },
         });
     }
 };
+
+const formattedPermissions = computed(() =>
+    Object.values(props.permissions).map((permission) => ({
+        value: permission.id,
+        label: permission.name,
+    })),
+);
 </script>

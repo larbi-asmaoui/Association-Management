@@ -14,7 +14,7 @@ import QRCode from "qrcode";
 import jsPDF from "jspdf";
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
-import { ref, computed, reactive, watchEffect, nextTick } from "vue";
+import { ref, computed, reactive, watchEffect, nextTick, toRaw } from "vue";
 import { useForm, usePage } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
@@ -26,11 +26,11 @@ import Plus from "vue-material-design-icons/Plus.vue";
 import Filter from "vue-material-design-icons/Filter.vue";
 import Toast from "../../utils.js";
 import html2pdf from "html2pdf.js";
+import html2canvas from "html2canvas";
 
 const selectedPayementStartDate = ref("");
 const selectedPayementEndDate = ref("");
 const selectedAbonnements = ref(props.abonnements);
-const selectedAbonnement = ref(null);
 
 const filteredItems = reactive([]);
 
@@ -38,91 +38,7 @@ const printSingleInvoice = (id) => {
     const abonnement = selectedAbonnements.value.find(
         (abonnement) => abonnement.id === id,
     );
-    printInvoice([abonnement]);
-};
-
-const printInvoice = async (abonnements) => {
-    const doc = new jsPDF();
-
-    if (abonnements.length === 0) {
-        Swal.fire({
-            icon: "error",
-            text: "  لا يوجد أي وصل للطباعة",
-            showConfirmButton: false,
-            timer: 2000,
-        });
-        return;
-    }
-
-    const arabicFontFile = "/fonts/Amiri-Regular.ttf";
-    const arabicFontName = "Amiri";
-
-    doc.addFont(arabicFontFile, "Amiri", "normal");
-    doc.setFont(arabicFontName);
-
-    const pageWidth = doc.internal.pageSize.getWidth();
-
-    for (let i = 0; i < abonnements.length; i += 2) {
-        if (i !== 0) {
-            doc.addPage(); // Add a new page for each pair of members except the first pair
-        }
-
-        doc.setFontSize(18);
-        const docTitle = t("abonnements.payement_invoice");
-        const docTitleWidth = doc.getTextWidth(docTitle);
-        const docTitleX = (pageWidth - docTitleWidth) / 2;
-        doc.text(docTitle, docTitleX, 10);
-
-        const remainingAbonnements = abonnements.slice(i);
-        const invoiceToPrint =
-            remainingAbonnements.length >= 2
-                ? remainingAbonnements.slice(0, 4)
-                : remainingAbonnements;
-
-        for (let j = 0; j < invoiceToPrint.length; j++) {
-            const invoice = invoiceToPrint[j];
-
-            const invoiceText = `${
-                invoice.adherent.num_adhesion
-            } : رقم الانخراط\nالاسم الكامل : ${
-                invoice.adherent.first_name + " " + invoice.adherent.last_name
-            }\nالمبلغ: ${invoice.montant} درهم\nتاريخ العملية: ${
-                invoice.date_payement
-            }`;
-
-            const x = j % 2 ? 110 : 10;
-            const y = Math.floor(j / 2) * 70 + 40;
-
-            doc.setDrawColor(0);
-            doc.setLineWidth(0.5);
-            doc.rect(x, y, 90, 60, "S");
-            doc.setFontSize(18);
-
-            const invoiceTitle = " : وصل الدفع";
-            // const invoiceTitle = `${invoice.date_payement}`;
-
-            const invoiceTitleWidth = doc.getTextWidth(invoiceTitle);
-            const invoiceTitleX = x + (40 + invoiceTitleWidth) / 2;
-            const invoiceTitleY = y + 10;
-            doc.text(invoiceTitle, invoiceTitleX, invoiceTitleY, {
-                align: "center",
-            });
-
-            doc.setFontSize(14);
-
-            doc.text(invoiceText, x + 85, y + 28, {
-                align: "right",
-                textDirection: "rtl",
-            });
-
-            const qrCode = await QRCode.toDataURL(invoiceText);
-            const qrImg = new Image();
-            qrImg.src = qrCode;
-            doc.addImage(qrImg, "PNG", x + 2, y + 45, 14, 14);
-        }
-    }
-
-    doc.save(`payement_invoice_${new Date().toISOString()}.pdf`);
+    printAllInvoices([abonnement]);
 };
 
 const { t } = useI18n();
@@ -290,21 +206,41 @@ const formattedAdherents = computed(() =>
     })),
 );
 
-const printPdf = (abonnement) => {
-    selectedAbonnement.value = abonnement;
-    const element = document.getElementById("invoice");
-    // element.style.display = "block";
-    nextTick(() => {
-        const element = document.getElementById("invoice");
-        const opt = {
-            margin: 0,
-            filename: "Invoice.pdf",
-            image: { type: "jpeg", quality: 1 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: "mm", format: [280, 350], orientation: "portrait" },
-        };
-        html2pdf().set(opt).from(element).save();
+const printAllInvoices = async (abonnements) => {
+    if (abonnements.length === 0) {
+        Swal.fire({
+            icon: "error",
+            text: "  لا يوجد أي وصل للطباعة",
+            showConfirmButton: false,
+            timer: 2000,
+        });
+        return;
+    }
+    const pdf = new jsPDF({
+        format: "a4",
+        orientation: "portrait",
     });
+
+    const canvasList = abonnements.map((abonnement, index) => {
+        const element = document.getElementById(`invoice${abonnement.id}`);
+        return html2canvas(element, { scale: 0.78 }).then((canvas) => {
+            const position =
+                index % 3 === 0
+                    ? 0
+                    : ((index % 3) * pdf.internal.pageSize.height) / 3;
+
+            const imgData = canvas.toDataURL("image/png");
+            pdf.addImage(imgData, "PNG", 0, position);
+
+            if (index % 3 === 2 && index < abonnements.length - 1) {
+                pdf.addPage();
+            }
+        });
+    });
+
+    await Promise.all(canvasList);
+
+    pdf.save("Invoices.pdf");
 };
 </script>
 
@@ -338,7 +274,7 @@ const printPdf = (abonnement) => {
             >
                 <!--  -->
                 <button
-                    @click="printInvoice(selectedAbonnements)"
+                    @click="printAllInvoices(selectedAbonnements)"
                     class="relative text-white py-2 px-2 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 hover:bg-blue-600 transition-all text-sm"
                 >
                     <Printer />
@@ -531,7 +467,7 @@ const printPdf = (abonnement) => {
                         </div>
                         <!-- print -->
                         <div
-                            @click="printPdf(row)"
+                            @click="printSingleInvoice(row.id)"
                             class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
                         >
                             <Printer :size="20" />
@@ -539,127 +475,103 @@ const printPdf = (abonnement) => {
                     </div>
                     <div v-else>
                         {{ formattedRow[column.field] }}
-                    </div></template
-                >
+                    </div>
+                </template>
             </vue-good-table>
         </div>
     </div>
-    <div id="invoice" class="p-10" style="clip-path: inset(0 100% 0 0)">
-        <div class="text-right mb-3">
-            {{
-                selectedAbonnement
-                    ? moment(selectedAbonnement.date_payement).format(
-                          "DD/MM/YYYY",
-                      )
-                    : ""
-            }}
-        </div>
-        <div class="flex justify-between">
-            <div>
-                <h2 class="text-3xl font-bold mb-6">
-                    {{ $t("abonnements.invoice") }}
-                </h2>
-                <p>{{ props.associaton.name ?? "--" }}</p>
+    <!-- style="clip-path: inset(0 100% 0 0)" -->
+    <div
+        v-for="(selectedAbonnement, index) in selectedAbonnements"
+        :key="index"
+        :id="'invoice' + selectedAbonnement.id"
+        class="p-6 bg-white"
+    >
+        <div class="border border-gray-400 border-dashed p-4">
+            <div class="flex justify-between items-start mb-3">
                 <p>
-                    {{ props.associaton.address }}<br />{{
-                        props.associaton.city
-                    }},
-                    {{ props.associaton.region }}
+                    <strong>No:</strong>
+                    {{ selectedAbonnement ? selectedAbonnement.id : "" }}
                 </p>
-            </div>
-            <div>
-                <img
-                    alt="Logo"
-                    class="h-16 w-auto"
-                    :src="showImage() + props.associaton.image"
-                />
-            </div>
-        </div>
-        <div class="flex justify-between mt-6">
-            <div>
-                <!-- <h3 class="text-2xl font-bold mb-6">
-                    {{ $t("abonnements.invoice_to") }}
-                </h3> -->
+                <div class="flex flex-col items-center justify-start">
+                    <img
+                        alt="Logo"
+                        class="h-16 w-auto"
+                        :src="showImage() + props.associaton.image"
+                    />
+                    <p>{{ props.associaton.name ?? "--" }}</p>
+                </div>
                 <p>
                     {{
                         selectedAbonnement
-                            ? selectedAbonnement.adherent.first_name +
-                              " " +
-                              selectedAbonnement.adherent.last_name
+                            ? moment(selectedAbonnement.date_payement).format(
+                                  "DD/MM/YYYY",
+                              )
                             : ""
                     }}
-                </p>
-                <p>
-                    {{
-                        selectedAbonnement
-                            ? selectedAbonnement.adherent.address +
-                              "," +
-                              selectedAbonnement.adherent.city +
-                              "," +
-                              selectedAbonnement.adherent.region
-                            : ""
-                    }}
-                </p>
-                <p>
-                    {{ selectedAbonnement ? selectedAbonnement.montant : 0 }}
                 </p>
             </div>
-        </div>
 
-        <div class="mt-10">
-            <p>
-                <strong>Date:</strong>
-                {{
-                    selectedAbonnement
-                        ? moment(selectedAbonnement.date_payement).format(
-                              "DD/MM/YYYY",
-                          )
-                        : ""
-                }}
-            </p>
-            <p>
-                <strong>Invoice Number:</strong>
-                {{ selectedAbonnement ? selectedAbonnement.id : "" }}
-            </p>
-        </div>
+            <div class="text-right">
+                <div class="flex flex-col gap-2">
+                    <strong>{{ $t("adherents.info_perso") }}</strong>
+                    <p>
+                        {{
+                            selectedAbonnement
+                                ? selectedAbonnement.adherent.first_name +
+                                  " " +
+                                  selectedAbonnement.adherent.last_name
+                                : ""
+                        }}
+                    </p>
 
-        <div class="mt-10">
-            <table class="table-auto w-full">
-                <thead>
-                    <tr>
-                        <th class="px-4 py-2 text-center">Item</th>
-                        <th class="px-4 py-2 text-center">Quantity</th>
-                        <th class="px-4 py-2 text-center">Prix</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="border px-4 py-2 text-center">Item 1</td>
-                        <td class="border px-4 py-2 text-center">x1</td>
-                        <td class="border px-4 py-2 text-center">
-                            DH
-                            {{
-                                selectedAbonnement
-                                    ? selectedAbonnement.montant
-                                    : 0
-                            }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                    <p>
+                        {{
+                            selectedAbonnement
+                                ? selectedAbonnement.adherent.address +
+                                  "," +
+                                  selectedAbonnement.adherent.city +
+                                  "," +
+                                  selectedAbonnement.adherent.region
+                                : ""
+                        }}
+                    </p>
 
-        <div class="mt-10 text-right">
-            <p>
-                <strong>Total: </strong>
-                {{ selectedAbonnement ? selectedAbonnement.montant : 0 }} DH
-            </p>
-        </div>
-        <div class="mt-10 text-right">
-            <p>
-                <strong>Signature: </strong>
-                {{ $page.props.auth.user.name }}
-            </p>
+                    <p>
+                        <strong
+                            >{{ $t("adherents.table_date_naissance") }} :
+                        </strong>
+                        {{
+                            selectedAbonnement
+                                ? selectedAbonnement.adherent.date_of_birth
+                                : ""
+                        }}
+                    </p>
+                    <p>
+                        <strong>{{ $t("adherents.date_adhesion") }} : </strong>
+                        {{
+                            selectedAbonnement
+                                ? selectedAbonnement.adherent.date_of_membership
+                                : ""
+                        }}
+                    </p>
+                    <p class="mt-5">
+                        <strong
+                            >{{ $t("abonnements.table_montant") }} :
+                        </strong>
+                        {{
+                            selectedAbonnement ? selectedAbonnement.montant : 0
+                        }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-4 text-left">
+                <p>
+                    <strong>Signature</strong>
+                </p>
+                <p>{{ $page.props.auth.user.name }}</p>
+            </div>
         </div>
     </div>
 </template>

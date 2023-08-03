@@ -37,7 +37,7 @@ Route::middleware([
     'verified',
 ])->group(
     function () {
-        Route::resource('users', UserController::class)->middleware('role:admin');
+        Route::resource('users', UserController::class);
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/activities/calendrier', [ActivityController::class, 'calender'])->name('activities.calender');
 
@@ -60,7 +60,7 @@ Route::middleware([
         Route::resource('supervisors', \App\Http\Controllers\SupervisorController::class);
         Route::resource('categories', \App\Http\Controllers\CategoryController::class);
 
-        Route::resource('association', AssociationController::class)->middleware('role:admin');
+        Route::resource('association', AssociationController::class);
         Route::resource('reunions', \App\Http\Controllers\ReunionController::class);
         Route::get('/e-documents', [App\Http\Controllers\DocumentsController::class, 'index'])->name('e-documents.index');
         Route::get('/e-document/rapport-litteraire', [App\Http\Controllers\DocumentsController::class, 'generateRapportLitterairePdf'])->name('e-documents.rapport_litteraire');

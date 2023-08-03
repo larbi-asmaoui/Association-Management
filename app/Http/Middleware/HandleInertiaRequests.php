@@ -45,7 +45,7 @@ class HandleInertiaRequests extends Middleware
                 $association = null;
                 if ($user) {
                     $userArray = $user->only('id', 'name', 'email');
-                    $userArray['roles'] = $user->roles->pluck('name');
+                    $userArray['permissions'] = $user->permissions->pluck('name');
                     $association = Association::first();
                     if ($association) {
                         $association = $association->only('image', 'name', 'date_creation');

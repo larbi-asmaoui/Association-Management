@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
@@ -16,20 +17,22 @@ class UserController extends Controller
     public function index()
     {
 
-        $users = User::where('id', '!=', auth()->user()->id)->get();
+        $permissions = Permission::all();
+        $users = User::where('id', '!=', auth()->user()->id)->with('permissions')->get();
 
-        $users->map(function ($user) {
-            $role = DB::table('model_has_roles')->where('model_id', $user->id)->first();
-            if ($role != null) {
-                $role_name = Role::find($role->role_id)->name;
-                $user->role = $role_name;
-            }
-            return $user;
-        });
+        // $users->map(function ($user) {
+        //     $role = DB::table('model_has_roles')->where('model_id', $user->id)->first();
+        //     if ($role != null) {
+        //         $role_name = Role::find($role->role_id)->name;
+        //         $user->role = $role_name;
+        //     }
+        //     return $user;
+        // });
 
         return Inertia::render('Users/Index', [
             'users' => $users,
             'roles' => Role::all(),
+            'permissions' => $permissions
         ]);
     }
 
@@ -51,7 +54,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'role' => 'required',
+            'permissions' => 'nullable|array',
         ]);
 
         // create new user
@@ -61,7 +64,12 @@ class UserController extends Controller
             'password' => bcrypt('password'),
         ]);
 
-        $user->assignRole($request->role);
+        foreach ($request->permissions as $permissionId) {
+            $permission = Permission::findById($permissionId);
+            if ($permission) {
+                $user->givePermissionTo($permission);
+            }
+        }
 
 
         return back()->with('success', 'User added successfully.');
@@ -73,20 +81,29 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        // validate request
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'nullable',
-            'role' => 'required|exists:roles,name'
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'permissions' => 'required|array', // Ensure permissions is an array
         ]);
 
-        foreach ($user->roles as $role) {
-            $user->removeRole($role->name);
+        // update user details
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
+        // remove all current permissions
+        $user->permissions()->detach();
+
+        // validate each permission in the array exists
+        foreach ($request->permissions as $permissionId) {
+            $permission = Permission::findById($permissionId);
+            if ($permission) {
+                $user->givePermissionTo($permission);
+            }
         }
-
-        $user->assignRole($request->role);
-
-        $user->update($request->only('name', 'email'));
 
         return back()->with('success', 'User updated successfully.');
     }

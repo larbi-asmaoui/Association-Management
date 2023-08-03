@@ -62,7 +62,7 @@
                             </Link>
                         </li>
 
-                        <li v-if="roles.includes('admin')">
+                        <li>
                             <Link
                                 :class="[
                                     $page.url === '/association'
@@ -202,7 +202,7 @@
                         </li>
                         <!--  -->
 
-                        <li v-if="roles.includes('admin')">
+                        <li>
                             <Link
                                 :class="[
                                     $page.url === '/abonnements'
@@ -314,7 +314,7 @@
                             </Link>
                         </li>
 
-                        <li v-if="roles.includes('admin')">
+                        <li>
                             <Link
                                 :class="[
                                     $page.url === '/revenues'
@@ -354,7 +354,7 @@
                             </Link>
                         </li>
 
-                        <li v-if="roles.includes('admin')">
+                        <li>
                             <Link
                                 :class="[
                                     $page.url === '/depenses'
@@ -518,6 +518,7 @@
                 </div>
             </div>
         </div>
+        {{ permissions }}
     </aside>
 </template>
 
@@ -533,10 +534,6 @@ const activeClass = ref(
 const inactiveClass = ref(
     " text-gray-500 hover:bg-blue-100 flex items-center p-2 text-base rounded-lg group",
 );
-
-const roles = computed(() => {
-    return [...usePage().props.auth.user.roles];
-});
 </script>
 <script>
 export default {

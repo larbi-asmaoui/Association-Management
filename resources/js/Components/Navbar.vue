@@ -401,10 +401,7 @@
                                 </div>
                             </DropdownLink>
                             <div class="border-t border-gray-200" />
-                            <DropdownLink
-                                :href="route('users.index')"
-                                v-if="roles.includes('admin')"
-                            >
+                            <DropdownLink :href="route('users.index')">
                                 <div class="flex">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -529,10 +526,6 @@ const { t, availableLocales, locale } = useI18n();
 const logout = () => {
     router.post(route("logout"));
 };
-
-const roles = computed(() => {
-    return [...usePage().props.auth.user.roles];
-});
 
 const changeLanguage = (lang) => {
     locale.value = lang;

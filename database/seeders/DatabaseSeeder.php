@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,8 +17,40 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'simple user']);
+        Permission::create(['name' => 'add users']);
+        Permission::create(['name' => 'delete users']);
+        Permission::create(['name' => 'read users']);
+        Permission::create(['name' => 'update users']);
+
+        Permission::create(['name' => 'add adherent']);
+        Permission::create(['name' => 'delete adherent']);
+        Permission::create(['name' => 'read adherent']);
+        Permission::create(['name' => 'update adherent']);
+
+        Permission::create(['name' => 'add reunion']);
+        Permission::create(['name' => 'delete reunion']);
+        Permission::create(['name' => 'read reunion']);
+        Permission::create(['name' => 'update reunion']);
+
+        Permission::create(['name' => 'add reunion type']);
+        Permission::create(['name' => 'delete reunion type']);
+        Permission::create(['name' => 'read reunion type']);
+        Permission::create(['name' => 'update reunion type']);
+
+        Permission::create(['name' => 'add statut']);
+        Permission::create(['name' => 'delete statut']);
+        Permission::create(['name' => 'read statut']);
+        Permission::create(['name' => 'update statut']);
+
+        Permission::create(['name' => 'add activity']);
+        Permission::create(['name' => 'delete activity']);
+        Permission::create(['name' => 'read activity']);
+        Permission::create(['name' => 'update activity']);
+
+
+
+        // Role::create(['name' => 'admin']);
+        // Role::create(['name' => 'simple user']);
         $user = User::create([
             'name' => "asmaoui",
             'email' => "admin@admin.com",
@@ -30,7 +63,13 @@ class DatabaseSeeder extends Seeder
             'current_team_id' => null,
         ]);
 
-        // $user->assignRole('admin');
+        // get all permissions
+        $permissions = Permission::all();
+
+        // assign all permissions to user
+        $user->syncPermissions($permissions);
+
+
 
 
         \App\Models\DepenseType::create([

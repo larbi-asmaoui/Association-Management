@@ -111,7 +111,7 @@
         "table_telephone": "الهاتف",
         "table_profession": "المهنة",
         "table_actions": "العمليات",
-        "table_date_naissance": "تاريخ الولادة",
+        "table_date_naissance": "تاريخ الازدياد",
         "table_date_d'adhesion": "تاريخ الانخراط",
         "table_situation_familiale": "الحالة العائلية",
         "table_statut_adhesion": "حالة العضوية",
@@ -137,7 +137,9 @@
         "input_sexe": "الجنس",
         "adherent_info": "معلومات المنخرط",
         "adherent_activities": "الأنشطة التي شارك فيها",
-        "liste_adherents": "قائمة المنخرطين"
+        "liste_adherents": "قائمة المنخرطين",
+        "info_perso": "المعلومات الشخصية",
+        "date_adhesion": "تاريخ الانخراط"
     },
     "groupes": {
         "titre": "إدارة المجموعات",
@@ -292,7 +294,13 @@
         "input_email": "البريد الإلكتروني",
         "input_mot_de_passe": " كلمة المرور",
         "input_role": "الدور",
-        "choose_role": "اختر دور"
+        "choose_role": "اختر دور",
+        "roles": "الأدوار",
+        "modal_ajouter_role": "إضافة دور",
+        "table_username": "اسم المستخدم",
+        "table_email": "البريد الإلكتروني",
+        "table_role": "الدور",
+        "permissions": "الصلاحيات"
     },
     "abonnements": {
         "titre": "إدارة الاشتراكات",
