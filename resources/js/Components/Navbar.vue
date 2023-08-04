@@ -301,7 +301,7 @@
                                     >
                                 </div>
                             </DropdownLink>
-                            <DropdownLink :href="route('categories.index')">
+                            <!-- <DropdownLink :href="route('categories.index')">
                                 <div class="flex">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -329,7 +329,7 @@
                                         {{ $t("navbar.type_category") }}</span
                                     >
                                 </div>
-                            </DropdownLink>
+                            </DropdownLink> -->
                             <div class="border-t border-gray-200" />
                             <DropdownLink :href="route('revenue-types.index')">
                                 <div class="flex">

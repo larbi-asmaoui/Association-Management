@@ -54,7 +54,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'permissions' => 'nullable|array',
+            'permissions' => 'required|array',
         ]);
 
         // create new user

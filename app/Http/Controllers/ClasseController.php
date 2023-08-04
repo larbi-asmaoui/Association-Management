@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Adherent;
+use App\Models\Category;
 use App\Models\Classe;
 use App\Models\Supervisor;
 use Illuminate\Http\Request;
@@ -16,15 +17,14 @@ class ClasseController extends Controller
     public function index()
     {
         $adherents = Adherent::all();
-        // $classes = Classe::query()
-        //     ->with('adherents')
-        //     ->withCount('adherents')
-        //     ->get();
         $classes = Classe::query()
             ->with('adherents')
             ->withCount('adherents')
-            ->with('supervisor')
+            ->with('supervisors')
+            ->with('category')
             ->get();
+
+        $categories = Category::query()->with('classes')->get();
         $supervisors = Supervisor::all();
         return Inertia::render(
             'Classes/Index',
@@ -32,6 +32,7 @@ class ClasseController extends Controller
                 'adherents' => $adherents,
                 'classes' => $classes,
                 'supervisors' => $supervisors,
+                'categories' => $categories,
             ]
         );
     }
@@ -52,21 +53,27 @@ class ClasseController extends Controller
         $formFields = $request->validate([
             'name' => 'required',
             'description' => 'nullable',
-            'supervisor_id' => 'required|exists:supervisors,id',
+            'category_id' => 'required|exists:categories,id',
             'adherents' => 'nullable|array',
             'adherents.*' => 'exists:adherents,id',
+            'supervisors' => 'nullable|array',
+            'supervisors.*' => 'exists:supervisors,id',
         ]);
 
         $classeData = [
             'name' => $formFields['name'],
             'description' => $formFields['description'],
-            'supervisor_id' => $formFields['supervisor_id'],
+            'category_id' => $formFields['category_id'],
         ];
 
         $classe = Classe::create($classeData);
         if (isset($formFields['adherents'])) {
             // $adherentIds = $request->input('adherents');
             Adherent::whereIn('id', $formFields['adherents'])->update(['classe_id' => $classe->id]);
+        }
+
+        if (isset($formFields['supervisors'])) {
+            $classe->supervisors()->sync($formFields['supervisors']);
         }
 
 
@@ -94,7 +101,38 @@ class ClasseController extends Controller
      */
     public function update(Request $request, Classe $classe)
     {
-        //
+        //  update the classe
+        $formFields = $request->validate([
+            'name' => 'required',
+            'description' => 'nullable',
+            // 'supervisor_id' => 'required|exists:supervisors,id',
+            'category_id' => 'required|exists:categories,id',
+            'adherents' => 'nullable|array',
+            'adherents.*' => 'exists:adherents,id',
+            'supervisors' => 'nullable|array',
+            'supervisors.*' => 'exists:supervisors,id',
+        ]);
+
+        $classeData = [
+            'name' => $formFields['name'],
+            'description' => $formFields['description'],
+            'category_id' => $formFields['category_id'],
+        ];
+
+        // $supervisors = $formFields['supervisors'];
+        unset($formFields['supervisors']);
+
+        $classe->update($classeData);
+
+        if (isset($formFields['adherents'])) {
+            Adherent::whereIn('id', $formFields['adherents'])->update(['classe_id' => $classe->id]);
+        }
+
+        if (isset($formFields['supervisors'])) {
+            $classe->supervisors()->sync($formFields['supervisors']);
+        }
+
+        return redirect()->back()->with('success', 'reunion updated.');
     }
 
     /**

@@ -107,20 +107,14 @@
                                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
                                 >{{ $t("reunions.input_type") }}
                             </label>
-                            <select
+
+                            <Multiselect
                                 v-model="form.reunion_type_id"
-                                id="reunionTypes"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-700 :border-gray-600 :placeholder-gray-400 :text-white :focus:ring-blue-500 :focus:border-blue-500 appearance-none select-none relative z-10"
-                            >
-                                <option
-                                    v-for="reunionType in reunionTypes"
-                                    :key="reunionType.id"
-                                    :value="reunionType.id"
-                                    class="bg-white :bg-gray-800 py-2.5 px-4 cursor-pointer hover:bg-gray-200 :hover:bg-gray-700"
-                                >
-                                    {{ reunionType.name }}
-                                </option>
-                            </select>
+                                :close-on-select="true"
+                                :searchable="true"
+                                :create-option="true"
+                                :options="formattedReunionTypes"
+                            />
                             <span
                                 v-if="form.errors.reunion_type_id"
                                 class="text-xs text-red-600 mt-1"
@@ -226,13 +220,15 @@ export default {
 };
 </script>
 
+<style src="@vueform/multiselect/themes/default.css"></style>
+
 <script setup>
+import Multiselect from "@vueform/multiselect";
 import Swal from "sweetalert2";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
-import Multiselect from "@vueform/multiselect";
 import { ref, computed } from "vue";
 import { Modal } from "flowbite-vue";
 import { router, usePage } from "@inertiajs/vue3";
@@ -464,6 +460,13 @@ const formattedAdherents = computed(() =>
     Object.values(props.adherents).map((adherent) => ({
         value: adherent.id,
         label: adherent.last_name + " " + adherent.first_name,
+    })),
+);
+
+const formattedReunionTypes = computed(() =>
+    Object.values(props.reunionTypes).map((reunionType) => ({
+        value: reunionType.id,
+        label: reunionType.name,
     })),
 );
 </script>

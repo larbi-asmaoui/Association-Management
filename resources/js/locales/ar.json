@@ -54,7 +54,7 @@
         "type_bien": "نوع الممتلكات",
         "type_category": "نوع الفئة",
         "users": "المستخدمين",
-        "statut": "الحالة",
+        "statut": "تعديل المناصب",
         "francais": "الفرنسية",
         "arabe": "العربية"
     },
@@ -156,6 +156,8 @@
     },
 
     "classes": {
+        "categories": "الفئات",
+        "classes": "المستويات",
         "titre": "إدارة الفئات",
         "modal_ajouter": "إضافة فئة",
         "table_nom": "الفئة",
@@ -168,7 +170,10 @@
         "input_description": "الوصف",
         "input_adherents": "المنخرطين",
         "supervisor": "المؤطر",
-        "adherent_count": "عدد المنخرطين"
+        "adherent_count": "عدد المنخرطين",
+        "classes_count": "عدد المستويات",
+        "category": "الفئة",
+        "classe": "المستوى"
     },
 
     "supervisors": {
@@ -338,10 +343,10 @@
         "all_rapports": "التقارير المالية والأدبية"
     },
     "statuts": {
-        "titre": "إدارة الحالات",
-        "modal_ajouter": "إضافة حالة",
-        "modal_modifier": "تعديل حالة",
-        "input_nom": "الاسم"
+        "titre": "إدارة المناصب",
+        "modal_ajouter": "إضافة منصب",
+        "modal_modifier": "تعديل منصب",
+        "input_nom": "المنصب"
     },
     "toasts": {
         "ajout_success": "تمت الإضافة بنجاح",
@@ -355,5 +360,11 @@
         "supprimer": "هل أنت متأكد من حذف هذا العنصر؟",
         "modifier": "هل أنت متأكد من تعديل هذا العنصر؟",
         "ajouter": "هل أنت متأكد من إضافة هذا العنصر؟"
+    },
+    "permissions": {
+        "add users": "إضافة مستخدمين",
+        "edit users": "تعديل مستخدمين",
+        "delete users": "حذف مستخدمين",
+        "read users": "قراءة مستخدمين"
     }
 }

@@ -332,6 +332,7 @@ const rows = computed(() =>
         id: supervisor.id,
         first_name: supervisor.first_name,
         last_name: supervisor.last_name,
+        image: supervisor.image,
         // nombre_de_membres: supervisor.adherents_count,
         // adherents: supervisor.adherents,
     })),

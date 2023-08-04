@@ -2,21 +2,15 @@
     <div
         class="gap-2 pb-4 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
     >
-        <h1
+        <!-- <h1
             class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
         >
             {{ $t("users.titre") }}
-        </h1>
-        <!-- <button
-            @click="isModalOpen = true"
-            class="ms-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-            type="button"
-        >
-            {{ $t("users.modal_ajouter_role") }}
-        </button> -->
+        </h1> -->
+
         <button
             @click="isModalOpen = true"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            class="ms-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             type="button"
         >
             {{ $t("users.modal_ajouter") }}
@@ -115,40 +109,6 @@
                         </div>
                     </div>
 
-                    <!-- <div class="grid grid-cols-1 gap-4 lg:gap-6">
-                        <div>
-                            <label
-                                for="role"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                            >
-                                {{ $t("users.input_role") }}</label
-                            >
-                            <select
-                                v-model="form.role"
-                                id="type"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            >
-                                <option disabled value="">
-                                    {{ $t("users.input_role") }}
-                                </option>
-                                <option
-                                    v-for="role in roles"
-                                    :key="role.id"
-                                    :value="role.name"
-                                >
-                                    {{ role.name }}
-                                </option>
-                            </select>
-                            <span
-                                v-if="form.errors.role"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.role }}
-                            </span>
-                        </div>
-                    </div> -->
-
                     <div class="grid grid-cols-1 gap lg:gap-6">
                         <div>
                             <label
@@ -164,6 +124,13 @@
                                 :create-option="true"
                                 :options="formattedPermissions"
                             />
+                            <span
+                                v-if="form.errors.permissions"
+                                class="text-xs text-red-600 mt-1"
+                                id="hs-validation-name-error-helper"
+                            >
+                                {{ form.errors.permissions }}
+                            </span>
                         </div>
                     </div>
 
@@ -231,8 +198,6 @@
             </tab>
         </tabs>
     </div>
-
-    {{ userPermissions }}
 </template>
 <script>
 import MainLayout from "../../Layouts/MainLayout.vue";
@@ -328,7 +293,7 @@ let isModalOpen = ref(false);
 
 const closeModal = () => {
     isModalOpen.value = false;
-
+    form.clearErrors();
     form.reset();
 };
 
@@ -408,7 +373,7 @@ const submit = () => {
 const formattedPermissions = computed(() =>
     Object.values(props.permissions).map((permission) => ({
         value: permission.id,
-        label: permission.name,
+        label: t(`permissions.${permission.name}`),
     })),
 );
 </script>
