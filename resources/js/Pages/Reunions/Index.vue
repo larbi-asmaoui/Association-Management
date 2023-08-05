@@ -1,214 +1,189 @@
 <template>
-    <button
-        @click="isModalOpen = true"
-        class="rounded-full z-50 fixed bottom-8 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
-        type="button"
-        :class="$i18n.locale === 'ar' ? 'left-5' : 'right-5'"
-    >
-        <Plus />
-    </button>
-
-    <div class="bg-white pt-6 shadow-md rounded-md relative mt-5">
-        <div
-            class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
-        >
-            <h2
-                class="text-xl font-semibold text-white"
-                :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
-            >
-                {{ $t("reunions.titre") }}
-            </h2>
-        </div>
-        <div
-            class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
-        ></div>
-
-        <teleport to="body">
-            <Modal size="xl" v-if="isModalOpen" @close="closeModal">
-                <template #header>
-                    <div class="flex items-center text-lg">
-                        {{ $t("reunions.modal_ajouter") }}
-                    </div>
-                </template>
-                <template #body>
-                    <form
-                        :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
-                        class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
-                        @submit.prevent="submit"
-                    >
-                        <div>
-                            <label
-                                for="title"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("reunions.input_nom") }}</label
-                            >
-                            <input
-                                v-model="form.name"
-                                type="text"
-                                name="title"
-                                id="title"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
-                            />
-                            <span
-                                v-if="form.errors.name"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.name }}
-                            </span>
-                        </div>
-
-                        <div>
-                            <label
-                                for="title"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("reunions.input_date") }}</label
-                            >
-                            <input
-                                v-model="form.date"
-                                type="date"
-                                name="date"
-                                id="date"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
-                            />
-                            <span
-                                v-if="form.errors.date"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-date-error-helper"
-                            >
-                                {{ form.errors.date }}
-                            </span>
-                        </div>
-                        <div>
-                            <label
-                                for="description"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("reunions.input_description") }}</label
-                            >
-                            <textarea
-                                v-model="form.description"
-                                rows="5"
-                                name="description"
-                                id="description"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
-                            ></textarea>
-                            <span
-                                v-if="form.errors.description"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.description }}
-                            </span>
-                        </div>
-
-                        <div>
-                            <label
-                                for="type"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("reunions.input_type") }}
-                            </label>
-
-                            <Multiselect
-                                v-model="form.reunion_type_id"
-                                :close-on-select="true"
-                                :searchable="true"
-                                :create-option="true"
-                                :options="formattedReunionTypes"
-                            />
-                            <span
-                                v-if="form.errors.reunion_type_id"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.reunion_type_id }}
-                            </span>
-                        </div>
-                        <div>
-                            <label
-                                for="adherents"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("activities.input_adherents") }}</label
-                            >
-                            <Multiselect
-                                v-model="form.adherents"
-                                mode="tags"
-                                :close-on-select="false"
-                                :searchable="true"
-                                :create-option="true"
-                                :options="formattedAdherents"
-                            />
-                        </div>
-
-                        <div class="mt-5 flex justify-end gap-x-2">
-                            <button
-                                @click="isModalOpen = false"
-                                type="button"
-                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
-                            >
-                                {{ $t("buttons.annuler") }}
-                            </button>
-                            <button
-                                type="submit"
-                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
-                            >
-                                {{ $t("buttons.enregistrer") }}
-                            </button>
-                        </div>
-                    </form>
-                </template>
-            </Modal>
-        </teleport>
-
-        <div class="mt-4">
-            <div class="relative">
-                <!-- vue table -->
-                <vue-good-table
-                    :columns="columns"
-                    :rows="rows"
-                    :pagination-options="{
-                        enabled: true,
-                    }"
-                    :search-options="{
-                        enabled: true,
-                        placeholder: $t('adherents.table_search'),
-                    }"
-                    :rtl="$i18n.locale === 'ar'"
+    <teleport to="body">
+        <Modal size="xl" v-if="isModalOpen" @close="closeModal">
+            <template #header>
+                <div class="flex items-center text-lg">
+                    {{ $t("reunions.modal_ajouter") }}
+                </div>
+            </template>
+            <template #body>
+                <form
+                    :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+                    class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
+                    @submit.prevent="submit"
                 >
-                    <template v-slot:table-row="{ row, column, formattedRow }">
-                        <div v-if="column.field === 'actions'" class="flex">
-                            <!-- Show -->
-                            <div
-                                @click="show(row)"
-                                class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
-                            >
-                                <Eye :size="20" />
-                            </div>
+                    <div>
+                        <label
+                            for="title"
+                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                            >{{ $t("reunions.input_nom") }}</label
+                        >
+                        <input
+                            v-model="form.name"
+                            type="text"
+                            name="title"
+                            id="title"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
+                        />
+                        <span
+                            v-if="form.errors.name"
+                            class="text-xs text-red-600 mt-1"
+                            id="hs-validation-name-error-helper"
+                        >
+                            {{ form.errors.name }}
+                        </span>
+                    </div>
 
-                            <!-- Delete -->
+                    <div>
+                        <label
+                            for="title"
+                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                            >{{ $t("reunions.input_date") }}</label
+                        >
+                        <input
+                            v-model="form.date"
+                            type="date"
+                            name="date"
+                            id="date"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
+                        />
+                        <span
+                            v-if="form.errors.date"
+                            class="text-xs text-red-600 mt-1"
+                            id="hs-validation-date-error-helper"
+                        >
+                            {{ form.errors.date }}
+                        </span>
+                    </div>
+                    <div>
+                        <label
+                            for="description"
+                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                            >{{ $t("reunions.input_description") }}</label
+                        >
+                        <textarea
+                            v-model="form.description"
+                            rows="5"
+                            name="description"
+                            id="description"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
+                        ></textarea>
+                        <span
+                            v-if="form.errors.description"
+                            class="text-xs text-red-600 mt-1"
+                            id="hs-validation-name-error-helper"
+                        >
+                            {{ form.errors.description }}
+                        </span>
+                    </div>
 
-                            <div
-                                @click="destroy(row)"
-                                class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
-                            >
-                                <TrashCan :size="20" />
-                            </div>
+                    <div>
+                        <label
+                            for="type"
+                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                            >{{ $t("reunions.input_type") }}
+                        </label>
 
-                            <!-- Print -->
-                            <div
-                                @click="printAttendanceList(row)"
-                                class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
-                            >
-                                <Printer :size="20" />
-                            </div>
-                        </div>
-                        <div v-else>
-                            {{ formattedRow[column.field] }}
-                        </div>
-                    </template>
-                </vue-good-table>
-                <!-- vue table -->
-            </div>
+                        <Multiselect
+                            v-model="form.reunion_type_id"
+                            :close-on-select="true"
+                            :searchable="true"
+                            :create-option="true"
+                            :options="formattedReunionTypes"
+                        />
+                        <span
+                            v-if="form.errors.reunion_type_id"
+                            class="text-xs text-red-600 mt-1"
+                            id="hs-validation-name-error-helper"
+                        >
+                            {{ form.errors.reunion_type_id }}
+                        </span>
+                    </div>
+                    <div>
+                        <label
+                            for="adherents"
+                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                            >{{ $t("activities.input_adherents") }}</label
+                        >
+                        <Multiselect
+                            v-model="form.adherents"
+                            mode="tags"
+                            :close-on-select="false"
+                            :searchable="true"
+                            :create-option="true"
+                            :options="formattedAdherents"
+                        />
+                    </div>
+
+                    <div class="mt-5 flex justify-end gap-x-2">
+                        <button
+                            @click="isModalOpen = false"
+                            type="button"
+                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
+                        >
+                            {{ $t("buttons.annuler") }}
+                        </button>
+                        <button
+                            type="submit"
+                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
+                        >
+                            {{ $t("buttons.enregistrer") }}
+                        </button>
+                    </div>
+                </form>
+            </template>
+        </Modal>
+    </teleport>
+
+    <div class="w-auto h-full py-4 px-2">
+        <h2
+            class="text-xl font-semibold text-black-600 mb-4"
+            :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
+        >
+            {{ $t("reunions.titre") }}
+        </h2>
+
+        <div
+            class="gap-2 py-1 mb-2 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
+        >
+            <el-button
+                class="me-auto"
+                type="primary"
+                size="large"
+                @click="isModalOpen = true"
+            >
+                <Plus />
+            </el-button>
         </div>
+
+        <a-config-provider :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'">
+            <a-table
+                :columns="columns"
+                :data-source="rows"
+                :pagination="{
+                    pageSize: pageSize.value,
+                    showSizeChanger: true,
+                    pageSizeOptions: ['10', '20', '30', '40'],
+                }"
+            >
+                <template v-slot:action="{ record }">
+                    <el-button
+                        type="primary"
+                        size="small"
+                        @click="show(record.id)"
+                        ><Eye />
+                    </el-button>
+                    <span class="me-2"></span>
+
+                    <el-button
+                        type="danger"
+                        size="small"
+                        @click="destroy(record)"
+                        ><TrashCan
+                    /></el-button>
+                </template>
+            </a-table>
+        </a-config-provider>
     </div>
 </template>
 
@@ -243,6 +218,7 @@ import Toast from "../../utils.js";
 
 const { t, availableLocales, locale } = useI18n();
 
+const pageSize = ref(10);
 const props = defineProps({
     reunions: {
         type: Object,
@@ -271,23 +247,39 @@ const form = useForm({
     adherents: [],
 });
 
-const columns = ref([
+const columns = computed(() => [
     {
-        label: t("reunions.table_nom"),
-        field: "name",
+        title: t("reunions.table_nom"),
+        dataIndex: "name",
+        key: "name",
+        sorter: {
+            compare: (a, b) => a.name.localeCompare(b.name),
+        },
+        multipe: 1,
     },
     {
-        label: t("reunions.table_type"),
-        field: "type",
-    },
-    {
-        label: t("reunions.table_date"),
-        field: "date",
+        title: t("reunions.table_type"),
+        dataIndex: "type",
+        key: "type",
+        sorter: {
+            compare: (a, b) => a.type.localeCompare(b.type),
+        },
     },
 
     {
-        label: t("reunions.table_actions"),
-        field: "actions",
+        title: t("reunions.table_date"),
+        dataIndex: "date",
+        key: "date",
+        sorter: {
+            compare: (a, b) => a.date.localeCompare(b.date),
+        },
+    },
+
+    {
+        title: t("adherents.table_actions"),
+        dataIndex: "action",
+        key: "action",
+        slots: { customRender: "action" },
     },
 ]);
 const rows = computed(() =>

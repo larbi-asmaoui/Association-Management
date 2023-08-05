@@ -31,7 +31,7 @@ class SupervisorController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate(
+        $formFields = $request->validate(
             [
                 'first_name' => 'required',
                 'last_name' => 'required',
@@ -42,16 +42,12 @@ class SupervisorController extends Controller
             ]
         );
 
-        $supervisorData = [
-            'first_name' => $validatedData['first_name'],
-            'last_name' => $validatedData['last_name'],
-            'cin' => $validatedData['cin'],
-            'address' => $validatedData['address'],
-            'date_of_birth' => $validatedData['date_of_birth'],
-            'tel' => $validatedData['tel'],
-        ];
+        if ($request->hasFile('image')) {
+            $formFields['image']  = $request->file('image')->store('supervisors', 'public');
+        }
 
-        $newSupervisor = Supervisor::create($supervisorData);
+
+        $newSupervisor = Supervisor::create($formFields);
 
         return redirect()->route('supervisors.index');
     }

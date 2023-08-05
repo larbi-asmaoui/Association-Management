@@ -157,30 +157,38 @@
 
     "classes": {
         "categories": "الفئات",
-        "classes": "المستويات",
+        "classes": "الأفواج",
         "titre": "إدارة الفئات",
-        "modal_ajouter": "إضافة فئة",
-        "table_nom": "الفئة",
+        "modal_ajouter": "إضافة فوج جديد",
+        "table_nom": "الفوج",
         "table_description": "الوصف",
         "table_nombre_adherents": "عدد المنخرطين",
         "table_search": "بحث",
 
-        "modal_modifier": "تعديل فئة",
-        "input_classe": "فئة",
+        "modal_modifier": "تعديل الفوج",
+        "input_classe": "الفوج",
         "input_description": "الوصف",
         "input_adherents": "المنخرطين",
         "supervisor": "المؤطر",
         "adherent_count": "عدد المنخرطين",
+        "supervisor_count": "عدد المؤطرين",
         "classes_count": "عدد المستويات",
         "category": "الفئة",
-        "classe": "المستوى"
+        "classe": "المستوى",
+        "modal_ajouter_category": "إضافة فئة",
+        "modal_modifier_category": "تعديل الفئة"
     },
 
     "supervisors": {
         "titre": "إدارة المؤطرين",
         "first_name": "الاسم الشخصي",
         "last_name": "الاسم العائلي",
-        "modal_ajouter": "إضافة مؤطر"
+        "cin": "ر.ب.و",
+        "telephone": "الهاتف",
+        "address": "العنوان",
+        "date_of_birth": "تاريخ الولادة",
+        "modal_ajouter": "إضافة مؤطر",
+        "modal_modifier": "تعديل مؤطر"
     },
 
     "reunions": {

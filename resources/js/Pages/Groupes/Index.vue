@@ -1,165 +1,145 @@
 <template>
-    <button
-        @click="isModalOpen = true"
-        class="rounded-full z-50 fixed bottom-8 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
-        type="button"
-        :class="$i18n.locale === 'ar' ? 'left-5' : 'right-5'"
-    >
-        <Plus />
-    </button>
-
-    <div class="bg-white pt-6 shadow-md rounded-xl relative mt-5">
-        <div
-            class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
-        >
-            <h2
-                class="text-xl font-semibold text-white"
-                :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
-            >
-                {{ $t("groupes.titre") }}
-            </h2>
-        </div>
-        <div
-            class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
-        ></div>
-
-        <teleport to="body">
-            <Modal size="xl" v-if="isModalOpen" @close="closeModal">
-                <template #header>
-                    <div class="flex items-center text-lg">
-                        {{ $t("groupes.modal_ajouter") }}
-                    </div>
-                </template>
-                <template #body>
-                    <form
-                        :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
-                        class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
-                        @submit.prevent="submit"
-                    >
-                        <div>
-                            <label
-                                for="title"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("groupes.input_groupe") }}</label
-                            >
-                            <input
-                                v-model="form.name"
-                                type="text"
-                                name="title"
-                                id="title"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
-                            />
-                            <span
-                                v-if="form.errors.name"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.name }}
-                            </span>
-                        </div>
-                        <div>
-                            <label
-                                for="description"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("groupes.input_description") }}</label
-                            >
-                            <textarea
-                                v-model="form.description"
-                                rows="5"
-                                name="description"
-                                id="description"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
-                            ></textarea>
-                            <span
-                                v-if="form.errors.description"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.description }}
-                            </span>
-                        </div>
-
-                        <div>
-                            <label
-                                for="adherents"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("groupes.input_adherents") }}</label
-                            >
-                            <Multiselect
-                                v-model="form.adherents"
-                                mode="tags"
-                                :close-on-select="false"
-                                :searchable="true"
-                                :create-option="true"
-                                :options="formattedAdherents"
-                            />
-                        </div>
-
-                        <div class="mt-5 flex justify-end gap-x-2">
-                            <button
-                                @click="isModalOpen = false"
-                                type="button"
-                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
-                            >
-                                {{ $t("buttons.annuler") }}
-                            </button>
-                            <button
-                                type="submit"
-                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
-                            >
-                                {{ $t("buttons.ajouter") }}
-                            </button>
-                        </div>
-                    </form>
-                </template>
-            </Modal>
-        </teleport>
-
-        <div class="mt-4">
-            <div class="relative">
-                <!-- vue table -->
-                <vue-good-table
-                    :columns="columns"
-                    :rows="rows"
-                    :pagination-options="{
-                        enabled: true,
-                    }"
-                    :search-options="{
-                        enabled: true,
-                        placeholder: $t('adherents.table_search'),
-                    }"
-                    :rtl="$i18n.locale === 'ar'"
+    <teleport to="body">
+        <Modal size="xl" v-if="isModalOpen" @close="closeModal">
+            <template #header>
+                <div class="flex items-center text-lg">
+                    {{ $t("groupes.modal_ajouter") }}
+                </div>
+            </template>
+            <template #body>
+                <form
+                    :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+                    class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
+                    @submit.prevent="submit"
                 >
-                    <template v-slot:table-row="{ row, column, formattedRow }">
-                        <div
-                            v-if="column.field === 'actions'"
-                            class="flex justify-center items-center"
+                    <div>
+                        <label
+                            for="title"
+                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                            >{{ $t("groupes.input_groupe") }}</label
                         >
-                            <div
-                                @click="openEditModal(row)"
-                                class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
-                            >
-                                <Pencil :size="20" />
-                            </div>
+                        <input
+                            v-model="form.name"
+                            type="text"
+                            name="title"
+                            id="title"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
+                        />
+                        <span
+                            v-if="form.errors.name"
+                            class="text-xs text-red-600 mt-1"
+                            id="hs-validation-name-error-helper"
+                        >
+                            {{ form.errors.name }}
+                        </span>
+                    </div>
+                    <div>
+                        <label
+                            for="description"
+                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                            >{{ $t("groupes.input_description") }}</label
+                        >
+                        <textarea
+                            v-model="form.description"
+                            rows="5"
+                            name="description"
+                            id="description"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
+                        ></textarea>
+                        <span
+                            v-if="form.errors.description"
+                            class="text-xs text-red-600 mt-1"
+                            id="hs-validation-name-error-helper"
+                        >
+                            {{ form.errors.description }}
+                        </span>
+                    </div>
 
-                            <!-- Delete -->
+                    <div>
+                        <label
+                            for="adherents"
+                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                            >{{ $t("groupes.input_adherents") }}</label
+                        >
+                        <Multiselect
+                            v-model="form.adherents"
+                            mode="tags"
+                            :close-on-select="false"
+                            :searchable="true"
+                            :create-option="true"
+                            :options="formattedAdherents"
+                        />
+                    </div>
 
-                            <div
-                                v-if="row.nombre_de_membres == 0"
-                                @click="destroy(row)"
-                                class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
-                            >
-                                <TrashCan :size="20" />
-                            </div>
-                        </div>
-                        <div v-else>
-                            {{ formattedRow[column.field] }}
-                        </div>
-                    </template>
-                </vue-good-table>
-                <!-- vue table -->
-            </div>
+                    <div class="mt-5 flex justify-end gap-x-2">
+                        <button
+                            @click="isModalOpen = false"
+                            type="button"
+                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
+                        >
+                            {{ $t("buttons.annuler") }}
+                        </button>
+                        <button
+                            type="submit"
+                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
+                        >
+                            {{ $t("buttons.ajouter") }}
+                        </button>
+                    </div>
+                </form>
+            </template>
+        </Modal>
+    </teleport>
+
+    <div class="w-auto h-full py-4 px-2">
+        <h2
+            class="text-xl font-semibold text-black-600 mb-4"
+            :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
+        >
+            {{ $t("groupes.titre") }}
+        </h2>
+
+        <div
+            class="gap-2 py-1 mb-2 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
+        >
+            <el-button
+                class="me-auto"
+                type="primary"
+                size="large"
+                @click="isModalOpen = true"
+            >
+                <Plus />
+            </el-button>
         </div>
+
+        <a-config-provider :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'">
+            <a-table
+                :columns="columns"
+                :data-source="rows"
+                :pagination="{
+                    pageSize: pageSize.value,
+                    showSizeChanger: true,
+                    pageSizeOptions: ['10', '20', '30', '40'],
+                }"
+            >
+                <template v-slot:action="{ record }">
+                    <el-button
+                        type="primary"
+                        size="small"
+                        @click="openEditModal(record)"
+                        ><Pencil />
+                    </el-button>
+                    <span class="me-2"></span>
+
+                    <el-button
+                        type="danger"
+                        size="small"
+                        @click="destroy(record)"
+                        ><TrashCan
+                    /></el-button>
+                </template>
+            </a-table>
+        </a-config-provider>
     </div>
 </template>
 
@@ -173,7 +153,6 @@ export default {
 
 <script setup>
 import Swal from "sweetalert2";
-import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
 import Multiselect from "@vueform/multiselect";
 import { ref, computed } from "vue";
@@ -198,7 +177,7 @@ const props = defineProps({
         default: () => ({}),
     },
 });
-
+const pageSize = ref(10);
 const form = useForm({
     id: null,
     name: null,
@@ -206,23 +185,42 @@ const form = useForm({
     adherents: [],
 });
 
-const columns = ref([
+const columns = computed(() => [
     {
-        label: t("groupes.table_nom"),
-        field: "name",
-    },
-    {
-        label: t("groupes.table_description"),
-        field: "description",
-    },
-    {
-        label: t("groupes.table_nombre_adherents"),
-        field: "nombre_de_membres",
+        title: t("groupes.table_nom"),
+        dataIndex: "name",
+        key: "name",
+        sorter: {
+            compare: (a, b) => a.name.localeCompare(b.name),
+        },
+        multipe: 1,
     },
 
     {
-        label: t("adherents.table_actions"),
-        field: "actions",
+        title: t("groupes.table_description"),
+        dataIndex: "description",
+        key: "description",
+        sorter: {
+            compare: (a, b) => a.description.localeCompare(b.description),
+        },
+        multipe: 1,
+    },
+    {
+        title: t("groupes.table_nombre_adherents"),
+        dataIndex: "nombre_de_membres",
+        key: "nombre_de_membres",
+        sorter: {
+            compare: (a, b) =>
+                a.nombre_de_membres.localeCompare(b.nombre_de_membres),
+        },
+        multipe: 1,
+    },
+
+    {
+        title: t("adherents.table_actions"),
+        dataIndex: "actions",
+        key: "actions",
+        slots: { customRender: "action" },
     },
 ]);
 const rows = computed(() =>

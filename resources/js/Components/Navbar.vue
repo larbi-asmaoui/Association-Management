@@ -71,379 +71,434 @@
                             <path d="M12 15v3"></path>
                         </svg>
                     </Link>
-                    <!-- types -->
-                    <Dropdown :align="$i18n.locale === 'ar' ? 'left' : 'right'">
-                        <template #trigger>
-                            <button
-                                class="flex mx-2 text-gray-600 focus:outline-none"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="icon icon-tabler icon-tabler-apps-filled"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="2"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                >
-                                    <path
-                                        stroke="none"
-                                        d="M0 0h24v24H0z"
-                                        fill="none"
-                                    ></path>
-                                    <path
-                                        d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"
-                                    ></path>
-                                    <path d="M3.6 9h16.8"></path>
-                                    <path d="M3.6 15h16.8"></path>
-                                    <path d="M11.5 3a17 17 0 0 0 0 18"></path>
-                                    <path d="M12.5 3a17 17 0 0 1 0 18"></path>
-                                </svg>
-                            </button>
-                        </template>
-                        <template #content>
-                            <DropdownLink @click.native="changeLanguage('fr')">
-                                <div class="flex">
-                                    {{ $t("navbar.francais") }}
-                                </div>
-                            </DropdownLink>
 
-                            <div class="border-t border-gray-200" />
-                            <DropdownLink @click.native="changeLanguage('ar')">
-                                <div class="flex">
-                                    {{ $t("navbar.arabe") }}
-                                </div>
-                            </DropdownLink>
-                        </template>
-                    </Dropdown>
-                    <Dropdown :align="$i18n.locale === 'ar' ? 'left' : 'right'">
-                        <template #trigger>
-                            <button
-                                class="flex mx-2 text-gray-600 focus:outline-none"
+                    <!-- Languages -->
+                    <el-dropdown>
+                        <span class="el-dropdown-link">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-apps-filled"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                stroke-width="2"
+                                stroke="currentColor"
+                                fill="none"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
                             >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="icon icon-tabler icon-tabler-settings-filled"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="2"
-                                    stroke="currentColor"
+                                <path
+                                    stroke="none"
+                                    d="M0 0h24v24H0z"
                                     fill="none"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
+                                ></path>
+                                <path
+                                    d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"
+                                ></path>
+                                <path d="M3.6 9h16.8"></path>
+                                <path d="M3.6 15h16.8"></path>
+                                <path d="M11.5 3a17 17 0 0 0 0 18"></path>
+                                <path d="M12.5 3a17 17 0 0 1 0 18"></path>
+                            </svg>
+                        </span>
+                        <template #dropdown>
+                            <el-dropdown-menu>
+                                <el-dropdown-item
+                                    @click.native="changeLanguage('fr')"
+                                    >{{
+                                        $t("navbar.francais")
+                                    }}</el-dropdown-item
                                 >
-                                    <path
-                                        stroke="none"
-                                        d="M0 0h24v24H0z"
-                                        fill="none"
-                                    ></path>
-                                    <path
-                                        d="M14.647 4.081a.724 .724 0 0 0 1.08 .448c2.439 -1.485 5.23 1.305 3.745 3.744a.724 .724 0 0 0 .447 1.08c2.775 .673 2.775 4.62 0 5.294a.724 .724 0 0 0 -.448 1.08c1.485 2.439 -1.305 5.23 -3.744 3.745a.724 .724 0 0 0 -1.08 .447c-.673 2.775 -4.62 2.775 -5.294 0a.724 .724 0 0 0 -1.08 -.448c-2.439 1.485 -5.23 -1.305 -3.745 -3.744a.724 .724 0 0 0 -.447 -1.08c-2.775 -.673 -2.775 -4.62 0 -5.294a.724 .724 0 0 0 .448 -1.08c-1.485 -2.439 1.305 -5.23 3.744 -3.745a.722 .722 0 0 0 1.08 -.447c.673 -2.775 4.62 -2.775 5.294 0zm-2.647 4.919a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z"
-                                        stroke-width="0"
-                                        fill="currentColor"
-                                    ></path>
-                                </svg>
-                            </button>
+                                <el-dropdown-item
+                                    @click.native="changeLanguage('ar')"
+                                    >{{ $t("navbar.arabe") }}</el-dropdown-item
+                                >
+                            </el-dropdown-menu>
                         </template>
-                        <template #content>
-                            <DropdownLink :href="route('activity-types.index')">
-                                <div class="flex">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="icon icon-tabler icon-tabler-accessible w-6 h-6"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="2"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
+                    </el-dropdown>
+
+                    <span class="me-3"></span>
+                    <el-dropdown
+                        :align="$i18n.locale === 'ar' ? 'left' : 'right'"
+                    >
+                        <span class="el-dropdown-link">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-settings-filled"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                stroke-width="2"
+                                stroke="currentColor"
+                                fill="none"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path
+                                    stroke="none"
+                                    d="M0 0h24v24H0z"
+                                    fill="none"
+                                ></path>
+                                <path
+                                    d="M14.647 4.081a.724 .724 0 0 0 1.08 .448c2.439 -1.485 5.23 1.305 3.745 3.744a.724 .724 0 0 0 .447 1.08c2.775 .673 2.775 4.62 0 5.294a.724 .724 0 0 0 -.448 1.08c1.485 2.439 -1.305 5.23 -3.744 3.745a.724 .724 0 0 0 -1.08 .447c-.673 2.775 -4.62 2.775 -5.294 0a.724 .724 0 0 0 -1.08 -.448c-2.439 1.485 -5.23 -1.305 -3.745 -3.744a.724 .724 0 0 0 -.447 -1.08c-2.775 -.673 -2.775 -4.62 0 -5.294a.724 .724 0 0 0 .448 -1.08c-1.485 -2.439 1.305 -5.23 3.744 -3.745a.722 .722 0 0 0 1.08 -.447c.673 -2.775 4.62 -2.775 5.294 0zm-2.647 4.919a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z"
+                                    stroke-width="0"
+                                    fill="currentColor"
+                                ></path>
+                            </svg>
+                        </span>
+                        <template #dropdown>
+                            <el-dropdown-menu>
+                                <el-dropdown-item
+                                    @click="
+                                        router.visit(
+                                            route('activity-types.index'),
+                                        )
+                                    "
+                                >
+                                    <div
+                                        class="flex"
+                                        :class="
+                                            $i18n.locale == 'ar'
+                                                ? 'flex-row-reverse ml-auto'
+                                                : ''
+                                        "
                                     >
-                                        <path
-                                            stroke="none"
-                                            d="M0 0h24v24H0z"
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-accessible w-6 h-6"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="2"
+                                            stroke="currentColor"
                                             fill="none"
-                                        ></path>
-                                        <path
-                                            d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"
-                                        ></path>
-                                        <path d="M16 3l0 4"></path>
-                                        <path d="M8 3l0 4"></path>
-                                        <path d="M4 11l16 0"></path>
-                                        <path d="M8 15h2v2h-2z"></path>
-                                    </svg>
-                                    <span
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        >
+                                            <path
+                                                stroke="none"
+                                                d="M0 0h24v24H0z"
+                                                fill="none"
+                                            ></path>
+                                            <path
+                                                d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"
+                                            ></path>
+                                            <path d="M16 3l0 4"></path>
+                                            <path d="M8 3l0 4"></path>
+                                            <path d="M4 11l16 0"></path>
+                                            <path d="M8 15h2v2h-2z"></path>
+                                        </svg>
+                                        <span
+                                            :class="
+                                                $i18n.locale === 'ar'
+                                                    ? 'mr-3'
+                                                    : 'ml-3'
+                                            "
+                                            >{{
+                                                $t("navbar.type_activite")
+                                            }}</span
+                                        >
+                                    </div>
+                                </el-dropdown-item>
+                                <el-dropdown-item
+                                    @click="
+                                        router.visit(
+                                            route('reunion-types.index'),
+                                        )
+                                    "
+                                >
+                                    <div
+                                        class="flex"
                                         :class="
-                                            $i18n.locale === 'ar'
-                                                ? 'mr-3'
-                                                : 'ml-3'
+                                            $i18n.locale == 'ar'
+                                                ? 'flex-row-reverse ml-auto'
+                                                : ''
                                         "
-                                        >{{ $t("navbar.type_activite") }}</span
                                     >
-                                </div>
-                            </DropdownLink>
-                            <div class="border-t border-gray-200" />
-                            <DropdownLink :href="route('reunion-types.index')">
-                                <div class="flex">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="icon icon-tabler icon-tabler-accessible mr-1 w-6 h-6"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="2"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <path
-                                            stroke="none"
-                                            d="M0 0h24v24H0z"
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-accessible mr-1 w-6 h-6"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="2"
+                                            stroke="currentColor"
                                             fill="none"
-                                        ></path>
-                                        <path
-                                            d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"
-                                        ></path>
-                                        <path
-                                            d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"
-                                        ></path>
-                                        <path
-                                            d="M16 3.13a4 4 0 0 1 0 7.75"
-                                        ></path>
-                                        <path
-                                            d="M21 21v-2a4 4 0 0 0 -3 -3.85"
-                                        ></path>
-                                    </svg>
-                                    <span
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        >
+                                            <path
+                                                stroke="none"
+                                                d="M0 0h24v24H0z"
+                                                fill="none"
+                                            ></path>
+                                            <path
+                                                d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"
+                                            ></path>
+                                            <path
+                                                d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"
+                                            ></path>
+                                            <path
+                                                d="M16 3.13a4 4 0 0 1 0 7.75"
+                                            ></path>
+                                            <path
+                                                d="M21 21v-2a4 4 0 0 0 -3 -3.85"
+                                            ></path>
+                                        </svg>
+                                        <span
+                                            :class="
+                                                $i18n.locale === 'ar'
+                                                    ? 'mr-3'
+                                                    : 'ml-3'
+                                            "
+                                        >
+                                            {{
+                                                $t("navbar.type_reunion")
+                                            }}</span
+                                        >
+                                    </div>
+                                </el-dropdown-item>
+                                <el-dropdown-item
+                                    @click="
+                                        router.visit(route('stock-types.index'))
+                                    "
+                                >
+                                    <div
+                                        class="flex"
                                         :class="
-                                            $i18n.locale === 'ar'
-                                                ? 'mr-3'
-                                                : 'ml-3'
+                                            $i18n.locale == 'ar'
+                                                ? 'flex-row-reverse ml-auto'
+                                                : ''
                                         "
                                     >
-                                        {{ $t("navbar.type_reunion") }}</span
-                                    >
-                                </div>
-                            </DropdownLink>
-                            <div class="border-t border-gray-200" />
-                            <DropdownLink :href="route('stock-types.index')">
-                                <div class="flex">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="icon icon-tabler icon-tabler-package mr-1 w-6 h-6"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="2"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <path
-                                            stroke="none"
-                                            d="M0 0h24v24H0z"
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-package mr-1 w-6 h-6"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="2"
+                                            stroke="currentColor"
                                             fill="none"
-                                        ></path>
-                                        <path
-                                            d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5"
-                                        ></path>
-                                        <path d="M12 12l8 -4.5"></path>
-                                        <path d="M12 12l0 9"></path>
-                                        <path d="M12 12l-8 -4.5"></path>
-                                        <path d="M16 5.25l-8 4.5"></path>
-                                    </svg>
-                                    <span
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        >
+                                            <path
+                                                stroke="none"
+                                                d="M0 0h24v24H0z"
+                                                fill="none"
+                                            ></path>
+                                            <path
+                                                d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5"
+                                            ></path>
+                                            <path d="M12 12l8 -4.5"></path>
+                                            <path d="M12 12l0 9"></path>
+                                            <path d="M12 12l-8 -4.5"></path>
+                                            <path d="M16 5.25l-8 4.5"></path>
+                                        </svg>
+                                        <span
+                                            :class="
+                                                $i18n.locale === 'ar'
+                                                    ? 'mr-3'
+                                                    : 'ml-3'
+                                            "
+                                        >
+                                            {{ $t("navbar.type_bien") }}</span
+                                        >
+                                    </div>
+                                </el-dropdown-item>
+
+                                <el-dropdown-item
+                                    @click="
+                                        router.visit(route('statuts.index'))
+                                    "
+                                >
+                                    <div
+                                        class="flex"
                                         :class="
-                                            $i18n.locale === 'ar'
-                                                ? 'mr-3'
-                                                : 'ml-3'
+                                            $i18n.locale == 'ar'
+                                                ? 'flex-row-reverse ml-auto'
+                                                : ''
                                         "
                                     >
-                                        {{ $t("navbar.type_bien") }}</span
-                                    >
-                                </div>
-                            </DropdownLink>
-                            <div class="border-t border-gray-200" />
-                            <DropdownLink :href="route('statuts.index')">
-                                <div class="flex">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="icon icon-tabler icon-tabler-package mr-1 w-6 h-6"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="2"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <path
-                                            stroke="none"
-                                            d="M0 0h24v24H0z"
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-package mr-1 w-6 h-6"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="2"
+                                            stroke="currentColor"
                                             fill="none"
-                                        ></path>
-                                        <path
-                                            d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"
-                                        ></path>
-                                        <path
-                                            d="M6 21v-2a4 4 0 0 1 4 -4h4"
-                                        ></path>
-                                        <path d="M15 19l2 2l4 -4"></path>
-                                    </svg>
-                                    <span
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        >
+                                            <path
+                                                stroke="none"
+                                                d="M0 0h24v24H0z"
+                                                fill="none"
+                                            ></path>
+                                            <path
+                                                d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"
+                                            ></path>
+                                            <path
+                                                d="M6 21v-2a4 4 0 0 1 4 -4h4"
+                                            ></path>
+                                            <path d="M15 19l2 2l4 -4"></path>
+                                        </svg>
+                                        <span
+                                            :class="
+                                                $i18n.locale === 'ar'
+                                                    ? 'mr-3'
+                                                    : 'ml-3'
+                                            "
+                                        >
+                                            {{ $t("navbar.statut") }}</span
+                                        >
+                                    </div>
+                                </el-dropdown-item>
+                                <el-dropdown-item
+                                    @click="
+                                        router.visit(
+                                            route('revenue-types.index'),
+                                        )
+                                    "
+                                >
+                                    <div
+                                        class="flex"
                                         :class="
-                                            $i18n.locale === 'ar'
-                                                ? 'mr-3'
-                                                : 'ml-3'
+                                            $i18n.locale == 'ar'
+                                                ? 'flex-row-reverse ml-auto'
+                                                : ''
                                         "
                                     >
-                                        {{ $t("navbar.statut") }}</span
-                                    >
-                                </div>
-                            </DropdownLink>
-                            <!-- <DropdownLink :href="route('categories.index')">
-                                <div class="flex">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="icon icon-tabler icon-tabler-package mr-1 w-6 h-6"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <path
-                                            clip-rule="evenodd"
-                                            fill-rule="evenodd"
-                                            d="M 22,5L 22,7L 17.0089,7L 13.5326,12L 16,12L 16,14L 14.4632,14L 18.1691,22L 15.965,22L 15.0385,20L 6.38418,20L 5.35074,22L 3.09952,22L 7.23328,14L 7,14C 6.55086,14 6.17087,13.7039 6.04461,13.2962L 2.86808,3.83882L 3.81604,3.52042C 4.33958,3.34458 4.90655,3.62644 5.08239,4.14998L 7.71903,12L 12.0967,12L 15.573,7L 12,7L 12,5L 22,5 Z M 9.4845,14L 7.41762,18L 14.112,18L 12.2591,14L 9.4845,14 Z "
-                                        ></path>
-                                    </svg>
-                                    <span
-                                        :class="
-                                            $i18n.locale === 'ar'
-                                                ? 'mr-3'
-                                                : 'ml-3'
-                                        "
-                                    >
-                                        {{ $t("navbar.type_category") }}</span
-                                    >
-                                </div>
-                            </DropdownLink> -->
-                            <div class="border-t border-gray-200" />
-                            <DropdownLink :href="route('revenue-types.index')">
-                                <div class="flex">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="icon icon-tabler icon-tabler-upload mr-1 w-6 h-6"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="2"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <path
-                                            stroke="none"
-                                            d="M0 0h24v24H0z"
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-upload mr-1 w-6 h-6"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="2"
+                                            stroke="currentColor"
                                             fill="none"
-                                        ></path>
-                                        <path
-                                            d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"
-                                        ></path>
-                                        <path d="M7 11l5 5l5 -5"></path>
-                                        <path d="M12 4l0 12"></path>
-                                    </svg>
-                                    <span
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        >
+                                            <path
+                                                stroke="none"
+                                                d="M0 0h24v24H0z"
+                                                fill="none"
+                                            ></path>
+                                            <path
+                                                d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"
+                                            ></path>
+                                            <path d="M7 11l5 5l5 -5"></path>
+                                            <path d="M12 4l0 12"></path>
+                                        </svg>
+                                        <span
+                                            :class="
+                                                $i18n.locale === 'ar'
+                                                    ? 'mr-3'
+                                                    : 'ml-3'
+                                            "
+                                        >
+                                            {{
+                                                $t("navbar.type_revenue")
+                                            }}</span
+                                        >
+                                    </div>
+                                </el-dropdown-item>
+
+                                <el-dropdown-item
+                                    @click="
+                                        router.visit(
+                                            route('depense-types.index'),
+                                        )
+                                    "
+                                    ><div
+                                        class="flex"
                                         :class="
-                                            $i18n.locale === 'ar'
-                                                ? 'mr-3'
-                                                : 'ml-3'
+                                            $i18n.locale == 'ar'
+                                                ? 'flex-row-reverse ml-auto'
+                                                : ''
                                         "
                                     >
-                                        {{ $t("navbar.type_revenue") }}</span
-                                    >
-                                </div>
-                            </DropdownLink>
-                            <div class="border-t border-gray-200" />
-                            <DropdownLink :href="route('depense-types.index')">
-                                <div class="flex">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="icon icon-tabler icon-tabler-download mr-1 w-6 h-6"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="2"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <path
-                                            stroke="none"
-                                            d="M0 0h24v24H0z"
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-download mr-1 w-6 h-6"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="2"
+                                            stroke="currentColor"
                                             fill="none"
-                                        ></path>
-                                        <path
-                                            d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"
-                                        ></path>
-                                        <path d="M7 9l5 -5l5 5"></path>
-                                        <path d="M12 4l0 12"></path>
-                                    </svg>
-                                    <span
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        >
+                                            <path
+                                                stroke="none"
+                                                d="M0 0h24v24H0z"
+                                                fill="none"
+                                            ></path>
+                                            <path
+                                                d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"
+                                            ></path>
+                                            <path d="M7 9l5 -5l5 5"></path>
+                                            <path d="M12 4l0 12"></path>
+                                        </svg>
+                                        <span
+                                            :class="
+                                                $i18n.locale === 'ar'
+                                                    ? 'mr-3'
+                                                    : 'ml-3'
+                                            "
+                                        >
+                                            {{
+                                                $t("navbar.type_depense")
+                                            }}</span
+                                        >
+                                    </div>
+                                </el-dropdown-item>
+                                <el-dropdown-item
+                                    @click="router.visit(route('users.index'))"
+                                    ><div
+                                        class="flex"
                                         :class="
-                                            $i18n.locale === 'ar'
-                                                ? 'mr-3'
-                                                : 'ml-3'
+                                            $i18n.locale == 'ar'
+                                                ? 'flex-row-reverse ml-auto'
+                                                : ''
                                         "
                                     >
-                                        {{ $t("navbar.type_depense") }}</span
-                                    >
-                                </div>
-                            </DropdownLink>
-                            <div class="border-t border-gray-200" />
-                            <DropdownLink :href="route('users.index')">
-                                <div class="flex">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="icon icon-tabler icon-tabler-coin mr-1 w-6 h-6"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="2"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <path
-                                            stroke="none"
-                                            d="M0 0h24v24H0z"
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-coin mr-1 w-6 h-6"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="2"
+                                            stroke="currentColor"
                                             fill="none"
-                                        ></path>
-                                        <path
-                                            d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"
-                                        ></path>
-                                        <path
-                                            d="M10 16.5l2 -3l2 3m-2 -3v-2l3 -1m-6 0l3 1"
-                                        ></path>
-                                        <circle
-                                            cx="12"
-                                            cy="7.5"
-                                            r=".5"
-                                            fill="currentColor"
-                                        ></circle>
-                                    </svg>
-                                    <span
-                                        :class="
-                                            $i18n.locale === 'ar'
-                                                ? 'mr-3'
-                                                : 'ml-3'
-                                        "
-                                    >
-                                        {{ $t("navbar.users") }}</span
-                                    >
-                                </div>
-                            </DropdownLink>
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        >
+                                            <path
+                                                stroke="none"
+                                                d="M0 0h24v24H0z"
+                                                fill="none"
+                                            ></path>
+                                            <path
+                                                d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"
+                                            ></path>
+                                            <path
+                                                d="M10 16.5l2 -3l2 3m-2 -3v-2l3 -1m-6 0l3 1"
+                                            ></path>
+                                            <circle
+                                                cx="12"
+                                                cy="7.5"
+                                                r=".5"
+                                                fill="currentColor"
+                                            ></circle>
+                                        </svg>
+                                        <span
+                                            :class="
+                                                $i18n.locale === 'ar'
+                                                    ? 'mr-3'
+                                                    : 'ml-3'
+                                            "
+                                        >
+                                            {{ $t("navbar.users") }}</span
+                                        >
+                                    </div>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
                         </template>
-                    </Dropdown>
+                    </el-dropdown>
 
                     <div class="flex items-center ml-3">
                         <Dropdown

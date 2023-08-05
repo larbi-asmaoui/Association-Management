@@ -1,15 +1,20 @@
 import "./bootstrap";
 
 import { createApp, h } from "vue";
+
 import { createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
 import VueApexCharts from "vue3-apexcharts";
 import i18n from "./i18n";
+import ElementPlus from 'element-plus'
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "../../node_modules/flag-icons/css/flag-icons.min.css";
+
+import '../../node_modules/ant-design-vue/dist/reset.css';
 import "../css/app.css";
+import '../../node_modules/element-plus/dist/index.css';
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText ||
@@ -27,6 +32,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(i18n)
+            .use(ElementPlus)
             .use(ZiggyVue, Ziggy)
             .use(VueApexCharts)
             .use(VueSweetalert2)

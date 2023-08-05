@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Classe;
 use App\Models\Supervisor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class ClasseController extends Controller
@@ -99,7 +100,7 @@ class ClasseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Classe $classe)
+    public function update(Request $request, $id)
     {
         //  update the classe
         $formFields = $request->validate([
@@ -120,17 +121,18 @@ class ClasseController extends Controller
         ];
 
         // $supervisors = $formFields['supervisors'];
-        unset($formFields['supervisors']);
+
+        // unset($formFields['supervisors']);
+
+        $classe = Classe::find($id);
 
         $classe->update($classeData);
 
-        if (isset($formFields['adherents'])) {
-            Adherent::whereIn('id', $formFields['adherents'])->update(['classe_id' => $classe->id]);
-        }
+        Adherent::whereIn('id', $formFields['adherents'])->update(['classe_id' => $classe->id]);
 
-        if (isset($formFields['supervisors'])) {
-            $classe->supervisors()->sync($formFields['supervisors']);
-        }
+
+        $classe->supervisors()->sync($formFields['supervisors']);
+
 
         return redirect()->back()->with('success', 'reunion updated.');
     }
@@ -138,8 +140,9 @@ class ClasseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Classe $classe)
+    public function destroy($id)
     {
+        $classe = Classe::find($id);
         $classe->delete();
         return  redirect()->route('classes.index')->with('message', 'classe est supprimé avec succès');
     }
