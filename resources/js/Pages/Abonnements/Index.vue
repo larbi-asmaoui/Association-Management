@@ -7,13 +7,28 @@ export default {
 
 <script setup>
 import moment from "moment";
+import dayjs from "dayjs";
+import {
+    PrinterOutlined,
+    SearchOutlined,
+    ClearOutlined,
+} from "@ant-design/icons-vue";
+
 import Multiselect from "@vueform/multiselect";
 import Swal from "sweetalert2";
 import QRCode from "qrcode";
 import jsPDF from "jspdf";
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
-import { ref, computed, reactive, watchEffect, nextTick, toRaw } from "vue";
+import {
+    ref,
+    computed,
+    reactive,
+    watchEffect,
+    nextTick,
+    toRaw,
+    watch,
+} from "vue";
 import { useForm, usePage } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
@@ -27,14 +42,35 @@ import Toast from "../../utils.js";
 import html2pdf from "html2pdf.js";
 import html2canvas from "html2canvas";
 
-const selectedPayementStartDate = ref("");
-const selectedPayementEndDate = ref("");
-const selectedAbonnements = ref(props.abonnements);
+const value1 = ref("");
 
-const filteredItems = reactive([]);
+const selectedPayementStartDate = ref(null);
+const selectedPayementEndDate = ref(null);
 
+const filteredAbonnements = ref([...props.abonnements]);
+
+const searchInput = ref("");
+const deepSearch = (obj, searchTerm) => {
+    if (typeof obj === "string") {
+        return obj.toLowerCase().includes(searchTerm.toLowerCase());
+    } else if (Array.isArray(obj)) {
+        return obj.some((item) => deepSearch(item, searchTerm));
+    } else if (typeof obj === "object" && obj !== null) {
+        // Added null check
+        return Object.values(obj).some((value) =>
+            deepSearch(value, searchTerm),
+        );
+    }
+    return false;
+};
+
+const onSearch = computed(() => {
+    filteredAbonnements.value = Object.values(props.abonnements).filter(
+        (abonnement) => deepSearch(abonnement, searchInput.value),
+    );
+});
 const printSingleInvoice = (id) => {
-    const abonnement = selectedAbonnements.value.find(
+    const abonnement = filteredAbonnements.value.find(
         (abonnement) => abonnement.id === id,
     );
     printAllInvoices([abonnement]);
@@ -71,42 +107,48 @@ const showImage = () => {
 const form = useForm({
     montant: null,
     adherent_id: null,
-    // : null,
 });
 const showFilterForm = ref(false);
 let isModalOpen = ref(false);
 
 const clearFilters = () => {
-    selectedPayementStartDate.value = "";
-    selectedAbonnements.value = props.abonnements;
+    value1.value = "";
+    selectedPayementStartDate.value = null;
+    selectedPayementEndDate.value = null;
+    filteredAbonnements.value = props.abonnements;
 };
 
 const applyFilters = () => {
-    const abonnementArray = props.abonnements;
-    filteredItems.value = abonnementArray.filter((item) => {
-        let isMatch = true;
+    filteredAbonnements.value = Object.values(props.abonnements).filter(
+        (item) => {
+            let isMatch = true;
+            if (
+                selectedPayementStartDate.value &&
+                dayjs(item.date_payement).isBefore(
+                    selectedPayementStartDate.value,
+                )
+            ) {
+                isMatch = false;
+            }
 
-        if (
-            selectedPayementStartDate.value &&
-            item.date_payement <= selectedPayementStartDate.value
-        ) {
-            isMatch = false;
-        }
+            if (
+                selectedPayementEndDate.value &&
+                dayjs(item.date_payement).isAfter(selectedPayementEndDate.value)
+            ) {
+                isMatch = false;
+            }
 
-        if (
-            selectedPayementEndDate.value &&
-            item.date_payement >= selectedPayementEndDate.value
-        ) {
-            isMatch = false;
-        }
-
-        return isMatch;
-    });
-
-    selectedAbonnements.value = filteredItems.value;
+            return isMatch;
+        },
+    );
 };
+
 watchEffect(() => {
-    applyFilters();
+    if (value1.value && value1.value.length === 2) {
+        selectedPayementStartDate.value = dayjs(value1.value[0]);
+        selectedPayementEndDate.value = dayjs(value1.value[1]);
+        applyFilters();
+    }
 });
 
 const columns = computed(() => [
@@ -145,7 +187,7 @@ const columns = computed(() => [
 ]);
 
 const rows = computed(() =>
-    Object.values(selectedAbonnements.value).map((abonnement) => ({
+    Object.values(filteredAbonnements.value).map((abonnement) => ({
         id: abonnement.id,
         nom_complet:
             abonnement.adherent.first_name +
@@ -361,14 +403,63 @@ const printAllInvoices = async (abonnements) => {
         <div
             class="gap-2 py-1 mb-2 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
         >
-            <el-button
-                class="me-auto"
-                type="primary"
-                size="large"
-                @click="isModalOpen = true"
-            >
-                <Plus />
-            </el-button>
+            <div class="flex gap-2 me-auto">
+                <a-tooltip>
+                    <template #title>
+                        {{ $t("abonnements.modal_ajouter") }}
+                    </template>
+                    <el-button
+                        type="primary"
+                        size="large"
+                        @click="isModalOpen = true"
+                    >
+                        <Plus />
+                    </el-button>
+                </a-tooltip>
+                <a-tooltip>
+                    <template #title> {{ $t("abonnements.print") }}</template>
+                    <el-button
+                        type="primary"
+                        size="large"
+                        @click="printAllInvoices(filteredAbonnements)"
+                    >
+                        <PrinterOutlined :style="{ fontSize: '24px' }" />
+                    </el-button>
+                </a-tooltip>
+            </div>
+            <div class="flex gap-2 justify-between items-center">
+                <a-tooltip>
+                    <template #title>
+                        {{ $t("abonnements.clear") }}
+                    </template>
+                    <el-button
+                        type="primary"
+                        size="small"
+                        @click="clearFilters"
+                    >
+                        <ClearOutlined :style="{ fontSize: '24px' }" />
+                    </el-button>
+                </a-tooltip>
+                <a-range-picker v-model:value="value1" />
+
+                <a-config-provider
+                    :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+                >
+                    <a-input
+                        placeholder="search"
+                        v-model:value="searchInput"
+                        @search="onSearch"
+                    >
+                        <template #suffix>
+                            <a-tooltip title="Extra information">
+                                <SearchOutlined
+                                    style="color: rgba(0, 0, 0, 0.45)"
+                                />
+                            </a-tooltip>
+                        </template>
+                    </a-input>
+                </a-config-provider>
+            </div>
         </div>
 
         <a-config-provider :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'">
@@ -408,38 +499,6 @@ const printAllInvoices = async (abonnements) => {
             </a-table>
         </a-config-provider>
     </div>
-
-    <!-- <div
-            class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
-        >
-            <h2
-                class="text-xl font-semibold text-white"
-                :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
-            >
-                {{ $t("abonnements.titre") }}
-            </h2>
-        </div> -->
-
-    <!-- <div
-            class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
-        >
-            <div
-                class="px-2 w-full flex items-center justify-end mb-4 gap-4 sm:mb-0"
-            >
-                <button
-                    @click="printAllInvoices(selectedAbonnements)"
-                    class="relative text-white py-2 px-2 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 hover:bg-blue-600 transition-all text-sm"
-                >
-                    <Printer />
-                </button>
-                <button
-                    @click="showFilter"
-                    class="relative text-white py-2 px-2 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 hover:bg-blue-600 transition-all text-sm"
-                >
-                    <Filter />
-                </button>
-            </div>
-        </div> -->
 
     <!-- <div class="mt-1 px-4">
             <div
@@ -489,48 +548,9 @@ const printAllInvoices = async (abonnements) => {
                 </div>
             </div>
         </div> -->
-    <!-- <div class="mt-4">
-            <vue-good-table
-                :columns="columns"
-                :rows="rows"
-                :pagination-options="{
-                    enabled: true,
-                }"
-                :search-options="{
-                    enabled: true,
-                    placeholder: $t('adherents.table_search'),
-                }"
-                :rtl="$i18n.locale === 'ar'"
-                ><template v-slot:table-row="{ row, column, formattedRow }">
-                    <div v-if="column.field === 'actions'" class="flex">
-                        <div
-                            @click="router.get(`/adherents/${row.adherent_id}`)"
-                            class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
-                        >
-                            <Eye :size="20" />
-                        </div>
 
-                        <div
-                            @click="destroy(row.id)"
-                            class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
-                        >
-                            <TrashCan :size="20" />
-                        </div>
-                        <div
-                            @click="printSingleInvoice(row.id)"
-                            class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
-                        >
-                            <Printer :size="20" />
-                        </div>
-                    </div>
-                    <div v-else>
-                        {{ formattedRow[column.field] }}
-                    </div>
-                </template>
-            </vue-good-table>
-        </div> -->
     <div
-        v-for="(selectedAbonnement, index) in selectedAbonnements"
+        v-for="(selectedAbonnement, index) in filteredAbonnements"
         :key="index"
         :id="'invoice' + selectedAbonnement.id"
         class="p-6 bg-white"
@@ -624,3 +644,4 @@ const printAllInvoices = async (abonnements) => {
         </div>
     </div>
 </template>
+<style src="@vueform/multiselect/themes/default.css"></style>

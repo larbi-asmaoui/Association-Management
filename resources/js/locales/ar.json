@@ -341,7 +341,8 @@
         "clear": "إلغاء",
         "payement_invoice": "فاتورة الدفع",
         "invoice": "فاتورة",
-        "invoice_to": "السيد"
+        "invoice_to": "السيد",
+        "print": "طباعة"
     },
     "documents": {
         "titre": "إدارة المستندات",

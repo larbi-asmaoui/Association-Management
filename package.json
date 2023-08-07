@@ -32,6 +32,7 @@
         "apexcharts": "^3.39.0",
         "buefy": "^0.9.23",
         "chart.js": "^4.3.0",
+        "dayjs": "^1.11.9",
         "element-plus": "^2.3.9",
         "element-ui": "^2.15.13",
         "eslint": "^8.44.0",

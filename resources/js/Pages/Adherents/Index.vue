@@ -396,23 +396,6 @@
         </form>
     </a-modal>
 
-    <div class="px-2 w-full flex items-center mb-4 gap-4 sm:mb-0">
-        <button
-            @click="exportToPDF"
-            class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            type="button"
-        >
-            {{ $t("adherents.export_pdf") }}
-        </button>
-        <button
-            @click="generateIDCards(adherents)"
-            class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            type="button"
-        >
-            {{ $t("adherents.print_cards_adhesion") }}
-        </button>
-    </div>
-
     <div class="w-auto h-full py-4 px-2">
         <h2
             class="text-xl font-semibold text-black-600 mb-4"
@@ -423,14 +406,62 @@
         <div
             class="gap-2 py-1 mb-2 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
         >
-            <el-button
-                class="me-auto"
-                type="primary"
-                size="large"
-                @click="isModalOpen = true"
-            >
-                <Plus />
-            </el-button>
+            <div class="flex gap-2 me-auto">
+                <a-tooltip>
+                    <template #title>
+                        {{ $t("adherents.modal_ajouter") }}
+                    </template>
+                    <el-button
+                        type="primary"
+                        size="large"
+                        @click="isModalOpen = true"
+                    >
+                        <Plus />
+                    </el-button>
+                </a-tooltip>
+
+                <a-tooltip>
+                    <template #title>
+                        {{ $t("adherents.export_pdf") }}</template
+                    >
+                    <el-button type="primary" size="large" @click="exportToPDF">
+                        <FilePdfOutlined :style="{ fontSize: '24px' }" />
+                    </el-button>
+                </a-tooltip>
+
+                <a-tooltip>
+                    <template #title>
+                        {{ $t("adherents.print_cards_adhesion") }}</template
+                    >
+                    <el-button
+                        type="primary"
+                        size="large"
+                        @click="generateIDCards(adherents)"
+                    >
+                        <PrinterOutlined :style="{ fontSize: '24px' }" />
+                    </el-button>
+                </a-tooltip>
+            </div>
+
+            <div>
+                <a-config-provider
+                    :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+                >
+                    <a-input
+                        placeholder="search"
+                        @search="onSearch"
+                        v-model:value="searchInput"
+                    >
+                        <template #suffix>
+                            <a-tooltip title="Extra information">
+                                <SearchOutlined
+                                    style="color: rgba(0, 0, 0, 0.45)"
+                                />
+                            </a-tooltip>
+                        </template>
+                    </a-input>
+                </a-config-provider>
+            </div>
         </div>
         <a-config-provider :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'">
             <a-table
@@ -444,6 +475,10 @@
             >
                 <template v-slot:image="{ record }">
                     <a-avatar :size="50" :src="showImage(record)"> </a-avatar>
+                </template>
+                <template v-slot:actif="{ record }">
+                    <a-badge status="success" v-if="record.is_actif === 1" />
+                    <a-badge status="error" v-else />
                 </template>
                 <template v-slot:action="{ record }">
                     <div class="flex gap-1">
@@ -460,18 +495,8 @@
                             @click="generateSingleIDCard(record.id)"
                         />
                     </div>
-
-                    <!--
-                    <el-button
-                        type="warning"
-                        size="small"
-                        @click="generateSingleIDCard(record.id)"
-                    >
-                        <Printer />
-                    </el-button> -->
-                </template>
-            </a-table></a-config-provider
-        >
+                </template> </a-table
+        ></a-config-provider>
     </div>
 </template>
 
@@ -485,6 +510,11 @@ export default {
 </script>
 
 <script setup>
+import {
+    FilePdfOutlined,
+    PrinterOutlined,
+    SearchOutlined,
+} from "@ant-design/icons-vue";
 import Swal from "sweetalert2";
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
@@ -523,6 +553,19 @@ const props = defineProps({
 });
 const regions = ref(regionsFile);
 const pageSize = ref(10);
+const searchInput = ref("");
+
+const onSearch = computed(() => {
+    filteredAdherents.value = Object.values(props.adherents).filter(
+        (adherent) =>
+            Object.values(adherent).some((value) =>
+                String(value)
+                    .toLowerCase()
+                    .includes(searchInput.value.toLowerCase()),
+            ),
+    );
+});
+
 const columns = computed(() => [
     {
         title: "#",
@@ -576,7 +619,7 @@ const columns = computed(() => [
         title: t("adherents.table_statut_adhesion"),
         dataIndex: "is_actif",
         key: "is_actif",
-        slots: { customRender: "is_actif" },
+        slots: { customRender: "actif" },
     },
     {
         title: t("adherents.table_actions"),
@@ -586,8 +629,10 @@ const columns = computed(() => [
     },
 ]);
 
+const filteredAdherents = ref([...props.adherents]);
+
 const rows = computed(() =>
-    Object.values(props.adherents).map((adherent) => ({
+    filteredAdherents.value.map((adherent) => ({
         id: adherent.id,
         num_adhesion: adherent.num_adhesion,
         image: adherent.image,

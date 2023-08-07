@@ -1661,7 +1661,7 @@ date-fns@^2.25.0:
   dependencies:
     "@babel/runtime" "^7.21.0"
 
-dayjs@^1.10.5, dayjs@^1.11.3:
+dayjs@^1.10.5, dayjs@^1.11.3, dayjs@^1.11.9:
   version "1.11.9"
   resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.9.tgz"
   integrity sha512-QvzAURSbQ0pKdIye2txOzNaHmxtUBXerpY0FJsFXUMKbIZeFm5ht1LS/jFsrncjnmtv8HsG0W2g6c0zUjZWmpA==
