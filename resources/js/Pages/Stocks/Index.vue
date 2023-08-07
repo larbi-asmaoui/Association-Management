@@ -1,286 +1,210 @@
 <template>
-    <button
-        @click="isModalOpen = true"
-        class="rounded-full fixed bottom-8 z-50 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
-        type="button"
-        :class="$i18n.locale === 'ar' ? 'left-5' : 'right-5'"
-    >
-        <svg
-            class="w-5 h-5"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
+    <a-modal
+        @cancel="closeModal"
+        :footer="null"
+        v-model:open="isModalOpen"
+        :title="
+            form.id ? $t('biens.modal_modifier') : $t('biens.modal_ajouter')
+        "
+        ><form
+            class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2"
+            @submit.prevent="submit"
+            :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
         >
-            <path
-                fill-rule="evenodd"
-                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                clip-rule="evenodd"
-            ></path>
-        </svg>
-    </button>
-
-    <div class="bg-white pt-6 shadow-md rounded-md relative mt-5">
-        <div
-            class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
-        >
-            <h2 class="text-xl font-semibold text-white">
-                {{ $t("biens.titre") }}
-            </h2>
-        </div>
-        <div
-            class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
-        >
-            <div class="px-2 w-full flex justify-between items-center sm:mb-0">
-                <div class="relative w-48 mt-1 sm:w-64 xl:w-96"></div>
-                <!-- <div>
-                    <button
-                        @click="
-                            printJS({
-                                printable: stocks.data,
-                                properties: [
-                                    {
-                                        field: 'name',
-                                        displayName: 'Stock',
-                                    },
-                                    {
-                                        field: 'quantity',
-                                        displayName: 'Quantité',
-                                    },
-                                    {
-                                        field: 'price_per_unit',
-                                        displayName: 'Prix Unitaire',
-                                    },
-                                    {
-                                        field: 'purchase_date',
-                                        displayName: 'Date de l\'ajout',
-                                    },
-                                    {
-                                        field: 'stock_type.name',
-                                        displayName: 'Type',
-                                    },
-                                ],
-
-                                type: 'json',
-                            })
-                        "
-                        class="text-center mr-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-2 focus:outline-none"
-                        type="button"
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                <div>
+                    <label
+                        for="stock_name"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("biens.input_nom") }}
+                    </label>
+                    <input
+                        v-model="form.name"
+                        type="text"
+                        name="stock_name"
+                        id="stock_name"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400"
+                    />
+                    <span
+                        v-if="form.errors.name"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
                     >
-                        PDF
-                    </button>
-                    <button
-                        class="text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-2 focus:outline-none"
-                        type="button"
+                        {{ form.errors.name }}
+                    </span>
+                </div>
+
+                <div>
+                    <label
+                        for="type"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("biens.input_type") }}
+                    </label>
+                    <select
+                        v-model="form.stock_type_id"
+                        id="stockTypes"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-700 :border-gray-600 :placeholder-gray-400 :focus:ring-blue-500 :focus:border-blue-500 appearance-none select-none relative z-10"
                     >
-                        CSV
-                    </button>
-                </div> -->
+                        <option
+                            v-for="stockType in stockTypes"
+                            :key="stockType.id"
+                            :value="stockType.id"
+                            class="bg-white :bg-gray-800 py-2.5 px-4 cursor-pointer hover:bg-gray-200 :hover:bg-gray-700"
+                        >
+                            {{ stockType.name }}
+                        </option>
+                    </select>
+                    <span
+                        v-if="form.errors.stock_type_id"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.stock_type_id }}
+                    </span>
+                </div>
             </div>
-        </div>
-        <teleport to="body">
-            <Modal size="4xl" v-if="isModalOpen" @close="closeModal">
-                <template #header>
-                    <div class="flex items-center text-lg">
-                        {{
-                            form.id
-                                ? t("biens.modal_modifier")
-                                : t("biens.modal_ajouter")
-                        }}
-                    </div>
-                </template>
-                <template #body>
-                    <form
-                        class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2"
-                        @submit.prevent="submit"
-                        :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+
+            <div>
+                <div>
+                    <label
+                        for="dpurchase_date"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("biens.input_date") }}
+                    </label>
+
+                    <input
+                        v-model="form.purchase_date"
+                        type="date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400"
+                        placeholder="Select date"
+                        name="purchase_date"
+                    />
+                    <span
+                        v-if="form.errors.purchase_date"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
                     >
-                        <div
-                            class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
-                        >
-                            <div>
-                                <label
-                                    for="stock_name"
-                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                    >{{ $t("biens.input_nom") }}
-                                </label>
-                                <input
-                                    v-model="form.name"
-                                    type="text"
-                                    name="stock_name"
-                                    id="stock_name"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400"
-                                />
-                                <span
-                                    v-if="form.errors.name"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.name }}
-                                </span>
-                            </div>
+                        {{ form.errors.purchase_date }}
+                    </span>
+                </div>
+            </div>
 
-                            <div>
-                                <label
-                                    for="type"
-                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                    >{{ $t("biens.input_type") }}
-                                </label>
-                                <select
-                                    v-model="form.stock_type_id"
-                                    id="stockTypes"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-700 :border-gray-600 :placeholder-gray-400 :focus:ring-blue-500 :focus:border-blue-500 appearance-none select-none relative z-10"
-                                >
-                                    <option
-                                        v-for="stockType in stockTypes"
-                                        :key="stockType.id"
-                                        :value="stockType.id"
-                                        class="bg-white :bg-gray-800 py-2.5 px-4 cursor-pointer hover:bg-gray-200 :hover:bg-gray-700"
-                                    >
-                                        {{ stockType.name }}
-                                    </option>
-                                </select>
-                                <span
-                                    v-if="form.errors.stock_type_id"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.stock_type_id }}
-                                </span>
-                            </div>
-                        </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                <div>
+                    <label
+                        for="quantity"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("biens.input_quantity") }}
+                    </label>
+                    <input
+                        v-model="form.quantity"
+                        min="1"
+                        type="number"
+                        name="quantity"
+                        id="quantity"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400"
+                    />
+                    <span
+                        v-if="form.errors.quantity"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.quantity }}
+                    </span>
+                </div>
 
-                        <div>
-                            <div>
-                                <label
-                                    for="dpurchase_date"
-                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                    >{{ $t("biens.input_date") }}
-                                </label>
+                <div>
+                    <label
+                        for=" price_per_unit"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("biens.input_prix_unit") }}
+                    </label>
+                    <input
+                        v-model="form.price_per_unit"
+                        min="0"
+                        step="0.01"
+                        type="number"
+                        name=" price_per_unit"
+                        id=" price_per_unit"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400"
+                    />
+                    <span
+                        v-if="form.errors.price_per_unit"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.price_per_unit }}
+                    </span>
+                </div>
+            </div>
 
-                                <input
-                                    v-model="form.purchase_date"
-                                    type="date"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400"
-                                    placeholder="Select date"
-                                    name="purchase_date"
-                                />
-                                <span
-                                    v-if="form.errors.purchase_date"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.purchase_date }}
-                                </span>
-                            </div>
-                        </div>
+            <div class="mt-8 flex justify-end gap-x-2">
+                <button
+                    @click="isModalOpen = false"
+                    type="button"
+                    class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
+                >
+                    {{ $t("buttons.annuler") }}
+                </button>
+                <button
+                    type="submit"
+                    class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
+                >
+                    {{ $t("buttons.enregistrer") }}
+                </button>
+            </div>
+        </form></a-modal
+    >
 
-                        <div
-                            class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
-                        >
-                            <div>
-                                <label
-                                    for="quantity"
-                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                    >{{ $t("biens.input_quantity") }}
-                                </label>
-                                <input
-                                    v-model="form.quantity"
-                                    min="1"
-                                    type="number"
-                                    name="quantity"
-                                    id="quantity"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400"
-                                />
-                                <span
-                                    v-if="form.errors.quantity"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.quantity }}
-                                </span>
-                            </div>
+    <div class="w-auto h-full py-4 px-2">
+        <h2
+            class="text-xl font-semibold text-black-600 mb-4"
+            :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
+        >
+            {{ $t("biens.titre") }}
+        </h2>
 
-                            <div>
-                                <label
-                                    for=" price_per_unit"
-                                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                    >{{ $t("biens.input_prix_unit") }}
-                                </label>
-                                <input
-                                    v-model="form.price_per_unit"
-                                    min="0"
-                                    step="0.01"
-                                    type="number"
-                                    name=" price_per_unit"
-                                    id=" price_per_unit"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400"
-                                />
-                                <span
-                                    v-if="form.errors.price_per_unit"
-                                    class="text-xs text-red-600 mt-1"
-                                    id="hs-validation-name-error-helper"
-                                >
-                                    {{ form.errors.price_per_unit }}
-                                </span>
-                            </div>
-                        </div>
+        <div
+            class="gap-2 py-1 mb-2 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
+        >
+            <el-button
+                class="me-auto"
+                type="primary"
+                size="large"
+                @click="isModalOpen = true"
+            >
+                <Plus />
+            </el-button>
+        </div>
 
-                        <div class="mt-8 flex justify-end gap-x-2">
-                            <button
-                                @click="isModalOpen = false"
-                                type="button"
-                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
-                            >
-                                {{ $t("buttons.annuler") }}
-                            </button>
-                            <button
-                                type="submit"
-                                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
-                            >
-                                {{ $t("buttons.enregistrer") }}
-                            </button>
-                        </div>
-                    </form>
-                </template>
-            </Modal>
-        </teleport>
-        <div class="mt-4">
-            <!-- vue table -->
-            <vue-good-table
+        <a-config-provider :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'">
+            <a-table
                 :columns="columns"
-                :rows="rows"
-                :pagination-options="{
-                    enabled: true,
+                :data-source="rows"
+                :pagination="{
+                    pageSize: pageSize.value,
+                    showSizeChanger: true,
+                    pageSizeOptions: ['10', '20', '30', '40'],
                 }"
             >
-                <template v-slot:table-row="{ row, column, formattedRow }">
-                    <div
-                        v-if="column.field === 'actions'"
-                        class="flex justify-center items-center"
-                    >
-                        <div
-                            @click="openEditModal(row)"
-                            class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
-                        >
-                            <Pencil :size="20" />
-                        </div>
+                <template v-slot:action="{ record }">
+                    <el-button
+                        type="primary"
+                        size="small"
+                        @click="openEditModal(record)"
+                        ><Pencil />
+                    </el-button>
+                    <span class="me-2"></span>
 
-                        <!-- Delete -->
-
-                        <div
-                            @click="destroy(row)"
-                            class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
-                        >
-                            <TrashCan :size="20" />
-                        </div>
-                    </div>
-                    <div v-else>
-                        {{ formattedRow[column.field] }}
-                    </div>
+                    <el-button
+                        type="danger"
+                        size="small"
+                        @click="destroy(record)"
+                        ><TrashCan
+                    /></el-button>
                 </template>
-            </vue-good-table>
-            <!-- vue table -->
-        </div>
+            </a-table>
+        </a-config-provider>
     </div>
 </template>
 
@@ -302,9 +226,12 @@ import { Modal } from "flowbite-vue";
 import { useI18n } from "vue-i18n";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Pencil from "vue-material-design-icons/Pencil.vue";
+import Plus from "vue-material-design-icons/Plus.vue";
 import Toast from "../../utils.js";
 
 const { t, availableLocales, locale } = useI18n();
+
+const pageSize = ref(10);
 
 const form = useForm({
     id: null,
@@ -315,35 +242,66 @@ const form = useForm({
     stock_type_id: null,
 });
 
-const columns = ref([
+const columns = computed(() => [
     {
-        label: "#",
-        field: "id",
+        title: "#",
+        dataIndex: "id",
+        key: "id",
+        sorter: {
+            compare: (a, b) => a.id.localeCompare(b.id),
+        },
+        multipe: 1,
     },
     {
-        label: t("biens.table_nom"),
-        field: "name",
+        title: t("biens.table_nom"),
+        dataIndex: "name",
+        key: "name",
+        sorter: {
+            compare: (a, b) => a.name.localeCompare(b.name),
+        },
+        multipe: 1,
     },
     {
-        label: t("biens.table_quantity"),
-        field: "quantity",
+        title: t("biens.table_quantity"),
+        dataIndex: "quantity",
+        key: "quantity",
+        sorter: {
+            compare: (a, b) => a.quantity.localeCompare(b.quantity),
+        },
+        multipe: 1,
     },
     {
-        label: t("biens.table_prix_unit"),
-        field: "price_per_unit",
+        title: t("biens.table_prix_unit"),
+        dataIndex: "price_per_unit",
+        key: "price_per_unit",
+        sorter: {
+            compare: (a, b) => a.price_per_unit.localeCompare(b.price_per_unit),
+        },
+        multipe: 1,
     },
     {
-        label: t("biens.table_montant"),
-        field: "total_price",
+        title: t("biens.table_montant"),
+        dataIndex: "total_price",
+        key: "total_price",
+        sorter: {
+            compare: (a, b) => a.total_price.localeCompare(b.total_price),
+        },
+        multipe: 1,
     },
-
     {
-        label: t("biens.table_date"),
-        field: "purchase_date",
+        title: t("biens.table_date"),
+        dataIndex: "purchase_date",
+        key: "purchase_date",
+        sorter: {
+            compare: (a, b) => a.purchase_date.localeCompare(b.purchase_date),
+        },
+        multipe: 1,
     },
     {
-        label: t("biens.table_actions"),
-        field: "actions",
+        title: t("adherents.table_actions"),
+        dataIndex: "action",
+        key: "action",
+        slots: { customRender: "action" },
     },
 ]);
 const rows = computed(() =>

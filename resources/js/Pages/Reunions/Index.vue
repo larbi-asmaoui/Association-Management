@@ -1,139 +1,135 @@
 <template>
-    <teleport to="body">
-        <Modal size="xl" v-if="isModalOpen" @close="closeModal">
-            <template #header>
-                <div class="flex items-center text-lg">
-                    {{ $t("reunions.modal_ajouter") }}
-                </div>
-            </template>
-            <template #body>
-                <form
-                    :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
-                    class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
-                    @submit.prevent="submit"
+    <a-modal
+        @cancel="closeModal"
+        :footer="null"
+        v-model:open="isModalOpen"
+        :title="$t('reunions.modal_ajouter')"
+    >
+        <form
+            :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+            class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
+            @submit.prevent="submit"
+        >
+            <div>
+                <label
+                    for="title"
+                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                    >{{ $t("reunions.input_nom") }}</label
                 >
-                    <div>
-                        <label
-                            for="title"
-                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                            >{{ $t("reunions.input_nom") }}</label
-                        >
-                        <input
-                            v-model="form.name"
-                            type="text"
-                            name="title"
-                            id="title"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
-                        />
-                        <span
-                            v-if="form.errors.name"
-                            class="text-xs text-red-600 mt-1"
-                            id="hs-validation-name-error-helper"
-                        >
-                            {{ form.errors.name }}
-                        </span>
-                    </div>
+                <input
+                    v-model="form.name"
+                    type="text"
+                    name="title"
+                    id="title"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
+                />
+                <span
+                    v-if="form.errors.name"
+                    class="text-xs text-red-600 mt-1"
+                    id="hs-validation-name-error-helper"
+                >
+                    {{ form.errors.name }}
+                </span>
+            </div>
 
-                    <div>
-                        <label
-                            for="title"
-                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                            >{{ $t("reunions.input_date") }}</label
-                        >
-                        <input
-                            v-model="form.date"
-                            type="date"
-                            name="date"
-                            id="date"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
-                        />
-                        <span
-                            v-if="form.errors.date"
-                            class="text-xs text-red-600 mt-1"
-                            id="hs-validation-date-error-helper"
-                        >
-                            {{ form.errors.date }}
-                        </span>
-                    </div>
-                    <div>
-                        <label
-                            for="description"
-                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                            >{{ $t("reunions.input_description") }}</label
-                        >
-                        <textarea
-                            v-model="form.description"
-                            rows="5"
-                            name="description"
-                            id="description"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
-                        ></textarea>
-                        <span
-                            v-if="form.errors.description"
-                            class="text-xs text-red-600 mt-1"
-                            id="hs-validation-name-error-helper"
-                        >
-                            {{ form.errors.description }}
-                        </span>
-                    </div>
+            <div>
+                <label
+                    for="title"
+                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                    >{{ $t("reunions.input_date") }}</label
+                >
+                <input
+                    v-model="form.date"
+                    type="date"
+                    name="date"
+                    id="date"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
+                />
+                <span
+                    v-if="form.errors.date"
+                    class="text-xs text-red-600 mt-1"
+                    id="hs-validation-date-error-helper"
+                >
+                    {{ form.errors.date }}
+                </span>
+            </div>
+            <div>
+                <label
+                    for="description"
+                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                    >{{ $t("reunions.input_description") }}</label
+                >
+                <textarea
+                    v-model="form.description"
+                    rows="5"
+                    name="description"
+                    id="description"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
+                ></textarea>
+                <span
+                    v-if="form.errors.description"
+                    class="text-xs text-red-600 mt-1"
+                    id="hs-validation-name-error-helper"
+                >
+                    {{ form.errors.description }}
+                </span>
+            </div>
 
-                    <div>
-                        <label
-                            for="type"
-                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                            >{{ $t("reunions.input_type") }}
-                        </label>
+            <div>
+                <label
+                    for="type"
+                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                    >{{ $t("reunions.input_type") }}
+                </label>
 
-                        <Multiselect
-                            v-model="form.reunion_type_id"
-                            :close-on-select="true"
-                            :searchable="true"
-                            :create-option="true"
-                            :options="formattedReunionTypes"
-                        />
-                        <span
-                            v-if="form.errors.reunion_type_id"
-                            class="text-xs text-red-600 mt-1"
-                            id="hs-validation-name-error-helper"
-                        >
-                            {{ form.errors.reunion_type_id }}
-                        </span>
-                    </div>
-                    <div>
-                        <label
-                            for="adherents"
-                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                            >{{ $t("activities.input_adherents") }}</label
-                        >
-                        <Multiselect
-                            v-model="form.adherents"
-                            mode="tags"
-                            :close-on-select="false"
-                            :searchable="true"
-                            :create-option="true"
-                            :options="formattedAdherents"
-                        />
-                    </div>
+                <Multiselect
+                    v-model="form.reunion_type_id"
+                    :close-on-select="true"
+                    :searchable="true"
+                    :create-option="true"
+                    :options="formattedReunionTypes"
+                />
+                <span
+                    v-if="form.errors.reunion_type_id"
+                    class="text-xs text-red-600 mt-1"
+                    id="hs-validation-name-error-helper"
+                >
+                    {{ form.errors.reunion_type_id }}
+                </span>
+            </div>
+            <div>
+                <label
+                    for="adherents"
+                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                    >{{ $t("activities.input_adherents") }}</label
+                >
+                <Multiselect
+                    v-model="form.adherents"
+                    mode="tags"
+                    :close-on-select="false"
+                    :searchable="true"
+                    :create-option="true"
+                    :options="formattedAdherents"
+                />
+            </div>
 
-                    <div class="mt-5 flex justify-end gap-x-2">
-                        <button
-                            @click="isModalOpen = false"
-                            type="button"
-                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
-                        >
-                            {{ $t("buttons.annuler") }}
-                        </button>
-                        <button
-                            type="submit"
-                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
-                        >
-                            {{ $t("buttons.enregistrer") }}
-                        </button>
-                    </div>
-                </form>
-            </template>
-        </Modal>
-    </teleport>
+            <div class="mt-5 flex justify-end gap-x-2">
+                <button
+                    @click="isModalOpen = false"
+                    type="button"
+                    class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
+                >
+                    {{ $t("buttons.annuler") }}
+                </button>
+                <button
+                    type="submit"
+                    class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
+                >
+                    {{ $t("buttons.enregistrer") }}
+                </button>
+            </div>
+        </form></a-modal
+    >
 
     <div class="w-auto h-full py-4 px-2">
         <h2

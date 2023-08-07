@@ -1,8 +1,11 @@
 <template>
     <div class="px-2 pt-2">
-        <h3 class="mb-5 text-2xl font-bold text-slate-800 uppercase">
+        <h2
+            class="text-xl font-semibold text-black-600 mb-4"
+            :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
+        >
             {{ $t("documents.titre") }}
-        </h3>
+        </h2>
         <div class="grid grid-cols-1 mt-5 xl:grid-cols-3 xl:gap-4">
             <div class="col-span-full xl:col-auto mb-4">
                 <ul class="rounded-lg p-4 bg-white divide-y divide-gray-200">
@@ -63,43 +66,36 @@
                 </ul>
             </div>
 
-            <div class="col-span-2 bg-white rounded-t-lg overflow-y-auto">
+            <div class="col-span-2 p-2 bg-white rounded-t-lg overflow-y-auto">
                 <h3
                     class="my-5 mx-2 text-md font-bold text-slate-800 uppercase"
                 >
                     {{ $t("documents.all_rapports") }}
                 </h3>
 
-                <vue-good-table
-                    :rtl="true"
-                    :columns="columns"
-                    :rows="rows"
-                    :pagination-options="{
-                        enabled: true,
-                        mode: 'records',
-                        perPage: 5,
-                        perPageDropdown: [5, 10, 20],
-                    }"
-                    :search-options="{
-                        enabled: true,
-                        placeholder: $t('adherents.table_search'),
-                    }"
+                <a-config-provider
+                    :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
                 >
-                    <template v-slot:table-row="{ row, column, formattedRow }">
-                        <div v-if="column.field === 'file_path'" class="flex">
+                    <a-table
+                        :columns="columns"
+                        :data-source="rows"
+                        :pagination="{
+                            pageSize: pageSize.value,
+                            showSizeChanger: true,
+                            pageSizeOptions: ['10', '20', '30', '40'],
+                        }"
+                    >
+                        <template v-slot:action="{ record }">
                             <a
                                 target="_blank"
-                                :href="row.file_path"
+                                :href="record.file_path"
                                 class="inline-flex items-center text-sm font-medium text-center text-blue-700 hover:text-blue-800"
                             >
                                 <FileDownload />
                             </a>
-                        </div>
-                        <!-- <div v-else>
-                            {{ formattedRow[column.field] }}
-                        </div> -->
-                    </template>
-                </vue-good-table>
+                        </template>
+                    </a-table>
+                </a-config-provider>
             </div>
         </div>
     </div>
@@ -128,22 +124,44 @@ const props = defineProps({
     },
 });
 
-const columns = ref([
+const pageSize = ref(10);
+
+const columns = computed(() => [
     {
-        label: "#",
-        field: "id",
+        title: "#",
+        dataIndex: "id",
+        key: "id",
+        sorter: {
+            // compare: (a, b) => a.id.localeCompare(b.id),
+            compare: (a, b) => a.id - b.id,
+        },
     },
+
     {
-        label: t("documents.table_rapport"),
-        field: "title",
+        title: t("documents.table_rapport"),
+        dataIndex: "title",
+        key: "title",
+        sorter: {
+            compare: (a, b) => a.title.localeCompare(b.title),
+        },
+        multipe: 1,
     },
+
     {
-        label: t("documents.table_created_at"),
-        field: "created_at",
+        title: t("documents.table_created_at"),
+        dataIndex: "created_at",
+        key: "created_at",
+        sorter: {
+            compare: (a, b) => a.created_at.localeCompare(b.created_at),
+        },
+        multipe: 1,
     },
+
     {
-        label: t("documents.table_actions"),
-        field: "file_path",
+        title: t("adherents.table_actions"),
+        dataIndex: "action",
+        key: "action",
+        slots: { customRender: "action" },
     },
 ]);
 

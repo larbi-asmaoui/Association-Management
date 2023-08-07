@@ -58,14 +58,13 @@ class AdherentController extends Controller
                     DB::table('adherents')->where('id', $adherent->id)->update(['is_actif' => false]);
                 });
         } else {
-            $adherents = Adherent::all();
+            $adherents = Adherent::query()->with('statut')->with('abonnements')->get();
         }
 
         $status  = Statut::all();
-
         return Inertia::render('Adherents/Index', [
             'status' => $status,
-            'adherents' => $adherents->load('statut', 'abonnements'),
+            'adherents' => $adherents,
         ]);
     }
 

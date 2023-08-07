@@ -42,7 +42,9 @@
         "biens": "الأملاك",
         "documents": "الوثائق",
         "encadrants": "المؤطرين",
-        "classes": "المستويات"
+        "classes": "المستويات",
+        "finance": "المالية",
+        "resources_humaines": "الموارد البشرية"
     },
     "navbar": {
         "profile": "الملف الشخصي",

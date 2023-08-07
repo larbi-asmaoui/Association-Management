@@ -26,11 +26,137 @@
                     </h2>
                 </div> -->
 
-                <div
-                    class="flex-1 px-3 pt-5 space-y-1 bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"
-                >
-                    <ul class="pb-2 space-y-2">
-                        <li>
+                <div class="flex-1 px-3 pt-5 space-y-1">
+                    <a-menu
+                        v-model:selectedKeys="selectedKeys"
+                        mode="inline"
+                        style="
+                            border: 0 !important;
+                            background-color: transparent;
+                        "
+                    >
+                        <a-menu-item
+                            key="1"
+                            @click="router.visit(route('dashboard'))"
+                        >
+                            <DashboardOutlined :style="{ fontSize: '24px' }" />
+                            <span>{{ $t("sidebar.dashboard") }}</span>
+                        </a-menu-item>
+
+                        <a-menu-item
+                            key="2"
+                            @click="router.visit(route('association.index'))"
+                        >
+                            <FlagOutlined :style="{ fontSize: '24px' }" />
+                            <span>{{ $t("sidebar.about") }}</span>
+                        </a-menu-item>
+
+                        <a-sub-menu key="sub2">
+                            <template #title>
+                                <span>
+                                    <UserOutlined
+                                        :style="{ fontSize: '24px' }"
+                                    />
+                                    <span>{{
+                                        $t("sidebar.resources_humaines")
+                                    }}</span>
+                                </span>
+                            </template>
+                            <a-menu-item
+                                key="3"
+                                @click="router.visit(route('adherents.index'))"
+                            >
+                                <span>{{ $t("sidebar.adherents") }}</span>
+                            </a-menu-item>
+                            <a-menu-item
+                                key="4"
+                                @click="
+                                    router.visit(route('supervisors.index'))
+                                "
+                            >
+                                <span>{{ $t("sidebar.encadrants") }}</span>
+                            </a-menu-item>
+                        </a-sub-menu>
+                        <a-sub-menu key="sub3">
+                            <template #title>
+                                <span>
+                                    <DollarCircleOutlined
+                                        :style="{ fontSize: '24px' }"
+                                    />
+                                    <span>{{ $t("sidebar.finance") }}</span>
+                                </span>
+                            </template>
+                            <a-menu-item
+                                key="5"
+                                @click="
+                                    router.visit(route('abonnements.index'))
+                                "
+                                >{{ $t("sidebar.abonnements") }}</a-menu-item
+                            >
+                            <a-menu-item
+                                key="6"
+                                @click="router.visit(route('revenues.index'))"
+                                >{{ $t("sidebar.revenus") }}</a-menu-item
+                            >
+                            <a-menu-item
+                                key="7"
+                                @click="router.visit(route('depenses.index'))"
+                                >{{ $t("sidebar.depenses") }}</a-menu-item
+                            >
+                        </a-sub-menu>
+                        <a-menu-item
+                            key="8"
+                            @click="router.visit(route('classes.index'))"
+                        >
+                            <InsertRowBelowOutlined
+                                :style="{ fontSize: '24px' }"
+                            />
+                            <span>{{ $t("sidebar.classes") }}</span>
+                        </a-menu-item>
+
+                        <a-menu-item
+                            key="9"
+                            @click="router.visit(route('groupes.index'))"
+                        >
+                            <GroupOutlined :style="{ fontSize: '24px' }" />
+                            <span>{{ $t("sidebar.groupes") }}</span>
+                        </a-menu-item>
+
+                        <a-menu-item
+                            key="10"
+                            @click="router.visit(route('activities.index'))"
+                        >
+                            <CalendarOutlined :style="{ fontSize: '24px' }" />
+                            <span>{{ $t("sidebar.activites") }}</span>
+                        </a-menu-item>
+
+                        <a-menu-item
+                            key="11"
+                            @click="router.visit(route('reunions.index'))"
+                        >
+                            <TableOutlined :style="{ fontSize: '24px' }" />
+                            <span>{{ $t("sidebar.reunions") }}</span>
+                        </a-menu-item>
+
+                        <a-menu-item
+                            key="12"
+                            @click="router.visit(route('stocks.index'))"
+                        >
+                            <DatabaseOutlined :style="{ fontSize: '24px' }" />
+                            <span>{{ $t("sidebar.biens") }}</span>
+                        </a-menu-item>
+
+                        <a-menu-item
+                            key="13"
+                            @click="router.visit(route('e-documents.index'))"
+                        >
+                            <CopyOutlined :style="{ fontSize: '24px' }" />
+                            <span>{{ $t("sidebar.documents") }}</span>
+                        </a-menu-item>
+                    </a-menu>
+
+                    <!-- <ul class="pb-2 space-y-2"> -->
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/'
@@ -60,9 +186,9 @@
                                     >{{ $t("sidebar.dashboard") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <li>
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/association'
@@ -104,9 +230,9 @@
                                     >{{ $t("sidebar.about") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <li>
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/adherents'
@@ -135,10 +261,10 @@
                                     >{{ $t("sidebar.adherents") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <!-- Supervisor -->
-                        <li>
+                    <!-- Supervisor -->
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/supervisors'
@@ -167,11 +293,11 @@
                                     >{{ $t("sidebar.encadrants") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <!-- Classes -->
+                    <!-- Classes -->
 
-                        <li>
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/classes'
@@ -199,10 +325,10 @@
                                     >{{ $t("sidebar.classes") }}</span
                                 >
                             </Link>
-                        </li>
-                        <!--  -->
+                        </li> -->
+                    <!--  -->
 
-                        <li>
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/abonnements'
@@ -237,9 +363,9 @@
                                     >{{ $t("sidebar.abonnements") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <li>
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/groupes'
@@ -269,9 +395,9 @@
                                     >{{ $t("sidebar.groupes") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <li>
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/reunions'
@@ -312,9 +438,9 @@
                                     >{{ $t("sidebar.reunions") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <li>
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/revenues'
@@ -392,9 +518,9 @@
                                     >{{ $t("sidebar.depenses") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <li>
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/activities'
@@ -436,13 +562,13 @@
                                     >{{ $t("sidebar.activites") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <!-- <li>
+                    <!-- <li>
 
                         </li> -->
 
-                        <li>
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/stocks'
@@ -473,9 +599,9 @@
                                     >{{ $t("sidebar.biens") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <li>
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/e-documents'
@@ -513,12 +639,12 @@
                                     >{{ $t("sidebar.documents") }}</span
                                 >
                             </Link>
-                        </li>
-                    </ul>
+                        </li> -->
+                    <!-- </ul> -->
                 </div>
             </div>
         </div>
-        {{ permissions }}
+        <!-- {{ permissions }} -->
     </aside>
 </template>
 
@@ -526,7 +652,22 @@
 import { Link, Head, router, usePage } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
 import { useI18n } from "vue-i18n";
+import {
+    CalendarOutlined,
+    TableOutlined,
+    CopyOutlined,
+    DatabaseOutlined,
+    DashboardOutlined,
+    DollarCircleOutlined,
+    InsertRowBelowOutlined,
+    FlagOutlined,
+    UserOutlined,
+    GroupOutlined,
+} from "@ant-design/icons-vue";
 const { t } = useI18n();
+
+const selectedKeys = ref(["1"]);
+const collapsed = ref(false);
 
 const activeClass = ref(
     "bg-blue-700 text-white flex items-center p-2  rounded-lg group dark:text-gray-200 dark:hover:bg-gray-700",

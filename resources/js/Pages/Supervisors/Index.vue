@@ -20,7 +20,7 @@
         </div>
         <a-config-provider :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'">
             <a-table
-                :columns="columns2"
+                :columns="columns"
                 :data-source="rows"
                 :pagination="{
                     pageSize: pageSize.value,
@@ -51,6 +51,7 @@
     </div>
 
     <a-modal
+        width="80%"
         @cancel="closeModal"
         :footer="null"
         v-model:open="isModalOpen"
@@ -298,7 +299,7 @@ const rows = computed(() =>
     })),
 );
 
-const columns2 = computed(() => [
+const columns = computed(() => [
     {
         title: "#",
         dataIndex: "image",
@@ -309,11 +310,17 @@ const columns2 = computed(() => [
         title: t("supervisors.first_name"),
         dataIndex: "first_name",
         key: "first_name",
+        sorter: {
+            compare: (a, b) => a.first_name.localeCompare(b.first_name),
+        },
     },
     {
         title: t("supervisors.last_name"),
         dataIndex: "last_name",
         key: "last_name",
+        sorter: {
+            compare: (a, b) => a.last_name.localeCompare(b.last_name),
+        },
     },
     // {
     //     title: t("supervisors.date_of_birth"),
@@ -329,11 +336,17 @@ const columns2 = computed(() => [
         title: t("supervisors.cin"),
         dataIndex: "cin",
         key: "cin",
+        sorter: {
+            compare: (a, b) => a.cin.localeCompare(b.cin),
+        },
     },
     {
         title: t("supervisors.telephone"),
         dataIndex: "tel",
         key: "tel",
+        sorter: {
+            compare: (a, b) => a.tel.localeCompare(b.tel),
+        },
     },
     {
         title: "Action",
