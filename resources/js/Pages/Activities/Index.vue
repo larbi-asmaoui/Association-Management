@@ -263,7 +263,7 @@
                     <el-button
                         type="info"
                         size="small"
-                        @click="generatePDF(row.id)"
+                        @click="generatePDF(record.id)"
                         ><Printer />
                     </el-button>
                     <span class="me-2"></span>
