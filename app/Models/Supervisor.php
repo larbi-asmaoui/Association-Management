@@ -10,7 +10,7 @@ class Supervisor extends Model
 {
     use HasFactory;
 
-    public function classess(): BelongsToMany
+    public function classes(): BelongsToMany
     {
         return $this->belongsToMany(Classe::class);
     }

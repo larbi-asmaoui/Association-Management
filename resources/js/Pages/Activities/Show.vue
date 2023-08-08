@@ -299,7 +299,7 @@ const generatePDF = async () => {
 <template>
     <div class="inline-flex items-center mb-5">
         <Link
-            :href="route('adherents.index')"
+            :href="route('activities.index')"
             class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white"
         >
             <ArrowRight v-if="$i18n.locale === 'ar'" />

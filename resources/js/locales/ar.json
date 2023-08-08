@@ -190,7 +190,11 @@
         "address": "العنوان",
         "date_of_birth": "تاريخ الولادة",
         "modal_ajouter": "إضافة مؤطر",
-        "modal_modifier": "تعديل مؤطر"
+        "modal_modifier": "تعديل مؤطر",
+        "info_supervisor": "معلومات المؤطر",
+        "classes": "الأفواج",
+        "diplomes": "الشهادات",
+        "diplome_add": "إضافة شهادة"
     },
 
     "reunions": {

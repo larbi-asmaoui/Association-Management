@@ -35,8 +35,8 @@
                     <el-button
                         type="primary"
                         size="small"
-                        @click="openEditModal(record)"
-                        ><Pencil />
+                        @click="show(record.id)"
+                        ><Eye />
                     </el-button>
                     <span class="me-2"></span>
 
@@ -262,7 +262,7 @@ import { useForm } from "@inertiajs/vue3";
 import { useI18n } from "vue-i18n";
 import Plus from "vue-material-design-icons/Plus.vue";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
-import Pencil from "vue-material-design-icons/Pencil.vue";
+import Eye from "vue-material-design-icons/Eye.vue";
 import Toast from "../../utils.js";
 import ImageUpload from "../../Components/ImageUpload.vue";
 

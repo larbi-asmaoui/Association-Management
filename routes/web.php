@@ -17,6 +17,7 @@ use \App\Http\Controllers\AssociationController;
 use \App\Http\Controllers\ReunionTypeController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\AbonnementController;
+use App\Http\Controllers\SupervisorController;
 
 /*
 |------------------------------------------------------------------------
@@ -57,9 +58,11 @@ Route::middleware([
         Route::resource('stock-types', StockTypeController::class);
         Route::resource('activity-types', ActivityTypeController::class);
         Route::resource('classes', \App\Http\Controllers\ClasseController::class);
+        Route::post('/supervisors/{supervisor}/classes', [SupervisorController::class, 'attachClasse']);
+        Route::delete('/supervisors/{supervisor}/classes/{classe}', [SupervisorController::class, 'detachClasse']);
+        Route::put('/supervisors/updateImage/{id}', [\App\Http\Controllers\SupervisorController::class, 'updateImage'])->name('supervisors.updateImage');
         Route::resource('supervisors', \App\Http\Controllers\SupervisorController::class);
         Route::resource('categories', \App\Http\Controllers\CategoryController::class);
-
         Route::resource('association', AssociationController::class);
         Route::resource('reunions', \App\Http\Controllers\ReunionController::class);
         Route::get('/e-documents', [App\Http\Controllers\DocumentsController::class, 'index'])->name('e-documents.index');

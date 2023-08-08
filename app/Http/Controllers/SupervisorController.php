@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Classe;
 use App\Models\Supervisor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class SupervisorController extends Controller
@@ -57,9 +60,15 @@ class SupervisorController extends Controller
      */
     public function show(Supervisor $supervisor)
     {
+        $supervisor = Supervisor::with(['classes.category', 'classes.adherents'])
+            ->where('id', $supervisor->id)
+            ->first();
+
+
 
         return Inertia::render('Supervisors/Show', [
-            'supervisor' => $supervisor
+            'supervisor' => $supervisor,
+            'categories' => Category::with('classes')->get(),
         ]);
     }
 
@@ -83,17 +92,25 @@ class SupervisorController extends Controller
             [
                 'first_name' => 'required',
                 'last_name' => 'required',
+                'cin' => 'required',
+                'address' => 'required',
+                'date_of_birth' => 'required',
+                'tel' => 'required',
             ]
         );
 
         $supervisorData = [
             'first_name' => $validatedData['first_name'],
             'last_name' => $validatedData['last_name'],
+            'cin' => $validatedData['cin'],
+            'address' => $validatedData['address'],
+            'date_of_birth' => $validatedData['date_of_birth'],
+            'tel' => $validatedData['tel'],
         ];
 
         $supervisor->update($supervisorData);
 
-        return redirect()->route('supervisors.index');
+        return redirect()->back();
     }
 
     /**
@@ -104,5 +121,50 @@ class SupervisorController extends Controller
         $supervisor->delete();
 
         return redirect()->route('supervisors.index');
+    }
+
+    // update only image
+    public function updateImage(Request $request, $id)
+    {
+
+        if (!$request->hasFile('image')) {
+            return;
+        }
+
+        $supervisor = Supervisor::find($id);
+        $validatedData = $request->validate(
+            [
+                'image' => 'required',
+            ]
+        );
+        if ($supervisor->image) {
+            Storage::disk('public')->delete($supervisor->image);
+        }
+
+        // Store the new image
+        $formFields['image'] = $request->file('image')->store('supervisors', 'public');
+
+        $supervisor->update($formFields);
+
+        return redirect()->back();
+    }
+
+    public function detachClasse(Supervisor $supervisor, $classeId)
+    {
+        // dd($classeId);
+        $supervisor->classes()->detach($classeId);
+
+        return redirect()->back();
+    }
+
+    public function attachClasse(Request $request, Supervisor $supervisor)
+    {
+        $data = $request->validate([
+            'classes' => 'required|array',
+            'classes.*' => 'exists:classes,id',
+        ]);
+
+        $supervisor->classes()->attach($data['classes']);
+        return redirect()->back();
     }
 }
