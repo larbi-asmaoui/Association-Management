@@ -1,4 +1,67 @@
 <template>
+    {{ formDiplome.files }}
+    <!-- Add diploma -->
+    <a-modal
+        @cancel="closeAddDiplomeModal"
+        :footer="null"
+        v-model:open="isAddDiplomeModalOpen"
+        :title="$t('supervisors.diplome_add')"
+    >
+        <form
+            :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+            class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2"
+            @submit.prevent="submitDiplome"
+        >
+            <div>
+                <label
+                    for="title"
+                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                    >{{ $t("classes.category") }}</label
+                >
+                <input
+                    v-model="formDiplome.name"
+                    type="text"
+                    name="title"
+                    id="title"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
+                />
+            </div>
+            <label
+                for="title"
+                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                >images</label
+            >
+
+            <a-upload
+                :customRequest="addFile"
+                list-type="picture-card"
+                @preview="handlePreview"
+            >
+                <div v-if="formDiplome.files.length < 8">
+                    <plus-outlined />
+                    <div style="margin-top: 8px">Upload</div>
+                </div>
+            </a-upload>
+            <a-modal
+                :open="previewVisible"
+                :title="previewTitle"
+                :footer="null"
+                @cancel="handleCancel"
+            >
+                <img alt="example" style="width: 100%" :src="previewImage" />
+            </a-modal>
+
+            <div class="mt-5 flex justify-end gap-x-2">
+                <button
+                    type="submit"
+                    class="py-2 px-3 inline-flex justify-center bg-sky-400 items-center gap-2 rounded-md border font-semibold text-white focus:outline-none"
+                >
+                    {{ $t("buttons.ajouter") }}
+                </button>
+            </div>
+        </form>
+    </a-modal>
+
     <!-- attach classes -->
     <a-modal
         @cancel="closeAddClasseModal"
@@ -43,7 +106,7 @@
             <div class="mt-5 flex justify-end gap-x-2">
                 <button
                     type="submit"
-                    class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
+                    class="py-2 px-3 inline-flex justify-center bg-sky-400 items-center gap-2 rounded-md border font-semibold text-white focus:outline-none"
                 >
                     {{ $t("buttons.ajouter") }}
                 </button>
@@ -65,6 +128,7 @@
                     :tab-position="$i18n.locale === 'ar' ? 'right' : 'left'"
                     :style="{ height: '200px' }"
                 >
+                    <!-- Info perso -->
                     <a-tab-pane
                         key="1"
                         :tab="$t('supervisors.info_supervisor')"
@@ -299,6 +363,8 @@
                             </a-col>
                         </a-row>
                     </a-tab-pane>
+
+                    <!-- diploma -->
                     <a-tab-pane key="2" :tab="$t('supervisors.diplomes')">
                         <div
                             class="gap-2 py-1 mb-2 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
@@ -310,6 +376,7 @@
                                     }}</template
                                 >
                                 <el-button
+                                    @click="isAddDiplomeModalOpen = true"
                                     class="me-auto"
                                     type="primary"
                                     size="large"
@@ -318,8 +385,27 @@
                                 </el-button>
                             </a-tooltip>
                         </div>
+                        <a-config-provider
+                            :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+                        >
+                            <a-table
+                                :columns="diplomaColumns"
+                                :data-source="diplomaRows"
+                                :pagination="{
+                                    pageSize: pageSize.value,
+                                    showSizeChanger: true,
+                                    pageSizeOptions: ['10', '20', '30', '40'],
+                                }"
+                            >
+                                <template v-slot:action="{}">
+                                    <el-button type="danger" size="small"
+                                        ><TrashCan
+                                    /></el-button>
+                                </template> </a-table
+                        ></a-config-provider>
                     </a-tab-pane>
 
+                    <!-- classes -->
                     <a-tab-pane key="3" :tab="$t('supervisors.classes')">
                         <div
                             class="gap-2 py-1 mb-2 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
@@ -367,7 +453,7 @@
         </a-config-provider>
     </div>
 </template>
-<style scoped></style>
+
 <script>
 import MainLayout from "../../Layouts/MainLayout.vue";
 import AvatarModal from "../../Components/AvatarModal.vue";
@@ -409,9 +495,48 @@ import Plus from "vue-material-design-icons/Plus.vue";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Pencil from "vue-material-design-icons/Pencil.vue";
 import { router, useForm } from "@inertiajs/vue3";
-import { ref, computed, watchEffect } from "vue";
+import { ref, computed, watchEffect, onMounted } from "vue";
+import { PlusOutlined } from "@ant-design/icons-vue";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
+
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+    });
+}
+
+const addFile = async ({ file, onSuccess, onError }) => {
+    console.log(file);
+    try {
+        formDiplome.files.push(file);
+        setTimeout(() => {
+            onSuccess("ok");
+        }, 1000); // 1 second delay
+    } catch (e) {
+        onError(e);
+    }
+};
+const previewVisible = ref(false);
+const previewImage = ref("");
+const previewTitle = ref("");
+
+const handleCancel = () => {
+    previewVisible.value = false;
+    previewTitle.value = "";
+};
+const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+        file.preview = (await getBase64(file.originFileObj)).toString();
+    }
+    previewImage.value = file.url || file.preview;
+    previewVisible.value = true;
+    previewTitle.value =
+        file.name || file.url.substring(file.url.lastIndexOf("/") + 1);
+};
 
 const isEnabled = ref(false);
 
@@ -437,7 +562,21 @@ const closeAddClasseModal = () => {
     selectedCategory.value = null;
     formClasses.classes = [];
 };
+
+const isAddDiplomeModalOpen = ref(false);
+
+const closeAddDiplomeModal = () => {
+    isAddDiplomeModalOpen.value = false;
+    // selectedDiplome.value = null;
+    // formDiplomes.diplomes = [];
+};
+
 const pageSize = ref(10);
+
+const formDiplome = useForm({
+    name: "",
+    files: [],
+});
 
 const form = useForm({
     id: props.supervisor.id,
@@ -487,11 +626,6 @@ const columns = computed(() => [
         slots: { customRender: "action" },
     },
 ]);
-
-const formClasses = useForm({
-    classes: [],
-});
-
 const rows = computed(() =>
     Object.values(props.supervisor.classes).map((classe) => ({
         id: classe.id,
@@ -501,6 +635,36 @@ const rows = computed(() =>
         adherents_count: classe.adherents.length,
     })),
 );
+
+const diplomaColumns = computed(() => [
+    {
+        title: "#",
+        dataIndex: "id",
+        key: "id",
+    },
+    {
+        title: "name",
+        dataIndex: "name",
+        key: "name",
+    },
+
+    {
+        title: "Action",
+        key: "action",
+        slots: { customRender: "action" },
+    },
+]);
+
+const diplomaRows = computed(() =>
+    Object.values(props.supervisor.diplomes).map((diplome) => ({
+        id: diplome.id,
+        name: diplome.name,
+    })),
+);
+
+const formClasses = useForm({
+    classes: [],
+});
 
 const updateImage = () => {
     if (!form.image) {
@@ -546,6 +710,52 @@ const submit = () => {
                 icon: "success",
                 title: t("toasts.modif_success"),
             });
+        },
+        onError: () => {
+            Toast.fire({
+                icon: "success",
+                title: t("toasts.modif_error"),
+            });
+        },
+    });
+};
+
+const submitDiplome = () => {
+    router.post(
+        `/supervisors/${form.id}/diplomes`,
+        {
+            _method: "post",
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            name: formDiplome.name,
+            file_paths: formDiplome.files,
+        },
+        {
+            onSuccess: () => {
+                closeAddDiplomeModal();
+                Toast.fire({
+                    icon: "success",
+                    title: t("toasts.modif_success"),
+                });
+            },
+            onError: () => {
+                Toast.fire({
+                    icon: "success",
+                    title: t("toasts.modif_error"),
+                });
+            },
+        },
+    );
+
+    formDiplome.post(route("diplomes.store", form.id), {
+        // forceFormData: true,
+        preserveScroll: true,
+        onSuccess: () => {
+            Toast.fire({
+                icon: "success",
+                title: t("toasts.modif_success"),
+            });
             isEnabled.value = false;
         },
         onError: () => {
@@ -567,30 +777,21 @@ const detachClasse = (id) => {
         confirmButtonText: t("buttons.supprimer"),
     }).then((result) => {
         if (result.isConfirmed) {
-            router.delete(
-                `/supervisors/${props.supervisor.id}/classes/${id}`,
-                {
-                    _method: "delete",
-                    // headers: {
-                    //     "Content-Type": "multipart/form-data",
-                    // },
-                    // classe_id: form.classe_id,
+            router.delete(`/supervisors/${props.supervisor.id}/classes/${id}`, {
+                preserveScroll: true,
+                onSuccess: () => {
+                    Toast.fire({
+                        icon: "success",
+                        title: t("toasts.supp_success"),
+                    });
                 },
-                {
-                    onSuccess: () => {
-                        Toast.fire({
-                            icon: "success",
-                            title: t("toasts.modif_success"),
-                        });
-                    },
-                    onError: () => {
-                        Toast.fire({
-                            icon: "error",
-                            title: t("toasts.modif_error"),
-                        });
-                    },
+                onError: () => {
+                    Toast.fire({
+                        icon: "error",
+                        title: t("toasts.supp_error"),
+                    });
                 },
-            );
+            });
         }
     });
 };
@@ -640,7 +841,7 @@ const attachClasses = () => {
                     icon: "success",
                     title: t("toasts.modif_success"),
                 });
-                isAddClasseModalOpen.value = false;
+                closeAddClasseModal();
             },
             onError: () => {
                 Toast.fire({
@@ -658,3 +859,15 @@ watchEffect(() => {
 const activeKey = ref("1");
 </script>
 <style src="@vueform/multiselect/themes/default.css"></style>
+<style scoped>
+/* you can make up upload button and sample style by using stylesheets */
+.ant-upload-select-picture-card i {
+    font-size: 32px;
+    color: #999;
+}
+
+.ant-upload-select-picture-card .ant-upload-text {
+    margin-top: 8px;
+    color: #666;
+}
+</style>

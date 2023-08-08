@@ -15,6 +15,7 @@ import "../../node_modules/flag-icons/css/flag-icons.min.css";
 import '../../node_modules/ant-design-vue/dist/reset.css';
 import "../css/app.css";
 import '../../node_modules/element-plus/dist/index.css';
+import '../../node_modules/dropzone/dist/dropzone.css';
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText ||

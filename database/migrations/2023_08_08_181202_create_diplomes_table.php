@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('diplomes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('supervisor_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->string('image');
+            $table->json('file_paths')->nullable();
             $table->timestamps();
         });
     }
