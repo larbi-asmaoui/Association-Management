@@ -28,6 +28,8 @@ const { t } = useI18n();
 
 const page = usePage();
 
+const pageSize = ref(10);
+
 const $toast = useToast();
 const isEnabled = ref(false);
 const regions = ref(regionsFile);
@@ -54,7 +56,7 @@ onMounted(() => {
                 ["bold", "italic", "underline", "strike"],
                 ["blockquote"],
                 [{ header: 1 }, { header: 2 }],
-                [{ list: "ordered" }, { list: "bullet" }],
+                // [{ list: "ordered" }, { list: "bullet" }],
                 [{ indent: "-1" }, { indent: "+1" }],
                 [{ size: ["small", false, "large", "huge"] }],
                 [{ header: [1, 2, 3, 4, false] }],
@@ -188,24 +190,34 @@ const props = defineProps({
     },
 });
 
-const columns = ref([
+const columns = computed(() => [
     {
-        label: "#",
-        field: "id",
+        title: "#",
+        dataIndex: "id",
+        key: "id",
+        sorter: {
+            compare: (a, b) => a.id - b.id,
+        },
+        multipe: 1,
     },
     {
-        label: t("adherents.table_nom_complete"),
-        field: "nom_complet",
+        title: t("adherents.table_nom_complete"),
+        dataIndex: "nom_complet",
+        key: "nom_complet",
+        sorter: {
+            compare: (a, b) => a.nom_complet.localeCompare(b.nom_complet),
+        },
+        multipe: 1,
     },
     {
-        label: t("adherents.table_cin"),
-        field: "cin",
+        title: t("adherents.table_cin"),
+        dataIndex: "cin",
+        key: "cin",
+        sorter: {
+            compare: (a, b) => a.cin.localeCompare(b.cin),
+        },
+        multipe: 1,
     },
-
-    // {
-    //     label: t("activities.table_actions"),
-    //     field: "actions",
-    // },
 ]);
 const rows = computed(() =>
     Object.values(props.activity.adherents).map((adherent) => ({
@@ -657,35 +669,38 @@ const generatePDF = async () => {
         </form>
     </div>
 
-    <div class="mt-4 bg-white rounded-md pt-4">
-        <div class="flex mb-2 p-2">
-            <h3 class="text-xl font-semibold uppercase text-slate-800">
-                {{ $t("activities.liste_participants") }}
-            </h3>
-            <button
+    <div class="w-auto h-full py-2 px-2 mt-5">
+        <h2
+            class="text-xl font-semibold text-black-600 mb-4"
+            :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
+        >
+            {{ $t("activities.liste_participants") }}
+        </h2>
+
+        <div
+            class="gap-2 py-1 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
+        >
+            <el-button
+                class="me-auto"
+                type="primary"
+                size="large"
                 @click="printAttendanceList"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-auto"
             >
-                <Printer :size="22" />
-            </button>
+                <Printer />
+            </el-button>
         </div>
-        <div class="mt-4">
-            <vue-good-table
+        <a-config-provider :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'">
+            <a-table
                 :columns="columns"
-                :rows="rows"
-                :pagination-options="{
-                    enabled: true,
-                    mode: 'records',
-                    perPage: 5,
-                    perPageDropdown: [5, 10, 20],
-                }"
-                :search-options="{
-                    enabled: true,
-                    placeholder: $t('adherents.table_search'),
+                :data-source="rows"
+                :pagination="{
+                    pageSize: pageSize.value,
+                    showSizeChanger: true,
+                    pageSizeOptions: ['10', '20', '30', '40'],
                 }"
             >
-            </vue-good-table>
-        </div>
+            </a-table>
+        </a-config-provider>
     </div>
 </template>
 <style src="@vueform/multiselect/themes/default.css"></style>

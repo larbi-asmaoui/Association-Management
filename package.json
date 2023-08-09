@@ -70,6 +70,7 @@
         "vue-advanced-cropper": "^2.8.8",
         "vue-chartjs": "^5.2.0",
         "vue-easytable": "^2.27.1",
+        "vue-element-loading": "^2.0.2",
         "vue-filepond": "^7.0.3",
         "vue-good-table-next": "^0.2.1",
         "vue-i18n": "^9.2.2",

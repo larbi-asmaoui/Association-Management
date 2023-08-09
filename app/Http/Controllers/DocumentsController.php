@@ -202,6 +202,7 @@ class DocumentsController extends Controller
         ]);
 
         $mpdf->Output($filePath, \Mpdf\Output\Destination::FILE);
+        return response()->json(['success' => true, 'message' => 'PDF generated successfully.']);
     }
 
     public function generateRapportFinancierPdf()
@@ -298,5 +299,7 @@ class DocumentsController extends Controller
         ]);
 
         $mpdf->Output($filePath, \Mpdf\Output\Destination::FILE);
+
+        return response()->json(['success' => true, 'message' => 'PDF generated successfully.']);
     }
 }

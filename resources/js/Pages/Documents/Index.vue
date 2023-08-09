@@ -1,4 +1,13 @@
 <template>
+    <!-- loading  -->
+    <div
+        v-if="loading"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30"
+    >
+        <a-spin size="large" />
+    </div>
+
+    <!-- end loading -->
     <div class="px-2 pt-2">
         <h2
             class="text-xl font-semibold text-black-600 mb-4"
@@ -23,16 +32,13 @@
                             <div
                                 class="inline-flex items-center text-base font-semibold text-gray-900"
                             >
-                                <a
-                                    target="_blank"
-                                    :href="
-                                        route('e-documents.rapport_financier')
-                                    "
+                                <button
+                                    @click="generateRapportFinancier"
                                     class="inline-flex items-center text-sm font-medium text-center text-blue-700 hover:text-blue-800"
                                 >
                                     <ArrowLeft v-if="$i18n.locale === 'ar'" />
                                     <ArrowRight v-else />
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </li>
@@ -49,17 +55,13 @@
                             <div
                                 class="inline-flex items-center text-base font-semibold text-gray-900"
                             >
-                                <a
-                                    :href="
-                                        route('e-documents.rapport_litteraire')
-                                    "
-                                    target="_blank"
-                                    rel="noreferrer"
+                                <button
+                                    @click="generateRapportLitteraire"
                                     class="inline-flex items-center text-sm font-medium text-center text-blue-700 hover:text-blue-800"
                                 >
                                     <ArrowLeft v-if="$i18n.locale === 'ar'" />
                                     <ArrowRight v-else />
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </li>
@@ -102,7 +104,6 @@
 </template>
 
 <script setup>
-import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
 import { usePage, router } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
@@ -177,6 +178,38 @@ const rows = computed(() =>
 const storage = () => {
     return "/storage/";
 };
+
+const loading = ref(false);
+
+function generateRapportFinancier() {
+    loading.value = true;
+
+    axios
+        .get("/e-document/rapport-financier")
+        .then((response) => {
+            loading.value = false;
+            location.reload(); // Reload the page
+        })
+        .catch((error) => {
+            loading.value = false;
+            console.error("Error generating PDF:", error);
+        });
+}
+
+function generateRapportLitteraire() {
+    loading.value = true;
+
+    axios
+        .get("/e-document/rapport-litteraire")
+        .then((response) => {
+            loading.value = false;
+            location.reload(); // Reload the page
+        })
+        .catch((error) => {
+            // Handle error
+            loading.value = false;
+        });
+}
 </script>
 
 <script>
