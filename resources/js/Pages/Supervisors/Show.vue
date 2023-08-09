@@ -1,5 +1,4 @@
 <template>
-    {{ formDiplome.files }}
     <!-- Add diploma -->
     <a-modal
         @cancel="closeAddDiplomeModal"
@@ -25,6 +24,13 @@
                     id="title"
                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
                 />
+                <span
+                    v-if="formDiplome.errors.name"
+                    class="text-xs text-red-600 mt-1"
+                    id="hs-validation-name-error-helper"
+                >
+                    {{ formDiplome.errors.name }}
+                </span>
             </div>
             <label
                 for="title"
@@ -33,15 +39,25 @@
             >
 
             <a-upload
+                :multiple="true"
+                v-if="showUploader"
                 :customRequest="addFile"
                 list-type="picture-card"
                 @preview="handlePreview"
+                @remove="handleRemove"
             >
                 <div v-if="formDiplome.files.length < 8">
                     <plus-outlined />
                     <div style="margin-top: 8px">Upload</div>
                 </div>
             </a-upload>
+            <span
+                v-if="formDiplome.errors.files"
+                class="text-xs text-red-600 mt-1"
+                id="hs-validation-name-error-helper"
+            >
+                {{ formDiplome.errors.files }}
+            </span>
             <a-modal
                 :open="previewVisible"
                 :title="previewTitle"
@@ -397,12 +413,59 @@
                                     pageSizeOptions: ['10', '20', '30', '40'],
                                 }"
                             >
-                                <template v-slot:action="{}">
-                                    <el-button type="danger" size="small"
-                                        ><TrashCan
-                                    /></el-button>
-                                </template> </a-table
-                        ></a-config-provider>
+                                <template v-slot:action="{ record }">
+                                    <el-button
+                                        type="primary"
+                                        size="small"
+                                        @click="showDiplomeModal = true"
+                                        ><Eye />
+                                    </el-button>
+                                    <span class="me-2"></span>
+                                    <el-button
+                                        type="danger"
+                                        size="small"
+                                        @click="destroyDiplome(record.id)"
+                                        ><TrashCan />
+                                    </el-button>
+
+                                    <a-modal
+                                        v-model:open="showDiplomeModal"
+                                        :title="$t('supervisors.diplomes')"
+                                        :footer="null"
+                                        width="50%"
+                                    >
+                                        <a-divider
+                                            orientation="left"
+                                        ></a-divider>
+                                        <a-upload
+                                            :default-file-list="
+                                                transformFilesForUpload(
+                                                    record.files,
+                                                )
+                                            "
+                                            :customRequest="() => false"
+                                            list-type="picture-card"
+                                            @preview="handlePreview"
+                                            @remove="preventRemove"
+                                            disabled
+                                        >
+                                            <a-modal
+                                                :open="previewVisible"
+                                                :title="previewTitle"
+                                                :footer="null"
+                                                @cancel="handleCancel"
+                                            >
+                                                <img
+                                                    alt="example"
+                                                    style="width: 100%"
+                                                    :src="previewImage"
+                                                />
+                                            </a-modal>
+                                        </a-upload>
+                                    </a-modal>
+                                </template>
+                            </a-table>
+                        </a-config-provider>
                     </a-tab-pane>
 
                     <!-- classes -->
@@ -494,11 +557,14 @@ import ImageUpload from "../../Components/ImageUpload.vue";
 import Plus from "vue-material-design-icons/Plus.vue";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Pencil from "vue-material-design-icons/Pencil.vue";
+import Eye from "vue-material-design-icons/Eye.vue";
 import { router, useForm } from "@inertiajs/vue3";
-import { ref, computed, watchEffect, onMounted } from "vue";
+import { ref, computed, watchEffect, onMounted, nextTick } from "vue";
 import { PlusOutlined } from "@ant-design/icons-vue";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
+
+const showDiplomeModal = ref(false);
 
 function getBase64(file) {
     return new Promise((resolve, reject) => {
@@ -508,6 +574,17 @@ function getBase64(file) {
         reader.onerror = (error) => reject(error);
     });
 }
+
+const handleRemove = (file) => {
+    const index = formDiplome.files.findIndex((f) => f.uid === file.uid);
+    if (index !== -1) {
+        formDiplome.files.splice(index, 1);
+    }
+};
+
+const preventRemove = (file) => {
+    return false; // This will prevent the file from being removed
+};
 
 const addFile = async ({ file, onSuccess, onError }) => {
     console.log(file);
@@ -523,6 +600,7 @@ const addFile = async ({ file, onSuccess, onError }) => {
 const previewVisible = ref(false);
 const previewImage = ref("");
 const previewTitle = ref("");
+const showUploader = ref(true);
 
 const handleCancel = () => {
     previewVisible.value = false;
@@ -567,8 +645,17 @@ const isAddDiplomeModalOpen = ref(false);
 
 const closeAddDiplomeModal = () => {
     isAddDiplomeModalOpen.value = false;
-    // selectedDiplome.value = null;
-    // formDiplomes.diplomes = [];
+    previewVisible.value = false;
+    previewImage.value = "";
+    previewTitle.value = "";
+    formDiplome.name = null;
+    formDiplome.files = [];
+
+    // Toggle the showUploader ref to force re-rendering of the <a-upload> component.
+    showUploader.value = false;
+    nextTick(() => {
+        showUploader.value = true;
+    });
 };
 
 const pageSize = ref(10);
@@ -659,6 +746,7 @@ const diplomaRows = computed(() =>
     Object.values(props.supervisor.diplomes).map((diplome) => ({
         id: diplome.id,
         name: diplome.name,
+        files: diplome.file_paths,
     })),
 );
 
@@ -741,30 +829,21 @@ const submitDiplome = () => {
             },
             onError: () => {
                 Toast.fire({
-                    icon: "success",
+                    icon: "error",
                     title: t("toasts.modif_error"),
                 });
             },
         },
     );
+};
 
-    formDiplome.post(route("diplomes.store", form.id), {
-        // forceFormData: true,
-        preserveScroll: true,
-        onSuccess: () => {
-            Toast.fire({
-                icon: "success",
-                title: t("toasts.modif_success"),
-            });
-            isEnabled.value = false;
-        },
-        onError: () => {
-            Toast.fire({
-                icon: "success",
-                title: t("toasts.modif_error"),
-            });
-        },
-    });
+const transformFilesForUpload = (files) => {
+    return files.map((path, index) => ({
+        uid: "-" + (index + 1),
+        name: path.split("/").pop(),
+        status: "done",
+        url: "/storage/" + path, // Adjust this to your actual path
+    }));
 };
 
 const detachClasse = (id) => {
@@ -795,6 +874,36 @@ const detachClasse = (id) => {
         }
     });
 };
+
+const destroyDiplome = (id) => {
+    Swal.fire({
+        text: t("modals_questions.supprimer"),
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: t("buttons.supprimer"),
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.delete(`/supervisors/diplomes/${id}`, {
+                preserveScroll: true,
+                onSuccess: () => {
+                    Toast.fire({
+                        icon: "success",
+                        title: t("toasts.supp_success"),
+                    });
+                },
+                onError: () => {
+                    Toast.fire({
+                        icon: "error",
+                        title: t("toasts.supp_error"),
+                    });
+                },
+            });
+        }
+    });
+};
+
 const formattedCategories = computed(() =>
     Object.values(props.categories).map((category) => ({
         value: category.id,

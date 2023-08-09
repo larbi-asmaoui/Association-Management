@@ -60,6 +60,7 @@ Route::middleware([
         Route::resource('activity-types', ActivityTypeController::class);
         // Route::resource('diplomes', DiplomeController::class);
         Route::resource('classes', \App\Http\Controllers\ClasseController::class);
+        Route::delete('/supervisors/diplomes/{id}', [SupervisorController::class, 'deleteDiplome']);
         Route::post('/supervisors/{supervisor}/diplomes', [SupervisorController::class, 'addDiplome']);
         Route::post('/supervisors/{supervisor}/classes', [SupervisorController::class, 'attachClasse']);
         Route::delete('/supervisors/{supervisor}/classes/{classe}', [SupervisorController::class, 'detachClasse']);

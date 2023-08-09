@@ -1,7 +1,7 @@
 <template>
     <nav
         :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
-        class="fixed z-30 w-full min-h-[70px] bg-gradient-to-r from-green-200 to-purple-200 border-b border-gray-200"
+        class="fixed z-30 w-full min-h-[70px] bg-white border-b border-gray-200"
     >
         <div class="pe-3 py-3 lg:pe-5">
             <div class="flex items-center justify-between">

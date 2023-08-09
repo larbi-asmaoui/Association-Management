@@ -119,6 +119,10 @@ class SupervisorController extends Controller
      */
     public function destroy(Supervisor $supervisor)
     {
+        if ($supervisor->image) {
+            Storage::disk('public')->delete($supervisor->image);
+        }
+
         $supervisor->delete();
 
         return redirect()->route('supervisors.index');
@@ -178,7 +182,7 @@ class SupervisorController extends Controller
         if ($request->hasFile('file_paths')) {
             $paths = [];
             foreach ($request->file('file_paths') as $file) {
-                $paths[] = $file->store('diploma_files');
+                $paths[] = $file->store('diploma_files', 'public');
             }
             $data['file_paths'] = $paths;
         }
@@ -200,12 +204,27 @@ class SupervisorController extends Controller
         if ($request->hasFile('files')) {
             $paths = $diploma->file_paths ?? []; // Retrieve existing file paths
             foreach ($request->file('files') as $file) {
-                $paths[] = $file->store('diploma_files');
+                $paths[] = $file->store('diploma_files', 'public');
             }
             $data['file_paths'] = $paths;
         }
 
         $diploma->update($data);
+        return redirect()->back();
+    }
+
+    public function deleteDiplome($id)
+    {
+
+        $diplome = Diplome::find($id);
+
+        if ($diplome->file_paths) {
+            foreach ($diplome->file_paths as $path) {
+                Storage::disk('public')->delete($path);
+            }
+        }
+
+        $diplome->delete();
         return redirect()->back();
     }
 }
