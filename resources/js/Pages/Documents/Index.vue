@@ -104,6 +104,7 @@
 </template>
 
 <script setup>
+import Swal from "sweetalert2";
 import "vue-good-table-next/dist/vue-good-table-next.css";
 import { usePage, router } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
@@ -192,7 +193,11 @@ function generateRapportFinancier() {
         })
         .catch((error) => {
             loading.value = false;
-            console.error("Error generating PDF:", error);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: error,
+            });
         });
 }
 
@@ -208,6 +213,11 @@ function generateRapportLitteraire() {
         .catch((error) => {
             // Handle error
             loading.value = false;
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: error,
+            });
         });
 }
 </script>

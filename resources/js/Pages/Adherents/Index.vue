@@ -629,7 +629,7 @@ const columns = computed(() => [
     },
 ]);
 
-const filteredAdherents = ref([...props.adherents]);
+const filteredAdherents = ref(props.adherents);
 
 const rows = computed(() =>
     filteredAdherents.value.map((adherent) => ({
