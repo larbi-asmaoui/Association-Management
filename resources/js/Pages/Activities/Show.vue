@@ -671,14 +671,14 @@ const generatePDF = async () => {
 
     <div class="w-auto h-full py-2 px-2 mt-5">
         <h2
-            class="text-xl font-semibold text-black-600 mb-4"
+            class="text-xl font-semibold text-black-600 mb-2"
             :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
         >
             {{ $t("activities.liste_participants") }}
         </h2>
 
         <div
-            class="gap-2 py-1 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
+            class="py-3 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
         >
             <el-button
                 class="me-auto"

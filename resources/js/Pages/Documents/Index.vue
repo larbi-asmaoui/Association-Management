@@ -195,7 +195,7 @@ function generateRapportFinancier() {
             loading.value = false;
             Swal.fire({
                 icon: "error",
-                title: "Oops...",
+                title: error.response.status,
                 text: error,
             });
         });
@@ -215,7 +215,7 @@ function generateRapportLitteraire() {
             loading.value = false;
             Swal.fire({
                 icon: "error",
-                title: "Oops...",
+                title: error.response.status,
                 text: error,
             });
         });

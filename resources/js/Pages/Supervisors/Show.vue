@@ -15,7 +15,7 @@
                 <label
                     for="title"
                     class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                    >{{ $t("classes.category") }}</label
+                    >{{ $t("supervisors.diplome") }}</label
                 >
                 <input
                     v-model="formDiplome.name"

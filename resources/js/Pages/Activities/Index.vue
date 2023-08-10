@@ -581,9 +581,29 @@ const generatePDF = (id) => {
             halign: "center",
         },
     });
+
+    doc.setFontSize(18);
+    const descriptionTitle = t("activities.input_description");
+    const descriptionTitleWidth =
+        (doc.getStringUnitWidth(descriptionTitle) *
+            doc.internal.getFontSize()) /
+        doc.internal.scaleFactor;
+    const descriptionTitleX = (pageWidth - descriptionTitleWidth) / 2;
+    doc.text(descriptionTitle, descriptionTitleX, 70);
+    const activityDescription = extractTextFromHTML(activity.description);
+    const descriptionStartY = 75; // Adjust this according to your requirements
+    doc.text(activityDescription, 10, descriptionStartY, {
+        maxWidth: pageWidth - 20,
+    }); // maxWidth ensures the text doesn't go outside of the page bounds.
     const docTitle = `activite_${activity.title}.pdf`;
     doc.save(docTitle);
 };
+
+function extractTextFromHTML(html) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    return doc.body.textContent || "";
+}
 
 const generateFiche = (id) => {
     const activity = props.activities.find((activity) => activity.id === id);

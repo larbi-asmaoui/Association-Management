@@ -15,7 +15,7 @@
         </h1>
     </div>
 
-    <div class="bg-white px-4 py-6 shadow-md">
+    <div class="bg-white px-4 py-6 shadow-md rounded-md">
         <form @submit.prevent="submit" enctype="multipart/form-data">
             <div class="mt-4 grid gap-4 lg:gap-6">
                 <div class="col-span-full mb-5">
@@ -539,27 +539,38 @@
         </div>
     </div>
 
-    <div class="mt-4 bg-white rounded-md pt-4">
-        <h3 class="mb-2 px-4 text-xl font-bold text-slate-800 uppercase">
+    <div class="w-auto h-full py-2 px-2 mt-5 bg-white p-2 rounded-md">
+        <h2
+            class="text-xl font-semibold text-black-600 mb-2"
+            :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
+        >
             {{ $t("adherents.adherent_activities") }}
-        </h3>
-        <div class="mt-4">
-            <vue-good-table
-                :columns="columns"
-                :rows="rows"
-                :pagination-options="{
-                    enabled: true,
-                    mode: 'records',
-                    perPage: 5,
-                    perPageDropdown: [5, 10, 20],
-                }"
-                :search-options="{
-                    enabled: true,
-                    placeholder: $t('adherents.table_search'),
+        </h2>
+
+        <div
+            class="py-3 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
+        >
+            <!-- <el-button
+                class="me-auto"
+                type="primary"
+                size="large"
+                @click="printAttendanceList"
+            >
+                <Printer />
+            </el-button> -->
+        </div>
+        <a-config-provider :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'">
+            <a-table
+                :columns="columns2"
+                :data-source="rows"
+                :pagination="{
+                    pageSize: pageSize.value,
+                    showSizeChanger: true,
+                    pageSizeOptions: ['10', '20', '30', '40'],
                 }"
             >
-            </vue-good-table>
-        </div>
+            </a-table>
+        </a-config-provider>
     </div>
 </template>
 
@@ -589,7 +600,8 @@ import Toast from "../../utils.js";
 
 const { t, availableLocales, locale } = useI18n();
 
-const $toast = useToast();
+const pageSize = ref(10);
+
 const regions = ref(regionsFile);
 
 const props = defineProps({
@@ -639,6 +651,53 @@ const columns = ref([
     {
         label: t("activities.input_lieu"),
         field: "location",
+    },
+]);
+
+const columns2 = computed(() => [
+    {
+        title: "#",
+        dataIndex: "id",
+        key: "id",
+        sorter: {
+            compare: (a, b) => a.id - b.id,
+        },
+        multipe: 1,
+    },
+
+    {
+        title: t("activities.table_nom"),
+        dataIndex: "title",
+        key: "title",
+        sorter: {
+            compare: (a, b) => a.title.localeCompare(b.title),
+        },
+        multipe: 1,
+    },
+
+    {
+        title: t("activities.table_date_debut"),
+        dataIndex: "start",
+        key: "start",
+        sorter: {
+            compare: (a, b) => a.start.localeCompare(b.start),
+        },
+    },
+    {
+        title: t("activities.input_date_fin"),
+        dataIndex: "end",
+        key: "end",
+        sorter: {
+            compare: (a, b) => a.end.localeCompare(b.end),
+        },
+    },
+    {
+        title: t("activities.input_lieu"),
+        dataIndex: "location",
+        key: "location",
+        sorter: {
+            compare: (a, b) => a.location.localeCompare(b.location),
+        },
     },
 ]);
 

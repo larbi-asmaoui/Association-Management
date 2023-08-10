@@ -1,4 +1,5 @@
 <template>
+    {{ adherents }}
     <a-modal
         width="80%"
         @cancel="closeModal"
@@ -477,7 +478,10 @@
                     <a-avatar :size="50" :src="showImage(record)"> </a-avatar>
                 </template>
                 <template v-slot:actif="{ record }">
-                    <a-badge status="success" v-if="record.is_actif === 1" />
+                    <a-badge
+                        status="success"
+                        v-if="record.is_actif === 1 || record.is_actif === true"
+                    />
                     <a-badge status="error" v-else />
                 </template>
                 <template v-slot:action="{ record }">
@@ -669,7 +673,7 @@ const generateSingleIDCard = (id) => {
 
 const generateIDCards = async (adherents = props.adherents) => {
     // filter the same array is_adherent === 1
-    adherents = adherents.filter((adherent) => adherent.is_actif === 1);
+    adherents = adherents.filter((adherent) => adherent.is_actif === true);
 
     if (adherents.length === 0) {
         Swal.fire({

@@ -31,30 +31,28 @@ class AdherentController extends Controller
 
             foreach ($adherents as $adherent) {
                 $lastAbonnementDate = $adherent->abonnements()->latest('date_payement')->value('date_payement');
-                if ($lastAbonnementDate && Carbon::parse($lastAbonnementDate)->lt($reunion->date)) {
+                if ($reunion && $lastAbonnementDate && Carbon::parse($lastAbonnementDate)->lte($reunion->date)) {
                     $adherent->update(['is_actif' => false]);
-                } else {
-
-                    $adherent->update(['is_actif' => true]);
                 }
             }
         } else if ($reunionsCount > 1) {
             $reunions = Reunion::whereHas('reunion_type', function ($query) {
                 $query->where('id', '1');
             })->orderBy('date', 'desc')->take(2)->get();
-            $newestReunion = $reunions->first();
-            $previousReunion = $reunions->last();
 
             $adherents = Adherent::with('statut')->get();
-
-            foreach ($adherents as $adherent) {
-                $lastAbonnementDate = $adherent->abonnements()->latest('date_payement')->value('date_payement');
-                if ($lastAbonnementDate && Carbon::parse($lastAbonnementDate)->lt($newestReunion->date)) {
-                    $adherent->update(['is_actif' => false]);
-                } else {
-                    $adherent->update(['is_actif' => true]);
+            if ($reunions->count() == 2) {
+                $newestReunion = $reunions->first();
+                // dd($newestReunion);
+                foreach ($adherents as $adherent) {
+                    $lastAbonnementDate = $adherent->abonnements()->latest('date_payement')->value('date_payement');
+                    if ($newestReunion && $lastAbonnementDate && Carbon::parse($lastAbonnementDate)->lte($newestReunion->date)) {
+                        $adherent->update(['is_actif' => false]);
+                    }
                 }
             }
+
+            // dd($adherents);
         } else {
             $adherents = Adherent::query()->with('statut')->with('abonnements')->get();
         }

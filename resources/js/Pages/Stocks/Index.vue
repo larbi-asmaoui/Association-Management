@@ -167,14 +167,29 @@
         <div
             class="gap-2 py-1 mb-2 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
         >
-            <el-button
-                class="me-auto"
-                type="primary"
-                size="large"
-                @click="isModalOpen = true"
-            >
-                <Plus />
-            </el-button>
+            <div class="flex gap-2 me-auto">
+                <a-tooltip>
+                    <template #title>
+                        {{ $t("biens.modal_ajouter") }}
+                    </template>
+                    <el-button
+                        type="primary"
+                        size="large"
+                        @click="isModalOpen = true"
+                    >
+                        <Plus />
+                    </el-button>
+                </a-tooltip>
+
+                <a-tooltip>
+                    <template #title>
+                        {{ $t("adherents.export_pdf") }}</template
+                    >
+                    <el-button type="primary" size="large" @click="generatePDF">
+                        <FilePdfOutlined :style="{ fontSize: '24px' }" />
+                    </el-button>
+                </a-tooltip>
+            </div>
         </div>
 
         <a-config-provider :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'">
@@ -217,21 +232,33 @@ export default {
 </script>
 
 <script setup>
+import { FilePdfOutlined } from "@ant-design/icons-vue";
 import Swal from "sweetalert2";
-import { VueGoodTable } from "vue-good-table-next";
-import "vue-good-table-next/dist/vue-good-table-next.css";
 import { ref, watch, computed } from "vue";
-import { useForm, router } from "@inertiajs/vue3";
-import { Modal } from "flowbite-vue";
+import { useForm, router, usePage } from "@inertiajs/vue3";
 import { useI18n } from "vue-i18n";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Pencil from "vue-material-design-icons/Pencil.vue";
 import Plus from "vue-material-design-icons/Plus.vue";
 import Toast from "../../utils.js";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const { t, availableLocales, locale } = useI18n();
 
+const page = usePage();
+
 const pageSize = ref(10);
+const props = defineProps({
+    stocks: {
+        type: Object,
+        default: () => ({}),
+    },
+    stockTypes: {
+        type: Object,
+        default: () => ({}),
+    },
+});
 
 const form = useForm({
     id: null,
@@ -241,6 +268,85 @@ const form = useForm({
     purchase_date: null,
     stock_type_id: null,
 });
+
+const generatePDF = () => {
+    const doc = new jsPDF();
+    if (props.stocks.length === 0) {
+        Swal.fire({
+            icon: "error",
+            text: "Aucun stock n'est disponible pour le moment",
+            showConfirmButton: false,
+            timer: 1500,
+        });
+        return;
+    }
+
+    const arabicFontFile = "/fonts/Amiri-Regular.ttf";
+    const arabicFontName = "Amiri";
+
+    doc.addFont(arabicFontFile, arabicFontName, "normal");
+    doc.setFont(arabicFontName);
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    if (page.props.auth.association !== null) {
+        doc.addImage(
+            "/storage/" + page.props.auth.association.image,
+            "JPEG",
+            (pageWidth - 20) / 2,
+            2,
+            20,
+            20,
+        );
+        doc.setFontSize(15);
+        const assoName = `${page.props.auth.association.name}` ?? "";
+        const assoNameWidth = doc.getTextWidth(assoName);
+
+        const assoNameX = (pageWidth - assoNameWidth) / 2;
+        doc.text(assoName, assoNameX, 32);
+    }
+
+    doc.setFontSize(13);
+
+    const title = t("biens.titre");
+    const titleWidth = doc.getTextWidth(title);
+    const titleX = (pageWidth - titleWidth) / 2;
+    doc.text(title, titleX, 40);
+
+    doc.line(0, 45, 400, 45);
+    const headers = [
+        t("biens.table_date"),
+        t("biens.table_montant"),
+        t("biens.table_prix_unit"),
+        t("biens.table_quantity"),
+        t("biens.table_nom"),
+        "#",
+    ];
+
+    const data = props.stocks.map((stock, index) => [
+        stock.purchase_date,
+        stock.quantity * stock.price_per_unit,
+        stock.price_per_unit,
+        stock.quantity,
+        stock.name,
+        index + 1,
+    ]);
+
+    doc.autoTable({
+        margin: { top: 50 },
+        head: [headers],
+        body: data,
+        styles: {
+            font: arabicFontName,
+            halign: "center",
+        },
+        headStyles: {
+            valign: "middle",
+            halign: "center",
+        },
+    });
+
+    doc.save("stocks.pdf");
+};
 
 const columns = computed(() => [
     {
@@ -365,16 +471,6 @@ const destroy = (id) => {
 const show = (id) => {
     form.get(route("stocks.show", id));
 };
-const props = defineProps({
-    stocks: {
-        type: Object,
-        default: () => ({}),
-    },
-    stockTypes: {
-        type: Object,
-        default: () => ({}),
-    },
-});
 
 const submit = () => {
     if (form.id) {
