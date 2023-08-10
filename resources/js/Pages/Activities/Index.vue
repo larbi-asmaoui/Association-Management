@@ -499,12 +499,12 @@ const generatePDF = (id) => {
     doc.setFontSize(16);
     doc.text(title, titleX, 10);
 
-    doc.setFontSize(20);
+    doc.setFontSize(24);
     const activityTitleWidth =
         (doc.getStringUnitWidth(activity.title) * doc.internal.getFontSize()) /
         doc.internal.scaleFactor;
     const activityTitleX = (pageWidth - activityTitleWidth) / 2;
-    doc.text(activity.title, activityTitleX, 25);
+    doc.text(activity.title, activityTitleX, 20);
 
     doc.setFontSize(12);
     const dateDebut = t("activities.input_date_debut") + " : " + activity.start;
@@ -524,6 +524,47 @@ const generatePDF = (id) => {
     doc.text(dateDebut, dateDebutX, 35);
     doc.text(dateFin, dateFinX, 40);
 
+    const descriptionTitle = t("activities.input_description");
+    const descriptionTitleWidth =
+        (doc.getStringUnitWidth(descriptionTitle) *
+            doc.internal.getFontSize()) /
+        doc.internal.scaleFactor;
+    const descriptionTitleX = (pageWidth - descriptionTitleWidth) / 2;
+
+    doc.setFontSize(16);
+    doc.text(descriptionTitle, descriptionTitleX, 50);
+
+    // Draw underline for descriptionTitle
+    const underlineY = 52; // Adjust based on how far below the text you want the underline
+    const underlineStartX = descriptionTitleX;
+    const underlineEndX = descriptionTitleX + descriptionTitleWidth;
+
+    doc.line(underlineStartX, underlineY, underlineEndX, underlineY);
+
+    doc.setFontSize(12);
+
+    const activityDescription = extractTextFromHTML(activity.description);
+
+    // Split the activityDescription into lines to fit within the PDF width
+    const descriptionLines = doc.splitTextToSize(
+        activityDescription,
+        pageWidth - 20,
+    );
+
+    // The following loop will iterate through the lines and position them in the center of the PDF
+    let descriptionStartY = 60; // Adjust this according to your requirements
+    descriptionLines.forEach((line) => {
+        const lineWidth =
+            (doc.getStringUnitWidth(line) * doc.internal.getFontSize()) /
+            doc.internal.scaleFactor;
+        const lineX = (pageWidth - lineWidth) / 2;
+        doc.text(line, lineX, descriptionStartY);
+        descriptionStartY += 10; // Adjusting for line height. Change the value of '6' if needed.
+    });
+
+    const tableStartY = descriptionStartY + 10;
+
+    // tables
     const headers = [
         t("activities.input_depenses_activite"),
         t("activities.input_revenus_activite"),
@@ -532,7 +573,7 @@ const generatePDF = (id) => {
     const data = [[activity.depense, activity.revenue]];
 
     doc.autoTable({
-        margin: { top: 45, bottom: 200 },
+        margin: { top: tableStartY },
         theme: "grid",
         head: [headers],
         body: data,
@@ -551,7 +592,8 @@ const generatePDF = (id) => {
         (doc.getStringUnitWidth(participants) * doc.internal.getFontSize()) /
         doc.internal.scaleFactor;
     const participantsX = (pageWidth - participantsWidth) / 2;
-    doc.text(participants, participantsX, 65);
+    const participantsY = doc.autoTable.previous.finalY + 20;
+    doc.text(participants, participantsX, participantsY);
 
     const headers2 = [
         t("adherents.table_telephone"),
@@ -567,8 +609,10 @@ const generatePDF = (id) => {
         index + 1,
     ]);
 
+    // Adjust the position of the second table
+    const secondTableStartY = participantsY + 20;
     doc.autoTable({
-        margin: { top: 100 },
+        margin: { top: secondTableStartY },
         theme: "grid",
         head: [headers2],
         body: data2,
@@ -582,19 +626,6 @@ const generatePDF = (id) => {
         },
     });
 
-    doc.setFontSize(18);
-    const descriptionTitle = t("activities.input_description");
-    const descriptionTitleWidth =
-        (doc.getStringUnitWidth(descriptionTitle) *
-            doc.internal.getFontSize()) /
-        doc.internal.scaleFactor;
-    const descriptionTitleX = (pageWidth - descriptionTitleWidth) / 2;
-    doc.text(descriptionTitle, descriptionTitleX, 70);
-    const activityDescription = extractTextFromHTML(activity.description);
-    const descriptionStartY = 75; // Adjust this according to your requirements
-    doc.text(activityDescription, 10, descriptionStartY, {
-        maxWidth: pageWidth - 20,
-    }); // maxWidth ensures the text doesn't go outside of the page bounds.
     const docTitle = `activite_${activity.title}.pdf`;
     doc.save(docTitle);
 };
@@ -604,21 +635,4 @@ function extractTextFromHTML(html) {
     const doc = parser.parseFromString(html, "text/html");
     return doc.body.textContent || "";
 }
-
-const generateFiche = (id) => {
-    const activity = props.activities.find((activity) => activity.id === id);
-    const element = document.createElement("div");
-    element.innerHTML = activity.description;
-
-    const opt = {
-        margin: 0,
-        filename: "myfile.pdf",
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-    };
-
-    // New Promise-based usage:
-    html2pdf().set(opt).from(element).save();
-};
 </script>
