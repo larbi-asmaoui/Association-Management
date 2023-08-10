@@ -1,5 +1,4 @@
 <template>
-    {{ adherents }}
     <a-modal
         width="80%"
         @cancel="closeModal"

@@ -587,12 +587,22 @@ const generatePDF = (id) => {
         },
     });
 
+    let currentPositionY;
+    if (doc.autoTable.previous) {
+        currentPositionY = doc.autoTable.previous.finalY;
+    } else {
+        currentPositionY = tableStartY;
+    }
+
     const participants = t("activities.liste_participants");
     const participantsWidth =
         (doc.getStringUnitWidth(participants) * doc.internal.getFontSize()) /
         doc.internal.scaleFactor;
     const participantsX = (pageWidth - participantsWidth) / 2;
-    const participantsY = doc.autoTable.previous.finalY + 20;
+
+    const participantsSpacing = 20;
+    const participantsY = currentPositionY + participantsSpacing;
+
     doc.text(participants, participantsX, participantsY);
 
     const headers2 = [
@@ -609,8 +619,9 @@ const generatePDF = (id) => {
         index + 1,
     ]);
 
-    // Adjust the position of the second table
-    const secondTableStartY = participantsY + 20;
+    const secondTableSpacing = 20;
+    const secondTableStartY = participantsY + secondTableSpacing;
+
     doc.autoTable({
         margin: { top: secondTableStartY },
         theme: "grid",
