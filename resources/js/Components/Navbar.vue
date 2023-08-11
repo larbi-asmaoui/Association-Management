@@ -7,6 +7,7 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center justify-start">
                     <button
+                        @click="handleToggle"
                         id="toggleSidebarMobile"
                         aria-expanded="true"
                         aria-controls="sidebar"
@@ -586,4 +587,11 @@ const changeLanguage = (lang) => {
     locale.value = lang;
     localStorage.setItem("language", lang);
 };
+
+const emits = defineEmits(["toggle-sidebar"]);
+
+function handleToggle() {
+    console.log("toggle");
+    emits("toggle-sidebar");
+}
 </script>

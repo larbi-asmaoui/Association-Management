@@ -122,6 +122,16 @@ const props = defineProps({
     },
 });
 
+const open = ref(false);
+
+const showDrawer = () => {
+    open.value = true;
+};
+
+const afterOpenChange = (bool) => {
+    console.log("open", bool);
+};
+
 const pageSize = ref(10);
 
 const columns = computed(() => [

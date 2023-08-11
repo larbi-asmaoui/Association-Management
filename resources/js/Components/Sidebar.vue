@@ -650,7 +650,7 @@
 
 <script setup>
 import { Link, Head, router, usePage } from "@inertiajs/vue3";
-import { ref, computed } from "vue";
+import { ref, computed, defineProps } from "vue";
 import { useI18n } from "vue-i18n";
 import {
     CalendarOutlined,
@@ -664,6 +664,8 @@ import {
     UserOutlined,
     GroupOutlined,
 } from "@ant-design/icons-vue";
+
+const props = defineProps(["isSidebarOpen"]);
 const { t } = useI18n();
 
 const selectedKeys = ref(["1"]);

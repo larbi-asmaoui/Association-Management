@@ -201,6 +201,8 @@
                     showSizeChanger: true,
                     pageSizeOptions: ['10', '20', '30', '40'],
                 }"
+                :scroll="{ x: 1000 }"
+                :expand-column-width="100"
             >
                 <template v-slot:action="{ record }">
                     <el-button
