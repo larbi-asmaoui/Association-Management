@@ -500,55 +500,8 @@ const printAllInvoices = async (abonnements) => {
         </a-config-provider>
     </div>
 
-    <!-- <div class="mt-1 px-4">
-            <div
-                class="transition-all ease-in-out delay-950 w-full m-auto bg-gray-100 border border-gray-300 shadow-md p-4"
-                v-if="showFilterForm"
-            >
-                <div class="flex" id="filter">
-                    <div class="flex gap-5 w-full lg:flex-row flex-col">
-                        <div class="w-full">
-                            <label
-                                for="start_date"
-                                class="text-sm font-medium text-gray-900 block mb-2"
-                                >{{ $t("abonnements.date_debut") }}
-                            </label>
-                            <input
-                                v-model="selectedPayementStartDate"
-                                type="date"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                placeholder="Select date"
-                                name="start_date"
-                            />
-                        </div>
-
-                        <div class="w-full">
-                            <label
-                                for="start_date"
-                                class="text-sm font-medium text-gray-900 block mb-2"
-                                >{{ $t("abonnements.date_fin") }}
-                            </label>
-                            <input
-                                v-model="selectedPayementEndDate"
-                                type="date"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                placeholder="Select date"
-                                name="start_date"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div class="flex gap-4">
-                    <button
-                        @click="clearFilters"
-                        class="py-2 px-3 mt-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                    >
-                        {{ $t("abonnements.clear") }}
-                    </button>
-                </div>
-            </div>
-        </div> -->
-
+    <!-- template of the invoice -->
+    <!-- style="clip-path: inset(0 100% 0 0)" -->
     <div
         v-for="(selectedAbonnement, index) in filteredAbonnements"
         :key="index"
@@ -556,7 +509,7 @@ const printAllInvoices = async (abonnements) => {
         class="p-6 bg-white"
         style="clip-path: inset(0 100% 0 0)"
     >
-        <div class="border border-gray-400 border-dashed p-4">
+        <div class="border border-gray-400 border-dashed p-6 pb-8">
             <div class="flex justify-between items-start mb-3">
                 <p>
                     <strong>No:</strong>
@@ -585,6 +538,10 @@ const printAllInvoices = async (abonnements) => {
                 <div class="flex flex-col gap-2">
                     <strong>{{ $t("adherents.info_perso") }}</strong>
                     <p>
+                        <strong
+                            >{{ $t("adherents.table_nom_complete") }} :
+                        </strong>
+
                         {{
                             selectedAbonnement
                                 ? selectedAbonnement.adherent.first_name +
@@ -595,6 +552,8 @@ const printAllInvoices = async (abonnements) => {
                     </p>
 
                     <p>
+                        <strong>{{ $t("adherents.input_addresse") }} : </strong>
+
                         {{
                             selectedAbonnement
                                 ? selectedAbonnement.adherent.address +
@@ -636,8 +595,8 @@ const printAllInvoices = async (abonnements) => {
             </div>
 
             <div class="mt-4 text-left">
-                <p>
-                    <strong>Signature</strong>
+                <p class="mb-3">
+                    <strong>التوقيع</strong>
                 </p>
                 <p>{{ $page.props.auth.user.name }}</p>
             </div>
