@@ -174,23 +174,21 @@
                         <Printer :size="22" />
                     </button>
                 </div>
-                <div class="mt-4">
-                    <vue-good-table
+
+                <a-config-provider
+                    :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+                >
+                    <a-table
                         :columns="columns"
-                        :rows="rows"
-                        :pagination-options="{
-                            enabled: true,
-                            mode: 'records',
-                            perPage: 5,
-                            perPageDropdown: [5, 10, 20],
-                        }"
-                        :search-options="{
-                            enabled: true,
-                            placeholder: $t('adherents.table_search'),
+                        :data-source="rows"
+                        :pagination="{
+                            pageSize: pageSize.value,
+                            showSizeChanger: true,
+                            pageSizeOptions: ['10', '20', '30', '40'],
                         }"
                     >
-                    </vue-good-table>
-                </div>
+                    </a-table>
+                </a-config-provider>
             </div>
         </div>
     </div>
@@ -239,28 +237,42 @@ const form = useForm({
     adherents: props.reunion.adherents.map((adherent) => adherent.id),
 });
 
-const columns = ref([
-    {
-        label: "#",
-        field: "id",
-    },
-    {
-        label: t("adherents.table_nom_complete"),
-        field: "nom_complet",
-    },
-    {
-        label: t("adherents.table_cin"),
-        field: "cin",
-    },
-    {
-        label: t("adherents.table_telephone"),
-        field: "tel",
-    },
+const pageSize = ref(10);
 
-    // {
-    //     label: t("activities.table_actions"),
-    //     field: "actions",
-    // },
+const columns = computed(() => [
+    {
+        title: "#",
+        dataIndex: "id",
+        key: "id",
+        sorter: {
+            // compare: (a, b) => a.id.localeCompare(b.id),
+            compare: (a, b) => a.id - b.id,
+        },
+    },
+    {
+        title: t("adherents.table_nom_complete"),
+        dataIndex: "nom_complet",
+        key: "nom_complet",
+        sorter: {
+            compare: (a, b) => a.nom_complet.localeCompare(b.nom_complet),
+        },
+    },
+    {
+        title: t("adherents.table_cin"),
+        dataIndex: "cin",
+        key: "cin",
+        sorter: {
+            compare: (a, b) => a.cin.localeCompare(b.cin),
+        },
+    },
+    {
+        title: t("adherents.table_telephone"),
+        dataIndex: "tel",
+        key: "tel",
+        sorter: {
+            compare: (a, b) => a.tel.localeCompare(b.tel),
+        },
+    },
 ]);
 const rows = computed(() =>
     Object.values(props.reunion.adherents).map((adherent) => ({

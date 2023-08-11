@@ -38,7 +38,8 @@ class ReunionController extends Controller
 
 
         // $reunion->load('adherents');
-        $adherents = Adherent::where('is_actif', true)->get();
+        // $adherents = Adherent::where('is_actif', true)->get();
+        $adherents = Adherent::all();
         $reunionTypes = ReunionType::all();
         return Inertia::render('Reunions/Show', [
             'reunion' => $reunion,

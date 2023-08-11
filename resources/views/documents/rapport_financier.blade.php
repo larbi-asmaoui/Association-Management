@@ -65,7 +65,7 @@
                 <tr>
                     <th>الوصف</th>
                     <th>المبلغ</th>
-                    <th>الملاحظات</th>
+                    {{-- <th>الملاحظات</th> --}}
                 </tr>
             </thead>
             <tbody>
@@ -73,7 +73,7 @@
                     <tr>
                         <td>{{ $evenement['title'] }}</td>
                         <td>{{ $evenement['revenue'] }}</td>
-                        <td>{{ $evenement['description'] }}</td>
+                        {{-- <td>{{ $evenement['description'] }}</td> --}}
                     </tr>
                 @endforeach
 
@@ -121,7 +121,7 @@
                 <tr>
                     <th>الوصف</th>
                     <th>المبلغ</th>
-                    <th>الملاحظات</th>
+                    {{-- <th>الملاحظات</th> --}}
                 </tr>
             </thead>
             <tbody>
@@ -129,7 +129,7 @@
                     <tr>
                         <td>{{ $evenement['title'] }}</td>
                         <td>{{ $evenement['depense'] }}</td>
-                        <td>{{ $evenement['description'] }}</td>
+                        {{-- <td>{{ $evenement['description'] }}</td> --}}
                     </tr>
                 @endforeach
 
@@ -154,6 +154,17 @@
                 @endforeach
             @endif
         </tbody>
+    </table>
+    <br>
+    <table style="width:100%">
+        <caption>الممتلكات</caption>
+        <thead>
+            <tr>
+                <th>الممتلكات</th>
+                <th>{{ $totalStock }} درهم</th>
+
+            </tr>
+        </thead>
     </table>
     <br><br>
     <p>مجموع المداخيل: {{ $totalRevenus }} درهم</p>
