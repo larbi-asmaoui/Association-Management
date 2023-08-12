@@ -577,45 +577,10 @@ const associatePosteWithAdherent = () => {
 
 <script>
 import MainLayout from "../../Layouts/MainLayout.vue";
-// import printJS from "print-js";
-// import jsPDF from "jspdf";
-// import htmlToImage from "html-to-image";
 
 export default {
     layout: MainLayout,
     components: {},
-    methods: {
-        // downloadImage() {
-        //   htmlToImage
-        //     .toPng(this.$refs.capture)
-        //     .then((dataUrl) => {
-        //       var a = document.createElement("a");
-        //       a.href = dataUrl;
-        //       a.download = "image.png";
-        //       a.click();
-        //     })
-        //     .catch((error) => {
-        //       console.error("Error:", error);
-        //     });
-        // },
-        // generatePdf() {
-        //   // Create a new jsPDF instance
-        //   const doc = new jsPDF();
-        //   // Add content to the PDF
-        //   doc.text("Hello, this is a PDF generated with jsPDF!", 10, 10);
-        //   // Save the PDF
-        //   doc.save("generated.pdf");
-        // },
-        // print() {
-        //   printJS({
-        //     printable: "my-doc", // ID, class, or HTML element of the content you want to print
-        //     type: "html",
-        //     onPrintDialogClose: () => {
-        //       console.log("Print dialog closed");
-        //     },
-        //   });
-        // },
-    },
 };
 </script>
 
