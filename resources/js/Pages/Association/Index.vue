@@ -19,10 +19,14 @@
                             {{ $t("a-propos.logo") }}
                         </h3>
                         <div class="flex-shrink-0">
-                            <img
-                                :src="showImage() + props.association.image"
+                            <div
                                 class="h-24 w-24 border-2 border-gray-300 rounded-full object-cover mb-4"
-                            />
+                            >
+                                <img
+                                    :src="showImage() + props.association.image"
+                                    class="rounded-full object-cover h-full w-full"
+                                />
+                            </div>
 
                             <div v-show="isEnabled">
                                 <label
