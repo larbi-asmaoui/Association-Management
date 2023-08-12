@@ -449,6 +449,11 @@
                                     </div>
                                 </el-dropdown-item>
                                 <el-dropdown-item
+                                    v-if="
+                                        $page.props.auth.user.permissions.includes(
+                                            'manage users',
+                                        )
+                                    "
                                     @click="router.visit(route('users.index'))"
                                     ><div
                                         class="flex"

@@ -293,7 +293,7 @@ const rows = computed(() =>
         montant: depense.montant,
         depense_date: depense.depense_date,
         reference_file: depense.reference_file,
-        type: depense.depense_type.name,
+        type: depense.depense_type ? depense.depense_type.name : "--",
         depense_type_id: depense.depense_type_id,
     })),
 );

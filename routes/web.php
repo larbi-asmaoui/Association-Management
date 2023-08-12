@@ -39,44 +39,73 @@ Route::middleware([
     'verified',
 ])->group(
     function () {
-        Route::resource('users', UserController::class);
+
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-        Route::get('/activities/calendrier', [ActivityController::class, 'calender'])->name('activities.calender');
 
-        Route::post('adherents/desactivate', [AdherentController::class, 'deactivateAll'])->name('adherents.desactivate');
-        Route::resource('adherents', AdherentController::class);
-        Route::resource('abonnements', AbonnementController::class);
-        Route::resource('groupes', GroupeController::class);
-        Route::resource('stocks', StockController::class);
-        Route::resource('statuts', StatutController::class);
-        // Route::resource('activities', ActivityController::class);
-        Route::middleware(['can:manage activites'])->group(function () {
-            Route::get('/activities/calendrier', [ActivityController::class, 'calender'])->name('activities.calender');
-            Route::resource('activities', ActivityController::class);
-        });
-
-
-        Route::put('/statut/associate/{id}', [StatutController::class, 'associatePosteWithAdherent'])->name('status.associate');
-        Route::resource('revenues', RevenueController::class);
-        Route::resource('depenses', DepenseController::class);
         Route::resource('depense-types', DepenseTypeController::class);
         Route::resource('reunion-types', ReunionTypeController::class);
         Route::resource('revenue-types', RevenueTypeController::class);
         Route::resource('stock-types', StockTypeController::class);
         Route::resource('activity-types', ActivityTypeController::class);
-        // Route::resource('diplomes', DiplomeController::class);
-        Route::resource('classes', \App\Http\Controllers\ClasseController::class);
-        Route::delete('/supervisors/diplomes/{id}', [SupervisorController::class, 'deleteDiplome']);
-        Route::post('/supervisors/{supervisor}/diplomes', [SupervisorController::class, 'addDiplome']);
-        Route::post('/supervisors/{supervisor}/classes', [SupervisorController::class, 'attachClasse']);
-        Route::delete('/supervisors/{supervisor}/classes/{classe}', [SupervisorController::class, 'detachClasse']);
-        Route::put('/supervisors/updateImage/{id}', [\App\Http\Controllers\SupervisorController::class, 'updateImage'])->name('supervisors.updateImage');
-        Route::resource('supervisors', \App\Http\Controllers\SupervisorController::class);
-        Route::resource('categories', \App\Http\Controllers\CategoryController::class);
-        Route::resource('association', AssociationController::class);
-        Route::resource('reunions', \App\Http\Controllers\ReunionController::class);
-        Route::get('/e-documents', [App\Http\Controllers\DocumentsController::class, 'index'])->name('e-documents.index');
-        Route::get('/e-document/rapport-litteraire', [App\Http\Controllers\DocumentsController::class, 'generateRapportLitterairePdf'])->name('e-documents.rapport_litteraire');
-        Route::get('/e-document/rapport-financier', [App\Http\Controllers\DocumentsController::class, 'generateRapportFinancierPdf'])->name('e-documents.rapport_financier');
+
+
+        Route::middleware(['can:manage info'])->group(function () {
+            Route::put('/statut/associate/{id}', [StatutController::class, 'associatePosteWithAdherent'])->name('status.associate');
+            Route::resource('association', AssociationController::class);
+            Route::resource('statuts', StatutController::class);
+        });
+
+        Route::middleware(['can:manage classes'])->group(function () {
+            Route::resource('classes', \App\Http\Controllers\ClasseController::class);
+            Route::resource('categories', \App\Http\Controllers\CategoryController::class);
+        });
+
+        Route::middleware(['can:manage reunions'])->group(function () {
+            Route::resource('reunions', \App\Http\Controllers\ReunionController::class);
+        });
+
+        Route::middleware(['can:manage docs'])->group(function () {
+            Route::get('/e-documents', [App\Http\Controllers\DocumentsController::class, 'index'])->name('e-documents.index');
+            Route::get('/e-document/rapport-litteraire', [App\Http\Controllers\DocumentsController::class, 'generateRapportLitterairePdf'])->name('e-documents.rapport_litteraire');
+            Route::get('/e-document/rapport-financier', [App\Http\Controllers\DocumentsController::class, 'generateRapportFinancierPdf'])->name('e-documents.rapport_financier');
+        });
+
+        Route::middleware(['can:manage revenus'])->group(function () {
+            Route::resource('revenues', RevenueController::class);
+        });
+
+        Route::middleware(['can:manage depenses'])->group(function () {
+            Route::resource('depenses', DepenseController::class);
+        });
+        Route::middleware(['can:manage supervisors'])->group(function () {
+            Route::delete('/supervisors/diplomes/{id}', [SupervisorController::class, 'deleteDiplome']);
+            Route::post('/supervisors/{supervisor}/diplomes', [SupervisorController::class, 'addDiplome']);
+            Route::post('/supervisors/{supervisor}/classes', [SupervisorController::class, 'attachClasse']);
+            Route::delete('/supervisors/{supervisor}/classes/{classe}', [SupervisorController::class, 'detachClasse']);
+            Route::put('/supervisors/updateImage/{id}', [\App\Http\Controllers\SupervisorController::class, 'updateImage'])->name('supervisors.updateImage');
+            Route::resource('supervisors', \App\Http\Controllers\SupervisorController::class);
+        });
+        Route::middleware(['can:manage adherents'])->group(function () {
+            Route::post('adherents/desactivate', [AdherentController::class, 'deactivateAll'])->name('adherents.desactivate');
+            Route::resource('adherents', AdherentController::class);
+        });
+        Route::middleware(['can:manage users'])->group(function () {
+            Route::resource('users', UserController::class);
+        });
+
+        Route::middleware(['can:manage abonnements'])->group(function () {
+            Route::resource('abonnements', AbonnementController::class);
+        });
+        Route::middleware(['can:manage groupes'])->group(function () {
+            Route::resource('groupes', GroupeController::class);
+        });
+
+        Route::middleware(['can:manage stocks'])->group(function () {
+            Route::resource('stocks', StockController::class);
+        });
+        Route::middleware(['can:manage activites'])->group(function () {
+            Route::get('/activities/calendrier', [ActivityController::class, 'calender'])->name('activities.calender');
+            Route::resource('activities', ActivityController::class);
+        });
     }
 );

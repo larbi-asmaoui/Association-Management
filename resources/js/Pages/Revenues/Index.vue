@@ -289,7 +289,7 @@ const rows = computed(() =>
         montant: revenue.montant,
         revenue_date: revenue.revenue_date,
         reference_file: revenue.reference_file,
-        type: revenue.revenue_type.name,
+        type: revenue.revenue_type ? revenue.revenue_type.name : "--",
         revenue_type_id: revenue.revenue_type_id,
     })),
 );
