@@ -49,7 +49,13 @@ Route::middleware([
         Route::resource('groupes', GroupeController::class);
         Route::resource('stocks', StockController::class);
         Route::resource('statuts', StatutController::class);
-        Route::resource('activities', ActivityController::class);
+        // Route::resource('activities', ActivityController::class);
+        Route::middleware(['can:manage activites'])->group(function () {
+            Route::get('/activities/calendrier', [ActivityController::class, 'calender'])->name('activities.calender');
+            Route::resource('activities', ActivityController::class);
+        });
+
+
         Route::put('/statut/associate/{id}', [StatutController::class, 'associatePosteWithAdherent'])->name('status.associate');
         Route::resource('revenues', RevenueController::class);
         Route::resource('depenses', DepenseController::class);

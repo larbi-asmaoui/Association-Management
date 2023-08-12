@@ -368,10 +368,19 @@
         "ajouter": "Êtes-vous sûr de vouloir ajouter cet élément ?"
     },
     "permissions": {
-        "add users": "Ajouter des utilisateurs",
-        "edit users": "Modifier des utilisateurs",
-        "delete users": "Supprimer des utilisateurs",
-        "read users": "Lire des utilisateurs"
+        "manage users": "Gérer les utilisateurs",
+        "manage adherents": "Gérer les adhérents",
+        "manage groupes": "Gérer les groupes",
+        "manage reunions": "Gérer les réunions",
+        "manage revenus": "Gérer les revenus",
+        "manage depenses": "Gérer les dépenses",
+        "manage activites": "Gérer les activités",
+        "manage stocks": "Gérer les biens",
+        "manage docs": "Gérer les documents",
+        "manage supervisors": "Gérer les superviseurs",
+        "manage classes": "Gérer les classes",
+        "manage abonnements": "Gérer les abonnements",
+        "manage info": "Gérer les informations de l'association"
     }
 
 }

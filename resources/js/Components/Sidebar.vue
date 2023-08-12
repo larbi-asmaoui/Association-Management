@@ -44,6 +44,11 @@
                         </a-menu-item>
 
                         <a-menu-item
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage info',
+                                )
+                            "
                             key="2"
                             @click="router.visit(route('association.index'))"
                         >
@@ -51,7 +56,17 @@
                             <span>{{ $t("sidebar.about") }}</span>
                         </a-menu-item>
 
-                        <a-sub-menu key="sub2">
+                        <a-sub-menu
+                            key="sub2"
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage adherents',
+                                ) ||
+                                $page.props.auth.user.permissions.includes(
+                                    'manage supervisors',
+                                )
+                            "
+                        >
                             <template #title>
                                 <span>
                                     <UserOutlined
@@ -63,12 +78,22 @@
                                 </span>
                             </template>
                             <a-menu-item
+                                v-if="
+                                    $page.props.auth.user.permissions.includes(
+                                        'manage adherents',
+                                    )
+                                "
                                 key="3"
                                 @click="router.visit(route('adherents.index'))"
                             >
                                 <span>{{ $t("sidebar.adherents") }}</span>
                             </a-menu-item>
                             <a-menu-item
+                                v-if="
+                                    $page.props.auth.user.permissions.includes(
+                                        'manage supervisors',
+                                    )
+                                "
                                 key="4"
                                 @click="
                                     router.visit(route('supervisors.index'))
@@ -77,7 +102,20 @@
                                 <span>{{ $t("sidebar.encadrants") }}</span>
                             </a-menu-item>
                         </a-sub-menu>
-                        <a-sub-menu key="sub3">
+                        <a-sub-menu
+                            key="sub3"
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage abonnements',
+                                ) ||
+                                $page.props.auth.user.permissions.includes(
+                                    'manage revenus',
+                                ) ||
+                                $page.props.auth.user.permissions.includes(
+                                    'manage depenses',
+                                )
+                            "
+                        >
                             <template #title>
                                 <span>
                                     <DollarCircleOutlined
@@ -87,6 +125,11 @@
                                 </span>
                             </template>
                             <a-menu-item
+                                v-if="
+                                    $page.props.auth.user.permissions.includes(
+                                        'manage abonnements',
+                                    )
+                                "
                                 key="5"
                                 @click="
                                     router.visit(route('abonnements.index'))
@@ -94,17 +137,32 @@
                                 >{{ $t("sidebar.abonnements") }}</a-menu-item
                             >
                             <a-menu-item
+                                v-if="
+                                    $page.props.auth.user.permissions.includes(
+                                        'manage revenus',
+                                    )
+                                "
                                 key="6"
                                 @click="router.visit(route('revenues.index'))"
                                 >{{ $t("sidebar.revenus") }}</a-menu-item
                             >
                             <a-menu-item
+                                v-if="
+                                    $page.props.auth.user.permissions.includes(
+                                        'manage depenses',
+                                    )
+                                "
                                 key="7"
                                 @click="router.visit(route('depenses.index'))"
                                 >{{ $t("sidebar.depenses") }}</a-menu-item
                             >
                         </a-sub-menu>
                         <a-menu-item
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage classes',
+                                )
+                            "
                             key="8"
                             @click="router.visit(route('classes.index'))"
                         >
@@ -115,6 +173,11 @@
                         </a-menu-item>
 
                         <a-menu-item
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage groupes',
+                                )
+                            "
                             key="9"
                             @click="router.visit(route('groupes.index'))"
                         >
@@ -123,6 +186,11 @@
                         </a-menu-item>
 
                         <a-menu-item
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage activites',
+                                )
+                            "
                             key="10"
                             @click="router.visit(route('activities.index'))"
                         >
@@ -131,6 +199,11 @@
                         </a-menu-item>
 
                         <a-menu-item
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage reunions',
+                                )
+                            "
                             key="11"
                             @click="router.visit(route('reunions.index'))"
                         >
@@ -139,6 +212,11 @@
                         </a-menu-item>
 
                         <a-menu-item
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage stocks',
+                                )
+                            "
                             key="12"
                             @click="router.visit(route('stocks.index'))"
                         >
@@ -147,6 +225,11 @@
                         </a-menu-item>
 
                         <a-menu-item
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage docs',
+                                )
+                            "
                             key="13"
                             @click="router.visit(route('e-documents.index'))"
                         >

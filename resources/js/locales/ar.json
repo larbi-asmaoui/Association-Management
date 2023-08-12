@@ -196,7 +196,6 @@
         "diplomes": "الشهادات",
         "diplome_add": "إضافة شهادة",
         "diplome": "الشهادة"
-
     },
 
     "reunions": {
@@ -379,9 +378,18 @@
         "ajouter": "هل أنت متأكد من إضافة هذا العنصر؟"
     },
     "permissions": {
-        "add users": "إضافة مستخدمين",
-        "edit users": "تعديل مستخدمين",
-        "delete users": "حذف مستخدمين",
-        "read users": "قراءة مستخدمين"
+        "manage users": "إدارة المستخدمين",
+        "manage adherents": "إدارة المنخرطين",
+        "manage groupes": "إدارة المجموعات",
+        "manage reunions": "إدارة الاجتماعات",
+        "manage revenus": "إدارة المداخيل",
+        "manage depenses": "إدارة المصاريف",
+        "manage activites": "إدارة الأنشطة",
+        "manage stocks": "إدارة الممتلكات",
+        "manage docs": "إدارة المستندات",
+        "manage supervisors": "إدارة المؤطرين",
+        "manage classes": "إدارة المستويات",
+        "manage abonnements": "إدارة الاشتراكات",
+        "manage info": "إدارة معلومات الجمعية"
     }
 }

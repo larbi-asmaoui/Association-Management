@@ -27,6 +27,9 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'manage activites']);
         Permission::create(['name' => 'manage stocks']);
         Permission::create(['name' => 'manage docs']);
+        Permission::create(['name' => 'manage supervisors']);
+        Permission::create(['name' => 'manage abonnements']);
+        Permission::create(['name' => 'manage classes']);
 
 
 
