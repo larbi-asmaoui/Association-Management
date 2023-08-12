@@ -17,42 +17,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Permission::create(['name' => 'add users']);
-        Permission::create(['name' => 'delete users']);
-        Permission::create(['name' => 'read users']);
-        Permission::create(['name' => 'update users']);
-
-        Permission::create(['name' => 'add adherent']);
-        Permission::create(['name' => 'delete adherent']);
-        Permission::create(['name' => 'read adherent']);
-        Permission::create(['name' => 'update adherent']);
-
-        Permission::create(['name' => 'add reunion']);
-        Permission::create(['name' => 'delete reunion']);
-        Permission::create(['name' => 'read reunion']);
-        Permission::create(['name' => 'update reunion']);
-
-        Permission::create(['name' => 'add reunion type']);
-        Permission::create(['name' => 'delete reunion type']);
-        Permission::create(['name' => 'read reunion type']);
-        Permission::create(['name' => 'update reunion type']);
-
-        Permission::create(['name' => 'add statut']);
-        Permission::create(['name' => 'delete statut']);
-        Permission::create(['name' => 'read statut']);
-        Permission::create(['name' => 'update statut']);
-
-        Permission::create(['name' => 'add activity']);
-        Permission::create(['name' => 'delete activity']);
-        Permission::create(['name' => 'read activity']);
-        Permission::create(['name' => 'update activity']);
+        Permission::create(['name' => 'manage users']);
+        Permission::create(['name' => 'manage adherents']);
+        Permission::create(['name' => 'manage reunions']);
+        Permission::create(['name' => 'manage revenus']);
+        Permission::create(['name' => 'manage depenses']);
+        Permission::create(['name' => 'manage groupes']);
+        Permission::create(['name' => 'manage info']);
+        Permission::create(['name' => 'manage activites']);
+        Permission::create(['name' => 'manage stocks']);
+        Permission::create(['name' => 'manage docs']);
 
 
 
         // Role::create(['name' => 'admin']);
         // Role::create(['name' => 'simple user']);
         $user = User::create([
-            'name' => "asmaoui",
+            'name' => "user",
             'email' => "admin@admin.com",
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

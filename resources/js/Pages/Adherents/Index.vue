@@ -672,7 +672,9 @@ const generateSingleIDCard = (id) => {
 
 const generateIDCards = async (adherents = props.adherents) => {
     // filter the same array is_adherent === 1
-    adherents = adherents.filter((adherent) => adherent.is_actif === true);
+    adherents = adherents.filter(
+        (adherent) => adherent.is_actif === true || adherent.is_actif === 1,
+    );
 
     if (adherents.length === 0) {
         Swal.fire({
@@ -743,43 +745,41 @@ const generateIDCards = async (adherents = props.adherents) => {
             doc.addImage(qrImg, "PNG", x + 2, y + 34, 14, 14);
 
             const profilePath = adherent.image;
-
             if (profilePath !== null) {
-                const profileImg = new Image();
-                profileImg.src = "/storage/" + profilePath;
-                const profileImgX = x + 63;
-                const profileImgY = y + 4;
-                const profileImgSize = 15;
+                const profileImgUrl = "/storage/" + profilePath;
+                imageExists(profileImgUrl, function (exists) {
+                    if (exists) {
+                        const profileImg = new Image();
+                        profileImg.src = profileImgUrl;
+                        const profileImgX = x + 63;
+                        const profileImgY = y + 4;
+                        const profileImgSize = 15;
 
-                // Clip the image to a circle
-                doc.setLineWidth(0.1);
-                doc.setDrawColor(0);
-                // doc.circle(
-                //     profileImgX + profileImgSize / 2,
-                //     profileImgY + profileImgSize / 2,
-                //     profileImgSize / 2,
-                //     "S",
-                // );
-                // doc.clip(); // Apply the clipping path
+                        // Add the rounded profile image
+                        doc.addImage(
+                            profileImg,
+                            "PNG",
+                            profileImgX,
+                            profileImgY,
+                            profileImgSize,
+                            profileImgSize,
+                        );
 
-                // Add the rounded profile image
-                doc.addImage(
-                    profileImg,
-                    "PNG",
-                    profileImgX,
-                    profileImgY,
-                    profileImgSize,
-                    profileImgSize,
-                );
-
-                doc.rect(
-                    profileImgX,
-                    profileImgY,
-                    profileImgSize,
-                    profileImgSize,
-                    "S",
-                );
-
+                        doc.rect(
+                            profileImgX,
+                            profileImgY,
+                            profileImgSize,
+                            profileImgSize,
+                            "S",
+                        );
+                    } else {
+                        console.error(
+                            "Image does not exist at path:",
+                            profileImgUrl,
+                        );
+                        // Handle image not found
+                    }
+                });
                 // doc.clip("evenodd");
             }
             // Reset the clipping path
@@ -821,6 +821,17 @@ const generateIDCards = async (adherents = props.adherents) => {
     }
     doc.save("ID_Cards.pdf");
 };
+
+function imageExists(url, callback) {
+    let img = new Image();
+    img.onload = function () {
+        callback(true);
+    };
+    img.onerror = function () {
+        callback(false);
+    };
+    img.src = url;
+}
 
 const exportToPDF = () => {
     const doc = new jsPDF();
