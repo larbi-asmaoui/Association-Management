@@ -356,7 +356,7 @@ const columns = computed(() => [
         dataIndex: "id",
         key: "id",
         sorter: {
-            compare: (a, b) => a.id.localeCompare(b.id),
+            compare: (a, b) => a.id - b.id,
         },
         multipe: 1,
     },
