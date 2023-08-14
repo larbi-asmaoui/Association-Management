@@ -11,57 +11,26 @@
             @submit.prevent="submit"
             :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
         >
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                <div>
-                    <label
-                        for="stock_name"
-                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                        >{{ $t("biens.input_nom") }}
-                    </label>
-                    <input
-                        v-model="form.name"
-                        type="text"
-                        name="stock_name"
-                        id="stock_name"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400"
-                    />
-                    <span
-                        v-if="form.errors.name"
-                        class="text-xs text-red-600 mt-1"
-                        id="hs-validation-name-error-helper"
-                    >
-                        {{ form.errors.name }}
-                    </span>
-                </div>
-
-                <div>
-                    <label
-                        for="type"
-                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                        >{{ $t("biens.input_type") }}
-                    </label>
-                    <select
-                        v-model="form.stock_type_id"
-                        id="stockTypes"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-700 :border-gray-600 :placeholder-gray-400 :focus:ring-blue-500 :focus:border-blue-500 appearance-none select-none relative z-10"
-                    >
-                        <option
-                            v-for="stockType in stockTypes"
-                            :key="stockType.id"
-                            :value="stockType.id"
-                            class="bg-white :bg-gray-800 py-2.5 px-4 cursor-pointer hover:bg-gray-200 :hover:bg-gray-700"
-                        >
-                            {{ stockType.name }}
-                        </option>
-                    </select>
-                    <span
-                        v-if="form.errors.stock_type_id"
-                        class="text-xs text-red-600 mt-1"
-                        id="hs-validation-name-error-helper"
-                    >
-                        {{ form.errors.stock_type_id }}
-                    </span>
-                </div>
+            <div>
+                <label
+                    for="stock_name"
+                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                    >{{ $t("biens.input_nom") }}
+                </label>
+                <input
+                    v-model="form.name"
+                    type="text"
+                    name="stock_name"
+                    id="stock_name"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400"
+                />
+                <span
+                    v-if="form.errors.name"
+                    class="text-xs text-red-600 mt-1"
+                    id="hs-validation-name-error-helper"
+                >
+                    {{ form.errors.name }}
+                </span>
             </div>
 
             <div>

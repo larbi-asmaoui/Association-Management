@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->id();
             // $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('stock_type_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('stock_type_id')->nullable();
             $table->string('name');
             $table->date('purchase_date')->default(now());
             $table->integer('quantity');

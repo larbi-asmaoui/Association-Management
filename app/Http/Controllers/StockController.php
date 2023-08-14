@@ -48,7 +48,7 @@ class StockController extends Controller
             'purchase_date' => 'required',
             'quantity' => 'required',
             'price_per_unit' => 'required',
-            'stock_type_id' => 'required|exists:stock_types,id'
+            'stock_type_id' => 'nullable|exists:stock_types,id'
         ]);
 
         // $stock = $request->all()
@@ -89,7 +89,7 @@ class StockController extends Controller
             'purchase_date' => 'required',
             'quantity' => 'required',
             'price_per_unit' => 'required',
-            'stock_type_id' => 'required|exists:stock_types,id'
+            'stock_type_id' => 'nullable|exists:stock_types,id'
         ]);
         $stock->update($request->all());
 
