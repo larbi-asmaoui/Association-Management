@@ -101,8 +101,21 @@ const page = usePage();
 const pageSize = ref(10);
 
 const showImage = () => {
-    return "/storage/";
+    if (
+        page.props.auth.association !== null &&
+        page.props.auth.association.image !== null
+    ) {
+        return "/storage/" + page.props.auth.association.image;
+    }
+    return "";
 };
+
+const associationName = computed(() => {
+    if (page.props.auth.association !== null) {
+        return page.props.auth.association.name;
+    }
+    return "";
+});
 
 const form = useForm({
     montant: null,
@@ -392,6 +405,7 @@ const printAllInvoices = async (abonnements) => {
         </form></a-modal
     >
 
+    {{ $page.props.auth.associaton }}
     <div class="w-auto h-full py-4 px-2">
         <h2
             class="text-xl font-semibold text-black-600 mb-4"
@@ -516,12 +530,8 @@ const printAllInvoices = async (abonnements) => {
                     {{ selectedAbonnement ? selectedAbonnement.id : "" }}
                 </p>
                 <div class="flex flex-col items-center justify-start">
-                    <img
-                        alt="Logo"
-                        class="h-16 w-auto"
-                        :src="showImage() + props.associaton.image"
-                    />
-                    <p>{{ props.associaton.name ?? "--" }}</p>
+                    <img alt="Logo" class="h-16 w-auto" :src="showImage()" />
+                    <p>{{ associationName }}</p>
                 </div>
                 <p>
                     {{
