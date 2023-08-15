@@ -580,10 +580,10 @@ const associatePosteWithAdherent = () => {
 </script>
 
 <script>
-import MainLayout from "../../Layouts/MainLayout.vue";
+import RootLayout from "../../Layouts/RootLayout.vue";
 
 export default {
-    layout: MainLayout,
+    layout: RootLayout,
     components: {},
 };
 </script>

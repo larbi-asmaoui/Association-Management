@@ -184,7 +184,7 @@
 </template>
 
 <script>
-import MainLayout from "../../Layouts/MainLayout.vue";
+import RootLayout from "../../Layouts/RootLayout.vue";
 
 export default {
     layout: MainLayout,

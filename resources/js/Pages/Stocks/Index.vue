@@ -11,26 +11,43 @@
             @submit.prevent="submit"
             :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
         >
-            <div>
-                <label
-                    for="stock_name"
-                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                    >{{ $t("biens.input_nom") }}
-                </label>
-                <input
-                    v-model="form.name"
-                    type="text"
-                    name="stock_name"
-                    id="stock_name"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400"
-                />
-                <span
-                    v-if="form.errors.name"
-                    class="text-xs text-red-600 mt-1"
-                    id="hs-validation-name-error-helper"
-                >
-                    {{ form.errors.name }}
-                </span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                <div>
+                    <label
+                        for="stock_name"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("biens.input_nom") }}
+                    </label>
+                    <input
+                        v-model="form.name"
+                        type="text"
+                        name="stock_name"
+                        id="stock_name"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400"
+                    />
+                    <span
+                        v-if="form.errors.name"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.name }}
+                    </span>
+                </div>
+                <div>
+                    <label
+                        for="stock_type"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                    >
+                        {{ $t("biens.input_type") }}
+                    </label>
+                    <input
+                        v-model="form.stock_type"
+                        type="text"
+                        name="stock_type"
+                        id="stock_type"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400"
+                    />
+                </div>
             </div>
 
             <div>
@@ -195,10 +212,10 @@
 </template>
 
 <script>
-import MainLayout from "../../Layouts/MainLayout.vue";
+import RootLayout from "../../Layouts/RootLayout.vue";
 
 export default {
-    layout: MainLayout,
+    layout: RootLayout,
 };
 </script>
 
@@ -225,10 +242,6 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
-    stockTypes: {
-        type: Object,
-        default: () => ({}),
-    },
 });
 
 const form = useForm({
@@ -237,7 +250,7 @@ const form = useForm({
     quantity: null,
     price_per_unit: null,
     purchase_date: null,
-    stock_type_id: null,
+    stock_type: null,
 });
 
 const generatePDF = () => {
@@ -339,6 +352,15 @@ const columns = computed(() => [
         multipe: 1,
     },
     {
+        title: t("biens.input_type"),
+        dataIndex: "stock_type",
+        key: "stock_type",
+        sorter: {
+            compare: (a, b) => a.stock_type.localeCompare(b.stock_type),
+        },
+        multipe: 1,
+    },
+    {
         title: t("biens.table_quantity"),
         dataIndex: "quantity",
         key: "quantity",
@@ -385,11 +407,11 @@ const rows = computed(() =>
     Object.values(props.stocks).map((stock) => ({
         id: stock.id,
         name: stock.name,
+        stock_type: stock.stock_type,
         quantity: stock.quantity,
         price_per_unit: stock.price_per_unit,
         total_price: stock.price_per_unit * stock.quantity,
         purchase_date: stock.purchase_date,
-        stock_type_id: stock.stock_type_id,
     })),
 );
 
@@ -407,7 +429,7 @@ const openEditModal = (stock) => {
     form.quantity = stock.quantity;
     form.price_per_unit = stock.price_per_unit;
     form.purchase_date = stock.purchase_date;
-    form.stock_type_id = stock.stock_type_id;
+    form.stock_type = stock.stock_type;
     isModalOpen.value = true;
 };
 

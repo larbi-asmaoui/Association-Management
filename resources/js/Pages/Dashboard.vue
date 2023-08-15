@@ -1,8 +1,8 @@
 <script>
-import MainLayout from "../Layouts/MainLayout.vue";
+import RootLayout from "../Layouts/RootLayout.vue";
 
 export default {
-    layout: MainLayout,
+    layout: RootLayout,
 };
 </script>
 <template>
@@ -223,7 +223,7 @@ watchEffect(() => {
         router.get(
             route("dashboard", {
                 year: selectedYear.value,
-            })
+            }),
         );
     }
 });
@@ -372,7 +372,7 @@ const columnOptions = ref({
 const seriesActivity = ref([
     {
         data: Object.values(evenementsGroupedByType).map((event) =>
-            event == null ? 0 : event.length
+            event == null ? 0 : event.length,
         ),
     },
 ]);

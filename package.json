@@ -20,6 +20,7 @@
         "vue": "^3.2.31"
     },
     "dependencies": {
+        "@ant-design-vue/pro-layout": "^3.2.4",
         "@fullcalendar/core": "^6.1.6",
         "@fullcalendar/daygrid": "^6.1.6",
         "@fullcalendar/interaction": "^6.1.6",

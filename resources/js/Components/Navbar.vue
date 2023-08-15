@@ -255,7 +255,8 @@
                                         >
                                     </div>
                                 </el-dropdown-item>
-                                <el-dropdown-item
+                                <!-- stock types -->
+                                <!-- <el-dropdown-item
                                     @click="
                                         router.visit(route('stock-types.index'))
                                     "
@@ -301,7 +302,7 @@
                                             {{ $t("navbar.type_bien") }}</span
                                         >
                                     </div>
-                                </el-dropdown-item>
+                                </el-dropdown-item> -->
 
                                 <el-dropdown-item
                                     @click="

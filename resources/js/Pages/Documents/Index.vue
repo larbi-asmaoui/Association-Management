@@ -7,100 +7,109 @@
         <a-spin size="large" />
     </div>
 
-    <!-- end loading -->
-    <div class="px-2 pt-2">
-        <h2
-            class="text-xl font-semibold text-black-600 mb-4"
-            :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
-        >
-            {{ $t("documents.titre") }}
-        </h2>
-        <div class="grid grid-cols-1 mt-5 xl:grid-cols-3 xl:gap-4">
-            <div class="col-span-full xl:col-auto mb-4">
-                <ul class="rounded-lg p-4 bg-white divide-y divide-gray-200">
-                    <li class="pb-3 sm:pb-4">
-                        <div
-                            class="flex items-center justify-between space-x-4"
-                        >
-                            <div class="min-w-0">
-                                <p
-                                    class="text-sm font-medium text-gray-900 truncate"
-                                >
-                                    {{ $t("documents.rapport_financier") }}
-                                </p>
-                            </div>
-                            <div
-                                class="inline-flex items-center text-base font-semibold text-gray-900"
-                            >
-                                <button
-                                    @click="generateRapportFinancier"
-                                    class="inline-flex items-center text-sm font-medium text-center text-blue-700 hover:text-blue-800"
-                                >
-                                    <ArrowLeft v-if="$i18n.locale === 'ar'" />
-                                    <ArrowRight v-else />
-                                </button>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="py-3 sm:py-4">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-1 min-w-0">
-                                <p
-                                    class="text-sm font-medium text-gray-900 truncate"
-                                >
-                                    {{ $t("documents.rapport_litteraire") }}
-                                </p>
-                            </div>
-                            <div
-                                class="inline-flex items-center text-base font-semibold text-gray-900"
-                            >
-                                <button
-                                    @click="generateRapportLitteraire"
-                                    class="inline-flex items-center text-sm font-medium text-center text-blue-700 hover:text-blue-800"
-                                >
-                                    <ArrowLeft v-if="$i18n.locale === 'ar'" />
-                                    <ArrowRight v-else />
-                                </button>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="col-span-2 p-2 bg-white rounded-t-lg overflow-y-auto">
-                <h3
-                    class="my-5 mx-2 text-md font-bold text-slate-800 uppercase"
-                >
-                    {{ $t("documents.all_rapports") }}
-                </h3>
-
-                <a-config-provider
-                    :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
-                >
-                    <a-table
-                        :columns="columns"
-                        :data-source="rows"
-                        :pagination="{
-                            pageSize: pageSize.value,
-                            showSizeChanger: true,
-                            pageSizeOptions: ['10', '20', '30', '40'],
-                        }"
+    <a-config-provider :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'">
+        <div class="px-2 pt-2">
+            <h2
+                class="text-xl font-semibold text-black-600 mb-4"
+                :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
+            >
+                {{ $t("documents.titre") }}
+            </h2>
+            <div class="grid grid-cols-1 mt-5 xl:grid-cols-3 xl:gap-4">
+                <div class="col-span-full xl:col-auto mb-4">
+                    <ul
+                        class="rounded-lg p-4 bg-white divide-y divide-gray-200"
                     >
-                        <template v-slot:action="{ record }">
-                            <a
-                                target="_blank"
-                                :href="record.file_path"
-                                class="inline-flex items-center text-sm font-medium text-center text-blue-700 hover:text-blue-800"
+                        <li class="pb-3 sm:pb-4">
+                            <div
+                                class="flex items-center justify-between space-x-4"
                             >
-                                <FileDownload />
-                            </a>
-                        </template>
-                    </a-table>
-                </a-config-provider>
+                                <div class="min-w-0">
+                                    <p
+                                        class="text-sm font-medium text-gray-900 truncate"
+                                    >
+                                        {{ $t("documents.rapport_financier") }}
+                                    </p>
+                                </div>
+                                <div
+                                    class="inline-flex items-center text-base font-semibold text-gray-900"
+                                >
+                                    <button
+                                        @click="generateRapportFinancier"
+                                        class="inline-flex items-center text-sm font-medium text-center text-blue-700 hover:text-blue-800"
+                                    >
+                                        <ArrowLeft
+                                            v-if="$i18n.locale === 'ar'"
+                                        />
+                                        <ArrowRight v-else />
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="py-3 sm:py-4">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex-1 min-w-0">
+                                    <p
+                                        class="text-sm font-medium text-gray-900 truncate"
+                                    >
+                                        {{ $t("documents.rapport_litteraire") }}
+                                    </p>
+                                </div>
+                                <div
+                                    class="inline-flex items-center text-base font-semibold text-gray-900"
+                                >
+                                    <button
+                                        @click="generateRapportLitteraire"
+                                        class="inline-flex items-center text-sm font-medium text-center text-blue-700 hover:text-blue-800"
+                                    >
+                                        <ArrowLeft
+                                            v-if="$i18n.locale === 'ar'"
+                                        />
+                                        <ArrowRight v-else />
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div
+                    class="col-span-2 p-2 bg-white rounded-t-lg overflow-y-auto"
+                >
+                    <h3
+                        class="my-5 mx-2 text-md font-bold text-slate-800 uppercase"
+                    >
+                        {{ $t("documents.all_rapports") }}
+                    </h3>
+
+                    <a-config-provider
+                        :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+                    >
+                        <a-table
+                            :columns="columns"
+                            :data-source="rows"
+                            :pagination="{
+                                pageSize: pageSize.value,
+                                showSizeChanger: true,
+                                pageSizeOptions: ['10', '20', '30', '40'],
+                            }"
+                        >
+                            <template v-slot:action="{ record }">
+                                <a
+                                    target="_blank"
+                                    :href="record.file_path"
+                                    class="inline-flex items-center text-sm font-medium text-center text-blue-700 hover:text-blue-800"
+                                >
+                                    <FileDownload />
+                                </a>
+                            </template>
+                        </a-table>
+                    </a-config-provider>
+                </div>
             </div>
         </div>
-    </div>
+    </a-config-provider>
 </template>
 
 <script setup>
@@ -229,9 +238,9 @@ function generateRapportLitteraire() {
 </script>
 
 <script>
-import MainLayout from "@/Layouts/MainLayout.vue";
+import RootLayout from "@/Layouts/RootLayout.vue";
 export default {
-    layout: MainLayout,
+    layout: RootLayout,
 };
 </script>
 
