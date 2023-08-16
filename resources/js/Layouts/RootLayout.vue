@@ -14,6 +14,14 @@
             @breakpoint="onBreakpoint"
             :collapsed="collapsed"
             :trigger="null"
+            :style="{
+                overflow: 'auto',
+                height: '100vh',
+                position: 'fixed',
+                top: '0',
+                [$i18n.locale === 'ar' ? 'right' : 'left']: '0',
+                zIndex: '2',
+            }"
         >
             <div class="logo flex justify-center items-center m-8">
                 <img src="../../assets/logo.svg" alt="" class="mr-2" />
@@ -26,7 +34,7 @@
             >
                 <a-menu-item key="1" @click="router.visit(route('dashboard'))">
                     <div
-                        class="flex gap-2"
+                        class="flex gap-2 items-center"
                         :class="
                             $i18n.locale === 'ar' ? 'flex-row-reverse' : 'row'
                         "
@@ -45,7 +53,7 @@
                     key="2"
                     @click="router.visit(route('association.index'))"
                     ><div
-                        class="flex gap-2"
+                        class="flex items-center gap-2"
                         :class="
                             $i18n.locale === 'ar' ? 'flex-row-reverse' : 'row'
                         "
@@ -68,7 +76,7 @@
                 >
                     <template #title>
                         <div
-                            class="flex gap-2"
+                            class="flex gap-2 items-center"
                             :class="
                                 $i18n.locale === 'ar'
                                     ? 'flex-row-reverse'
@@ -134,7 +142,7 @@
                 >
                     <template #title>
                         <div
-                            class="flex gap-2"
+                            class="flex gap-2 items-center"
                             :class="
                                 $i18n.locale === 'ar'
                                     ? 'flex-row-reverse'
@@ -217,7 +225,7 @@
                     @click="router.visit(route('classes.index'))"
                 >
                     <div
-                        class="flex gap-2"
+                        class="flex items-center gap-2"
                         :class="
                             $i18n.locale === 'ar' ? 'flex-row-reverse' : 'row'
                         "
@@ -237,7 +245,7 @@
                     @click="router.visit(route('groupes.index'))"
                 >
                     <div
-                        class="flex gap-2"
+                        class="flex items-center gap-2"
                         :class="
                             $i18n.locale === 'ar' ? 'flex-row-reverse' : 'row'
                         "
@@ -257,7 +265,7 @@
                     @click="router.visit(route('activities.index'))"
                 >
                     <div
-                        class="flex gap-2"
+                        class="flex items-center gap-2"
                         :class="
                             $i18n.locale === 'ar' ? 'flex-row-reverse' : 'row'
                         "
@@ -277,7 +285,7 @@
                     @click="router.visit(route('reunions.index'))"
                 >
                     <div
-                        class="flex gap-2"
+                        class="flex items-center gap-2"
                         :class="
                             $i18n.locale === 'ar' ? 'flex-row-reverse' : 'row'
                         "
@@ -297,7 +305,7 @@
                     @click="router.visit(route('stocks.index'))"
                 >
                     <div
-                        class="flex gap-2"
+                        class="flex items-center gap-2"
                         :class="
                             $i18n.locale === 'ar' ? 'flex-row-reverse' : 'row'
                         "
@@ -317,7 +325,7 @@
                     @click="router.visit(route('e-documents.index'))"
                 >
                     <div
-                        class="flex gap-2"
+                        class="flex items-center gap-2"
                         :class="
                             $i18n.locale === 'ar' ? 'flex-row-reverse' : 'row'
                         "
@@ -328,12 +336,12 @@
                 </a-menu-item>
             </a-menu>
         </a-layout-sider>
-        <a-layout>
+        <a-layout :style="mainLayoutStyle">
             <a-layout-header
                 :style="{
                     position: 'sticky',
                     top: '0',
-                    zIndex: '1',
+                    zIndex: '3',
                     background: '#fff',
                     padding: '16px',
                     display: 'flex',
@@ -913,11 +921,25 @@ import {
 const selectedKeys = ref(["1"]);
 const collapsed = ref(false);
 const onCollapse = (collapsed) => {
-    console.log(collapsed);
+    collapsed.value = collapsed;
 };
 
 const onBreakpoint = (broken) => {
     collapsed.value = broken;
+};
+
+const mainLayoutStyle = computed(() => {
+    let marginValue = collapsed.value ? "0px" : "250px";
+
+    if (locale.value === "ar") {
+        return { "margin-right": marginValue };
+    } else {
+        return { "margin-left": marginValue };
+    }
+});
+
+const onMenuItemClick = () => {
+    collapsed.value = true;
 };
 
 const changeLanguage = (lang) => {
