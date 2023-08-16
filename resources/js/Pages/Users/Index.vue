@@ -189,7 +189,7 @@ export default {
     layout: RootLayout,
 };
 </script>
-<style src="@vueform/multiselect/themes/default.css"></style>
+
 <script setup>
 import Multiselect from "@vueform/multiselect";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
@@ -362,3 +362,5 @@ const formattedPermissions = computed(() =>
     })),
 );
 </script>
+
+<!-- <style src="@vueform/multiselect/themes/default.css"></style> -->

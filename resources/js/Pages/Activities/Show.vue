@@ -303,7 +303,7 @@ const generatePDF = async () => {
 };
 </script>
 
-<style scoped>
+<style>
 #editor {
     height: 200px;
 }
@@ -703,4 +703,4 @@ const generatePDF = async () => {
         </a-config-provider>
     </div>
 </template>
-<style src="@vueform/multiselect/themes/default.css"></style>
+<!-- <style src="@vueform/multiselect/themes/default.css"></style> -->

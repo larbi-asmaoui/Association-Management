@@ -279,7 +279,7 @@
     </div>
 </template>
 
-<style src="@vueform/multiselect/themes/default.css"></style>
+<!-- <style src="@vueform/multiselect/themes/default.css"></style> -->
 
 <script>
 import RootLayout from "../../Layouts/RootLayout.vue";

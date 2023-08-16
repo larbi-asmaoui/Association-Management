@@ -191,8 +191,6 @@ export default {
 };
 </script>
 
-<style src="@vueform/multiselect/themes/default.css"></style>
-
 <script setup>
 import Multiselect from "@vueform/multiselect";
 import Swal from "sweetalert2";
@@ -459,4 +457,4 @@ const formattedReunionTypes = computed(() =>
 );
 </script>
 
-<style src="@vueform/multiselect/themes/default.css"></style>
+<!-- <style src="@vueform/multiselect/themes/default.css"></style> -->

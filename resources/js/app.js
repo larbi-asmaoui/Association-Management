@@ -7,15 +7,15 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
 import VueApexCharts from "vue3-apexcharts";
 import i18n from "./i18n";
-import ElementPlus from 'element-plus'
+import ElementPlus from "element-plus";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "../../node_modules/flag-icons/css/flag-icons.min.css";
 
-import '../../node_modules/ant-design-vue/dist/reset.css';
+import "../../node_modules/ant-design-vue/dist/reset.css";
 import "../css/app.css";
-import '../../node_modules/element-plus/dist/index.css';
-import '../../node_modules/dropzone/dist/dropzone.css';
+import "../../node_modules/element-plus/dist/index.css";
+import "../../node_modules/@vueform/multiselect/themes/default.css";
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText ||

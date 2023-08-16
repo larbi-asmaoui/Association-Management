@@ -589,10 +589,6 @@ export default {
 </script>
 
 <style>
-.filepond--credits {
-    display: none;
-}
-
 @media print {
     #my-doc {
         visibility: hidden;

@@ -967,8 +967,8 @@ watchEffect(() => {
 });
 const activeKey = ref("1");
 </script>
-<style src="@vueform/multiselect/themes/default.css"></style>
-<style scoped>
+
+<style>
 /* you can make up upload button and sample style by using stylesheets */
 .ant-upload-select-picture-card i {
     font-size: 32px;
@@ -980,3 +980,4 @@ const activeKey = ref("1");
     color: #666;
 }
 </style>
+<!-- <style src="@vueform/multiselect/themes/default.css"></style> -->

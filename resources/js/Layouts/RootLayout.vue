@@ -331,6 +331,9 @@
         <a-layout>
             <a-layout-header
                 :style="{
+                    position: 'sticky',
+                    top: '0',
+                    zIndex: '1',
                     background: '#fff',
                     padding: '16px',
                     display: 'flex',
@@ -881,7 +884,8 @@
             </a-layout-content>
 
             <a-layout-footer style="text-align: center">
-                Ant Design ©2023 Created by Ant UED
+                Accesspoint ©{{ new Date().getFullYear() }} All rights
+                reserved.
             </a-layout-footer>
         </a-layout>
     </a-layout>
