@@ -349,6 +349,7 @@
                         $i18n.locale === 'ar' ? 'row-reverse' : 'row',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.4)',
                 }"
             >
                 <menu-fold-outlined
@@ -891,7 +892,17 @@
                 </div>
             </a-layout-content>
 
-            <a-layout-footer style="text-align: center">
+            <a-layout-footer
+                :style="{
+                    position: 'sticky',
+                    bottom: '0',
+                    zIndex: '3',
+                    padding: '18px',
+                    background: '#fff',
+                    textAlign: 'center',
+                    boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.4)',
+                }"
+            >
                 Accesspoint ©{{ new Date().getFullYear() }} All rights
                 reserved.
             </a-layout-footer>
