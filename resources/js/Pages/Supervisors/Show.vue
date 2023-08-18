@@ -32,6 +32,50 @@
                     {{ formDiplome.errors.name }}
                 </span>
             </div>
+            <div>
+                <label
+                    for="num_diplome"
+                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                    >{{ $t("supervisors.num_diplome") }}</label
+                >
+                <input
+                    v-model="formDiplome.diplome_ref"
+                    type="text"
+                    name="title"
+                    id="title"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :placeholder-gray-400 :text-white"
+                />
+                <span
+                    v-if="formDiplome.errors.diplome_ref"
+                    class="text-xs text-red-600 mt-1"
+                    id="hs-validation-diplome_ref-error-helper"
+                >
+                    {{ formDiplome.errors.diplome_ref }}
+                </span>
+            </div>
+            <div>
+                <label
+                    for="diplome_date"
+                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                    >{{ $t("supervisors.date_diplome")
+                    }}<span class="text-red-600">*</span>
+                </label>
+
+                <input
+                    v-model="formDiplome.diplome_date"
+                    type="date"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                    placeholder="Select date"
+                    name="diplome_date"
+                />
+                <span
+                    v-if="formDiplome.errors.diplome_date"
+                    class="text-xs text-red-600 mt-1"
+                    id="hs-validation-name-error-helper"
+                >
+                    {{ formDiplome.errors.diplome_date }}
+                </span>
+            </div>
             <label
                 for="title"
                 class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
@@ -130,7 +174,7 @@
         </form>
     </a-modal>
 
-    <div class="w-auto py-4 px-2 h-screen">
+    <div class="w-auto py-4 px-2 h-screen mb-20">
         <h2
             class="text-xl font-semibold text-black-600 mb-4"
             :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
@@ -138,11 +182,10 @@
             {{ $t("supervisors.info_supervisor") }}
         </h2>
         <a-config-provider :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'">
-            <a-card :bordered="false" class="h-screen">
+            <div class="bg-white px-4 py-6 shadow-md rounded-md">
                 <a-tabs
                     v-model:activeKey="activeKey"
                     :tab-position="$i18n.locale === 'ar' ? 'right' : 'left'"
-                    :style="{ height: '200px' }"
                 >
                     <!-- Info perso -->
                     <a-tab-pane
@@ -512,7 +555,7 @@
                 </a-tabs>
 
                 <!-- <avatar-modal ref="modal" @ok="setavatar" /> -->
-            </a-card>
+            </div>
         </a-config-provider>
     </div>
 </template>
@@ -662,6 +705,8 @@ const pageSize = ref(10);
 
 const formDiplome = useForm({
     name: "",
+    diplome_ref: null,
+    diplome_date: null,
     files: [],
 });
 
@@ -730,9 +775,19 @@ const diplomaColumns = computed(() => [
         key: "id",
     },
     {
-        title: "name",
+        title: t("supervisors.diplome"),
         dataIndex: "name",
         key: "name",
+    },
+    {
+        title: t("supervisors.num_diplome"),
+        dataIndex: "diplome_ref",
+        key: "diplome_ref",
+    },
+    {
+        title: t("supervisors.date_diplome"),
+        dataIndex: "diplome_date",
+        key: "diplome_date",
     },
 
     {
@@ -746,6 +801,8 @@ const diplomaRows = computed(() =>
     Object.values(props.supervisor.diplomes).map((diplome) => ({
         id: diplome.id,
         name: diplome.name,
+        diplome_ref: diplome.diplome_ref,
+        diplome_date: diplome.diplome_date,
         files: diplome.file_paths,
     })),
 );
@@ -817,6 +874,8 @@ const submitDiplome = () => {
                 "Content-Type": "multipart/form-data",
             },
             name: formDiplome.name,
+            diplome_ref: formDiplome.diplome_ref,
+            diplome_date: formDiplome.diplome_date,
             file_paths: formDiplome.files,
         },
         {

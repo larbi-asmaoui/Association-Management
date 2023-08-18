@@ -258,7 +258,7 @@ import Multiselect from "@vueform/multiselect";
 import { ref, computed } from "vue";
 import { Modal } from "flowbite-vue";
 import "vue-toast-notification/dist/theme-sugar.css";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, router } from "@inertiajs/vue3";
 import { useI18n } from "vue-i18n";
 import Plus from "vue-material-design-icons/Plus.vue";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
@@ -393,7 +393,8 @@ const closeModal = () => {
 // const dropdownOpen = ref(false);
 
 const show = (id) => {
-    form.get(route("supervisors.show", id));
+    // form.get(route("supervisors.show", id));
+    router.visit(route("supervisors.show", id));
 };
 
 const destroy = (id) => {

@@ -2,7 +2,7 @@
     <form @submit.prevent="submit">
         <div
             :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
-            class="grid grid-cols-1 px-3 pt-2 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900"
+            class="grid grid-cols-1 px-3 pt-2 xl:grid-cols-3 lg:grid-cols-2 xl:gap-4 dark:bg-gray-900"
         >
             <!-- Right Content -->
 

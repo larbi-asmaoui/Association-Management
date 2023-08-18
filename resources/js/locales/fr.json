@@ -191,7 +191,9 @@
         "classes": "Classes",
         "diplomes": "Diplômes",
         "diplome_add": "Ajouter un diplôme",
-        "diplome": "Diplôme"
+        "diplome": "Diplôme",
+        "num_diplome":"Numéro du diplôme",
+        "date_diplome":"Date du diplôme"
     },"reunions": {
         "titre": "Gestion des réunions",
         "modal_ajouter": "Ajouter une réunion",

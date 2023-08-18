@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('supervisor_id')->constrained()->onDelete('cascade');
             $table->string('name');
+            $table->string('diplome_ref')->unique();
+            $table->date('diplome_date');
             $table->json('file_paths')->nullable();
             $table->timestamps();
         });

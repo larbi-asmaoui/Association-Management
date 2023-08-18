@@ -195,7 +195,9 @@
         "classes": "الأفواج",
         "diplomes": "الشهادات",
         "diplome_add": "إضافة شهادة",
-        "diplome": "الشهادة"
+        "diplome": "الشهادة",
+        "num_diplome": "رقم الشهادة",
+        "date_diplome": "تاريخ الحصول على الشهادة"
     },
 
     "reunions": {

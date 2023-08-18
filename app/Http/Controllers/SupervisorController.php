@@ -186,10 +186,11 @@ class SupervisorController extends Controller
             }
             $data['file_paths'] = $paths;
         }
-
         $validatedData = [
             'supervisor_id' => $supervisor->id, // This is the same as 'supervisor_id' => $supervisor->id,
             'name' => $data['name'],
+            'diplome_ref' => $data['diplome_ref'],
+            'diplome_date' => $data['diplome_date'],
             'file_paths' => $data['file_paths'],
         ];
 
