@@ -187,7 +187,7 @@
 import RootLayout from "../../Layouts/RootLayout.vue";
 
 export default {
-    layout: MainLayout,
+    layout: RootLayout,
 };
 </script>
 

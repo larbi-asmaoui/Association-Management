@@ -286,11 +286,6 @@ import RootLayout from "../../Layouts/RootLayout.vue";
 
 export default {
     layout: RootLayout,
-    data() {
-        return {
-            value: null,
-        };
-    },
 };
 </script>
 
