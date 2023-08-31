@@ -1,13 +1,15 @@
 <script>
-import MainLayout from "../../Layouts/MainLayout.vue";
+import RootLayout from "../../Layouts/RootLayout.vue";
 export default {
-    layout: MainLayout,
+    layout: RootLayout,
 };
 </script>
 <script setup>
-import { useForm, Link } from "@inertiajs/vue3";
-import { ref, computed, reactive, watchEffect } from "vue";
-
+import Swal from "sweetalert2";
+import { useForm, Link, usePage } from "@inertiajs/vue3";
+import { ref, computed, reactive, watchEffect, onMounted } from "vue";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import Multiselect from "@vueform/multiselect";
@@ -15,14 +17,166 @@ import regionsFile from "../../regions.json";
 import { useI18n } from "vue-i18n";
 import ArrowRight from "vue-material-design-icons/ArrowRight.vue";
 import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
+import Printer from "vue-material-design-icons/Printer.vue";
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
+import Quill from "quill";
+import autoTable from "jspdf-autotable";
+import "quill/dist/quill.snow.css";
 
 const { t } = useI18n();
+
+const page = usePage();
+
+const pageSize = ref(10);
 
 const $toast = useToast();
 const isEnabled = ref(false);
 const regions = ref(regionsFile);
+
+const editor = ref(null);
+const editorClass = ref(
+    "block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500",
+);
+let quill;
+
+onMounted(() => {
+    quill = new Quill(editor.value, {
+        theme: "snow",
+        direction: {
+            // this will apply the RTL layout
+            default: "rtl",
+            // handler that switches between rtl and ltr text directions
+            buttonHTML: '<i class="icon name"></i>',
+            tooltip: "Change text direction",
+        },
+
+        modules: {
+            toolbar: [
+                ["bold", "italic", "underline", "strike"],
+                ["blockquote"],
+                [{ header: 1 }, { header: 2 }],
+                // [{ list: "ordered" }, { list: "bullet" }],
+                [{ indent: "-1" }, { indent: "+1" }],
+                [{ size: ["small", false, "large", "huge"] }],
+                [{ header: [1, 2, 3, 4, false] }],
+                [{ align: [] }],
+                ["direction"],
+            ],
+        },
+    });
+
+    quill.clipboard.dangerouslyPasteHTML(form.description);
+
+    quill.on("text-change", () => {
+        form.description = quill.root.innerHTML;
+    });
+});
+
+function enableEditor() {
+    // isEnabled.value = true;
+    editorClass.value += " bg-slate-100 cursor-not-allowed";
+}
+
+function disableEditor() {
+    // isEnabled.value = false;
+    editorClass.value = editorClass.value.replace(
+        " bg-slate-100 cursor-not-allowed",
+        "",
+    );
+}
+
+const printAttendanceList = () => {
+    const doc = new jsPDF();
+
+    if (props.activity.adherents.length === 0) {
+        Swal.fire({
+            icon: "error",
+            text: "لا يوجد مشاركين في هذا النشاط",
+            showConfirmButton: false,
+            timer: 1500,
+        });
+        return;
+    }
+
+    // Step 1: Load the Arabic font file
+    const arabicFontFile = "/fonts/Amiri-Regular.ttf";
+    const arabicFontName = "Amiri";
+
+    doc.addFont(arabicFontFile, arabicFontName, "normal");
+
+    doc.setFont(arabicFontName);
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    if (page.props.auth.association !== null) {
+        // Add the image to the PDF
+        doc.addImage(
+            "/storage/" + page.props.auth.association.image,
+            "JPEG",
+            (pageWidth - 20) / 2,
+            2,
+            20,
+            20,
+        );
+    }
+
+    doc.setFontSize(14);
+    const title = t("activities.liste_participants");
+    const titleWidth = doc.getTextWidth(title);
+    const titleX = (pageWidth - titleWidth) / 2;
+    doc.text(title, titleX, 30);
+
+    doc.setFontSize(25);
+    const activityName = props.activity.title;
+    const activityNameWidth = doc.getTextWidth(activityName);
+    const activityNameX = (pageWidth - activityNameWidth) / 2;
+    doc.text(activityName, activityNameX, 42);
+
+    doc.setFontSize(12);
+    const activityType = props.activity.activity_type.name;
+    const activityTypeWidth = doc.getTextWidth(activityType);
+    const activityTypeX = (pageWidth - activityTypeWidth) / 2;
+    doc.text(activityType, activityTypeX, 50);
+
+    doc.setFontSize(12);
+    // const activityDate = props.activity.start_date;
+    // const activityDateWidth = doc.getTextWidth(activityDate);
+    // const activityDateX = (pageWidth - activityDateWidth) / 2;
+    // doc.text(activityDate, activityDateX, 58);
+    doc.line(0, 65, 400, 65);
+
+    const headers = [
+        t("adherents.table_telephone"),
+        t("adherents.table_cin"),
+        t("adherents.table_nom_complete"),
+        "#",
+    ];
+
+    const data = props.activity.adherents.map((adherent, index) => [
+        adherent.tel,
+        adherent.cin,
+        adherent.first_name + " " + adherent.last_name,
+        index + 1,
+    ]);
+
+    doc.autoTable({
+        margin: { top: 70 },
+        theme: "grid",
+        head: [headers],
+        body: data,
+        styles: {
+            font: arabicFontName,
+            halign: "center",
+        },
+        headStyles: {
+            valign: "middle",
+            halign: "center",
+        },
+    });
+    const docTitle = "participants_list_" + props.activity.title + ".pdf";
+
+    doc.save(docTitle);
+};
 
 const props = defineProps({
     activity: {
@@ -36,31 +190,41 @@ const props = defineProps({
     },
 });
 
-const columns = ref([
+const columns = computed(() => [
     {
-        label: "#",
-        field: "id",
+        title: "#",
+        dataIndex: "id",
+        key: "id",
+        sorter: {
+            compare: (a, b) => a.id - b.id,
+        },
+        multipe: 1,
     },
     {
-        label: t("adherents.table_nom_complete"),
-        field: "nom_complet",
+        title: t("adherents.table_nom_complete"),
+        dataIndex: "nom_complet",
+        key: "nom_complet",
+        sorter: {
+            compare: (a, b) => a.nom_complet.localeCompare(b.nom_complet),
+        },
+        multipe: 1,
     },
     {
-        label: t("adherents.table_cin"),
-        field: "cin",
+        title: t("adherents.table_cin"),
+        dataIndex: "cin",
+        key: "cin",
+        sorter: {
+            compare: (a, b) => a.cin.localeCompare(b.cin),
+        },
+        multipe: 1,
     },
-
-    // {
-    //     label: t("activities.table_actions"),
-    //     field: "actions",
-    // },
 ]);
 const rows = computed(() =>
     Object.values(props.activity.adherents).map((adherent) => ({
         id: adherent.id,
         nom_complet: adherent.first_name + " " + adherent.last_name,
         cin: adherent.cin ?? "-",
-    }))
+    })),
 );
 
 const toggleEnabled = () => {
@@ -70,7 +234,7 @@ const toggleEnabled = () => {
 const filteredCities = computed(() => {
     if (form.region) {
         const regionData = regions.value.find(
-            (region) => region.name === form.region
+            (region) => region.name === form.region,
         );
         if (regionData) {
             return regionData.cities_list;
@@ -123,13 +287,31 @@ const formattedAdherents = computed(() =>
     Object.values(props.adherents).map((adherent) => ({
         value: adherent.id,
         label: adherent.last_name + " " + adherent.first_name,
-    }))
+    })),
 );
+
+const generatePDF = async () => {
+    const element = document.getElementById("editor");
+    const canvas = await html2canvas(element);
+    const imgData = canvas.toDataURL("image/png");
+    let pdf = new jsPDF();
+    let imgProps = pdf.getImageProperties(imgData);
+    let pdfWidth = pdf.internal.pageSize.getWidth();
+    let pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save("activite_description.pdf");
+};
 </script>
+
+<style>
+#editor {
+    height: 200px;
+}
+</style>
 <template>
     <div class="inline-flex items-center mb-5">
         <Link
-            :href="route('adherents.index')"
+            :href="route('activities.index')"
             class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white"
         >
             <ArrowRight v-if="$i18n.locale === 'ar'" />
@@ -419,7 +601,9 @@ const formattedAdherents = computed(() =>
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                         >{{ $t("activities.input_description") }}</label
                     >
-                    <textarea
+                    <div ref="editor" id="editor"></div>
+
+                    <!-- <textarea
                         :disabled="!isEnabled"
                         :class="{
                             'bg-slate-100 cursor-not-allowed': !isEnabled,
@@ -428,7 +612,7 @@ const formattedAdherents = computed(() =>
                         rows="8"
                         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         v-model="form.description"
-                    ></textarea>
+                    ></textarea> -->
                     <span
                         v-if="form.errors.description"
                         class="text-xs text-red-600 mt-1"
@@ -473,31 +657,50 @@ const formattedAdherents = computed(() =>
                 >
                     {{ $t("buttons.modifier") }}
                 </button>
+                <span class="ml-4"></span>
+                <button
+                    @click="generatePDF"
+                    class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    type="button"
+                >
+                    طباعة الوصف
+                </button>
             </div>
         </form>
     </div>
 
-    <div class="mt-4 bg-white rounded-md pt-4">
-        <h3 class="mb-2 px-4 text-xl font-bold text-slate-800 uppercase">
+    <div class="w-auto h-full py-2 px-2 mt-5">
+        <h2
+            class="text-xl font-semibold text-black-600 mb-2"
+            :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
+        >
             {{ $t("activities.liste_participants") }}
-        </h3>
-        <div class="mt-4">
-            <vue-good-table
+        </h2>
+
+        <div
+            class="py-3 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
+        >
+            <el-button
+                class="me-auto"
+                type="primary"
+                size="large"
+                @click="printAttendanceList"
+            >
+                <Printer />
+            </el-button>
+        </div>
+        <a-config-provider :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'">
+            <a-table
                 :columns="columns"
-                :rows="rows"
-                :pagination-options="{
-                    enabled: true,
-                    mode: 'records',
-                    perPage: 5,
-                    perPageDropdown: [5, 10, 20],
-                }"
-                :search-options="{
-                    enabled: true,
-                    placeholder: $t('adherents.table_search'),
+                :data-source="rows"
+                :pagination="{
+                    pageSize: pageSize.value,
+                    showSizeChanger: true,
+                    pageSizeOptions: ['10', '20', '30', '40'],
                 }"
             >
-            </vue-good-table>
-        </div>
+            </a-table>
+        </a-config-provider>
     </div>
 </template>
-<style src="@vueform/multiselect/themes/default.css"></style>
+<!-- <style src="@vueform/multiselect/themes/default.css"></style> -->

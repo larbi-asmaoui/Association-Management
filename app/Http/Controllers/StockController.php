@@ -21,9 +21,7 @@ class StockController extends Controller
 
         return Inertia::render('Stocks/Index', [
             'stockTypes' => $stockTypes,
-            'stocks' => Stock::query()
-                ->with('stock_type')
-                ->get()
+            'stocks' => Stock::all()
             // 'filters' => Request::only(['search'])
         ]);
     }
@@ -45,13 +43,14 @@ class StockController extends Controller
 
         $stock = $request->validate([
             'name' => 'required',
+            'stock_type' => 'nullable',
             'purchase_date' => 'required',
             'quantity' => 'required',
             'price_per_unit' => 'required',
-            'stock_type_id' => 'required|exists:stock_types,id'
+            // 'stock_type_id' => 'nullable|exists:stock_types,id'
         ]);
 
-        // $stock = $request->all()
+
 
         Stock::create($stock);
 
@@ -86,10 +85,11 @@ class StockController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'stock_type' => 'nullable',
             'purchase_date' => 'required',
             'quantity' => 'required',
             'price_per_unit' => 'required',
-            'stock_type_id' => 'required|exists:stock_types,id'
+            // 'stock_type_id' => 'nullable|exists:stock_types,id'
         ]);
         $stock->update($request->all());
 

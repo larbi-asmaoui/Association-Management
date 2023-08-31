@@ -53,7 +53,7 @@ class DashboardController extends Controller
 
 
         $autreDepenseQuery = Depense::whereBetween('depense_date', [$startYear . '-01-01', $startYear . '-12-31']);
-        $stockQuery = Stock::whereBetween('created_at', [$startYear . '-01-01', $startYear . '-12-31']);
+        $stockQuery = Stock::whereBetween('purchase_date', [$startYear . '-01-01', $startYear . '-12-31']);
 
 
 
@@ -65,10 +65,21 @@ class DashboardController extends Controller
             ->sum('depense');
         $activityRevenue = Activity::whereBetween('start', [$startYear . '-01-01', $startYear . '-12-31'])->sum('revenue');
 
-        // Group Depense by Month for the selected year
-        $depenseGroupedByMonth = Depense::select(DB::raw('MONTH(depense_date) as month'), DB::raw('SUM(montant) as total'))
-            ->whereBetween('depense_date', [$startYear . '-01-01', $startYear . '-12-31'])
-            ->groupBy(DB::raw('MONTH(depense_date)'))
+        $depenseGroupedByMonth = DB::table(DB::raw("(
+            SELECT depense_date as date, montant
+            FROM depenses
+            WHERE depense_date BETWEEN '{$startYear}-01-01' AND '{$startYear}-12-31'
+            UNION ALL
+            SELECT start as date, depense as montant
+            FROM activities
+            WHERE start BETWEEN '{$startYear}-01-01' AND '{$startYear}-12-31'
+            UNION ALL
+            SELECT purchase_date as date, (price_per_unit * quantity) as montant
+            FROM stocks
+            WHERE purchase_date BETWEEN '{$startYear}-01-01' AND '{$startYear}-12-31'
+            ) AS combined"))
+            ->select(DB::raw('MONTH(date) as month'), DB::raw('SUM(montant) as total'))
+            ->groupBy(DB::raw('MONTH(date)'))
             ->pluck('total', 'month')
             ->toArray();
 
@@ -78,12 +89,28 @@ class DashboardController extends Controller
             }
         }
 
-        // Group Revenue by Month for the selected year
-        $revenueGroupedByMonth = Revenue::select(DB::raw('MONTH(revenue_date) as month'), DB::raw('SUM(montant) as total'))
-            ->whereBetween('revenue_date', [$startYear . '-01-01', $startYear . '-12-31'])
-            ->groupBy(DB::raw('MONTH(revenue_date)'))
+        // dd($depenseGroupedByMonth);
+
+
+        $revenueGroupedByMonth = DB::table(DB::raw("(
+            SELECT revenue_date as date, montant
+            FROM revenues
+            WHERE revenue_date BETWEEN '{$startYear}-01-01' AND '{$startYear}-12-31'
+            UNION ALL
+            SELECT start as date, revenue as montant
+            FROM activities
+            WHERE start BETWEEN '{$startYear}-01-01' AND '{$startYear}-12-31'
+            UNION ALL
+            SELECT created_at as date, montant
+            FROM abonnements
+            WHERE created_at BETWEEN '{$startYear}-01-01' AND '{$startYear}-12-31'
+        ) AS combined"))
+            ->select(DB::raw('MONTH(date) as month'), DB::raw('SUM(montant) as total'))
+            ->groupBy(DB::raw('MONTH(date)'))
             ->pluck('total', 'month')
             ->toArray();
+
+
         for ($i = 1; $i <= 12; $i++) {
             if (!isset($revenueGroupedByMonth[$i])) {
                 $revenueGroupedByMonth[$i] = 0;
@@ -166,12 +193,6 @@ class DashboardController extends Controller
         $startYear = $association && isset($association->date_creation) ? Carbon::parse($association->date_creation)->year : Carbon::now()->year;
         $currentYear = Carbon::now()->year;
         $yearsList = [];
-
-        for ($year = $startYear; $year <= $currentYear; $year++) {
-            array_push($yearsList, $year);
-        }
-
-        return $yearsList;
 
         for ($year = $startYear; $year <= $currentYear; $year++) {
             array_push($yearsList, $year);

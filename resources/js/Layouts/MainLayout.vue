@@ -1,6 +1,6 @@
 <template>
     <!-- Navbar -->
-    <Navbar />
+    <Navbar @toggle-sidebar="toggleSidebar" />
     <!-- End Navbar -->
 
     <!-- Sidebar -->
@@ -20,15 +20,34 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useSidebar } from "../hooks/useSidebar";
+import { ref, onMounted, onUnmounted } from "vue";
 import { router } from "@inertiajs/vue3";
 import Sidebar from "../Components/Sidebar.vue";
 import Navbar from "../Components/Navbar.vue";
 import { useI18n } from "vue-i18n";
 const { t, availableLocales, locale } = useI18n();
 
-const { isOpen } = useSidebar();
+const windowWidth = ref(window.innerWidth);
+const isSidebarOpen = ref(windowWidth.value > 768 ? true : false);
+
+function updateWidth() {
+    windowWidth.value = window.innerWidth;
+}
+
+onMounted(() => {
+    window.addEventListener("resize", updateWidth);
+});
+
+onUnmounted(() => {
+    window.removeEventListener("resize", updateWidth);
+});
+
+function toggleSidebar() {
+    if (windowWidth.value <= 768) {
+        // adjust the breakpoint as needed
+        isSidebarOpen.value = !isSidebarOpen.value;
+    }
+}
 
 const logout = () => {
     router.post(route("logout"));

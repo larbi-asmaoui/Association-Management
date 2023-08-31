@@ -40,7 +40,11 @@
         "depenses": "المصاريف",
         "activites": "الأنشطة",
         "biens": "الأملاك",
-        "documents": "الوثائق"
+        "documents": "الوثائق",
+        "encadrants": "المؤطرين",
+        "classes": "المستويات",
+        "finance": "المالية",
+        "resources_humaines": "الموارد البشرية"
     },
     "navbar": {
         "profile": "الملف الشخصي",
@@ -50,8 +54,9 @@
         "type_depense": "نوع المصاريف",
         "type_revenue": "نوع المداخيل",
         "type_bien": "نوع الممتلكات",
+        "type_category": "نوع الفئة",
         "users": "المستخدمين",
-        "statut": "الحالة",
+        "statut": "تعديل المناصب",
         "francais": "الفرنسية",
         "arabe": "العربية"
     },
@@ -108,7 +113,7 @@
         "table_telephone": "الهاتف",
         "table_profession": "المهنة",
         "table_actions": "العمليات",
-        "table_date_naissance": "تاريخ الولادة",
+        "table_date_naissance": "تاريخ الازدياد",
         "table_date_d'adhesion": "تاريخ الانخراط",
         "table_situation_familiale": "الحالة العائلية",
         "table_statut_adhesion": "حالة العضوية",
@@ -134,7 +139,9 @@
         "input_sexe": "الجنس",
         "adherent_info": "معلومات المنخرط",
         "adherent_activities": "الأنشطة التي شارك فيها",
-        "liste_adherents": "قائمة المنخرطين"
+        "liste_adherents": "قائمة المنخرطين",
+        "info_perso": "المعلومات الشخصية",
+        "date_adhesion": "تاريخ الانخراط"
     },
     "groupes": {
         "titre": "إدارة المجموعات",
@@ -149,6 +156,50 @@
         "input_description": "الوصف",
         "input_adherents": "المنخرطين"
     },
+
+    "classes": {
+        "categories": "الفئات",
+        "classes": "الأفواج",
+        "titre": "إدارة الفئات",
+        "modal_ajouter": "إضافة فوج جديد",
+        "table_nom": "الفوج",
+        "table_description": "الوصف",
+        "table_nombre_adherents": "عدد المنخرطين",
+        "table_search": "بحث",
+
+        "modal_modifier": "تعديل الفوج",
+        "input_classe": "الفوج",
+        "input_description": "الوصف",
+        "input_adherents": "المنخرطين",
+        "supervisor": "المؤطر",
+        "adherent_count": "عدد المنخرطين",
+        "supervisor_count": "عدد المؤطرين",
+        "classes_count": "عدد المستويات",
+        "category": "الفئة",
+        "classe": "المستوى",
+        "modal_ajouter_category": "إضافة فئة",
+        "modal_modifier_category": "تعديل الفئة"
+    },
+
+    "supervisors": {
+        "titre": "إدارة المؤطرين",
+        "first_name": "الاسم الشخصي",
+        "last_name": "الاسم العائلي",
+        "cin": "ر.ب.و",
+        "telephone": "الهاتف",
+        "address": "العنوان",
+        "date_of_birth": "تاريخ الولادة",
+        "modal_ajouter": "إضافة مؤطر",
+        "modal_modifier": "تعديل مؤطر",
+        "info_supervisor": "معلومات المؤطر",
+        "classes": "الأفواج",
+        "diplomes": "الشهادات",
+        "diplome_add": "إضافة شهادة",
+        "diplome": "الشهادة",
+        "num_diplome": "رقم الشهادة",
+        "date_diplome": "تاريخ الحصول على الشهادة"
+    },
+
     "reunions": {
         "titre": "إدارة الاجتماعات",
         "modal_ajouter": "إضافة اجتماع",
@@ -168,15 +219,15 @@
         "doc_title_adherents": "لائحة الحضور للاجتماع"
     },
     "revenues": {
-        "titre": "إدارة الإيرادات",
-        "modal_ajouter": "إضافة إيراد",
+        "titre": "إدارة المداخيل",
+        "modal_ajouter": "إضافة مدخول",
         "table_nom": "الاسم",
         "table_date": "التاريخ",
         "table_type": "النوع",
         "table_montant": "المبلغ",
         "table_search": "بحث",
         "table_actions": "العمليات",
-        "modal_modifier": "تعديل إيراد",
+        "modal_modifier": "تعديل مدخول",
         "input_nom": "الاسم",
         "input_date": "التاريخ",
         "input_type": "النوع",
@@ -219,10 +270,14 @@
         "input_description": "وصف النشاط",
         "table_actions": "العمليات",
         "input_depenses_activite": "مصاريف النشاط",
-        "input_revenus_activite": "إيرادات النشاط",
+        "input_revenus_activite": "مداخيل النشاط",
         "details_activite": "تفاصيل النشاط",
-        "liste_participants": "لائحة المشاركين"
+        "liste_participants": "لائحة المشاركين",
+        "fiche_activite": "ملخص النشاط"
     },
+
+    "------------------------------------": "--------------------------------------------------------------------------------------------------------",
+
     "types": {
         "activites_types": "أنواع الأنشطة",
         "reunions_types": "أنواع الاجتماعات",
@@ -231,7 +286,8 @@
         "depenses_types": "أنواع المصاريف",
         "type_name": "النوع",
         "ajouter_type": "إضافة نوع",
-        "modifier_type": "تعديل النوع"
+        "modifier_type": "تعديل النوع",
+        "categories_types": "أنواع الفئات"
     },
     "biens": {
         "titre": "ممتلكات الجمعية",
@@ -260,7 +316,13 @@
         "input_email": "البريد الإلكتروني",
         "input_mot_de_passe": " كلمة المرور",
         "input_role": "الدور",
-        "choose_role": "اختر دور"
+        "choose_role": "اختر دور",
+        "roles": "الأدوار",
+        "modal_ajouter_role": "إضافة دور",
+        "table_username": "اسم المستخدم",
+        "table_email": "البريد الإلكتروني",
+        "table_role": "الدور",
+        "permissions": "الصلاحيات"
     },
     "abonnements": {
         "titre": "إدارة الاشتراكات",
@@ -284,7 +346,10 @@
         "date_fin": "تاريخ الانتهاء",
         "filter": "تصفية",
         "clear": "إلغاء",
-        "payement_invoice": "فاتورة الدفع"
+        "payement_invoice": "فاتورة الدفع",
+        "invoice": "فاتورة",
+        "invoice_to": "السيد",
+        "print": "طباعة"
     },
     "documents": {
         "titre": "إدارة المستندات",
@@ -296,10 +361,10 @@
         "all_rapports": "التقارير المالية والأدبية"
     },
     "statuts": {
-        "titre": "إدارة الحالات",
-        "modal_ajouter": "إضافة حالة",
-        "modal_modifier": "تعديل حالة",
-        "input_nom": "الاسم"
+        "titre": "إدارة المناصب",
+        "modal_ajouter": "إضافة منصب",
+        "modal_modifier": "تعديل منصب",
+        "input_nom": "المنصب"
     },
     "toasts": {
         "ajout_success": "تمت الإضافة بنجاح",
@@ -313,5 +378,20 @@
         "supprimer": "هل أنت متأكد من حذف هذا العنصر؟",
         "modifier": "هل أنت متأكد من تعديل هذا العنصر؟",
         "ajouter": "هل أنت متأكد من إضافة هذا العنصر؟"
+    },
+    "permissions": {
+        "manage users": "إدارة المستخدمين",
+        "manage adherents": "إدارة المنخرطين",
+        "manage groupes": "إدارة المجموعات",
+        "manage reunions": "إدارة الاجتماعات",
+        "manage revenus": "إدارة المداخيل",
+        "manage depenses": "إدارة المصاريف",
+        "manage activites": "إدارة الأنشطة",
+        "manage stocks": "إدارة الممتلكات",
+        "manage docs": "إدارة المستندات",
+        "manage supervisors": "إدارة المؤطرين",
+        "manage classes": "إدارة المستويات",
+        "manage abonnements": "إدارة الاشتراكات",
+        "manage info": "إدارة معلومات الجمعية"
     }
 }

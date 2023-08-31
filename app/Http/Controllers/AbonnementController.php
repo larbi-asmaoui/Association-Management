@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Adherent;
 use App\Models\Abonnement;
+use App\Models\Association;
 use App\Models\Reunion;
 use Carbon\Carbon;
 use Inertia\Inertia;
@@ -20,11 +21,13 @@ class AbonnementController extends Controller
 
         $abonnements = Abonnement::with('adherent')->get();
         $adherents = Adherent::all();
+        $associaton = Association::first() ?? null;
         $last_reunion = Reunion::orderBy('date', 'desc')->first();
         return Inertia::render('Abonnements/Index', [
             'abonnements' => $abonnements,
             'adherents' => $adherents,
-            "last_reunion" => $last_reunion
+            "last_reunion" => $last_reunion,
+            "associaton" => $associaton,
             // 'filters' => Request::only(['search'])
         ]);
     }

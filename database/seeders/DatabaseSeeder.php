@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,10 +17,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'simple user']);
+        Permission::create(['name' => 'manage users']);
+        Permission::create(['name' => 'manage adherents']);
+        Permission::create(['name' => 'manage reunions']);
+        Permission::create(['name' => 'manage revenus']);
+        Permission::create(['name' => 'manage depenses']);
+        Permission::create(['name' => 'manage groupes']);
+        Permission::create(['name' => 'manage info']);
+        Permission::create(['name' => 'manage activites']);
+        Permission::create(['name' => 'manage stocks']);
+        Permission::create(['name' => 'manage docs']);
+        Permission::create(['name' => 'manage supervisors']);
+        Permission::create(['name' => 'manage abonnements']);
+        Permission::create(['name' => 'manage classes']);
+
+
+
+        // Role::create(['name' => 'admin']);
+        // Role::create(['name' => 'simple user']);
         $user = User::create([
-            'name' => "asmaoui",
+            'name' => "user",
             'email' => "admin@admin.com",
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -30,59 +47,16 @@ class DatabaseSeeder extends Seeder
             'current_team_id' => null,
         ]);
 
-        // $user->assignRole('admin');
+        // get all permissions
+        $permissions = Permission::all();
+
+        // assign all permissions to user
+        $user->syncPermissions($permissions);
 
 
-        \App\Models\DepenseType::create([
 
-            'name' => 'Transport',
-        ]);
-        \App\Models\DepenseType::create([
 
-            'name' => 'éléctricité et eau',
-        ]);
-        \App\Models\DepenseType::create([
 
-            'name' => 'documents',
-        ]);
-
-        \App\Models\DepenseType::create([
-
-            'name' => 'autres',
-        ]);
-
-        \App\Models\StockType::create([
-
-            'name' => 'inactif',
-        ]);
-        \App\Models\StockType::create([
-
-            'name' => 'actif',
-        ]);
-        \App\Models\StockType::create([
-
-            'name' => 'sécurité',
-        ]);
-
-        \App\Models\ActivityType::create([
-
-            'name' => 'séminaire',
-        ]);
-
-        \App\Models\ActivityType::create([
-
-            'name' => 'conférence',
-        ]);
-
-        \App\Models\ActivityType::create([
-
-            'name' => 'formation',
-        ]);
-
-        \App\Models\ActivityType::create([
-
-            'name' => 'autres',
-        ]);
 
         // Reunion Type
         // \App\Models\ReunionType::create([
@@ -107,45 +81,45 @@ class DatabaseSeeder extends Seeder
 
 
 
-        // \App\Models\Statut::create([
+        \App\Models\Statut::create([
 
-        //     'name' => 'الرئيس',
-        // ]);
+            'name' => 'الرئيس',
+        ]);
 
-        // \App\Models\Statut::create([
+        \App\Models\Statut::create([
 
-        //     'name' => 'نائب الرئيس',
-        // ]);
+            'name' => 'نائب الرئيس',
+        ]);
 
-        // \App\Models\Statut::create([
+        \App\Models\Statut::create([
 
-        //     'name' => 'الأمين',
-        // ]);
+            'name' => 'الأمين',
+        ]);
 
-        // \App\Models\Statut::create([
+        \App\Models\Statut::create([
 
-        //     'name' => 'نائب الأمين',
-        // ]);
+            'name' => 'نائب الأمين',
+        ]);
 
-        // \App\Models\Statut::create([
+        \App\Models\Statut::create([
 
-        //     'name' => 'الكاتب',
-        // ]);
+            'name' => 'الكاتب',
+        ]);
 
-        // \App\Models\Statut::create([
+        \App\Models\Statut::create([
 
-        //     'name' => 'نائب الكاتب',
-        // ]);
+            'name' => 'نائب الكاتب',
+        ]);
 
-        // \App\Models\Statut::create([
+        \App\Models\Statut::create([
 
-        //     'name' => 'المستشار 1',
-        // ]);
+            'name' => 'المستشار 1',
+        ]);
 
-        // \App\Models\Statut::create([
+        \App\Models\Statut::create([
 
-        //     'name' => 'المستشار 2',
-        // ]);
+            'name' => 'المستشار 2',
+        ]);
 
 
 

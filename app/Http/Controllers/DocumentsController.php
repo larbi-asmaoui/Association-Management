@@ -10,7 +10,9 @@ use App\Models\Evenement;
 use App\Models\Rapport;
 use App\Models\Reunion;
 use App\Models\Revenue;
+use App\Models\Stock;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 // use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
@@ -26,96 +28,9 @@ class DocumentsController extends Controller
     public function index(Request $request)
     {
 
-        $year = $request->get('year');
-        $yearParts = explode('/', $year);
-
-
-        $rapports = Rapport::orderBy('created_at', 'desc')->get();
-
-
-        $currentYear = date('Y');
-        $prevYear = intval($currentYear) - 1;
-        $newReference =  "$prevYear-$currentYear";
-
-
-        $reunionsCount = Reunion::count();
-        if ($reunionsCount == 0) {
-            $evenements = [];
-            $depenses = [];
-            $revenues = [];
-            $frais_adhesions = 0;
-        } else if ($reunionsCount == 1) {
-            $latestReunion = Reunion::whereHas('reunion_type', function ($query) {
-                $query->where('id', '1');
-            })->orderBy('date', 'desc')->first();
-
-            if ($latestReunion == null) {
-                $evenements = [];
-                $depenses = [];
-                $revenues = [];
-                $frais_adhesions = 0;
-                $data = [
-                    'frais_adhesions' => $frais_adhesions,
-                    'revenues' => $revenues,
-                    'depenses' => $depenses,
-                    'evenements' => $evenements,
-                    'association' => Association::all(),
-                    'season' => $newReference,
-                ];
-                return Inertia::render('Documents/Index', [
-                    'rapports' => $rapports,
-                    'data' => $data,
-                ]);
-            }
-
-            $evenements = Activity::where('start', '<=', $latestReunion->date)
-                ->with('activity_type')
-                ->get();
-            $depenses = Depense::where('depense_date', '<=', $latestReunion->date)
-                ->get();
-            // ->sum('montant');
-            $revenues = Revenue::where('revenue_date', '<=', $latestReunion->date)
-                ->get();
-            $frais_adhesions = Abonnement::where('date_payement', '<=', $latestReunion->date)
-                ->sum('montant');
-        } else {
-            $reunions = Reunion::whereHas('reunion_type', function ($query) {
-                $query->where('id', '1');
-            })->orderBy('date', 'desc')->take(2)->get();
-
-            $newestReunion = $reunions->first();
-            $previousReunion = $reunions->last();
-
-            $evenements = Activity::where('start', '<=', $newestReunion->date)
-                ->where('start', '>=', $previousReunion->date)
-                ->with('activity_type')
-                ->get();
-            $depenses = Depense::where('depense_date', '<=', $newestReunion->date)
-                ->where('depense_date', '>=', $previousReunion->date)
-                ->get();
-
-            $revenues = Revenue::where('revenue_date', '<=', $newestReunion->date)
-                ->where('revenue_date', '>=', $previousReunion->date)
-                ->get();
-            $frais_adhesions = Abonnement::where('date_payement', '<=', $newestReunion->date)
-                ->where('date_payement', '>=', $previousReunion->date)
-                ->sum('montant');
-        }
-
-
-
-
-        $data = [
-            'frais_adhesions' => $frais_adhesions,
-            'revenues' => $revenues,
-            'depenses' => $depenses,
-            'evenements' => $evenements,
-            'association' => Association::all(),
-            'season' => $newReference,
-        ];
+        $rapports = Rapport::orderBy('id', 'desc')->get();
         return Inertia::render('Documents/Index', [
             'rapports' => $rapports,
-            'data' => $data,
         ]);
     }
 
@@ -202,6 +117,7 @@ class DocumentsController extends Controller
         ]);
 
         $mpdf->Output($filePath, \Mpdf\Output\Destination::FILE);
+        return response()->json(['success' => true, 'message' => 'PDF generated successfully.']);
     }
 
     public function generateRapportFinancierPdf()
@@ -221,7 +137,7 @@ class DocumentsController extends Controller
             })->orderBy('date', 'desc')->first();
 
             if ($latestReunion == null) {
-                return abort(403);
+                return abort(404);
             }
             $evenements = Activity::where('start', '<=', $latestReunion->date)
                 ->with('activity_type')
@@ -233,10 +149,18 @@ class DocumentsController extends Controller
                 ->get();
             $frais_adhesions = Abonnement::where('date_payement', '<=', $latestReunion->date)
                 ->sum('montant');
+
+            $stockValue = Stock::where('purchase_date', '<=', $latestReunion->date)
+                ->select(DB::raw('SUM(quantity * price_per_unit) as total_value'))
+                ->first();
         } else {
             $reunions = Reunion::whereHas('reunion_type', function ($query) {
                 $query->where('id', '1');
             })->orderBy('date', 'desc')->take(2)->get();
+
+            if ($reunions->count() < 2) {
+                return abort(404);
+            }
 
             $newestReunion = $reunions->first();
             $previousReunion = $reunions->last();
@@ -255,12 +179,16 @@ class DocumentsController extends Controller
             $frais_adhesions = Abonnement::where('date_payement', '<=', $newestReunion->date)
                 ->where('date_payement', '>=', $previousReunion->date)
                 ->sum('montant');
+
+            $stockValue = Stock::where('purchase_date', '<=', $newestReunion->date)
+                ->where('purchase_date', '>=', $previousReunion->date)
+                ->select(DB::raw('SUM(quantity * price_per_unit) as total_value'))
+                ->first();
         }
 
-
-
+        $totalStock = $stockValue->total_value ?? 0;
         $totalRevenus = $evenements->sum('revenue') + $frais_adhesions + $revenues->sum('montant');
-        $totalDepenses = $evenements->sum('depense') + $depenses->sum('montant');
+        $totalDepenses = $evenements->sum('depense') + $depenses->sum('montant') + $totalStock;
         // dd($totalRevenus);
         $data = [
             'frais_adhesions' => $frais_adhesions,
@@ -271,6 +199,7 @@ class DocumentsController extends Controller
             'totalRevenus' => $totalRevenus,
             'totalDepenses' => $totalDepenses,
             'season' => $newReference,
+            'totalStock' => $totalStock,
         ];
 
         $mpdf = new mPDF();
@@ -298,5 +227,7 @@ class DocumentsController extends Controller
         ]);
 
         $mpdf->Output($filePath, \Mpdf\Output\Destination::FILE);
+
+        return response()->json(['success' => true, 'message' => 'PDF generated successfully.']);
     }
 }

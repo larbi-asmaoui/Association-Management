@@ -74,8 +74,9 @@
         <table>
             <thead>
                 <tr>
+                    <th>المرجع</th>
                     <th>النشاط</th>
-                    <th>الوصف</th>
+                    {{-- <th>الوصف</th> --}}
                     <th>تاريخ البدء</th>
                     <th>تاريخ النهاية</th>
                 </tr>
@@ -83,8 +84,9 @@
             <tbody>
                 @foreach ($evenements as $evenement)
                     <tr>
+                        <td>{{ $evenement['reference'] }}</td>
                         <td>{{ $evenement['title'] }}</td>
-                        <td>{{ $evenement['description'] ?? '-' }}</td>
+                        {{-- <td>{{ $evenement['description'] ?? '-' }}</td> --}}
                         {{-- <td>{{ $evenement['evenement_type']['name'] }}</td> --}}
                         <td>{{ $evenement['start'] }}</td>
                         <td>{{ $evenement['end'] }}</td>

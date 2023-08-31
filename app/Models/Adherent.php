@@ -60,4 +60,9 @@ class Adherent extends Model
     {
         return $this->HasMany(Abonnement::class);
     }
+
+    public function classe()
+    {
+        return $this->belongsTo(Classe::class);
+    }
 }

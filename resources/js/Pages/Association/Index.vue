@@ -2,7 +2,7 @@
     <form @submit.prevent="submit">
         <div
             :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
-            class="grid grid-cols-1 px-3 pt-2 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900"
+            class="grid grid-cols-1 px-3 pt-2 xl:grid-cols-3 lg:grid-cols-2 xl:gap-4 dark:bg-gray-900"
         >
             <!-- Right Content -->
 
@@ -19,10 +19,14 @@
                             {{ $t("a-propos.logo") }}
                         </h3>
                         <div class="flex-shrink-0">
-                            <img
-                                :src="showImage() + props.association.image"
+                            <div
                                 class="h-24 w-24 border-2 border-gray-300 rounded-full object-cover mb-4"
-                            />
+                            >
+                                <img
+                                    :src="showImage() + props.association.image"
+                                    class="rounded-full object-cover h-full w-full"
+                                />
+                            </div>
 
                             <div v-show="isEnabled">
                                 <label
@@ -241,7 +245,7 @@
                         <th scope="col" class="px-6 py-3 text-right">المنصب</th>
 
                         <th scope="col" class="px-6 py-3 text-right">
-                            الاسم &nbspالكامل
+                            الاسم &nbsp;الكامل
                         </th>
                         <th scope="col" class="px-6 py-3 text-right">الهاتف</th>
                         <th scope="col" class="px-6 py-3 text-right">ر.ب.و</th>
@@ -304,83 +308,81 @@
         </div>
     </div>
 
-    <!-- ------------- -->
-    <Modal v-if="isModalOpen" @close="closeModal">
-        <template #header>
-            <div class="flex items-center text-lg">
-                <h3 class="text-xl font-bold text-slate-800 uppercase">
-                    {{ $t("a-propos.assign_poste_member") }}
-                </h3>
-            </div>
-        </template>
-        <template #body
-            ><form
-                :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
-                class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
-                @submit.prevent="associatePosteWithAdherent"
-            >
-                <div>
-                    <div class="flex justify-between items-center w-1/2 mb-8">
-                        <div>{{ $t("a-propos.input_poste") }}</div>
-                        <h3 class="text-lg font-bold text-slate-800 uppercase">
-                            {{ posteForm.name }}
-                        </h3>
-                    </div>
+    <a-modal
+        :title="$t('a-propos.assign_poste_member')"
+        @cancel="closeModal"
+        :footer="null"
+        v-model:open="isModalOpen"
+    >
+        <a-divider />
+        <form
+            :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+            class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
+            @submit.prevent="associatePosteWithAdherent"
+        >
+            <div>
+                <div class="flex justify-between items-center w-1/2 mb-8">
+                    <div>{{ $t("a-propos.input_poste") }}</div>
+                    <h3 class="text-lg font-bold text-slate-800 uppercase">
+                        {{ posteForm.name }}
+                    </h3>
                 </div>
-                <div class="mb-5">
-                    <label
-                        for="title"
-                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                        >{{ $t("a-propos.input_membre") }}</label
-                    >
-                    <!-- <Multiselect
+            </div>
+            <div class="mb-5">
+                <label
+                    for="title"
+                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                    >{{ $t("a-propos.input_membre") }}</label
+                >
+                <!-- <Multiselect
                             v-model="posteForm.adherent_id"
                             :close-on-select="false"
                             :searchable="true"
                             :create-option="true"
                             :options="formattedAdherents"
                         /> -->
-                    <select
-                        v-model="posteForm.adherent_id"
-                        id="type"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                <select
+                    v-model="posteForm.adherent_id"
+                    id="type"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                >
+                    <option disabled value="">اختر عضو</option>
+                    <option
+                        v-for="adherent in adherents"
+                        :key="adherent.id"
+                        :value="adherent.id"
                     >
-                        <option disabled value="">اختر عضو</option>
-                        <option
-                            v-for="adherent in adherents"
-                            :key="adherent.id"
-                            :value="adherent.id"
-                        >
-                            {{ adherent.first_name + " " + adherent.last_name }}
-                        </option>
-                    </select>
-                    <span
-                        v-if="form.errors.name"
-                        class="text-xs text-red-600 mt-1"
-                        id="hs-validation-name-error-helper"
-                    >
-                        {{ form.errors.name }}
-                    </span>
-                </div>
+                        {{ adherent.first_name + " " + adherent.last_name }}
+                    </option>
+                </select>
+                <span
+                    v-if="form.errors.name"
+                    class="text-xs text-red-600 mt-1"
+                    id="hs-validation-name-error-helper"
+                >
+                    {{ form.errors.name }}
+                </span>
+            </div>
 
-                <div class="mt-5 flex justify-end gap-x-2">
-                    <button
-                        @click="isModalOpen = false"
-                        type="button"
-                        class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
-                    >
-                        {{ $t("buttons.annuler") }}
-                    </button>
-                    <button
-                        type="submit"
-                        class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
-                    >
-                        {{ $t("buttons.ajouter") }}
-                    </button>
-                </div>
-            </form>
-        </template>
-    </Modal>
+            <div class="mt-5 flex justify-end gap-x-2">
+                <button
+                    @click="isModalOpen = false"
+                    type="button"
+                    class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
+                >
+                    {{ $t("buttons.annuler") }}
+                </button>
+                <button
+                    type="submit"
+                    class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
+                >
+                    {{ $t("buttons.ajouter") }}
+                </button>
+            </div>
+        </form>
+    </a-modal>
+
+    <!-- ------------- -->
 </template>
 
 <script setup>
@@ -578,54 +580,15 @@ const associatePosteWithAdherent = () => {
 </script>
 
 <script>
-import MainLayout from "../../Layouts/MainLayout.vue";
-// import printJS from "print-js";
-// import jsPDF from "jspdf";
-// import htmlToImage from "html-to-image";
+import RootLayout from "../../Layouts/RootLayout.vue";
 
 export default {
-    layout: MainLayout,
+    layout: RootLayout,
     components: {},
-    methods: {
-        // downloadImage() {
-        //   htmlToImage
-        //     .toPng(this.$refs.capture)
-        //     .then((dataUrl) => {
-        //       var a = document.createElement("a");
-        //       a.href = dataUrl;
-        //       a.download = "image.png";
-        //       a.click();
-        //     })
-        //     .catch((error) => {
-        //       console.error("Error:", error);
-        //     });
-        // },
-        // generatePdf() {
-        //   // Create a new jsPDF instance
-        //   const doc = new jsPDF();
-        //   // Add content to the PDF
-        //   doc.text("Hello, this is a PDF generated with jsPDF!", 10, 10);
-        //   // Save the PDF
-        //   doc.save("generated.pdf");
-        // },
-        // print() {
-        //   printJS({
-        //     printable: "my-doc", // ID, class, or HTML element of the content you want to print
-        //     type: "html",
-        //     onPrintDialogClose: () => {
-        //       console.log("Print dialog closed");
-        //     },
-        //   });
-        // },
-    },
 };
 </script>
 
 <style>
-.filepond--credits {
-    display: none;
-}
-
 @media print {
     #my-doc {
         visibility: hidden;

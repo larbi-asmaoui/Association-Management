@@ -126,7 +126,10 @@ class ActivityController extends Controller
     public function edit(Activity $activity)
     {
 
+        // load activity with its adherents and activity type
         $activity->load('adherents');
+        $activity->load('activity_type');
+
         $adherents = Adherent::all();
         $activityTypes = ActivityType::all();
         return Inertia::render('Activities/Show', [

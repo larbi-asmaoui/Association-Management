@@ -1,16 +1,14 @@
 <script>
-import MainLayout from "../Layouts/MainLayout.vue";
+import RootLayout from "../Layouts/RootLayout.vue";
 
 export default {
-    layout: MainLayout,
+    layout: RootLayout,
 };
 </script>
 <template>
     <div>
         <div class="mt-4">
-            <div
-                class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-6"
-            >
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6">
                 <div class="card transition duration-500 ease-in-out transform">
                     <div
                         class="flex items-center p-5 bg-white rounded shadow-lg"
@@ -105,7 +103,7 @@ export default {
             </div>
 
             <!-- APex chart -->
-            <div class="mt-4 grid gap-4 xl:grid-cols-2">
+            <div class="mt-4 grid gap-4 md:grid-cols-2">
                 <div class="bg-white py-6 rounded-md">
                     <apexchart
                         type="bar"
@@ -123,7 +121,7 @@ export default {
                 </div>
             </div>
 
-            <div class="mt-4 grid gap-4 xl:grid-cols-2">
+            <div class="mt-4 grid gap-4 md:grid-cols-2">
                 <div class="bg-white py-6 rounded-md">
                     <apexchart
                         type="bar"
@@ -223,7 +221,7 @@ watchEffect(() => {
         router.get(
             route("dashboard", {
                 year: selectedYear.value,
-            })
+            }),
         );
     }
 });
@@ -372,7 +370,7 @@ const columnOptions = ref({
 const seriesActivity = ref([
     {
         data: Object.values(evenementsGroupedByType).map((event) =>
-            event == null ? 0 : event.length
+            event == null ? 0 : event.length,
         ),
     },
 ]);

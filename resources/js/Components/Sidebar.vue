@@ -26,11 +26,220 @@
                     </h2>
                 </div> -->
 
-                <div
-                    class="flex-1 px-3 pt-5 space-y-1 bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"
-                >
-                    <ul class="pb-2 space-y-2">
-                        <li>
+                <div class="flex-1 px-3 pt-5 space-y-1">
+                    <a-menu
+                        v-model:selectedKeys="selectedKeys"
+                        mode="inline"
+                        style="
+                            border: 0 !important;
+                            background-color: transparent;
+                        "
+                    >
+                        <a-menu-item
+                            key="1"
+                            @click="router.visit(route('dashboard'))"
+                        >
+                            <DashboardOutlined :style="{ fontSize: '24px' }" />
+                            <span>{{ $t("sidebar.dashboard") }}</span>
+                        </a-menu-item>
+
+                        <a-menu-item
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage info',
+                                )
+                            "
+                            key="2"
+                            @click="router.visit(route('association.index'))"
+                        >
+                            <FlagOutlined :style="{ fontSize: '24px' }" />
+                            <span>{{ $t("sidebar.about") }}</span>
+                        </a-menu-item>
+
+                        <a-sub-menu
+                            key="sub2"
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage adherents',
+                                ) ||
+                                $page.props.auth.user.permissions.includes(
+                                    'manage supervisors',
+                                )
+                            "
+                        >
+                            <template #title>
+                                <span>
+                                    <UserOutlined
+                                        :style="{ fontSize: '24px' }"
+                                    />
+                                    <span>{{
+                                        $t("sidebar.resources_humaines")
+                                    }}</span>
+                                </span>
+                            </template>
+                            <a-menu-item
+                                v-if="
+                                    $page.props.auth.user.permissions.includes(
+                                        'manage adherents',
+                                    )
+                                "
+                                key="3"
+                                @click="router.visit(route('adherents.index'))"
+                            >
+                                <span>{{ $t("sidebar.adherents") }}</span>
+                            </a-menu-item>
+                            <a-menu-item
+                                v-if="
+                                    $page.props.auth.user.permissions.includes(
+                                        'manage supervisors',
+                                    )
+                                "
+                                key="4"
+                                @click="
+                                    router.visit(route('supervisors.index'))
+                                "
+                            >
+                                <span>{{ $t("sidebar.encadrants") }}</span>
+                            </a-menu-item>
+                        </a-sub-menu>
+                        <a-sub-menu
+                            key="sub3"
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage abonnements',
+                                ) ||
+                                $page.props.auth.user.permissions.includes(
+                                    'manage revenus',
+                                ) ||
+                                $page.props.auth.user.permissions.includes(
+                                    'manage depenses',
+                                )
+                            "
+                        >
+                            <template #title>
+                                <span>
+                                    <DollarCircleOutlined
+                                        :style="{ fontSize: '24px' }"
+                                    />
+                                    <span>{{ $t("sidebar.finance") }}</span>
+                                </span>
+                            </template>
+                            <a-menu-item
+                                v-if="
+                                    $page.props.auth.user.permissions.includes(
+                                        'manage abonnements',
+                                    )
+                                "
+                                key="5"
+                                @click="
+                                    router.visit(route('abonnements.index'))
+                                "
+                                >{{ $t("sidebar.abonnements") }}</a-menu-item
+                            >
+                            <a-menu-item
+                                v-if="
+                                    $page.props.auth.user.permissions.includes(
+                                        'manage revenus',
+                                    )
+                                "
+                                key="6"
+                                @click="router.visit(route('revenues.index'))"
+                                >{{ $t("sidebar.revenus") }}</a-menu-item
+                            >
+                            <a-menu-item
+                                v-if="
+                                    $page.props.auth.user.permissions.includes(
+                                        'manage depenses',
+                                    )
+                                "
+                                key="7"
+                                @click="router.visit(route('depenses.index'))"
+                                >{{ $t("sidebar.depenses") }}</a-menu-item
+                            >
+                        </a-sub-menu>
+                        <a-menu-item
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage classes',
+                                )
+                            "
+                            key="8"
+                            @click="router.visit(route('classes.index'))"
+                        >
+                            <InsertRowBelowOutlined
+                                :style="{ fontSize: '24px' }"
+                            />
+                            <span>{{ $t("sidebar.classes") }}</span>
+                        </a-menu-item>
+
+                        <a-menu-item
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage groupes',
+                                )
+                            "
+                            key="9"
+                            @click="router.visit(route('groupes.index'))"
+                        >
+                            <GroupOutlined :style="{ fontSize: '24px' }" />
+                            <span>{{ $t("sidebar.groupes") }}</span>
+                        </a-menu-item>
+
+                        <a-menu-item
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage activites',
+                                )
+                            "
+                            key="10"
+                            @click="router.visit(route('activities.index'))"
+                        >
+                            <CalendarOutlined :style="{ fontSize: '24px' }" />
+                            <span>{{ $t("sidebar.activites") }}</span>
+                        </a-menu-item>
+
+                        <a-menu-item
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage reunions',
+                                )
+                            "
+                            key="11"
+                            @click="router.visit(route('reunions.index'))"
+                        >
+                            <TableOutlined :style="{ fontSize: '24px' }" />
+                            <span>{{ $t("sidebar.reunions") }}</span>
+                        </a-menu-item>
+
+                        <a-menu-item
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage stocks',
+                                )
+                            "
+                            key="12"
+                            @click="router.visit(route('stocks.index'))"
+                        >
+                            <DatabaseOutlined :style="{ fontSize: '24px' }" />
+                            <span>{{ $t("sidebar.biens") }}</span>
+                        </a-menu-item>
+
+                        <a-menu-item
+                            v-if="
+                                $page.props.auth.user.permissions.includes(
+                                    'manage docs',
+                                )
+                            "
+                            key="13"
+                            @click="router.visit(route('e-documents.index'))"
+                        >
+                            <CopyOutlined :style="{ fontSize: '24px' }" />
+                            <span>{{ $t("sidebar.documents") }}</span>
+                        </a-menu-item>
+                    </a-menu>
+
+                    <!-- <ul class="pb-2 space-y-2"> -->
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/'
@@ -60,9 +269,9 @@
                                     >{{ $t("sidebar.dashboard") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <li v-if="roles.includes('admin')">
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/association'
@@ -104,9 +313,9 @@
                                     >{{ $t("sidebar.about") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <li>
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/adherents'
@@ -135,9 +344,74 @@
                                     >{{ $t("sidebar.adherents") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <li v-if="roles.includes('admin')">
+                    <!-- Supervisor -->
+                    <!-- <li>
+                            <Link
+                                :class="[
+                                    $page.url === '/supervisors'
+                                        ? activeClass
+                                        : inactiveClass,
+                                ]"
+                                :href="route('supervisors.index')"
+                            >
+                                <svg
+                                    aria-hidden="true"
+                                    class="flex-shrink-0 w-6 h-6 transition duration-75"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                        clip-rule="evenodd"
+                                    ></path>
+                                </svg>
+                                <span
+                                    :class="
+                                        $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
+                                    "
+                                    >{{ $t("sidebar.encadrants") }}</span
+                                >
+                            </Link>
+                        </li> -->
+
+                    <!-- Classes -->
+
+                    <!-- <li>
+                            <Link
+                                :class="[
+                                    $page.url === '/classes'
+                                        ? activeClass
+                                        : inactiveClass,
+                                ]"
+                                :href="route('classes.index')"
+                            >
+                                <svg
+                                    fill="currentColor"
+                                    aria-hidden="true"
+                                    class="flex-shrink-0 w-6 h-6 transition duration-75"
+                                    viewBox="0 0 20 20"
+                                >
+                                    <path
+                                        clip-rule="evenodd"
+                                        fill-rule="evenodd"
+                                        d="M 22,5L 22,7L 17.0089,7L 13.5326,12L 16,12L 16,14L 14.4632,14L 18.1691,22L 15.965,22L 15.0385,20L 6.38418,20L 5.35074,22L 3.09952,22L 7.23328,14L 7,14C 6.55086,14 6.17087,13.7039 6.04461,13.2962L 2.86808,3.83882L 3.81604,3.52042C 4.33958,3.34458 4.90655,3.62644 5.08239,4.14998L 7.71903,12L 12.0967,12L 15.573,7L 12,7L 12,5L 22,5 Z M 9.4845,14L 7.41762,18L 14.112,18L 12.2591,14L 9.4845,14 Z "
+                                    ></path>
+                                </svg>
+                                <span
+                                    :class="
+                                        $i18n.locale === 'ar' ? 'mr-3' : 'ml-3'
+                                    "
+                                    >{{ $t("sidebar.classes") }}</span
+                                >
+                            </Link>
+                        </li> -->
+                    <!--  -->
+
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/abonnements'
@@ -172,9 +446,9 @@
                                     >{{ $t("sidebar.abonnements") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <li>
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/groupes'
@@ -204,9 +478,9 @@
                                     >{{ $t("sidebar.groupes") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <li>
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/reunions'
@@ -247,9 +521,9 @@
                                     >{{ $t("sidebar.reunions") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <li v-if="roles.includes('admin')">
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/revenues'
@@ -289,7 +563,7 @@
                             </Link>
                         </li>
 
-                        <li v-if="roles.includes('admin')">
+                        <li>
                             <Link
                                 :class="[
                                     $page.url === '/depenses'
@@ -327,9 +601,9 @@
                                     >{{ $t("sidebar.depenses") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <li>
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/activities'
@@ -371,13 +645,13 @@
                                     >{{ $t("sidebar.activites") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <!-- <li>
+                    <!-- <li>
 
                         </li> -->
 
-                        <li>
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/stocks'
@@ -408,9 +682,9 @@
                                     >{{ $t("sidebar.biens") }}</span
                                 >
                             </Link>
-                        </li>
+                        </li> -->
 
-                        <li>
+                    <!-- <li>
                             <Link
                                 :class="[
                                     $page.url === '/e-documents'
@@ -448,31 +722,44 @@
                                     >{{ $t("sidebar.documents") }}</span
                                 >
                             </Link>
-                        </li>
-                    </ul>
+                        </li> -->
+                    <!-- </ul> -->
                 </div>
             </div>
         </div>
+        <!-- {{ permissions }} -->
     </aside>
 </template>
 
 <script setup>
-import { Avatar } from "flowbite-vue";
 import { Link, Head, router, usePage } from "@inertiajs/vue3";
-import { ref, computed } from "vue";
+import { ref, computed, defineProps } from "vue";
 import { useI18n } from "vue-i18n";
+import {
+    CalendarOutlined,
+    TableOutlined,
+    CopyOutlined,
+    DatabaseOutlined,
+    DashboardOutlined,
+    DollarCircleOutlined,
+    InsertRowBelowOutlined,
+    FlagOutlined,
+    UserOutlined,
+    GroupOutlined,
+} from "@ant-design/icons-vue";
+
+const props = defineProps(["isSidebarOpen"]);
 const { t } = useI18n();
 
+const selectedKeys = ref(["1"]);
+const collapsed = ref(false);
+
 const activeClass = ref(
-    "bg-blue-700 text-white flex items-center p-2  rounded-lg group dark:text-gray-200 dark:hover:bg-gray-700"
+    "bg-blue-700 text-white flex items-center p-2  rounded-lg group dark:text-gray-200 dark:hover:bg-gray-700",
 );
 const inactiveClass = ref(
-    " text-gray-500 hover:bg-blue-100 flex items-center p-2 text-base rounded-lg group"
+    " text-gray-500 hover:bg-blue-100 flex items-center p-2 text-base rounded-lg group",
 );
-
-const roles = computed(() => {
-    return [...usePage().props.auth.user.roles];
-});
 </script>
 <script>
 export default {

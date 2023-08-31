@@ -33,7 +33,7 @@ class User extends Authenticatable
             // ReunionType::create(['name' => 'Normal']);
             // ReunionType::create(['name' => 'Urgent']);
             // Assign 'Admin' role to the new user
-            $user->assignRole('Admin');
+            // $user->assignRole('Admin');
         });
     }
 

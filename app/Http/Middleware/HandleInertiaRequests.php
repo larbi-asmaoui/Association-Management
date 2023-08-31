@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\Association;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Inertia\Middleware;
 
@@ -45,8 +46,10 @@ class HandleInertiaRequests extends Middleware
                 $association = null;
                 if ($user) {
                     $userArray = $user->only('id', 'name', 'email');
-                    $userArray['roles'] = $user->roles->pluck('name');
-                    $association = Association::first();
+                    $userArray['permissions'] = $user->permissions->pluck('name');
+                    $association = Cache::remember('association_data', 3600, function () {
+                        return Association::first();
+                    });
                     if ($association) {
                         $association = $association->only('image', 'name', 'date_creation');
                     }

@@ -1,546 +1,523 @@
 <template>
-    <button
-        @click="isModalOpen = true"
-        class="rounded-full fixed bottom-8 z-50 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm p-5 focus:outline-none"
-        type="button"
-        :class="$i18n.locale === 'ar' ? 'left-5' : 'right-5'"
+    <a-modal
+        width="80%"
+        @cancel="closeModal"
+        :footer="null"
+        v-model:open="isModalOpen"
+        :title="$t('adherents.modal_ajouter')"
     >
-        <svg
-            class="w-5 h-5"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
+        <form
+            class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
+            @submit.prevent="submit"
         >
-            <path
-                fill-rule="evenodd"
-                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                clip-rule="evenodd"
-            ></path>
-        </svg>
-    </button>
+            <div>
+                <label
+                    for="avatar"
+                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                    >{{ $t("adherents.input_image") }}
+                </label>
+                <ImageUpload v-model="form.image" :default-src="defaultImg" />
+                <span
+                    v-if="form.errors.image"
+                    class="text-xs text-red-600 mt-1"
+                    id="hs-validation-name-error-helper"
+                >
+                    {{ form.errors.image }}
+                </span>
+            </div>
 
-    <div class="bg-white pt-6 shadow-md rounded-xl relative mt-5">
-        <!-- Start  -->
-        <div
-            class="shadow-lg bg-blue-600 p-4 absolute top-1.5 left-1/2 w-11/12 rounded-full transform -translate-x-1/2 -translate-y-1/2"
-        >
-            <h2
-                class="text-xl font-semibold text-white"
-                :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
-            >
-                {{ $t("adherents.titre") }}
-            </h2>
-        </div>
-        <!-- End -->
-        <div
-            class="mt-7 items-center justify-between block sm:flex md:divide-x md:divide-gray-100"
-        >
-            <div class="px-2 w-full flex items-center mb-4 gap-4 sm:mb-0">
-                <button
-                    @click="exportToPDF"
-                    class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    type="button"
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                <div>
+                    <label
+                        for="last_name"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("adherents.input_nom")
+                        }}<span class="text-red-600">*</span>
+                    </label>
+                    <input
+                        v-model="form.last_name"
+                        type="text"
+                        name="last_name"
+                        id="last_name"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                    />
+                    <span
+                        v-if="form.errors.last_name"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.last_name }}
+                    </span>
+                </div>
+
+                <div>
+                    <label
+                        for="first_name"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("adherents.input_prenom")
+                        }}<span class="text-red-600">*</span>
+                    </label>
+                    <input
+                        v-model="form.first_name"
+                        type="text"
+                        name="first_name"
+                        id="first_name"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                    />
+                    <span
+                        v-if="form.errors.first_name"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.first_name }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 lg:gap-6">
+                <div>
+                    <label
+                        for="cin"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("adherents.input_cin") }}</label
+                    >
+                    <input
+                        v-model="form.cin"
+                        type="text"
+                        name="cin"
+                        id="cin"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                    />
+                    <span
+                        v-if="form.errors.cin"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.cin }}
+                    </span>
+                </div>
+                <div>
+                    <label
+                        for="Sexe"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("adherents.input_sexe")
+                        }}<span class="text-red-600">*</span></label
+                    >
+                    <select
+                        v-model="form.sexe"
+                        id="type"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    >
+                        <option disabled value="">اختر الجنس</option>
+                        <option value="ذكر">ذكر</option>
+                        <option value="أنثى">أنثى</option>
+                    </select>
+                    <span
+                        v-if="form.errors.sexe"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.sexe }}
+                    </span>
+                </div>
+
+                <div>
+                    <label
+                        for="profession"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("adherents.input_profession")
+                        }}<span class="text-red-600">*</span></label
+                    >
+                    <input
+                        v-model="form.profession"
+                        type="text"
+                        name="profession"
+                        id="profession"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                    />
+                    <span
+                        v-if="form.errors.profession"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.profession }}
+                    </span>
+                </div>
+                <div>
+                    <label
+                        for="situation"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("adherents.input_situation_familiale")
+                        }}<span class="text-red-600">*</span></label
+                    >
+                    <select
+                        v-model="form.situation_familiale"
+                        id="type"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    >
+                        <option disabled value="">اختر الحالة العائلية</option>
+                        <option value="متزوج">متزوج</option>
+                        <option value="عازب">عازب</option>
+                        <option value="مطلق">مطلق</option>
+                        <option value="أرمل">أرمل</option>
+                    </select>
+                    <span
+                        v-if="form.errors.situation_familiale"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.situation_familiale }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                <div>
+                    <label
+                        for="tel"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("adherents.input_telephone") }}
+                    </label>
+                    <input
+                        v-model="form.tel"
+                        type="text"
+                        name="tel"
+                        id="tel"
+                        autocomplete="text"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                    />
+                    <span
+                        v-if="form.errors.tel"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.tel }}
+                    </span>
+                </div>
+
+                <div>
+                    <label
+                        for="email"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("adherents.input_email") }}</label
+                    >
+                    <input
+                        v-model="form.email"
+                        type="email"
+                        name="email"
+                        id="email"
+                        autocomplete="text"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                    />
+                    <span
+                        v-if="form.errors.email"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.email }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                <div>
+                    <label
+                        for="date_of_birth"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("adherents.input_date_naissance")
+                        }}<span class="text-red-600">*</span>
+                    </label>
+
+                    <input
+                        v-model="form.date_of_birth"
+                        type="date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                        placeholder="Select date"
+                        name="date_of_birth"
+                    />
+                    <span
+                        v-if="form.errors.date_of_birth"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.date_of_birth }}
+                    </span>
+                </div>
+                <div>
+                    <label
+                        for="date_of_membership"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("adherents.input_date_adhesion")
+                        }}<span class="text-red-600">*</span>
+                    </label>
+
+                    <input
+                        v-model="form.date_of_membership"
+                        type="date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                        placeholder="Select date"
+                        name="date_of_membership"
+                    />
+                    <span
+                        v-if="form.errors.date_of_membership"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.date_of_membership }}
+                    </span>
+                </div>
+            </div>
+            <div>
+                <label
+                    for="hs-about-hire-us-1"
+                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                    >{{ $t("adherents.input_addresse")
+                    }}<span class="text-red-600">*</span></label
                 >
-                    {{ $t("adherents.export_pdf") }}
+                <textarea
+                    v-model="form.address"
+                    id="address"
+                    name="address"
+                    rows="1"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                ></textarea>
+                <span
+                    v-if="form.errors.address"
+                    class="text-xs text-red-600 mt-1"
+                    id="hs-validation-name-error-helper"
+                >
+                    {{ form.errors.address }}
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                <div>
+                    <label
+                        for="region"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("adherents.input_region")
+                        }}<span class="text-red-600">*</span></label
+                    >
+                    <select
+                        v-model="form.region"
+                        id="type"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    >
+                        <option disabled value="">اختر جهة</option>
+                        <option
+                            v-for="region in regions"
+                            @change="filterCities"
+                            :key="region.id"
+                            :value="region.name"
+                        >
+                            {{ region.name }}
+                        </option>
+                    </select>
+                    <span
+                        v-if="form.errors.region"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.region }}
+                    </span>
+                </div>
+
+                <div>
+                    <label
+                        for="city"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("adherents.input_ville")
+                        }}<span class="text-red-600">*</span></label
+                    >
+                    <select
+                        v-model="form.city"
+                        id="type"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    >
+                        <option disabled value="">اختر مدينة</option>
+                        <option
+                            v-for="city in filteredCities"
+                            :key="city.id"
+                            :value="city"
+                        >
+                            {{ city }}
+                        </option>
+                    </select>
+                    <span
+                        v-if="form.errors.city"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.city }}
+                    </span>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                <div>
+                    <label
+                        for="frais_adhesion"
+                        class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
+                        >{{ $t("adherents.input_montant_adhesion")
+                        }}<span class="text-red-600">*</span></label
+                    >
+                    <input
+                        v-model="form.montant"
+                        type="number"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
+                        name="frais_adhesion"
+                        min="1"
+                        step="0.01"
+                    />
+                    <span
+                        v-if="form.errors.montant"
+                        class="text-xs text-red-600 mt-1"
+                        id="hs-validation-name-error-helper"
+                    >
+                        {{ form.errors.montant }}
+                    </span>
+                </div>
+                <div></div>
+            </div>
+            <div class="flex justify-end gap-x-2 mt-4">
+                <button
+                    @click="closeModal"
+                    type="button"
+                    class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
+                >
+                    {{ $t("buttons.annuler") }}
                 </button>
                 <button
-                    @click="generateIDCards(adherents)"
-                    class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    type="button"
+                    type="submit"
+                    class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
                 >
-                    {{ $t("adherents.print_cards_adhesion") }}
+                    {{ $t("buttons.enregistrer") }}
                 </button>
-                
+            </div>
+        </form>
+    </a-modal>
+
+    <div class="w-auto h-full py-4 px-2">
+        <h2
+            class="text-xl font-semibold text-black-600 mb-4"
+            :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
+        >
+            {{ $t("adherents.titre") }}
+        </h2>
+        <div
+            class="gap-2 py-1 mb-2 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
+        >
+            <div class="flex gap-2 me-auto">
+                <a-tooltip>
+                    <template #title>
+                        {{ $t("adherents.modal_ajouter") }}
+                    </template>
+                    <el-button
+                        type="primary"
+                        size="large"
+                        @click="isModalOpen = true"
+                    >
+                        <Plus />
+                    </el-button>
+                </a-tooltip>
+
+                <a-tooltip>
+                    <template #title>
+                        {{ $t("adherents.export_pdf") }}</template
+                    >
+                    <el-button type="primary" size="large" @click="exportToPDF">
+                        <FilePdfOutlined :style="{ fontSize: '24px' }" />
+                    </el-button>
+                </a-tooltip>
+
+                <a-tooltip>
+                    <template #title>
+                        {{ $t("adherents.print_cards_adhesion") }}</template
+                    >
+                    <el-button
+                        type="primary"
+                        size="large"
+                        @click="generateIDCards(adherents)"
+                    >
+                        <PrinterOutlined :style="{ fontSize: '24px' }" />
+                    </el-button>
+                </a-tooltip>
+            </div>
+
+            <div>
+                <a-config-provider
+                    :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+                >
+                    <a-input
+                        placeholder="search"
+                        @search="onSearch"
+                        v-model:value="searchInput"
+                    >
+                        <template #suffix>
+                            <a-tooltip title="Extra information">
+                                <SearchOutlined
+                                    style="color: rgba(0, 0, 0, 0.45)"
+                                />
+                            </a-tooltip>
+                        </template>
+                    </a-input>
+                </a-config-provider>
             </div>
         </div>
-        <Modal size="5xl" v-if="isModalOpen" @close="closeModal">
-            <template #header>
-                <div
-                    class="flex items-center text-lg"
-                    :class="
-                        $i18n.locale === 'ar' ? 'justify-end' : 'justify-start'
-                    "
-                >
-                    {{ $t("adherents.modal_ajouter") }}
-                </div>
-            </template>
-            <template #body>
-                <form
-                    class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
-                    @submit.prevent="submit"
-                >
-                    <div>
-                        <label
-                            for="avatar"
-                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                            >{{ $t("adherents.input_image") }}
-                        </label>
-                        <ImageUpload
-                            v-model="form.image"
-                            :default-src="defaultImg"
-                        />
-                        <span
-                            v-if="form.errors.image"
-                            class="text-xs text-red-600 mt-1"
-                            id="hs-validation-name-error-helper"
-                        >
-                            {{ form.errors.image }}
-                        </span>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                        <div>
-                            <label
-                                for="last_name"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("adherents.input_nom")
-                                }}<span class="text-red-600">*</span>
-                            </label>
-                            <input
-                                v-model="form.last_name"
-                                type="text"
-                                name="last_name"
-                                id="last_name"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                            />
-                            <span
-                                v-if="form.errors.last_name"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.last_name }}
-                            </span>
-                        </div>
-
-                        <div>
-                            <label
-                                for="first_name"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("adherents.input_prenom")
-                                }}<span class="text-red-600">*</span>
-                            </label>
-                            <input
-                                v-model="form.first_name"
-                                type="text"
-                                name="first_name"
-                                id="first_name"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                            />
-                            <span
-                                v-if="form.errors.first_name"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.first_name }}
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 lg:gap-6">
-                        <div>
-                            <label
-                                for="cin"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("adherents.input_cin") }}</label
-                            >
-                            <input
-                                v-model="form.cin"
-                                type="text"
-                                name="cin"
-                                id="cin"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                            />
-                            <span
-                                v-if="form.errors.cin"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.cin }}
-                            </span>
-                        </div>
-                        <div>
-                            <label
-                                for="Sexe"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("adherents.input_sexe")
-                                }}<span class="text-red-600">*</span></label
-                            >
-                            <select
-                                v-model="form.sexe"
-                                id="type"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            >
-                                <option disabled value="">اختر الجنس</option>
-                                <option value="ذكر">ذكر</option>
-                                <option value="أنثى">أنثى</option>
-                            </select>
-                            <span
-                                v-if="form.errors.sexe"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.sexe }}
-                            </span>
-                        </div>
-
-                        <div>
-                            <label
-                                for="profession"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("adherents.input_profession")
-                                }}<span class="text-red-600">*</span></label
-                            >
-                            <input
-                                v-model="form.profession"
-                                type="text"
-                                name="profession"
-                                id="profession"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                            />
-                            <span
-                                v-if="form.errors.profession"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.profession }}
-                            </span>
-                        </div>
-                        <div>
-                            <label
-                                for="situation"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("adherents.input_situation_familiale")
-                                }}<span class="text-red-600">*</span></label
-                            >
-                            <select
-                                v-model="form.situation_familiale"
-                                id="type"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            >
-                                <option disabled value="">
-                                    اختر الحالة العائلية
-                                </option>
-                                <option value="متزوج">متزوج</option>
-                                <option value="عازب">عازب</option>
-                                <option value="مطلق">مطلق</option>
-                                <option value="أرمل">أرمل</option>
-                            </select>
-                            <span
-                                v-if="form.errors.situation_familiale"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.situation_familiale }}
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                        <div>
-                            <label
-                                for="tel"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("adherents.input_telephone") }} </label
-                            >
-                            <input
-                                v-model="form.tel"
-                                type="text"
-                                name="tel"
-                                id="tel"
-                                autocomplete="text"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                            />
-                            <span
-                                v-if="form.errors.tel"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.tel }}
-                            </span>
-                        </div>
-
-                        <div>
-                            <label
-                                for="email"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("adherents.input_email") }}</label
-                            >
-                            <input
-                                v-model="form.email"
-                                type="email"
-                                name="email"
-                                id="email"
-                                autocomplete="text"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                            />
-                            <span
-                                v-if="form.errors.email"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.email }}
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                        <div>
-                            <label
-                                for="date_of_birth"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("adherents.input_date_naissance")
-                                }}<span class="text-red-600">*</span>
-                            </label>
-
-                            <input
-                                v-model="form.date_of_birth"
-                                type="date"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                                placeholder="Select date"
-                                name="date_of_birth"
-                            />
-                            <span
-                                v-if="form.errors.date_of_birth"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.date_of_birth }}
-                            </span>
-                        </div>
-                        <div>
-                            <label
-                                for="date_of_membership"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("adherents.input_date_adhesion")
-                                }}<span class="text-red-600">*</span>
-                            </label>
-
-                            <input
-                                v-model="form.date_of_membership"
-                                type="date"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                                placeholder="Select date"
-                                name="date_of_membership"
-                            />
-                            <span
-                                v-if="form.errors.date_of_membership"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.date_of_membership }}
-                            </span>
-                        </div>
-                    </div>
-                    <div>
-                        <label
-                            for="hs-about-hire-us-1"
-                            class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                            >{{ $t("adherents.input_addresse")
-                            }}<span class="text-red-600">*</span></label
-                        >
-                        <textarea
-                            v-model="form.address"
-                            id="address"
-                            name="address"
-                            rows="1"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                        ></textarea>
-                        <span
-                            v-if="form.errors.address"
-                            class="text-xs text-red-600 mt-1"
-                            id="hs-validation-name-error-helper"
-                        >
-                            {{ form.errors.address }}
-                        </span>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                        <div>
-                            <label
-                                for="region"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("adherents.input_region")
-                                }}<span class="text-red-600">*</span></label
-                            >
-                            <select
-                                v-model="form.region"
-                                id="type"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            >
-                                <option disabled value="">اختر جهة</option>
-                                <option
-                                    v-for="region in regions"
-                                    @change="filterCities"
-                                    :key="region.id"
-                                    :value="region.name"
-                                >
-                                    {{ region.name }}
-                                </option>
-                            </select>
-                            <span
-                                v-if="form.errors.region"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.region }}
-                            </span>
-                        </div>
-
-                        <div>
-                            <label
-                                for="city"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("adherents.input_ville")
-                                }}<span class="text-red-600">*</span></label
-                            >
-                            <select
-                                v-model="form.city"
-                                id="type"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            >
-                                <option disabled value="">اختر مدينة</option>
-                                <option
-                                    v-for="city in filteredCities"
-                                    :key="city.id"
-                                    :value="city"
-                                >
-                                    {{ city }}
-                                </option>
-                            </select>
-                            <span
-                                v-if="form.errors.city"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.city }}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                        <div>
-                            <label
-                                for="frais_adhesion"
-                                class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                                >{{ $t("adherents.input_montant_adhesion")
-                                }}<span class="text-red-600">*</span></label
-                            >
-                            <input
-                                v-model="form.montant"
-                                type="number"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 :bg-gray-600 :border-gray-500 :text-white"
-                                name="frais_adhesion"
-                                min="1"
-                                step="0.01"
-                            />
-                            <span
-                                v-if="form.errors.montant"
-                                class="text-xs text-red-600 mt-1"
-                                id="hs-validation-name-error-helper"
-                            >
-                                {{ form.errors.montant }}
-                            </span>
-                        </div>
-                        <div></div>
-                    </div>
-                    <div class="flex justify-end gap-x-2 mt-4">
-                        <button
-                            @click="closeModal"
-                            type="button"
-                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
-                        >
-                            {{ $t("buttons.annuler") }}
-                        </button>
-                        <button
-                            type="submit"
-                            class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
-                        >
-                            {{ $t("buttons.enregistrer") }}
-                        </button>
-                    </div>
-                </form>
-            </template>
-        </Modal>
-
-        <div class="mt-4">
-            <vue-good-table
+        <a-config-provider :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'">
+            <a-table
                 :columns="columns"
-                :rows="rows"
-                :pagination-options="{
-                    enabled: true,
-                    perPage: 5,
-                    perPageDropdown: [5, 10, 20],
-                }"
-                :search-options="{
-                    enabled: true,
-                    placeholder: $t('adherents.table_search'),
+                :data-source="rows"
+                :pagination="{
+                    pageSize: pageSize.value,
+                    showSizeChanger: true,
+                    pageSizeOptions: ['10', '20', '30', '40'],
                 }"
             >
-                <template v-slot:table-row="{ row, column }">
-                    <div v-if="column.field === 'actions'" class="flex">
-                        <div
-                            @click="show(row)"
-                            class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
-                        >
-                            <Eye :size="20" />
-                        </div>
-
-                        <!-- Delete -->
-
-                        <div
-                            @click="destroy(row)"
-                            class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
-                        >
-                            <TrashCan :size="20" />
-                        </div>
-                        <!--  -->
-                        <div
-                            @click="generateSingleIDCard(row.id)"
-                            class="cursor-pointer w-4 mr-2 transform hover:text-blue-500 hover:scale-110"
-                        >
-                            <Printer :size="20" />
-                        </div>
-                    </div>
-                    <div v-if="column.field === 'image'" class="flex">
-                        <div class="w-14 h-14">
-                            <img
-                                class="rounded-full object-cover border border-gray-400"
-                                :src="showImage(row)"
-                                alt="Circular Image"
-                            />
-                        </div>
-                    </div>
-                    <div
-                        v-if="column.field === 'is_actif'"
-                        class="flex items-center justify-center"
-                    >
-                        <div
-                            v-if="row.is_actif === 1"
-                            class="h-2.5 w-2.5 rounded-full bg-green-500"
-                        ></div>
-                        <div
-                            v-else
-                            class="h-2.5 w-2.5 rounded-full bg-red-500"
-                        ></div>
-                    </div>
-                    <!-- <div v-else>
-                        {{ formattedRow[column.field] }}
-                    </div> -->
+                <template v-slot:image="{ record }">
+                    <a-avatar :size="50" :src="showImage(record)"> </a-avatar>
                 </template>
-            </vue-good-table>
-        </div>
+                <template v-slot:actif="{ record }">
+                    <a-badge
+                        status="success"
+                        v-if="record.is_actif === 1 || record.is_actif === true"
+                    />
+                    <a-badge status="error" v-else />
+                </template>
+                <template v-slot:action="{ record }">
+                    <div class="flex gap-1">
+                        <Eye
+                            class="text-sky-500 cursor-pointer"
+                            @click="show(record)"
+                        />
+                        <TrashCan
+                            class="text-red-600 cursor-pointer"
+                            @click="destroy(record)"
+                        />
+                        <Printer
+                            class="text-amber-400 cursor-pointer"
+                            @click="generateSingleIDCard(record.id)"
+                        />
+                    </div>
+                </template> </a-table
+        ></a-config-provider>
     </div>
 </template>
 
 <script>
-import MainLayout from "../../Layouts/MainLayout.vue";
+import RootLayout from "../../Layouts/RootLayout.vue";
 
 export default {
-    layout: MainLayout,
+    layout: RootLayout,
     methods: {},
 };
 </script>
 
 <script setup>
+import {
+    FilePdfOutlined,
+    PrinterOutlined,
+    SearchOutlined,
+} from "@ant-design/icons-vue";
 import Swal from "sweetalert2";
 import { VueGoodTable } from "vue-good-table-next";
 import "vue-good-table-next/dist/vue-good-table-next.css";
@@ -559,6 +536,7 @@ import QRCode from "qrcode";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Eye from "vue-material-design-icons/Eye.vue";
 import Printer from "vue-material-design-icons/Printer.vue";
+import Plus from "vue-material-design-icons/Plus.vue";
 import Toast from "../../utils.js";
 
 const { t, availableLocales, locale } = useI18n();
@@ -577,54 +555,87 @@ const props = defineProps({
     },
 });
 const regions = ref(regionsFile);
-const columns = ref([
+const pageSize = ref(10);
+const searchInput = ref("");
+
+const onSearch = computed(() => {
+    filteredAdherents.value = Object.values(props.adherents).filter(
+        (adherent) =>
+            Object.values(adherent).some((value) =>
+                String(value)
+                    .toLowerCase()
+                    .includes(searchInput.value.toLowerCase()),
+            ),
+    );
+});
+
+const columns = computed(() => [
     {
-        label: "#",
-        field: "image",
+        title: "#",
+        dataIndex: "image",
+        key: "image",
+        slots: { customRender: "image" },
     },
     {
-        label: t("adherents.table_adhesion_number"),
-        field: "num_adhesion",
-    },
-    {
-        label: t("adherents.table_nom_complete"),
-        field: "nom_complet",
-    },
-    {
-        label: t("adherents.table_cin"),
-        field: "cin",
-    },
-    {
-        label: t("adherents.table_profession"),
-        field: "profession",
-    },
-    {
-        label: t("adherents.table_situation_familiale"),
-        field: "situation_familiale",
-    },
-    {
-        label: t("adherents.table_telephone"),
-        field: "tel",
-    },
-    {
-        label: t("adherents.table_statut_adhesion"),
-        field: "is_actif",
-        filterOptions: {
-            placeholder: "الكل",
-            enabled: true,
-            filterDropdownItems: [
-                { value: 0, text: "غير نشط" },
-                { value: 1, text: "نشط" },
-            ], //only trigger on enter not on keyup
+        title: t("adherents.table_adhesion_number"),
+        dataIndex: "num_adhesion",
+        key: "num_adhesion",
+        sorter: {
+            compare: (a, b) => a.num_adhesion.localeCompare(b.num_adhesion),
         },
     },
     {
-        label: t("adherents.table_actions"),
-        field: "actions",
+        title: t("adherents.table_nom_complete"),
+        dataIndex: "nom_complet",
+        key: "nom_complet",
+        sorter: {
+            compare: (a, b) => a.nom_complet.localeCompare(b.nom_complet),
+        },
+    },
+    {
+        title: t("adherents.table_cin"),
+        dataIndex: "cin",
+        key: "cin",
+        sorter: {
+            compare: (a, b) => a.cin.localeCompare(b.cin),
+        },
+    },
+    {
+        title: t("adherents.table_profession"),
+        dataIndex: "profession",
+        key: "profession",
+    },
+    {
+        title: t("adherents.table_situation_familiale"),
+        dataIndex: "situation_familiale",
+        key: "situation_familiale",
+    },
+    {
+        title: t("adherents.table_telephone"),
+        dataIndex: "tel",
+        key: "tel",
+        sorter: {
+            compare: (a, b) => a.tel.localeCompare(b.tel),
+        },
+    },
+    {
+        title: t("adherents.table_statut_adhesion"),
+        dataIndex: "is_actif",
+        key: "is_actif",
+        slots: { customRender: "actif" },
+    },
+    {
+        title: t("adherents.table_actions"),
+        dataIndex: "action",
+        key: "action",
+        slots: { customRender: "action" },
     },
 ]);
+
+const filteredAdherents = ref(props.adherents);
+
 const rows = computed(() =>
-    Object.values(props.adherents).map((adherent) => ({
+    filteredAdherents.value.map((adherent) => ({
         id: adherent.id,
         num_adhesion: adherent.num_adhesion,
         image: adherent.image,
@@ -661,7 +672,9 @@ const generateSingleIDCard = (id) => {
 
 const generateIDCards = async (adherents = props.adherents) => {
     // filter the same array is_adherent === 1
-    adherents = adherents.filter((adherent) => adherent.is_actif === 1);
+    adherents = adherents.filter(
+        (adherent) => adherent.is_actif === true || adherent.is_actif === 1,
+    );
 
     if (adherents.length === 0) {
         Swal.fire({
@@ -684,7 +697,7 @@ const generateIDCards = async (adherents = props.adherents) => {
     // const adherents = props.adherents;
     for (let i = 0; i < adherents.length; i += 8) {
         if (i !== 0) {
-            doc.addPage(); // Add a new page for each set of four adherents except the first set
+            doc.addPage();
         }
 
         const remainingAdherents = adherents.slice(i);
@@ -732,43 +745,41 @@ const generateIDCards = async (adherents = props.adherents) => {
             doc.addImage(qrImg, "PNG", x + 2, y + 34, 14, 14);
 
             const profilePath = adherent.image;
-
             if (profilePath !== null) {
-                const profileImg = new Image();
-                profileImg.src = "/storage/" + profilePath;
-                const profileImgX = x + 63;
-                const profileImgY = y + 4;
-                const profileImgSize = 15;
+                const profileImgUrl = "/storage/" + profilePath;
+                imageExists(profileImgUrl, function (exists) {
+                    if (exists) {
+                        const profileImg = new Image();
+                        profileImg.src = profileImgUrl;
+                        const profileImgX = x + 63;
+                        const profileImgY = y + 4;
+                        const profileImgSize = 15;
 
-                // Clip the image to a circle
-                doc.setLineWidth(0.1);
-                doc.setDrawColor(0);
-                // doc.circle(
-                //     profileImgX + profileImgSize / 2,
-                //     profileImgY + profileImgSize / 2,
-                //     profileImgSize / 2,
-                //     "S",
-                // );
-                // doc.clip(); // Apply the clipping path
+                        // Add the rounded profile image
+                        doc.addImage(
+                            profileImg,
+                            "PNG",
+                            profileImgX,
+                            profileImgY,
+                            profileImgSize,
+                            profileImgSize,
+                        );
 
-                // Add the rounded profile image
-                doc.addImage(
-                    profileImg,
-                    "PNG",
-                    profileImgX,
-                    profileImgY,
-                    profileImgSize,
-                    profileImgSize,
-                );
-
-                doc.rect(
-                    profileImgX,
-                    profileImgY,
-                    profileImgSize,
-                    profileImgSize,
-                    "S",
-                );
-
+                        doc.rect(
+                            profileImgX,
+                            profileImgY,
+                            profileImgSize,
+                            profileImgSize,
+                            "S",
+                        );
+                    } else {
+                        console.error(
+                            "Image does not exist at path:",
+                            profileImgUrl,
+                        );
+                        // Handle image not found
+                    }
+                });
                 // doc.clip("evenodd");
             }
             // Reset the clipping path
@@ -810,6 +821,17 @@ const generateIDCards = async (adherents = props.adherents) => {
     }
     doc.save("ID_Cards.pdf");
 };
+
+function imageExists(url, callback) {
+    let img = new Image();
+    img.onload = function () {
+        callback(true);
+    };
+    img.onerror = function () {
+        callback(false);
+    };
+    img.src = url;
+}
 
 const exportToPDF = () => {
     const doc = new jsPDF();
@@ -967,8 +989,6 @@ const destroy = (id) => {
         }
     });
 };
-
-
 
 const submit = () => {
     form.post(route("adherents.store"), {

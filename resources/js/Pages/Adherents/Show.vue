@@ -15,7 +15,7 @@
         </h1>
     </div>
 
-    <div class="bg-white px-4 py-6 shadow-md">
+    <div class="bg-white px-4 py-6 shadow-md rounded-md">
         <form @submit.prevent="submit" enctype="multipart/form-data">
             <div class="mt-4 grid gap-4 lg:gap-6">
                 <div class="col-span-full mb-5">
@@ -25,25 +25,15 @@
                         >{{ $t("adherents.input_image") }}</label
                     >
                     <div class="mt-2 flex items-start flex-col gap-y-3">
-                        <img
-                            v-if="adherent.image"
-                            :src="showImage() + adherent.image"
-                            class="h-32 w-32 rounded-full border-2 border-gray-300"
-                            alt=""
-                        />
-                        <!-- <svg
-                            v-else
-                            class="h-16 w-16 text-gray-300"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            aria-hidden="true"
+                        <div
+                            class="flex items-center justify-center h-32 w-32 rounded-full border-2 border-black-600"
                         >
-                            <path
-                                fill-rule="evenodd"
-                                d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-                                clip-rule="evenodd"
+                            <img
+                                :src="showImage() + adherent.image"
+                                class="object-cover h-32 w-32 rounded-full"
+                                alt=""
                             />
-                        </svg> -->
+                        </div>
 
                         <input
                             @change="onFileChange"
@@ -539,35 +529,46 @@
         </div>
     </div>
 
-    <div class="mt-4 bg-white rounded-md pt-4">
-        <h3 class="mb-2 px-4 text-xl font-bold text-slate-800 uppercase">
+    <div class="w-auto h-full py-2 px-2 mt-5 bg-white p-2 rounded-md">
+        <h2
+            class="text-xl font-semibold text-black-600 mb-2"
+            :class="$i18n.locale === 'ar' ? 'text-right' : 'text-left'"
+        >
             {{ $t("adherents.adherent_activities") }}
-        </h3>
-        <div class="mt-4">
-            <vue-good-table
-                :columns="columns"
-                :rows="rows"
-                :pagination-options="{
-                    enabled: true,
-                    mode: 'records',
-                    perPage: 5,
-                    perPageDropdown: [5, 10, 20],
-                }"
-                :search-options="{
-                    enabled: true,
-                    placeholder: $t('adherents.table_search'),
+        </h2>
+
+        <div
+            class="py-3 justify-between items-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
+        >
+            <!-- <el-button
+                class="me-auto"
+                type="primary"
+                size="large"
+                @click="printAttendanceList"
+            >
+                <Printer />
+            </el-button> -->
+        </div>
+        <a-config-provider :direction="$i18n.locale === 'ar' ? 'rtl' : 'ltr'">
+            <a-table
+                :columns="columns2"
+                :data-source="rows"
+                :pagination="{
+                    pageSize: pageSize.value,
+                    showSizeChanger: true,
+                    pageSizeOptions: ['10', '20', '30', '40'],
                 }"
             >
-            </vue-good-table>
-        </div>
+            </a-table>
+        </a-config-provider>
     </div>
 </template>
 
 <script>
-import MainLayout from "../../Layouts/MainLayout.vue";
+import RootLayout from "../../Layouts/RootLayout.vue";
 
 export default {
-    layout: MainLayout,
+    layout: RootLayout,
 };
 </script>
 
@@ -589,7 +590,8 @@ import Toast from "../../utils.js";
 
 const { t, availableLocales, locale } = useI18n();
 
-const $toast = useToast();
+const pageSize = ref(10);
+
 const regions = ref(regionsFile);
 
 const props = defineProps({
@@ -607,7 +609,7 @@ const form = useForm({
     image: props.adherent.last_name,
     email: props.adherent.email,
     date_of_birth: props.adherent.date_of_birth,
-    date_of_membership: props.adherent.date_of_birth,
+    date_of_membership: props.adherent.date_of_membership,
     sexe: props.adherent.sexe,
     cin: props.adherent.cin,
     address: props.adherent.address,
@@ -639,6 +641,53 @@ const columns = ref([
     {
         label: t("activities.input_lieu"),
         field: "location",
+    },
+]);
+
+const columns2 = computed(() => [
+    {
+        title: "#",
+        dataIndex: "id",
+        key: "id",
+        sorter: {
+            compare: (a, b) => a.id - b.id,
+        },
+        multipe: 1,
+    },
+
+    {
+        title: t("activities.table_nom"),
+        dataIndex: "title",
+        key: "title",
+        sorter: {
+            compare: (a, b) => a.title.localeCompare(b.title),
+        },
+        multipe: 1,
+    },
+
+    {
+        title: t("activities.table_date_debut"),
+        dataIndex: "start",
+        key: "start",
+        sorter: {
+            compare: (a, b) => a.start.localeCompare(b.start),
+        },
+    },
+    {
+        title: t("activities.input_date_fin"),
+        dataIndex: "end",
+        key: "end",
+        sorter: {
+            compare: (a, b) => a.end.localeCompare(b.end),
+        },
+    },
+    {
+        title: t("activities.input_lieu"),
+        dataIndex: "location",
+        key: "location",
+        sorter: {
+            compare: (a, b) => a.location.localeCompare(b.location),
+        },
     },
 ]);
 
@@ -694,7 +743,7 @@ const submit = () => {
             image: form.image,
             email: form.email,
             date_of_birth: form.date_of_birth,
-            date_of_membership: form.date_of_birth,
+            date_of_membership: form.date_of_membership,
             sexe: form.sexe,
             cin: form.cin,
             address: form.address,
