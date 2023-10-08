@@ -207,7 +207,18 @@
                             class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             type="button"
                         >
-                            <Pencil :size="20" />
+                            <!-- <Pencil :size="20" /> -->
+
+                            <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="#fff"
+                            >
+                                <path
+                                    d="M 12,16C 13.1046,16 14,16.8954 14,18C 14,19.1046 13.1046,20 12,20C 10.8954,20 10,19.1046 10,18C 10,16.8954 10.8954,16 12,16 Z M 12,10C 13.1046,10 14,10.8954 14,12C 14,13.1046 13.1046,14 12,14C 10.8954,14 10,13.1046 10,12C 10,10.8954 10.8954,10 12,10 Z M 12,4C 13.1046,4 14,4.89544 14,6C 14,7.10457 13.1046,8 12,8C 10.8954,8 10,7.10457 10,6C 10,4.89543 10.8954,4 12,4 Z "
+                                ></path>
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -224,7 +235,12 @@
                 @click="generatePdf"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-auto"
             >
-                <Printer :size="22" />
+                <!-- <Printer :size="22" /> -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff">
+                    <path
+                        d="M 17.9994,2.99807L 5.99939,2.99807L 5.99939,6.99807L 17.9994,6.99807M 18.9994,11.9981C 18.4464,11.9981 17.9994,11.5511 17.9994,10.9981C 17.9994,10.4451 18.4464,9.99807 18.9994,9.99807C 19.5524,9.99807 19.9994,10.4451 19.9994,10.9981C 19.9994,11.5511 19.5524,11.9981 18.9994,11.9981 Z M 15.9994,18.9981L 7.99939,18.9981L 7.99939,13.9981L 15.9994,13.9981M 18.9994,7.99807L 4.99939,7.99807C 3.34339,7.99807 1.99939,9.34206 1.99939,10.9981L 1.99939,16.9981L 5.99939,16.9981L 5.99939,20.9981L 17.9994,20.9981L 17.9994,16.9981L 21.9994,16.9981L 21.9994,10.9981C 21.9994,9.34107 20.6564,7.99807 18.9994,7.99807 Z "
+                    ></path>
+                </svg>
             </button>
         </div>
 
@@ -393,10 +409,10 @@ import regionsFile from "../../regions.json";
 import { ref, computed } from "vue";
 import { useForm, usePage, router } from "@inertiajs/vue3";
 import "vue-toast-notification/dist/theme-sugar.css";
-import Pencil from "vue-material-design-icons/Pencil.vue";
+// import Pencil from "vue-material-design-icons/Pencil.vue";
 import { useI18n } from "vue-i18n";
 import html2pdf from "html2pdf.js";
-import Printer from "vue-material-design-icons/Printer.vue";
+// import Printer from "vue-material-design-icons/Printer.vue";
 import Toast from "../../utils.js";
 
 const { t } = useI18n();
