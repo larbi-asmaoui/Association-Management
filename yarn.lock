@@ -4054,9 +4054,9 @@ postcss-value-parser@^4.0.0, postcss-value-parser@^4.2.0:
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
 
 postcss@^8.0.0, postcss@^8.1.0, postcss@^8.1.10, postcss@^8.2.14, postcss@^8.4.14, postcss@^8.4.21, postcss@^8.4.23, postcss@^8.4.27, postcss@>=8.0.9:
-  version "8.4.28"
-  resolved "https://registry.npmjs.org/postcss/-/postcss-8.4.28.tgz"
-  integrity sha512-Z7V5j0cq8oEKyejIKfpD8b4eBy9cwW2JWPk0+fB1HOAMsfHbnAXLLS+PfVWlzMSLQaWttKDt607I0XHmpE67Vw==
+  version "8.4.31"
+  resolved "https://registry.npmjs.org/postcss/-/postcss-8.4.31.tgz"
+  integrity sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==
   dependencies:
     nanoid "^3.3.6"
     picocolors "^1.0.0"
@@ -5174,10 +5174,10 @@ vue-json-csv@^2.1.0:
     papaparse "^5.3.2"
     vue "^3.2"
 
-vue-material-design-icons@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.npmjs.org/vue-material-design-icons/-/vue-material-design-icons-5.2.0.tgz"
-  integrity sha512-fcdcJHQ9fQw2CAytuLAzWSELcxH138sCdMItVhvmO7Lu9afIgojB/UCWv7XHt/lURsnq/n6O+muM4AQgw8yfig==
+vue-material-design-icons@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.npmjs.org/vue-material-design-icons/-/vue-material-design-icons-5.1.2.tgz"
+  integrity sha512-nD1qFM2qAkMlVoe23EfNKIeMfYl6YjHZjSty9q0mwc2gXmPmvEhixywJQhM+VF5KVBI1zAkVTNLoUEERPY10pA==
 
 vue-multiselect@^3.0.0-beta.2:
   version "3.0.0-beta.2"

@@ -526,7 +526,6 @@ import defaultImg from "../../../assets/image.jpeg";
 import { ref, computed } from "vue";
 import { router, usePage } from "@inertiajs/vue3";
 import ImageUpload from "../../Components/ImageUpload.vue";
-import { Modal } from "flowbite-vue";
 import { useForm } from "@inertiajs/vue3";
 import autoTable from "jspdf-autotable";
 import jsPDF from "jspdf";
