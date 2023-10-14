@@ -519,8 +519,6 @@ import {
     SearchOutlined,
 } from "@ant-design/icons-vue";
 import Swal from "sweetalert2";
-import { VueGoodTable } from "vue-good-table-next";
-import "vue-good-table-next/dist/vue-good-table-next.css";
 import "vue-advanced-cropper/dist/style.css";
 import defaultImg from "../../../assets/image.jpeg";
 import { ref, computed } from "vue";

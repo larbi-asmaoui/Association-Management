@@ -88,6 +88,22 @@
                         </div>
                     </template>
                     <a-menu-item
+                        key="20"
+                        @click="router.visit(route('bureau'))"
+                    >
+                        <div
+                            class="flex gap-2"
+                            :class="
+                                $i18n.locale === 'ar'
+                                    ? 'flex-row-reverse'
+                                    : 'row'
+                            "
+                        >
+                            <span>{{ $t("sidebar.bureau") }}</span>
+                        </div>
+                    </a-menu-item>
+
+                    <a-menu-item
                         v-if="
                             $page.props.auth.user.permissions.includes(
                                 'manage adherents',

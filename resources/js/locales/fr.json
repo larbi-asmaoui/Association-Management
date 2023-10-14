@@ -43,7 +43,8 @@
         "encadrants": "Encadrants",
         "classes": "Classes",
         "finance": "Finances",
-        "resources_humaines": "Ressources humaines"
+        "resources_humaines": "Ressources humaines",
+        "bureau": "Bureau de l'association"
     },
     "navbar": {
         "profile": "Profil",
