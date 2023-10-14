@@ -1,6 +1,6 @@
 <template>
     <div class="w-auto h-full py-4 px-2">
-        <div class="flex justify-between items-center mb-5">
+        <div class="flex justify-between items-center mb-5 w-full">
             <h3 class="text-xl font-bold text-slate-800 uppercase me-auto">
                 {{ $t("a-propos.bureau") }}
             </h3>
@@ -12,7 +12,10 @@
             </button>
         </div>
 
-        <div class="bg-white shadow-md rounded-xl mt-4">
+        <div
+            class="bg-white shadow-md rounded-xl mt-4"
+            :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+        >
             <!-- table -->
 
             <div
@@ -20,32 +23,31 @@
                 id="bureau"
             >
                 <table
-                    :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
                     class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
                 >
                     <thead
                         class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
                     >
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-right">
+                            <th scope="col" class="px-6 py-3 text-center">
                                 المنصب
                             </th>
 
-                            <th scope="col" class="px-6 py-3 text-right">
+                            <th scope="col" class="px-6 py-3 text-center">
                                 الاسم &nbsp;الكامل
                             </th>
-                            <th scope="col" class="px-6 py-3 text-right">
+                            <th scope="col" class="px-6 py-3 text-center">
                                 الهاتف
                             </th>
-                            <th scope="col" class="px-6 py-3 text-right">
+                            <th scope="col" class="px-6 py-3 text-center">
                                 ر.ب.و
                             </th>
-                            <th scope="col" class="px-6 py-3 text-right">
+                            <th scope="col" class="px-6 py-3 text-center">
                                 المهنة
                             </th>
                             <th
                                 scope="col"
-                                class="px-6 py-3 text-right"
+                                class="px-6 py-3 text-center"
                                 id="element-to-hide"
                                 data-html2canvas-ignore="true"
                             >
@@ -59,11 +61,11 @@
                             :key="statut.id"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         >
-                            <td class="px-6 py-4 text-right">
+                            <td class="px-6 py-4 text-center">
                                 {{ statut.name }}
                             </td>
-                            <!-- <td class="px-6 py-4 text-right">الرئيس</td> -->
-                            <td class="px-6 py-4 text-right">
+                            <!-- <td class="px-6 py-4 text-center">الرئيس</td> -->
+                            <td class="px-6 py-4 text-center">
                                 {{
                                     statut.adherent
                                         ? statut.adherent.first_name +
@@ -72,17 +74,17 @@
                                         : "-"
                                 }}
                             </td>
-                            <td class="px-6 py-4 text-right">
+                            <td class="px-6 py-4 text-center">
                                 {{
                                     statut.adherent ? statut.adherent.tel : "-"
                                 }}
                             </td>
-                            <td class="px-6 py-4 text-right">
+                            <td class="px-6 py-4 text-center">
                                 {{
                                     statut.adherent ? statut.adherent.cin : "-"
                                 }}
                             </td>
-                            <td class="px-6 py-4 text-right">
+                            <td class="px-6 py-4 text-center">
                                 {{
                                     statut.adherent
                                         ? statut.adherent.profession
@@ -90,7 +92,7 @@
                                 }}
                             </td>
                             <td
-                                class="px-6 py-4 text-right"
+                                class="px-6 py-4 text-center"
                                 id="element-to-hide"
                                 data-html2canvas-ignore="true"
                             >
@@ -155,11 +157,11 @@
                         </option>
                     </select>
                     <span
-                        v-if="form.errors.name"
+                        v-if="posteForm.errors.name"
                         class="text-xs text-red-600 mt-1"
                         id="hs-validation-name-error-helper"
                     >
-                        {{ form.errors.name }}
+                        {{ posteForm.errors.name }}
                     </span>
                 </div>
 
@@ -183,27 +185,21 @@
     </div>
 </template>
 
-<script>
-import RootLayout from "../../Layouts/RootLayout.vue";
-
-export default {
-    layout: RootLayout,
-};
-</script>
-
 <script setup>
 import Swal from "sweetalert2";
 import Multiselect from "@vueform/multiselect";
+import { Modal } from "flowbite-vue";
+import regionsFile from "../../regions.json";
+import { ref, computed } from "vue";
 import { useForm, usePage, router } from "@inertiajs/vue3";
 import "vue-toast-notification/dist/theme-sugar.css";
+import Pencil from "vue-material-design-icons/Pencil.vue";
+import { useI18n } from "vue-i18n";
 import html2pdf from "html2pdf.js";
 import Printer from "vue-material-design-icons/Printer.vue";
-import Pencil from "vue-material-design-icons/Pencil.vue";
 import Toast from "../../utils.js";
-import { useI18n } from "vue-i18n";
-import { ref } from "vue";
 
-const { t, availableLocales, locale } = useI18n();
+const { t } = useI18n();
 
 const props = defineProps({
     adherents: {
@@ -215,13 +211,13 @@ const props = defineProps({
     },
 });
 
+const isModalOpen = ref(false);
+
 const posteForm = useForm({
     id: null,
     name: null,
     adherent_id: null,
 });
-
-const isModalOpen = ref(false);
 
 const generatePdf = () => {
     const element = document.getElementById("bureau");
@@ -237,7 +233,6 @@ const generatePdf = () => {
 
 const closeModal = () => {
     isModalOpen.value = false;
-
     posteForm.reset();
 };
 
@@ -268,4 +263,11 @@ const associatePosteWithAdherent = () => {
 };
 </script>
 
+<script>
+import RootLayout from "../../Layouts/RootLayout.vue";
+
+export default {
+    layout: RootLayout,
+};
+</script>
 <style></style>
