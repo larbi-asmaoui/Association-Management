@@ -19,6 +19,7 @@ return new class extends Migration
             $table->double('montant');
             $table->string('reference_file')->nullable();
             $table->date('depense_date')->nullable()->default(now());
+            $table->softDeletes();
             $table->timestamps();
         });
     }
