@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('image');
             $table->date('subscription_expiry')->nullable();
             $table->string('num_adhesion')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
