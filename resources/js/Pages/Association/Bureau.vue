@@ -186,18 +186,16 @@
 </template>
 
 <script setup>
-import Swal from "sweetalert2";
 import Multiselect from "@vueform/multiselect";
 import { Modal } from "flowbite-vue";
 import regionsFile from "../../regions.json";
 import { ref, computed } from "vue";
 import { useForm, usePage, router } from "@inertiajs/vue3";
-import "vue-toast-notification/dist/theme-sugar.css";
 import Pencil from "vue-material-design-icons/Pencil.vue";
 import { useI18n } from "vue-i18n";
 import html2pdf from "html2pdf.js";
 import Printer from "vue-material-design-icons/Printer.vue";
-import Toast from "../../utils.js";
+import { message } from "ant-design-vue";
 
 const { t } = useI18n();
 
@@ -248,16 +246,10 @@ const associatePosteWithAdherent = () => {
     posteForm.put(route("status.associate", posteForm.id), {
         onSuccess: () => {
             closeModal();
-            Toast.fire({
-                icon: "success",
-                title: t("toasts.modif_success"),
-            });
+            message.success(t("toasts.modif_success"));
         },
         onError: () => {
-            Toast.fire({
-                icon: "error",
-                title: t("toasts.modif_error"),
-            });
+            message.error(t("toasts.modif_error"));
         },
     });
 };
