@@ -22,6 +22,7 @@ return new class extends Migration
             $table->date('purchase_date')->default(now());
             $table->integer('quantity');
             $table->double('price_per_unit');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
