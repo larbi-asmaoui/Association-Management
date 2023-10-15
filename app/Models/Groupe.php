@@ -7,16 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Groupe extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-
-    // public function getCreatedAtAttribute($value)
-    // {
-    //     return Carbon::parse($value)->format('d/m/Y');
-    // }
     public function adherents(): BelongsToMany
     {
         return $this->belongsToMany(Adherent::class);
