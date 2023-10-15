@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('supervisor_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('classe_id')->nullable()->constrained()->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
