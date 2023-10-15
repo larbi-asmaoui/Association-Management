@@ -584,54 +584,6 @@
                                         >
                                     </div>
                                 </el-dropdown-item>
-                                <!-- stock types -->
-                                <!-- <el-dropdown-item
-                                    @click="
-                                        router.visit(route('stock-types.index'))
-                                    "
-                                >
-                                    <div
-                                        class="flex"
-                                        :class="
-                                            $i18n.locale == 'ar'
-                                                ? 'flex-row-reverse ml-auto'
-                                                : ''
-                                        "
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="icon icon-tabler icon-tabler-package mr-1 w-6 h-6"
-                                            viewBox="0 0 24 24"
-                                            stroke-width="2"
-                                            stroke="currentColor"
-                                            fill="none"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        >
-                                            <path
-                                                stroke="none"
-                                                d="M0 0h24v24H0z"
-                                                fill="none"
-                                            ></path>
-                                            <path
-                                                d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5"
-                                            ></path>
-                                            <path d="M12 12l8 -4.5"></path>
-                                            <path d="M12 12l0 9"></path>
-                                            <path d="M12 12l-8 -4.5"></path>
-                                            <path d="M16 5.25l-8 4.5"></path>
-                                        </svg>
-                                        <span
-                                            :class="
-                                                $i18n.locale === 'ar'
-                                                    ? 'mr-3'
-                                                    : 'ml-3'
-                                            "
-                                        >
-                                            {{ $t("navbar.type_bien") }}</span
-                                        >
-                                    </div>
-                                </el-dropdown-item> -->
 
                                 <el-dropdown-item
                                     @click="
@@ -836,8 +788,8 @@
                         </template>
                     </el-dropdown>
 
-                    <Dropdown :align="$i18n.locale === 'ar' ? 'left' : 'right'">
-                        <template #trigger>
+                    <el-dropdown>
+                        <span class="el-dropdown-link">
                             <button
                                 v-if="
                                     $page.props.jetstream.managesProfilePhotos
@@ -878,20 +830,22 @@
                                     </svg>
                                 </button>
                             </span>
+                        </span>
+                        <template #dropdown>
+                            <el-dropdown-menu>
+                                <el-dropdown-item
+                                    @click="router.visit(route('profile.show'))"
+                                >
+                                    {{ $t("navbar.profile") }}
+                                </el-dropdown-item>
+                                <form @submit.prevent="logout" class="p-0">
+                                    <DropdownLink as="button">
+                                        {{ $t("navbar.logout") }}
+                                    </DropdownLink>
+                                </form>
+                            </el-dropdown-menu>
                         </template>
-                        <template #content>
-                            <DropdownLink :href="route('profile.show')">
-                                {{ $t("navbar.profile") }}
-                            </DropdownLink>
-                            <div class="border-t border-gray-200" />
-                            <form @submit.prevent="logout">
-                                <DropdownLink as="button">
-                                    {{ $t("navbar.logout") }}
-                                </DropdownLink>
-                            </form>
-                            <GlobeLight />
-                        </template>
-                    </Dropdown>
+                    </el-dropdown>
                 </div>
             </a-layout-header>
 
