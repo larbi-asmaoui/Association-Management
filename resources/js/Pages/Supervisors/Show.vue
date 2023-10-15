@@ -593,7 +593,7 @@ export default {
 <script setup>
 import Multiselect from "@vueform/multiselect";
 import Swal from "sweetalert2";
-import Toast from "../../utils.js";
+import { message } from "ant-design-vue";
 import { Edit } from "@element-plus/icons-vue";
 import defaultImg from "../../../assets/image.jpeg";
 import ImageUpload from "../../Components/ImageUpload.vue";
@@ -813,10 +813,7 @@ const formClasses = useForm({
 
 const updateImage = () => {
     if (!form.image) {
-        Toast.fire({
-            icon: "error",
-            title: t("toasts.modif_error"),
-        });
+        message.info(t("toasts.modif_error"));
         return;
     }
 
@@ -831,16 +828,10 @@ const updateImage = () => {
         },
         {
             onSuccess: () => {
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.modif_success"),
-                });
+                message.success(t("toasts.modif_success"));
             },
             onError: () => {
-                Toast.fire({
-                    icon: "error",
-                    title: t("toasts.modif_error"),
-                });
+                message.error(t("toasts.modif_error"));
             },
         },
     );
@@ -851,16 +842,10 @@ const submit = () => {
         // forceFormData: true,
         preserveScroll: true,
         onSuccess: () => {
-            Toast.fire({
-                icon: "success",
-                title: t("toasts.modif_success"),
-            });
+            message.success(t("toasts.modif_success"));
         },
         onError: () => {
-            Toast.fire({
-                icon: "success",
-                title: t("toasts.modif_error"),
-            });
+            message.error(t("toasts.modif_error"));
         },
     });
 };
@@ -881,16 +866,11 @@ const submitDiplome = () => {
         {
             onSuccess: () => {
                 closeAddDiplomeModal();
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.modif_success"),
-                });
+
+                message.success(t("toasts.modif_success"));
             },
             onError: () => {
-                Toast.fire({
-                    icon: "error",
-                    title: t("toasts.modif_error"),
-                });
+                message.error(t("toasts.modif_error"));
             },
         },
     );
@@ -918,16 +898,10 @@ const detachClasse = (id) => {
             router.delete(`/supervisors/${props.supervisor.id}/classes/${id}`, {
                 preserveScroll: true,
                 onSuccess: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_success"),
-                    });
+                    message.success(t("toasts.supp_success"));
                 },
                 onError: () => {
-                    Toast.fire({
-                        icon: "error",
-                        title: t("toasts.supp_error"),
-                    });
+                    message.error(t("toasts.supp_error"));
                 },
             });
         }
@@ -947,16 +921,10 @@ const destroyDiplome = (id) => {
             router.delete(`/supervisors/diplomes/${id}`, {
                 preserveScroll: true,
                 onSuccess: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_success"),
-                    });
+                    message.success(t("toasts.supp_success"));
                 },
                 onError: () => {
-                    Toast.fire({
-                        icon: "error",
-                        title: t("toasts.supp_error"),
-                    });
+                    message.error(t("toasts.supp_error"));
                 },
             });
         }
@@ -1005,17 +973,11 @@ const attachClasses = () => {
         },
         {
             onSuccess: () => {
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.modif_success"),
-                });
+                message.success(t("toasts.modif_success"));
                 closeAddClasseModal();
             },
             onError: () => {
-                Toast.fire({
-                    icon: "error",
-                    title: t("toasts.modif_error"),
-                });
+                message.error(t("toasts.modif_error"));
             },
         },
     );
