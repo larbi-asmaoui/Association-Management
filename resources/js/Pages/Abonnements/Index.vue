@@ -280,7 +280,7 @@ const printAllInvoices = async (abonnements) => {
 
     const canvasList = abonnements.map((abonnement, index) => {
         const element = document.getElementById(`invoice${abonnement.id}`);
-        return html2canvas(element, { scale: 0.78 }).then((canvas) => {
+        return html2canvas(element, { scale: 0.725 }).then((canvas) => {
             const position =
                 index % 3 === 0
                     ? 0
@@ -590,11 +590,11 @@ const printAllInvoices = async (abonnements) => {
                 </div>
             </div>
 
-            <div class="mt-4 text-left">
-                <p class="mb-3">
+            <div class="mt-2 text-left">
+                <p class="mb-8">
                     <strong>التوقيع</strong>
                 </p>
-                <p>{{ $page.props.auth.user.name }}</p>
+                <!-- <p>{{ $page.props.auth.user.name }}</p> -->
             </div>
         </div>
     </div>
