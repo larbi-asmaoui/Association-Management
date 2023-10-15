@@ -223,8 +223,6 @@ export default {
 
 <script setup>
 import Swal from "sweetalert2";
-import { VueGoodTable } from "vue-good-table-next";
-import "vue-good-table-next/dist/vue-good-table-next.css";
 import { ref, computed } from "vue";
 import { useForm, router } from "@inertiajs/vue3";
 import { Modal } from "flowbite-vue";
@@ -232,7 +230,7 @@ import { useI18n } from "vue-i18n";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Pencil from "vue-material-design-icons/Pencil.vue";
 import Plus from "vue-material-design-icons/Plus.vue";
-import Toast from "../../utils.js";
+import { message } from "ant-design-vue";
 const { t } = useI18n();
 
 const columns = computed(() => [
@@ -359,16 +357,10 @@ const destroy = (id) => {
         if (result.isConfirmed) {
             form.delete(route("revenues.destroy", id), {
                 onError: () => {
-                    Toast.fire({
-                        icon: "error",
-                        title: t("toasts.supp_error"),
-                    });
+                    message.error(t("toasts.supp_error"));
                 },
                 onSuccess: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_success"),
-                    });
+                    message.success(t("toasts.supp_success"));
                 },
             });
         }
@@ -411,16 +403,11 @@ const submit = () => {
             {
                 onSuccess: () => {
                     closeModal();
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.modif_success"),
-                    });
+
+                    message.success(t("toasts.modif_success"));
                 },
                 onError: () => {
-                    Toast.fire({
-                        icon: "error",
-                        title: t("toasts.modif_error"),
-                    });
+                    message.error(t("toasts.modif_error"));
                 },
             },
         );
@@ -431,19 +418,9 @@ const submit = () => {
 
             onSuccess: () => {
                 closeModal();
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.ajout_success"),
-                });
+
+                message.success(t("toasts.ajout_success"));
             },
-            // onError: () => {
-            //     $toast.open({
-            //         message: "Erreur lors de l'ajout",
-            //         type: "error",
-            //         duration: 3000,
-            //         dismissible: true,
-            //     });
-            // },
         });
     }
 };
