@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('region');
             $table->double('revenue')->default(0);
             $table->double('depense')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
