@@ -252,18 +252,15 @@ export default {
 
 <script setup>
 import Swal from "sweetalert2";
-import { VueGoodTable } from "vue-good-table-next";
-import "vue-good-table-next/dist/vue-good-table-next.css";
 import Multiselect from "@vueform/multiselect";
 import { ref, computed } from "vue";
 import { Modal } from "flowbite-vue";
-import "vue-toast-notification/dist/theme-sugar.css";
 import { useForm, router } from "@inertiajs/vue3";
 import { useI18n } from "vue-i18n";
 import Plus from "vue-material-design-icons/Plus.vue";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Eye from "vue-material-design-icons/Eye.vue";
-import Toast from "../../utils.js";
+import { message } from "ant-design-vue";
 import ImageUpload from "../../Components/ImageUpload.vue";
 
 const { t, availableLocales, locale } = useI18n();
@@ -361,11 +358,10 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.modif_success"),
-                });
+                message.success(t("toasts.modif_success"));
+            },
+            onError: () => {
+                message.error(t("toasts.modif_error"));
             },
         });
     } else {
@@ -374,10 +370,10 @@ const submit = () => {
             onSuccess: () => {
                 closeModal();
 
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.ajout_success"),
-                });
+                message.success(t("toasts.ajout_success"));
+            },
+            onError: () => {
+                message.error(t("toasts.ajout_error"));
             },
         });
     }
@@ -409,16 +405,10 @@ const destroy = (id) => {
         if (result.isConfirmed) {
             form.delete(route("supervisors.destroy", id), {
                 onError: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_error"),
-                    });
+                    message.error(t("toasts.supp_error"));
                 },
                 onSuccess: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_success"),
-                    });
+                    message.success(t("toasts.supp_success"));
                 },
             });
         }
