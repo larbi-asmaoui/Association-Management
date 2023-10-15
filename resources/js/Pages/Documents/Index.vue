@@ -114,7 +114,6 @@
 
 <script setup>
 import Swal from "sweetalert2";
-import "vue-good-table-next/dist/vue-good-table-next.css";
 import { usePage, router } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
 import { Modal } from "flowbite-vue";
