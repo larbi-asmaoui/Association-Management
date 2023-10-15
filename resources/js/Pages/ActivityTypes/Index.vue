@@ -142,7 +142,8 @@ import { Modal } from "flowbite-vue";
 import { useForm, router } from "@inertiajs/vue3";
 import { TheCard } from "flowbite-vue";
 import { useI18n } from "vue-i18n";
-import Toast from "../../utils.js";
+import { message } from "ant-design-vue";
+
 const { t } = useI18n();
 
 const props = defineProps({
@@ -181,16 +182,10 @@ const destroy = (id) => {
         if (result.isConfirmed) {
             router.delete(route("activity-types.destroy", id), {
                 onError: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_error"),
-                    });
+                    message.error(t("toasts.supp_error"));
                 },
                 onSuccess: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_success"),
-                    });
+                    message.success(t("toasts.supp_success"));
                 },
             });
         }
@@ -204,18 +199,10 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.modif_success"),
-                });
+                message.success(t("toasts.modif_success"));
             },
             onError: () => {
-                console.log("name : " + form.name);
-                console.log("error" + form.id);
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.modif_error"),
-                });
+                message.error(t("toasts.modif_error"));
             },
         });
     } else {
@@ -224,10 +211,7 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.ajout_success"),
-                });
+                message.success(t("toasts.ajout_success"));
             },
         });
     }
