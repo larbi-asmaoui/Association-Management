@@ -18,8 +18,6 @@ import Multiselect from "@vueform/multiselect";
 import Swal from "sweetalert2";
 import QRCode from "qrcode";
 import jsPDF from "jspdf";
-import { VueGoodTable } from "vue-good-table-next";
-import "vue-good-table-next/dist/vue-good-table-next.css";
 import {
     ref,
     computed,
@@ -38,7 +36,7 @@ import Eye from "vue-material-design-icons/Eye.vue";
 import Printer from "vue-material-design-icons/Printer.vue";
 import Plus from "vue-material-design-icons/Plus.vue";
 import Filter from "vue-material-design-icons/Filter.vue";
-import Toast from "../../utils.js";
+import { message } from "ant-design-vue";
 import html2pdf from "html2pdf.js";
 import html2canvas from "html2canvas";
 
@@ -229,16 +227,10 @@ const destroy = (id) => {
         if (result.isConfirmed) {
             router.delete(route("abonnements.destroy", id), {
                 onError: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_error"),
-                    });
+                    message.error(t("toasts.supp_error"));
                 },
                 onSuccess: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_success"),
-                    });
+                    message.success(t("toasts.supp_success"));
                 },
             });
         }
@@ -251,16 +243,10 @@ const submit = () => {
         preserveScroll: true,
         onSuccess: () => {
             closeModal();
-            Toast.fire({
-                icon: "success",
-                title: t("toasts.ajout_success"),
-            });
+            message.success(t("toasts.ajout_success"));
         },
         onError: () => {
-            Toast.fire({
-                icon: "error",
-                title: t("toasts.ajout_error"),
-            });
+            message.error(t("toasts.ajout_error"));
         },
     });
 };
@@ -294,7 +280,7 @@ const printAllInvoices = async (abonnements) => {
 
     const canvasList = abonnements.map((abonnement, index) => {
         const element = document.getElementById(`invoice${abonnement.id}`);
-        return html2canvas(element, { scale: 0.78 }).then((canvas) => {
+        return html2canvas(element, { scale: 0.725 }).then((canvas) => {
             const position =
                 index % 3 === 0
                     ? 0
@@ -604,11 +590,11 @@ const printAllInvoices = async (abonnements) => {
                 </div>
             </div>
 
-            <div class="mt-4 text-left">
-                <p class="mb-3">
+            <div class="mt-2 text-left">
+                <p class="mb-8">
                     <strong>التوقيع</strong>
                 </p>
-                <p>{{ $page.props.auth.user.name }}</p>
+                <!-- <p>{{ $page.props.auth.user.name }}</p> -->
             </div>
         </div>
     </div>

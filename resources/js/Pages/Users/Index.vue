@@ -200,13 +200,9 @@ import { usePage } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
 import { router } from "@inertiajs/vue3";
 import { useForm } from "@inertiajs/vue3";
-import { useToast } from "vue-toast-notification";
-import "vue-toast-notification/dist/theme-sugar.css";
 import { useI18n } from "vue-i18n";
-import Toast from "../../utils.js";
+import { message } from "ant-design-vue";
 const { t, availableLocales, locale } = useI18n();
-
-const $toast = useToast();
 
 const props = defineProps({
     users: {
@@ -305,16 +301,10 @@ const destroy = (id) => {
         if (result.isConfirmed) {
             router.delete(route("users.destroy", id), {
                 onError: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_error"),
-                    });
+                    message.error(t("toasts.supp_error"));
                 },
                 onSuccess: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_success"),
-                    });
+                    message.success(t("toasts.supp_success"));
                 },
             });
         }
@@ -328,16 +318,11 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.modif_success"),
-                });
+
+                message.success(t("toasts.modif_success"));
             },
             onError: () => {
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.modif_error"),
-                });
+                message.error(t("toasts.modif_error"));
             },
         });
     } else {
@@ -346,10 +331,8 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.ajout_success"),
-                });
+
+                message.success(t("toasts.ajout_success"));
             },
         });
     }

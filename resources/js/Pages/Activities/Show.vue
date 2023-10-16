@@ -10,19 +10,16 @@ import { useForm, Link, usePage } from "@inertiajs/vue3";
 import { ref, computed, reactive, watchEffect, onMounted } from "vue";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
-import { useToast } from "vue-toast-notification";
-import "vue-toast-notification/dist/theme-sugar.css";
 import Multiselect from "@vueform/multiselect";
 import regionsFile from "../../regions.json";
 import { useI18n } from "vue-i18n";
 import ArrowRight from "vue-material-design-icons/ArrowRight.vue";
 import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
 import Printer from "vue-material-design-icons/Printer.vue";
-import { VueGoodTable } from "vue-good-table-next";
-import "vue-good-table-next/dist/vue-good-table-next.css";
 import Quill from "quill";
 import autoTable from "jspdf-autotable";
 import "quill/dist/quill.snow.css";
+import { message } from "ant-design-vue";
 
 const { t } = useI18n();
 
@@ -30,7 +27,6 @@ const page = usePage();
 
 const pageSize = ref(10);
 
-const $toast = useToast();
 const isEnabled = ref(false);
 const regions = ref(regionsFile);
 
@@ -265,20 +261,10 @@ const form = useForm({
 const submit = () => {
     form.put(route("activities.update", props.activity.id), {
         onError: () => {
-            $toast.open({
-                message: t("toasts.modif_error"),
-                type: "error",
-                dismissible: true,
-                duration: 3000,
-            });
+            message.error(t("toasts.modif_error"));
         },
         onSuccess: () => {
-            $toast.open({
-                message: t("toasts.modif_success"),
-                type: "success",
-                dismissible: true,
-                duration: 3000,
-            });
+            message.success(t("toasts.modif_success"));
         },
     });
 };

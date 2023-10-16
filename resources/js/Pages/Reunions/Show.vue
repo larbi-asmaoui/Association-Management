@@ -201,13 +201,11 @@ import { ref, computed, reactive, watchEffect } from "vue";
 import jsPDF from "jspdf";
 import Multiselect from "@vueform/multiselect";
 import { useI18n } from "vue-i18n";
-import { VueGoodTable } from "vue-good-table-next";
-import "vue-good-table-next/dist/vue-good-table-next.css";
 import ArrowRight from "vue-material-design-icons/ArrowRight.vue";
 import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
 import Printer from "vue-material-design-icons/Printer.vue";
 import Pencil from "vue-material-design-icons/Pencil.vue";
-import Toast from "../../utils.js";
+import { message } from "ant-design-vue";
 
 const { t } = useI18n();
 const isEnabled = ref(false);
@@ -297,16 +295,10 @@ const formattedAdherents = computed(() =>
 const submit = () => {
     form.put(route("reunions.update", props.reunion.id), {
         onError: () => {
-            Toast.fire({
-                icon: "error",
-                title: t("toasts.modif_error"),
-            });
+            message.error(t("toasts.modif_error"));
         },
         onSuccess: () => {
-            Toast.fire({
-                icon: "success",
-                title: t("toasts.modif_success"),
-            });
+            message.success(t("toasts.modif_success"));
             isEnabled.value = false;
         },
     });

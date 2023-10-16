@@ -153,17 +153,15 @@ export default {
 
 <script setup>
 import Swal from "sweetalert2";
-import "vue-good-table-next/dist/vue-good-table-next.css";
 import Multiselect from "@vueform/multiselect";
 import { ref, computed } from "vue";
 import { Modal } from "flowbite-vue";
-import "vue-toast-notification/dist/theme-sugar.css";
 import { useForm } from "@inertiajs/vue3";
 import { useI18n } from "vue-i18n";
 import Plus from "vue-material-design-icons/Plus.vue";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Pencil from "vue-material-design-icons/Pencil.vue";
-import Toast from "../../utils.js";
+import { message } from "ant-design-vue";
 
 const { t, availableLocales, locale } = useI18n();
 
@@ -240,10 +238,7 @@ const submit = () => {
             onSuccess: () => {
                 closeModal();
 
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.modif_success"),
-                });
+                message.success(t("toasts.modif_success"));
             },
         });
     } else {
@@ -252,10 +247,7 @@ const submit = () => {
             onSuccess: () => {
                 closeModal();
 
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.ajout_success"),
-                });
+                message.success(t("toasts.ajout_success"));
             },
         });
     }
@@ -286,16 +278,10 @@ const destroy = (id) => {
         if (result.isConfirmed) {
             form.delete(route("groupes.destroy", id), {
                 onError: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_error"),
-                    });
+                    message.error(t("toasts.supp_error"));
                 },
                 onSuccess: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_success"),
-                    });
+                    message.success(t("toasts.supp_success"));
                 },
             });
         }

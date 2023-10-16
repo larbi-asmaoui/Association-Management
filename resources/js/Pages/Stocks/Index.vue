@@ -228,7 +228,7 @@ import { useI18n } from "vue-i18n";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Pencil from "vue-material-design-icons/Pencil.vue";
 import Plus from "vue-material-design-icons/Plus.vue";
-import Toast from "../../utils.js";
+import { message } from "ant-design-vue";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
@@ -445,16 +445,10 @@ const destroy = (id) => {
         if (result.isConfirmed) {
             form.delete(route("stocks.destroy", id), {
                 onError: () => {
-                    Toast.fire({
-                        icon: "error",
-                        title: t("toasts.supp_error"),
-                    });
+                    message.error(t("toasts.supp_error"));
                 },
                 onSuccess: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_success"),
-                    });
+                    message.success(t("toasts.supp_success"));
                 },
             });
         }
@@ -471,16 +465,11 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.modif_success"),
-                });
+
+                message.success(t("toasts.modif_success"));
             },
             onError: () => {
-                Toast.fire({
-                    icon: "error",
-                    title: t("toasts.modif_error"),
-                });
+                message.error(t("toasts.modif_error"));
             },
         });
     } else {
@@ -489,16 +478,11 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.ajout_success"),
-                });
+
+                message.success(t("toasts.ajout_success"));
             },
             onError: () => {
-                Toast.fire({
-                    icon: "error",
-                    title: t("toasts.ajout_error"),
-                });
+                message.error(t("toasts.ajout_error"));
             },
         });
     }

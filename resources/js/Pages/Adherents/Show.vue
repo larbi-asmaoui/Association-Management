@@ -574,19 +574,15 @@ export default {
 
 <script setup>
 import { ref, computed } from "vue";
-import { VueGoodTable } from "vue-good-table-next";
-import "vue-good-table-next/dist/vue-good-table-next.css";
 import regionsFile from "../../regions.json";
 import { useForm, Link, router } from "@inertiajs/vue3";
 import printJS from "print-js";
-import { useToast } from "vue-toast-notification";
-import "vue-toast-notification/dist/theme-sugar.css";
 import { useI18n } from "vue-i18n";
 import ArrowRight from "vue-material-design-icons/ArrowRight.vue";
 import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
 import Pencil from "vue-material-design-icons/Pencil.vue";
 import ContentSave from "vue-material-design-icons/ContentSave.vue";
-import Toast from "../../utils.js";
+import { message } from "ant-design-vue";
 
 const { t, availableLocales, locale } = useI18n();
 
@@ -757,17 +753,11 @@ const submit = () => {
         },
         {
             onSuccess: () => {
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.modif_success"),
-                });
+                message.success(t("toasts.modif_success"));
                 isDisabled.value = true;
             },
             onError: () => {
-                Toast.fire({
-                    icon: "error",
-                    title: t("toasts.modif_error"),
-                });
+                message.error(t("toasts.modif_error"));
             },
         },
     );

@@ -322,19 +322,16 @@ export default {
 </script>
 
 <script setup>
-// import Table from "../../Components/Table.vue";
-import moment from "moment";
 import { Tabs, Tab, TheCard } from "flowbite-vue";
 import Swal from "sweetalert2";
 import Multiselect from "@vueform/multiselect";
 import { ref, computed } from "vue";
-import "vue-toast-notification/dist/theme-sugar.css";
 import { router, useForm } from "@inertiajs/vue3";
 import { useI18n } from "vue-i18n";
 import Plus from "vue-material-design-icons/Plus.vue";
 import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Pencil from "vue-material-design-icons/Pencil.vue";
-import Toast from "../../utils.js";
+import { message } from "ant-design-vue";
 
 const { t, availableLocales, locale } = useI18n();
 const pageSize = ref(10);
@@ -488,16 +485,10 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.modif_success"),
-                });
+                message.success(t("toasts.modif_success"));
             },
             onError: () => {
-                Toast.fire({
-                    icon: "error",
-                    title: t("toasts.modif_error"),
-                });
+                message.error(t("toasts.modif_error"));
             },
         });
     } else {
@@ -506,10 +497,7 @@ const submit = () => {
             onSuccess: () => {
                 closeModal();
 
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.ajout_success"),
-                });
+                message.success(t("toasts.ajout_success"));
             },
         });
     }
@@ -522,16 +510,11 @@ const submitCat = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeCatMoadal();
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.modif_success"),
-                });
+
+                message.success(t("toasts.modif_success"));
             },
             onError: () => {
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.modif_error"),
-                });
+                message.error(t("toasts.modif_error"));
             },
         });
     } else {
@@ -540,10 +523,7 @@ const submitCat = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeCatMoadal();
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.ajout_success"),
-                });
+                message.success(t("toasts.ajout_success"));
             },
         });
     }
@@ -561,16 +541,10 @@ const destroyCat = (id) => {
         if (result.isConfirmed) {
             catForm.delete(route("categories.destroy", id), {
                 onError: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_error"),
-                    });
+                    message.error(t("toasts.supp_error"));
                 },
                 onSuccess: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_success"),
-                    });
+                    message.success(t("toasts.supp_success"));
                 },
             });
         }
@@ -589,16 +563,10 @@ const destroy = (id) => {
         if (result.isConfirmed) {
             form.delete(route("classes.destroy", id), {
                 onError: () => {
-                    Toast.fire({
-                        icon: "error",
-                        title: t("toasts.supp_error"),
-                    });
+                    message.error(t("toasts.supp_error"));
                 },
                 onSuccess: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_success"),
-                    });
+                    message.success(t("toasts.supp_success"));
                 },
             });
         }

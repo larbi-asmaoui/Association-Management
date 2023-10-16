@@ -81,7 +81,7 @@ export default {
 
     <div class="mt-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <the-card v-for="revenueType in revenueTypes">
+            <the-card v-for="revenueType in revenueTypes" :key="revenueType">
                 <h5
                     class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
                 >
@@ -148,13 +148,9 @@ import { watch } from "vue";
 import { router } from "@inertiajs/vue3";
 import { TheCard } from "flowbite-vue";
 import { useForm } from "@inertiajs/vue3";
-import { useToast } from "vue-toast-notification";
-import "vue-toast-notification/dist/theme-sugar.css";
 import { useI18n } from "vue-i18n";
-import Toast from "../../utils.js";
+import { message } from "ant-design-vue";
 const { t } = useI18n();
-
-const $toast = useToast();
 
 const props = defineProps({
     revenueTypes: {
@@ -187,16 +183,10 @@ const destroy = (id) => {
         if (result.isConfirmed) {
             router.delete(route("revenue-types.destroy", id), {
                 onError: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_error"),
-                    });
+                    message.error(t("toasts.supp_error"));
                 },
                 onSuccess: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_success"),
-                    });
+                    message.success(t("toasts.supp_success"));
                 },
             });
         }
@@ -216,16 +206,11 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.modif_success"),
-                });
+
+                message.success(t("toasts.modif_success"));
             },
             onError: () => {
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.modif_error"),
-                });
+                message.error(t("toasts.modif_error"));
             },
         });
     } else {
@@ -234,10 +219,8 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                Toast.fire({
-                    icon: "success",
-                    title: t("toasts.ajout_success"),
-                });
+
+                message.success(t("toasts.ajout_success"));
             },
         });
     }

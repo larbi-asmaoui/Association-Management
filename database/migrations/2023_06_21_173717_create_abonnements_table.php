@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('adherent_id')->constrained()->onDelete('cascade');
             $table->double('montant');
             $table->date('date_payement')->default(now());
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -207,18 +207,7 @@
                             class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             type="button"
                         >
-                            <!-- <Pencil :size="20" /> -->
-
-                            <svg
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="#fff"
-                            >
-                                <path
-                                    d="M 12,16C 13.1046,16 14,16.8954 14,18C 14,19.1046 13.1046,20 12,20C 10.8954,20 10,19.1046 10,18C 10,16.8954 10.8954,16 12,16 Z M 12,10C 13.1046,10 14,10.8954 14,12C 14,13.1046 13.1046,14 12,14C 10.8954,14 10,13.1046 10,12C 10,10.8954 10.8954,10 12,10 Z M 12,4C 13.1046,4 14,4.89544 14,6C 14,7.10457 13.1046,8 12,8C 10.8954,8 10,7.10457 10,6C 10,4.89543 10.8954,4 12,4 Z "
-                                ></path>
-                            </svg>
+                            <Pencil :size="20" />
                         </button>
                     </div>
                 </div>
@@ -226,194 +215,21 @@
         </div>
     </form>
     <!-- ------------- -->
-    <div class="bg-white shadow-md rounded-xl mt-4 pt-4">
-        <div class="flex px-4 mb-5">
-            <h3 class="mb-5 text-xl font-bold text-slate-800 uppercase">
-                {{ $t("a-propos.bureau") }}
-            </h3>
-            <button
-                @click="generatePdf"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-auto"
-            >
-                <!-- <Printer :size="22" /> -->
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff">
-                    <path
-                        d="M 17.9994,2.99807L 5.99939,2.99807L 5.99939,6.99807L 17.9994,6.99807M 18.9994,11.9981C 18.4464,11.9981 17.9994,11.5511 17.9994,10.9981C 17.9994,10.4451 18.4464,9.99807 18.9994,9.99807C 19.5524,9.99807 19.9994,10.4451 19.9994,10.9981C 19.9994,11.5511 19.5524,11.9981 18.9994,11.9981 Z M 15.9994,18.9981L 7.99939,18.9981L 7.99939,13.9981L 15.9994,13.9981M 18.9994,7.99807L 4.99939,7.99807C 3.34339,7.99807 1.99939,9.34206 1.99939,10.9981L 1.99939,16.9981L 5.99939,16.9981L 5.99939,20.9981L 17.9994,20.9981L 17.9994,16.9981L 21.9994,16.9981L 21.9994,10.9981C 21.9994,9.34107 20.6564,7.99807 18.9994,7.99807 Z "
-                    ></path>
-                </svg>
-            </button>
-        </div>
-
-        <!-- table -->
-
-        <div
-            class="relative overflow-x-auto shadow-md sm:rounded-lg"
-            id="bureau"
-        >
-            <table
-                :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
-                class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
-            >
-                <thead
-                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-                >
-                    <tr>
-                        <th scope="col" class="px-6 py-3 text-right">المنصب</th>
-
-                        <th scope="col" class="px-6 py-3 text-right">
-                            الاسم &nbsp;الكامل
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-right">الهاتف</th>
-                        <th scope="col" class="px-6 py-3 text-right">ر.ب.و</th>
-                        <th scope="col" class="px-6 py-3 text-right">المهنة</th>
-                        <th
-                            scope="col"
-                            class="px-6 py-3 text-right"
-                            id="element-to-hide"
-                            data-html2canvas-ignore="true"
-                        >
-                            العمليات
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr
-                        v-for="statut in status"
-                        :key="statut.id"
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                    >
-                        <td class="px-6 py-4 text-right">{{ statut.name }}</td>
-                        <!-- <td class="px-6 py-4 text-right">الرئيس</td> -->
-                        <td class="px-6 py-4 text-right">
-                            {{
-                                statut.adherent
-                                    ? statut.adherent.first_name +
-                                      " " +
-                                      statut.adherent.last_name
-                                    : "-"
-                            }}
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            {{ statut.adherent ? statut.adherent.tel : "-" }}
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            {{ statut.adherent ? statut.adherent.cin : "-" }}
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            {{
-                                statut.adherent
-                                    ? statut.adherent.profession
-                                    : "-"
-                            }}
-                        </td>
-                        <td
-                            class="px-6 py-4 text-right"
-                            id="element-to-hide"
-                            data-html2canvas-ignore="true"
-                        >
-                            <button
-                                class="text-blue-600 hover:text-blue-900"
-                                @click="openModal(statut)"
-                            >
-                                <Pencil />
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <a-modal
-        :title="$t('a-propos.assign_poste_member')"
-        @cancel="closeModal"
-        :footer="null"
-        v-model:open="isModalOpen"
-    >
-        <a-divider />
-        <form
-            :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
-            class="space-y-2 px-2 lg:px-2 pb-2 sm:pb-2 xl:pb-2 overflow-y-auto max-h-[30rem]"
-            @submit.prevent="associatePosteWithAdherent"
-        >
-            <div>
-                <div class="flex justify-between items-center w-1/2 mb-8">
-                    <div>{{ $t("a-propos.input_poste") }}</div>
-                    <h3 class="text-lg font-bold text-slate-800 uppercase">
-                        {{ posteForm.name }}
-                    </h3>
-                </div>
-            </div>
-            <div class="mb-5">
-                <label
-                    for="title"
-                    class="text-sm font-medium text-gray-900 block mb-2 :text-gray-300"
-                    >{{ $t("a-propos.input_membre") }}</label
-                >
-                <!-- <Multiselect
-                            v-model="posteForm.adherent_id"
-                            :close-on-select="false"
-                            :searchable="true"
-                            :create-option="true"
-                            :options="formattedAdherents"
-                        /> -->
-                <select
-                    v-model="posteForm.adherent_id"
-                    id="type"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                >
-                    <option disabled value="">اختر عضو</option>
-                    <option
-                        v-for="adherent in adherents"
-                        :key="adherent.id"
-                        :value="adherent.id"
-                    >
-                        {{ adherent.first_name + " " + adherent.last_name }}
-                    </option>
-                </select>
-                <span
-                    v-if="form.errors.name"
-                    class="text-xs text-red-600 mt-1"
-                    id="hs-validation-name-error-helper"
-                >
-                    {{ form.errors.name }}
-                </span>
-            </div>
-
-            <div class="mt-5 flex justify-end gap-x-2">
-                <button
-                    @click="isModalOpen = false"
-                    type="button"
-                    class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm :bg-slate-900 :hover:bg-slate-800 :border-gray-700 :text-gray-400 :hover:text-white :focus:ring-offset-gray-800"
-                >
-                    {{ $t("buttons.annuler") }}
-                </button>
-                <button
-                    type="submit"
-                    class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm :focus:ring-offset-gray-800"
-                >
-                    {{ $t("buttons.ajouter") }}
-                </button>
-            </div>
-        </form>
-    </a-modal>
 
     <!-- ------------- -->
 </template>
 
 <script setup>
-import Swal from "sweetalert2";
 import Multiselect from "@vueform/multiselect";
 import { Modal } from "flowbite-vue";
 import regionsFile from "../../regions.json";
 import { ref, computed } from "vue";
 import { useForm, usePage, router } from "@inertiajs/vue3";
-import "vue-toast-notification/dist/theme-sugar.css";
-// import Pencil from "vue-material-design-icons/Pencil.vue";
+import Pencil from "vue-material-design-icons/Pencil.vue";
 import { useI18n } from "vue-i18n";
 import html2pdf from "html2pdf.js";
-// import Printer from "vue-material-design-icons/Printer.vue";
-import Toast from "../../utils.js";
+import Printer from "vue-material-design-icons/Printer.vue";
+import { message } from "ant-design-vue";
 
 const { t } = useI18n();
 
@@ -430,7 +246,6 @@ const props = defineProps({
     },
 });
 
-const isModalOpen = ref(false);
 const isEnabled = ref(false);
 
 const toggleEnabled = () => {
@@ -449,24 +264,6 @@ const form = useForm({
     image: props.association.image,
     date_creation: props.association.date_creation,
 });
-
-const posteForm = useForm({
-    id: null,
-    name: null,
-    adherent_id: null,
-});
-
-const generatePdf = () => {
-    const element = document.getElementById("bureau");
-    const opt = {
-        margin: 0.5,
-        filename: "bureau_association.pdf",
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: "in", format: "letter", orientation: "landscape" },
-    };
-    html2pdf().set(opt).from(element).save();
-};
 
 const selectImage = (event) => {
     if (event.target.files[0]) {
@@ -512,16 +309,10 @@ const submit = (e) => {
             },
             {
                 onSuccess: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.modif_success"),
-                    });
+                    message.success(t("toasts.modif_success"));
                 },
                 onError: () => {
-                    Toast.fire({
-                        icon: "error",
-                        title: t("toasts.modif_error"),
-                    });
+                    message.error(t("toasts.modif_error"));
                 },
             },
         );
@@ -542,16 +333,10 @@ const submit = (e) => {
             },
             {
                 onSuccess: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.modif_success"),
-                    });
+                    message.success(t("toasts.modif_success"));
                 },
                 onError: () => {
-                    Toast.fire({
-                        icon: "error",
-                        title: t("toasts.modif_error"),
-                    });
+                    message.error(t("toasts.modif_error"));
                 },
             },
         );
@@ -560,38 +345,6 @@ const submit = (e) => {
 
 const showImage = () => {
     return "/storage/";
-};
-
-const closeModal = () => {
-    isModalOpen.value = false;
-
-    posteForm.reset();
-};
-
-const openModal = (statut) => {
-    isModalOpen.value = true;
-
-    posteForm.id = statut.id;
-    posteForm.name = statut.name;
-    posteForm.adherent_id = statut.adherent.id ?? null;
-};
-
-const associatePosteWithAdherent = () => {
-    posteForm.put(route("status.associate", posteForm.id), {
-        onSuccess: () => {
-            closeModal();
-            Toast.fire({
-                icon: "success",
-                title: t("toasts.modif_success"),
-            });
-        },
-        onError: () => {
-            Toast.fire({
-                icon: "error",
-                title: t("toasts.modif_error"),
-            });
-        },
-    });
 };
 </script>
 

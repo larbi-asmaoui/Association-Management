@@ -519,8 +519,6 @@ import {
     SearchOutlined,
 } from "@ant-design/icons-vue";
 import Swal from "sweetalert2";
-import { VueGoodTable } from "vue-good-table-next";
-import "vue-good-table-next/dist/vue-good-table-next.css";
 import "vue-advanced-cropper/dist/style.css";
 import defaultImg from "../../../assets/image.jpeg";
 import { ref, computed } from "vue";
@@ -536,7 +534,7 @@ import TrashCan from "vue-material-design-icons/TrashCan.vue";
 import Eye from "vue-material-design-icons/Eye.vue";
 import Printer from "vue-material-design-icons/Printer.vue";
 import Plus from "vue-material-design-icons/Plus.vue";
-import Toast from "../../utils.js";
+import { message } from "ant-design-vue";
 
 const { t, availableLocales, locale } = useI18n();
 
@@ -973,16 +971,10 @@ const destroy = (id) => {
         if (result.isConfirmed) {
             router.delete(route("adherents.destroy", id), {
                 onError: () => {
-                    Toast.fire({
-                        icon: "error",
-                        title: t("toasts.supp_error"),
-                    });
+                    message.error(t("toasts.supp_error"));
                 },
                 onSuccess: () => {
-                    Toast.fire({
-                        icon: "success",
-                        title: t("toasts.supp_success"),
-                    });
+                    message.success(t("toasts.supp_success"));
                 },
             });
         }
@@ -995,16 +987,10 @@ const submit = () => {
         preserveScroll: true,
         onSuccess: () => {
             closeModal();
-            Toast.fire({
-                icon: "success",
-                title: t("toasts.ajout_success"),
-            });
+            message.success(t("toasts.ajout_success"));
         },
         onError: () => {
-            Toast.fire({
-                icon: "error",
-                title: t("toasts.ajout_error"),
-            });
+            message.error(t("toasts.ajout_error"));
         },
     });
 };

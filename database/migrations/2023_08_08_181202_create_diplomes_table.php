@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('diplome_ref')->unique();
             $table->date('diplome_date');
             $table->json('file_paths')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

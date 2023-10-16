@@ -17,8 +17,11 @@ use \App\Http\Controllers\AssociationController;
 use \App\Http\Controllers\ReunionTypeController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\AbonnementController;
+use App\Http\Controllers\BureauController;
+use App\Http\Controllers\CartesController;
 use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\DiplomeController;
+use DragonCode\Contracts\Cashier\Http\Request;
 
 /*
 |------------------------------------------------------------------------
@@ -47,6 +50,8 @@ Route::middleware([
         Route::resource('revenue-types', RevenueTypeController::class);
         Route::resource('stock-types', StockTypeController::class);
         Route::resource('activity-types', ActivityTypeController::class);
+
+
 
 
         Route::middleware(['can:manage info'])->group(function () {
@@ -88,6 +93,7 @@ Route::middleware([
         Route::middleware(['can:manage adherents'])->group(function () {
             Route::post('adherents/desactivate', [AdherentController::class, 'deactivateAll'])->name('adherents.desactivate');
             Route::resource('adherents', AdherentController::class);
+            Route::resource('cartes', CartesController::class);
         });
         Route::middleware(['can:manage users'])->group(function () {
             Route::resource('users', UserController::class);
@@ -107,5 +113,7 @@ Route::middleware([
             Route::get('/activities/calendrier', [ActivityController::class, 'calender'])->name('activities.calender');
             Route::resource('activities', ActivityController::class);
         });
+
+        Route::get('/bureau', [BureauController::class, 'index'])->name('bureau');
     }
 );
