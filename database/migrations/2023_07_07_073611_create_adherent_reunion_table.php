@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('adherent_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('reunion_id')->nullable()->constrained()->onDelete('cascade');
-            $table->softDeletes();
             $table->timestamps();
         });
     }

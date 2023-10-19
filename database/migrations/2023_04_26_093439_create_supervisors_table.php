@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->string('tel');
             $table->string('image')->nullable();
-            $table->softDeletes();
+
             $table->timestamps();
         });
     }
