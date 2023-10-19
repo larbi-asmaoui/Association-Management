@@ -14,7 +14,7 @@
         td,
         th {
             border: 1px solid #000;
-            text-align: left;
+            text-align: center;
             padding: 8px;
         }
 
@@ -44,7 +44,7 @@
     @php
         $yearPlural = $association->date_creation ? (new DateTime($association->date_creation))->diff(new DateTime())->y + 1 : 0;
         $yearPhrase = '';
-        
+
         if ($yearPlural <= 1) {
             $yearPhrase = 'سنة';
         } elseif ($yearPlural == 2) {
@@ -54,7 +54,7 @@
         } elseif ($yearPlural > 10) {
             $yearPhrase = $yearPlural . ' سنة';
         }
-        
+
     @endphp
 
     <div>

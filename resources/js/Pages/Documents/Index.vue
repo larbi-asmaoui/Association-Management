@@ -122,6 +122,7 @@ import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
 import ArrowRight from "vue-material-design-icons/ArrowRight.vue";
 import { useI18n } from "vue-i18n";
 const { t, availableLocales, locale } = useI18n();
+import { message } from "ant-design-vue";
 
 const props = defineProps({
     rapports: {
@@ -207,11 +208,7 @@ function generateRapportFinancier() {
         })
         .catch((error) => {
             loading.value = false;
-            Swal.fire({
-                icon: "error",
-                title: error.response.status,
-                text: error,
-            });
+            message.error("Something went wrong");
         });
 }
 
@@ -227,11 +224,7 @@ function generateRapportLitteraire() {
         .catch((error) => {
             // Handle error
             loading.value = false;
-            Swal.fire({
-                icon: "error",
-                title: error.response.status,
-                text: error,
-            });
+            message.error("Something went wrong");
         });
 }
 </script>
