@@ -873,7 +873,7 @@
                     boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.4)',
                 }"
             >
-                Accesspoint ©{{ new Date().getFullYear() }} All rights
+                Accesspoint © {{ new Date().getFullYear() }} All rights
                 reserved.
             </a-layout-footer>
         </a-layout>
