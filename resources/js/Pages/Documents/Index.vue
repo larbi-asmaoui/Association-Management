@@ -113,6 +113,7 @@
 </template>
 
 <script setup>
+import { message } from "ant-design-vue";
 import Swal from "sweetalert2";
 import { usePage, router } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
@@ -122,7 +123,6 @@ import ArrowLeft from "vue-material-design-icons/ArrowLeft.vue";
 import ArrowRight from "vue-material-design-icons/ArrowRight.vue";
 import { useI18n } from "vue-i18n";
 const { t, availableLocales, locale } = useI18n();
-import { message } from "ant-design-vue";
 
 const props = defineProps({
     rapports: {
@@ -231,6 +231,7 @@ function generateRapportLitteraire() {
 
 <script>
 import RootLayout from "@/Layouts/RootLayout.vue";
+import axios from "axios";
 export default {
     layout: RootLayout,
 };
