@@ -6,7 +6,6 @@ use App\Models\Abonnement;
 use App\Models\Activity;
 use App\Models\Groupe;
 use App\Models\Adherent;
-// use App\Models\Cotisation;
 use App\Models\Depense;
 use App\Models\ActivityType;
 use App\Models\Association;
@@ -18,7 +17,6 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {

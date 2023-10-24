@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
+use Mpdf\Mpdf;
 
 class AdherentController extends Controller
 {
@@ -81,19 +82,19 @@ class AdherentController extends Controller
     {
         $formFields = $request->validate(
             [
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'sexe' => 'required',
+                'first_name' => 'nullable',
+                'last_name' => 'nullable',
+                'sexe' => 'nullable',
                 'cin' => 'nullable',
-                'tel' => 'required',
-                'date_of_birth' => 'required',
-                'date_of_membership' => 'required',
-                'profession' => 'required',
-                'situation_familiale' => 'required',
-                'address' => 'required',
-                'city' => 'required',
-                'region' => 'required',
-                'statut_id' => 'nullable|exists:statuts,id',
+                'tel' => 'nullable',
+                'date_of_birth' => 'nullable',
+                'date_of_membership' => 'nullable',
+                'profession' => 'nullable',
+                'situation_familiale' => 'nullable',
+                'address' => 'nullable',
+                'city' => 'nullable',
+                'region' => 'nullable',
+                'statut_id' => 'nullable',
                 'email' => 'nullable|email',
             ]
         );
@@ -253,9 +254,27 @@ class AdherentController extends Controller
         $existing_num_adhesion = DB::table('adherents')->where('num_adhesion', $num_adhesion)->exists();
 
         if ($existing_num_adhesion) {
-            return $this->generateId();
+            return $this->generateNumAdhesion();
         }
 
         return $num_adhesion;
     }
+
+    // public function generateIDCards()
+    // {
+    //     $adherents =  DB::table('adherents')->get();
+
+    //     $mpdf = new mPDF([
+    //         'mode' => 'utf-8',
+    //         'format' => 'A4', // Set the page size to A4
+    //         'orientation' => 'P',
+    //         // Portrait orientation
+    //     ]);
+
+    //     $idCards = view('adherents.id_cards', compact('adherents'))->render();
+    //     $mpdf->WriteHTML($idCards);
+
+    //     // Output the PDF
+    //     $mpdf->Output();
+    // }
 }

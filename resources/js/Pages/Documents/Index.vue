@@ -113,6 +113,7 @@
 </template>
 
 <script setup>
+import { message } from "ant-design-vue";
 import Swal from "sweetalert2";
 import { usePage, router } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
@@ -207,11 +208,7 @@ function generateRapportFinancier() {
         })
         .catch((error) => {
             loading.value = false;
-            Swal.fire({
-                icon: "error",
-                title: error.response.status,
-                text: error,
-            });
+            message.error("Something went wrong");
         });
 }
 
@@ -227,17 +224,14 @@ function generateRapportLitteraire() {
         .catch((error) => {
             // Handle error
             loading.value = false;
-            Swal.fire({
-                icon: "error",
-                title: error.response.status,
-                text: error,
-            });
+            message.error("Something went wrong");
         });
 }
 </script>
 
 <script>
 import RootLayout from "@/Layouts/RootLayout.vue";
+import axios from "axios";
 export default {
     layout: RootLayout,
 };

@@ -21,6 +21,7 @@ use App\Http\Controllers\BureauController;
 use App\Http\Controllers\CartesController;
 use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\DiplomeController;
+use App\Models\Adherent;
 use DragonCode\Contracts\Cashier\Http\Request;
 
 /*
@@ -117,3 +118,5 @@ Route::middleware([
         Route::get('/bureau', [BureauController::class, 'index'])->name('bureau');
     }
 );
+
+// Route::get('/generate-id-cards', [AdherentController::class, 'generateIDCards'])->name('generateIDCards');

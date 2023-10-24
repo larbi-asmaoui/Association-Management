@@ -669,19 +669,19 @@ const generateSingleIDCard = (id) => {
 
 const generateIDCards = async (adherents = props.adherents) => {
     // filter the same array is_adherent === 1
-    adherents = adherents.filter(
-        (adherent) => adherent.is_actif === true || adherent.is_actif === 1,
-    );
+    // adherents = adherents.filter(
+    //     (adherent) => adherent.is_actif === true || adherent.is_actif === 1,
+    // );
 
-    if (adherents.length === 0) {
-        Swal.fire({
-            icon: "error",
-            text: "لا يوجد أعضاء نشطين للطباعة",
-            showConfirmButton: false,
-            timer: 1500,
-        });
-        return;
-    }
+    // if (adherents.length === 0) {
+    //     Swal.fire({
+    //         icon: "error",
+    //         text: "لا يوجد أعضاء نشطين للطباعة",
+    //         showConfirmButton: false,
+    //         timer: 1500,
+    //     });
+    //     return;
+    // }
 
     const doc = new jsPDF();
 
@@ -816,7 +816,7 @@ const generateIDCards = async (adherents = props.adherents) => {
             // doc.addImage(logoImg, "PNG", x + 5, y + 4, 15, 15);
         }
     }
-    doc.save("ID_Cards.pdf");
+    doc.save("cartes.pdf");
 };
 
 function imageExists(url, callback) {

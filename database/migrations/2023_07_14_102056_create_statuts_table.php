@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('adherent_id')->nullable();
             $table->string('name');
-            $table->softDeletes();
             $table->timestamps();
         });
     }
