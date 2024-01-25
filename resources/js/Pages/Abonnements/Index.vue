@@ -39,6 +39,26 @@ import Filter from "vue-material-design-icons/Filter.vue";
 import { message } from "ant-design-vue";
 import html2pdf from "html2pdf.js";
 import html2canvas from "html2canvas";
+const { t } = useI18n();
+
+const props = defineProps({
+    adherents: {
+        type: Object,
+        default: () => ({}),
+    },
+    abonnements: {
+        type: Object,
+        default: () => ({}),
+    },
+    last_reunion: {
+        type: Object,
+        default: () => ({}),
+    },
+    associaton: {
+        type: Object,
+        default: () => ({}),
+    },
+});
 
 const value1 = ref("");
 
@@ -73,27 +93,6 @@ const printSingleInvoice = (id) => {
     );
     printAllInvoices([abonnement]);
 };
-
-const { t } = useI18n();
-
-const props = defineProps({
-    adherents: {
-        type: Object,
-        default: () => ({}),
-    },
-    abonnements: {
-        type: Object,
-        default: () => ({}),
-    },
-    last_reunion: {
-        type: Object,
-        default: () => ({}),
-    },
-    associaton: {
-        type: Object,
-        default: () => ({}),
-    },
-});
 
 const page = usePage();
 const pageSize = ref(10);

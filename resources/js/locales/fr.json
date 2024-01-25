@@ -27,7 +27,8 @@
             "nov": "Novembre",
             "dec": "Décembre"
         }
-    },"date_ajout": "Date d'ajout",
+    },
+    "date_ajout": "Date d'ajout",
     "sidebar": {
         "dashboard": "Tableau de bord",
         "about": "À propos de l'association",
@@ -175,7 +176,8 @@
         "category": "Catégorie",
         "classe": "Niveau",
         "modal_ajouter_category": "Ajouter une catégorie",
-        "modal_modifier_category": "Modifier la catégorie"
+        "modal_modifier_category": "Modifier la catégorie",
+        "table_actions": "Actions"
     },
 
     "supervisors": {
@@ -193,9 +195,10 @@
         "diplomes": "Diplômes",
         "diplome_add": "Ajouter un diplôme",
         "diplome": "Diplôme",
-        "num_diplome":"Numéro du diplôme",
-        "date_diplome":"Date du diplôme"
-    },"reunions": {
+        "num_diplome": "Numéro du diplôme",
+        "date_diplome": "Date du diplôme"
+    },
+    "reunions": {
         "titre": "Gestion des réunions",
         "modal_ajouter": "Ajouter une réunion",
         "table_nom": "Nom",
@@ -342,7 +345,8 @@
         "invoice": "Facture",
         "invoice_to": "À l'attention de",
         "print": "Imprimer"
-    },"documents": {
+    },
+    "documents": {
         "titre": "Gestion des documents",
         "rapport_financier": "Rapport financier",
         "rapport_litteraire": "Rapport littéraire",
@@ -385,5 +389,4 @@
         "manage abonnements": "Gérer les abonnements",
         "manage info": "Gérer les informations de l'association"
     }
-
 }

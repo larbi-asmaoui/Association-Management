@@ -179,7 +179,8 @@
         "category": "الفئة",
         "classe": "المستوى",
         "modal_ajouter_category": "إضافة فئة",
-        "modal_modifier_category": "تعديل الفئة"
+        "modal_modifier_category": "تعديل الفئة",
+        "table_actions": "العمليات"
     },
 
     "supervisors": {
