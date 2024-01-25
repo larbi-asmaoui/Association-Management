@@ -425,7 +425,7 @@ const columns = computed(() => [
     },
 
     {
-        title: "Action",
+        title: t("classes.table_actions"),
         key: "action",
         slots: { customRender: "action" },
     },
